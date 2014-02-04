@@ -138,9 +138,7 @@ class MDRef(object):
         }
         if XPTR:
             attrib['XPTR'] = XPTR
-        el = etree.Element('mdRef', attrib=attrib)
-
-        return el
+        return etree.Element('mdRef', attrib=attrib)
 
 
 class MDWrap(object):
