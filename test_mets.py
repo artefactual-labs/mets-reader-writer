@@ -40,8 +40,12 @@ def test_mdref():
     mdref = mets.MDRef('path/to/file.txt', 'PREMIS:DUMMY')
     mdreffed = mdref.serialize()
 
-    target = '<mdRef xmlns:ns0="http://www.w3.org/1999/xlink" OTHERLOCTYPE="SYSTEM" ns0:href="path/to/file.txt" MIMETYPE="text/plain" LOCTYPE="URL" MDTYPE="PREMIS:DUMMY"/>'
-    assert etree.tostring(mdreffed) == target
+    assert mdreffed.get('LOCTYPE') == 'URL'
+    assert mdreffed.get('OTHERLOCTYPE') == 'SYSTEM'
+    assert mdreffed.get('MIMETYPE') == 'text/plain'
+    assert mdreffed.get(mets.LXML_NAMESPACES['xlink']+'href') == \
+        'path/to/file.txt'
+    assert mdreffed.get('MDTYPE') == 'PREMIS:DUMMY'
 
 
 def test_mdsec_list_production():
