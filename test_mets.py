@@ -5,7 +5,8 @@ import mets
 def test_mets_root():
     mw = mets.METSWriter()
     root = mw._document_root()
-    location = "http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version18/mets.xsd"
+    location = "http://www.loc.gov/METS/ " + \
+        "http://www.loc.gov/standards/mets/version18/mets.xsd"
     assert root.tag == 'mets'
     assert root.attrib[mets.LXML_NAMESPACES['xsi']+'schemaLocation'] == location
     assert root.nsmap[None] == 'http://www.loc.gov/METS/'
@@ -35,11 +36,12 @@ def test_mdwrap():
     assert etree.tostring(mdwrapped) == target
 
 
-# def test_mdref():
-#     mdref = mets.MDRef('path/to/file.txt', 'PREMIS:DUMMY')
-#     mdreffed = mdref.serialize()
+def test_mdref():
+    mdref = mets.MDRef('path/to/file.txt', 'PREMIS:DUMMY')
+    mdreffed = mdref.serialize()
 
-#     target = '<mdRef MDTYPE="PREMIS:DUMMY"></mdRef>'
+    target = '<mdRef xmlns:ns0="http://www.w3.org/1999/xlink" OTHERLOCTYPE="SYSTEM" ns0:href="path/to/file.txt" MIMETYPE="text/plain" LOCTYPE="URL" MDTYPE="PREMIS:DUMMY"/>'
+    assert etree.tostring(mdreffed) == target
 
 
 def test_mdsec_list_production():
