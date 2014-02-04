@@ -133,8 +133,7 @@ class MDRef(object):
             'LOCTYPE': 'URL',
             'OTHERLOCTYPE': 'SYSTEM',
             LXML_NAMESPACES['xlink']+'href': self.target,
-            'MDTYPE': self.type,
-            'MIMETYPE': 'text/plain'
+            'MDTYPE': self.type
         }
         if XPTR:
             attrib['XPTR'] = XPTR

@@ -42,7 +42,6 @@ def test_mdref():
 
     assert mdreffed.get('LOCTYPE') == 'URL'
     assert mdreffed.get('OTHERLOCTYPE') == 'SYSTEM'
-    assert mdreffed.get('MIMETYPE') == 'text/plain'
     assert mdreffed.get(mets.LXML_NAMESPACES['xlink']+'href') == \
         'path/to/file.txt'
     assert mdreffed.get('MDTYPE') == 'PREMIS:DUMMY'
