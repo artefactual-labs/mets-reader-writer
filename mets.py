@@ -117,7 +117,28 @@ class MDRef(object):
         self.id = None
 
     def serialize(self):
-        el = etree.Element('mdSec', MDTYPE=self.type)
+        # If the source document is a METS document, the XPTR attribute of
+        # this mdRef element should point to the IDs of each dmdSec element
+        # in that document.
+        XPTR = None
+        try:
+            target_doc = etree.parse(self.target)
+            dmdsecs = [item.get('ID') for item in
+                       target_doc.findall(LXML_NAMESPACES['mets']+'dmdSec')]
+            XPTR = "xpointer(id(''))".format(' '.join(dmdsecs))
+        except:
+            pass
+
+        attrib = {
+            'LOCTYPE': 'URL',
+            'OTHERLOCTYPE': 'SYSTEM',
+            LXML_NAMESPACES['xlink']+'href': self.target,
+            'MDTYPE': self.type,
+            'MIMETYPE': 'text/plain'
+        }
+        if XPTR:
+            attrib['XPTR'] = XPTR
+        el = etree.Element('mdRef', attrib=attrib)
 
         return el
 
