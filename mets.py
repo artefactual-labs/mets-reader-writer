@@ -99,7 +99,7 @@ class FSEntry(object):
         elif mode == 'mdref':
             mdsec = MDSec(md, type)
         md_element = etree.Element(category, ID=self._create_id(category))
-        md_element.append(mdsec)
+        md_element.append(mdsec.serialize())
         if category == 'techMD':
             self.amdsecs.append(AMDSec(md_element, category))
         elif category == 'digiProvMD':
@@ -194,7 +194,7 @@ class MDSec(object):
     def serialize(self):
         el = etree.Element(self.__class__.type, ID=self.id_string())
         container = etree.SubElement(el, self.type)
-        container.append(self.contents.serialize())
+        container.append(self.contents)
 
         return el
 
