@@ -91,6 +91,8 @@ class FSEntry(object):
     def _create_id(prefix):
         return prefix + '_' + str(randint(1, 999999))
 
+    # TODO This probably needs to be far more flexible and support more than
+    # just techMD and digiProvMD types.
     def _add_metadata_element(self, md, type, mode='mdwrap', category=None):
         if mode == 'mdwrap':
             mdsec = MDWrap(md, type)
