@@ -167,7 +167,8 @@ class MDWrap(object):
     "PREMIS:EVENT".
     """
     def __init__(self, document, type):
-        self.document = etree.fromstring(document)
+        parser = etree.XMLParser(remove_blank_text=True)
+        self.document = etree.fromstring(document, parser=parser)
         self.type = type
         self.id = None
 
