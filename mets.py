@@ -210,32 +210,22 @@ class DMDSec(MDSec):
     type = 'dmdSec'
 
 
-class FileGrp(object):
-    def __init__(self, file):
-        self.file = file
-
-    def serialize(self):
-        el = etree.Element('fileGrp', use=file.use)
-        # TODO: GROUPID? ADMID?
-        file_el = etree.SubElement(el, 'file', ID=file.id)
-        attrib = {
-            LXML_NAMESPACES['xlink']+'href': file.path,
-            'LOCTYPE': 'OTHER',
-            'OTHERLOCTYPE': 'SYSTEM'
-        }
-        etree.SubElement(file_el, 'Flocat', attrib=attrib)
-
-        return el
-
-
 class FileSec(object):
-    def __init__(self, filegrps):
-        self.filegrps = filegrps
+    def __init__(self, files):
+        self.files = files
 
     def serialize(self):
         el = etree.Element('fileSec')
-        for filegrp in self.filegrps:
-            el.append(filegrp.serialize())
+        filegrp = etree.SubElement(el, 'fileGrp', USE='original')
+        # TODO ID? GROUPID? ADMID? DMDID?
+        for file_ in self.files:
+            file_el = etree.SubElement(filegrp, 'file',)
+            attrib = {
+                LXML_NAMESPACES['xlink']+'href': file_.path,
+                'LOCTYPE': 'OTHER',
+                'OTHERLOCTYPE': 'SYSTEM'
+            }
+            etree.SubElement(file_el, 'FLocat', attrib=attrib)
 
         return el
 
@@ -264,9 +254,26 @@ class METSWriter(object):
     def _structmap(self):
         pass
 
+    def _recursive_files(self, files=None):
+        """
+        Returns a recursive list of all files in the document,
+        including all children of the referenced files.
+
+        If called with no arguments, begins with self.files.
+        """
+        if files is None:
+            files = self.files
+
+        file_list = []
+        for file_ in files:
+            file_list.append([file_])
+            if file_.children:
+                file_list.append(self._recursive_files(file_.children))
+
+        return file_list
+
     def _filesec(self):
-        filegrps = [FileGrp(file) for file in self.files]
-        return FileSec(filegrps)
+        return FileSec(self._recursive_files())
 
     def _append_file_properties(self, file):
         for amdsec in file.amdsecs:
