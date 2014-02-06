@@ -288,7 +288,7 @@ class METSWriter(object):
         if fileid:
             etree.SubElement(el, 'fptr', FILEID=fileid)
 
-        if parent:
+        if parent is not None:
             parent.append(el)
 
         if child.children:
