@@ -88,7 +88,7 @@ class FSEntry(object):
         if type == 'file' and children:
             raise Exception("Only directory objects can have children")
 
-    def _create_id(prefix):
+    def _create_id(self, prefix):
         return prefix + '_' + str(randint(1, 999999))
 
     # TODO This probably needs to be far more flexible and support more than
