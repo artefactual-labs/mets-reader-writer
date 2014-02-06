@@ -332,12 +332,8 @@ class METSWriter(object):
 
     def _append_file_properties(self, file):
         for amdsec in file.amdsecs:
-            self.amdsec_count += 1
-            amdsec.id = self.amdsec_count
             self.amdsecs.append(amdsec)
         for dmdsec in file.dmdsecs:
-            self.dmdsec_count += 1
-            dmdsec.id = self.dmdsec_count
             self.dmdsecs.append(dmdsec)
 
     def _mdsec_elements(self):
