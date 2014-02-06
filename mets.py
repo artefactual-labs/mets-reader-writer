@@ -31,6 +31,17 @@ SCHEMA_LOCATIONS = "http://www.loc.gov/METS/ " + \
                    "http://www.loc.gov/standards/mets/version18/mets.xsd"
 
 
+def flatten_list(l):
+    new = []
+    for item in l:
+        if isinstance(item, list):
+            new.extend(flatten_list(item))
+        else:
+            new.append(item)
+
+    return new
+
+
 class FSEntry(object):
     """
     A class representing a filesystem entry - either a file or a directory.
@@ -218,7 +229,7 @@ class FileSec(object):
         el = etree.Element('fileSec')
         filegrp = etree.SubElement(el, 'fileGrp', USE='original')
         # TODO ID? GROUPID? ADMID? DMDID?
-        for file_ in self.files:
+        for file_ in flatten_list(self.files):
             file_el = etree.SubElement(filegrp, 'file',)
             attrib = {
                 LXML_NAMESPACES['xlink']+'href': file_.path,
