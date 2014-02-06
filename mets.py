@@ -373,3 +373,9 @@ class METSWriter(object):
         """
         root = self._document_root()
         root.append(self._mets_header())
+        for el in self._mdsec_elements():
+            root.append(el)
+        root.append(self._filesec().serialize())
+        root.append(self._structmap())
+
+        return root
