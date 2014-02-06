@@ -1,3 +1,5 @@
+import uuid
+
 from lxml import etree
 import mets
 
@@ -66,3 +68,27 @@ def test_mdsec_list_production():
 
     assert len(elements) == 2
     assert elements[1].tag == 'dmdSec'
+
+
+def test_structmap():
+    children = [
+        mets.FSEntry('file1.txt', id='file-'+str(uuid.uuid4())),
+        mets.FSEntry('file2.txt', id='file-'+str(uuid.uuid4())),
+    ]
+    parent = mets.FSEntry('objects', type='directory', children=children)
+    writer = mets.METSWriter()
+    writer.append_file(parent)
+    sm = writer._structmap()
+
+    parent = sm.find('div')
+    children = parent.getchildren()
+
+    assert sm.tag == 'structMap'
+    assert len(children) == 2
+    assert parent.get('LABEL') == 'objects'
+    assert parent.get('TYPE') == 'Directory'
+    assert children[0].get('LABEL') == 'file1.txt'
+    assert children[1].get('TYPE') == 'Item'
+    assert children[1].get('LABEL') == 'file2.txt'
+    assert children[1].get('TYPE') == 'Item'
+    assert children[0].find('fptr') is not None

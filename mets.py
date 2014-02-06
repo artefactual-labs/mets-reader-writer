@@ -264,18 +264,59 @@ class METSWriter(object):
         date = datetime.utcnow().isoformat('T')
         return etree.Element('metsHdr', CREATEDATE=date)
 
+    def _child_element(self, child, parent=None):
+        """
+        Creates a <div> element suitable for use in a structMap from
+        an FSEntry object. If the passed `child` represents a
+        directory, its children will be recursively appended to itself.
+        If the passed `child` represents a file, it will contain a
+        <fptr> element.
+
+        If the keyword argument `parent` is passed, the created element
+        will be parented to that element. This is intended for
+        use when recursing down a tree.
+        """
+        if child.type == 'file':
+            type = 'Item'
+            fileid = child.id
+        else:
+            type = 'Directory'
+            fileid = None
+
+        el = etree.Element('div', TYPE=type, LABEL=child.path)
+        if fileid:
+            etree.SubElement(el, 'fptr', FILEID=fileid)
+
+        if parent:
+            parent.append(el)
+
+        if child.children:
+            for subchild in child.children:
+                el.append(self._child_element(subchild, parent=el))
+
+        return el
+
     def _structmap(self):
-        pass
+        structmap = etree.Element('structMap', TYPE='physical',
+                                  # TODO does it make sense that more
+                                  # than one structmap might be generated?
+                                  ID='structMap_1',
+                                  # TODO don't hardcode this
+                                  LABEL='Archivematica default')
+        for item in self.root_elements:
+            structmap.append(self._child_element(item))
+
+        return structmap
 
     def _recursive_files(self, files=None):
         """
         Returns a recursive list of all files in the document,
         including all children of the referenced files.
 
-        If called with no arguments, begins with self.files.
+        If called with no arguments, begins with self.root_elements.
         """
         if files is None:
-            files = self.files
+            files = self.root_elements
 
         file_list = []
         for file_ in files:
@@ -319,7 +360,7 @@ class METSWriter(object):
         if file in self.root_elements:
             return
 
-        self.files.append(file)
+        self.root_elements.append(file)
         self._append_file_properties(file)
 
         # children are *not* included in the root properties list,
