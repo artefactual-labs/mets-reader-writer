@@ -10,7 +10,7 @@ def test_mets_root():
     location = "http://www.loc.gov/METS/ " + \
         "http://www.loc.gov/standards/mets/version18/mets.xsd"
     assert root.tag == 'mets'
-    assert root.attrib[mets.LXML_NAMESPACES['xsi']+'schemaLocation'] == location
+    assert root.attrib[mets.lxmlns('xsi')+'schemaLocation'] == location
     assert root.nsmap[None] == 'http://www.loc.gov/METS/'
 
 
@@ -44,7 +44,7 @@ def test_mdref():
 
     assert mdreffed.get('LOCTYPE') == 'URL'
     assert mdreffed.get('OTHERLOCTYPE') == 'SYSTEM'
-    assert mdreffed.get(mets.LXML_NAMESPACES['xlink']+'href') == \
+    assert mdreffed.get(mets.lxmlns('xlink')+'href') == \
         'path/to/file.txt'
     assert mdreffed.get('MDTYPE') == 'PREMIS:DUMMY'
 

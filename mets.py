@@ -38,6 +38,10 @@ SCHEMA_LOCATIONS = "http://www.loc.gov/METS/ " + \
                    "http://www.loc.gov/standards/mets/version18/mets.xsd"
 
 
+def lxmlns(arg):
+    return '{' + NAMESPACES[arg] + '}'
+
+
 def flatten_list(l):
     new = []
     for item in l:
@@ -144,7 +148,7 @@ class MDRef(object):
         try:
             target_doc = etree.parse(self.target)
             dmdsecs = [item.get('ID') for item in
-                       target_doc.findall(LXML_NAMESPACES['mets']+'dmdSec')]
+                       target_doc.findall(lxmlns('mets')+'dmdSec')]
             XPTR = "xpointer(id(''))".format(' '.join(dmdsecs))
         except:
             pass
@@ -152,7 +156,7 @@ class MDRef(object):
         attrib = {
             'LOCTYPE': 'URL',
             'OTHERLOCTYPE': 'SYSTEM',
-            LXML_NAMESPACES['xlink']+'href': self.target,
+            lxmlns('xlink')+'href': self.target,
             'MDTYPE': self.type
         }
         if XPTR:
@@ -241,7 +245,7 @@ class FileSec(object):
         for file_ in flatten_list(self.files):
             file_el = etree.SubElement(filegrp, 'file', ID=file_.id)
             attrib = {
-                LXML_NAMESPACES['xlink']+'href': file_.path,
+                lxmlns('xlink')+'href': file_.path,
                 'LOCTYPE': 'OTHER',
                 'OTHERLOCTYPE': 'SYSTEM'
             }
@@ -261,7 +265,7 @@ class METSWriter(object):
 
     def _document_root(self):
         attrib = {
-            '{}schemaLocation'.format(LXML_NAMESPACES['xsi']):
+            '{}schemaLocation'.format(lxmlns('xsi')):
             SCHEMA_LOCATIONS
         }
         return etree.Element('mets', nsmap=NSMAP, attrib=attrib)
