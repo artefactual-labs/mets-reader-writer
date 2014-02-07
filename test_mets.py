@@ -51,7 +51,7 @@ def test_mdref():
 
 def test_mdsec_list_production():
     mw = mets.METSWriter()
-    xml = mets.MDWrap('<foo/>', 'techMD')
+    xml = mets.MDWrap('<foo/>', 'techMD').serialize()
     amdsec = mets.AMDSec(xml, 'techMD')
     mw.amdsecs.append(amdsec)
     elements = mw._mdsec_elements()
@@ -61,7 +61,7 @@ def test_mdsec_list_production():
     assert isinstance(elements[0], etree._Element)
     assert elements[0].tag == 'amdSec'
 
-    xml2 = mets.MDWrap('<bar/>', 'digiProvMD')
+    xml2 = mets.MDWrap('<bar/>', 'digiProvMD').serialize()
     dmdsec = mets.DMDSec(xml2, 'digiProvMD')
     mw.dmdsecs.append(dmdsec)
     elements = mw._mdsec_elements()
