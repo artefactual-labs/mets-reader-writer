@@ -201,8 +201,7 @@ class MDSec(object):
 
     def serialize(self):
         el = etree.Element(self.__class__.type, ID=self.id_string())
-        container = etree.SubElement(el, self.type)
-        container.append(self.contents)
+        el.append(self.contents)
 
         return el
 
