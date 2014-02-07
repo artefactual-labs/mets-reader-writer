@@ -240,7 +240,7 @@ class FileSec(object):
         filegrp = etree.SubElement(el, 'fileGrp', USE='original')
         # TODO ID? GROUPID? ADMID? DMDID?
         for file_ in flatten_list(self.files):
-            file_el = etree.SubElement(filegrp, 'file',)
+            file_el = etree.SubElement(filegrp, 'file', ID=file_.id)
             attrib = {
                 LXML_NAMESPACES['xlink']+'href': file_.path,
                 'LOCTYPE': 'OTHER',
