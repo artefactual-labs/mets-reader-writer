@@ -27,6 +27,13 @@ LXML_NAMESPACES = {
     "xlink": "{" + NAMESPACES['xlink'] + "}"
 }
 
+NSMAP = {
+    None: NAMESPACES['mets'],
+    'dc': NAMESPACES['dcterms'],
+    'xsi': NAMESPACES['xsi'],
+    'xlink': NAMESPACES['xlink']
+}
+
 SCHEMA_LOCATIONS = "http://www.loc.gov/METS/ " + \
                    "http://www.loc.gov/standards/mets/version18/mets.xsd"
 
@@ -254,12 +261,11 @@ class METSWriter(object):
         self.amdsecs = []
 
     def _document_root(self):
-        nsmap = {None: NAMESPACES['mets']}
         attrib = {
             '{}schemaLocation'.format(LXML_NAMESPACES['xsi']):
             SCHEMA_LOCATIONS
         }
-        return etree.Element('mets', nsmap=nsmap, attrib=attrib)
+        return etree.Element('mets', nsmap=NSMAP, attrib=attrib)
 
     def _mets_header(self):
         date = datetime.utcnow().isoformat('T')
