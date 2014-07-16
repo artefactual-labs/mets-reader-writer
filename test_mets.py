@@ -21,6 +21,17 @@ def test_mets_header():
     assert header.attrib['CREATEDATE']
 
 
+def test_mets_header_lastmoddate():
+    mw = mets.METSWriter()
+    date = '2014-07-16T22:52:02.480108'
+    mw.createdate = date
+    header = mw._mets_header()
+    assert header.tag == 'metsHdr'
+    assert header.attrib['CREATEDATE'] == date
+    assert header.attrib['LASTMODDATE']
+    assert header.attrib['CREATEDATE'] < header.attrib['LASTMODDATE']
+
+
 def test_mdsec_identifier():
     # should be in the format 'amdSec_1'
     amdsec = mets.AMDSec('foo', 'techMD')

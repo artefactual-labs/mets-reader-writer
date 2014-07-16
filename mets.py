@@ -259,6 +259,7 @@ class METSWriter(object):
         self.tree = etree.ElementTree()
         # Only root-level elements are stored, since the rest
         # can be inferred via their #children attribute
+        self.createdate = None
         self.root_elements = []
         self.dmdsecs = []
         self.amdsecs = []
@@ -272,7 +273,12 @@ class METSWriter(object):
 
     def _mets_header(self):
         date = datetime.utcnow().isoformat('T')
-        return etree.Element('metsHdr', CREATEDATE=date)
+        if self.createdate is None:
+            e = etree.Element('metsHdr', CREATEDATE=date)
+        else:
+            e = etree.Element('metsHdr',
+                CREATEDATE=self.createdate, LASTMODDATE=date)
+        return e
 
     def _child_element(self, child, parent=None):
         """
