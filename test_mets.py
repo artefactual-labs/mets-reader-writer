@@ -10,10 +10,10 @@ import mets
 def test_write():
     mw = mets.METSWriter()
     # mock serialize
-    root = etree.parse('sample_mets.xml').getroot()
+    root = etree.parse('fixtures/complete_mets.xml').getroot()
     mw.serialize = lambda: root
     mw.write('test_write.xml')
-    assert filecmp.cmp('sample_mets.xml', 'test_write.xml', shallow=False)
+    assert filecmp.cmp('fixtures/complete_mets.xml', 'test_write.xml', shallow=False)
     os.remove('test_write.xml')
 
 
