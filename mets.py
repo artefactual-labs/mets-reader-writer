@@ -14,19 +14,6 @@ NAMESPACES = {
     "dc": "http://purl.org/dc/elements/1.1/"
 }
 
-# These are convenience copies to allow wrapping the namespaces
-# in lxml's format without confusing extra curly braces
-# in string literals.
-LXML_NAMESPACES = {
-    "dc": "{" + NAMESPACES['dc'] + "}",
-    "dcterms": "{" + NAMESPACES['dcterms'] + "}",
-    "xsi": "{" + NAMESPACES['xsi'] + "}",
-    "mets": "{" + NAMESPACES['mets'] + "}",
-    "premis": "{" + NAMESPACES['premis'] + "}",
-    "fits": "{" + NAMESPACES['fits'] + "}",
-    "xlink": "{" + NAMESPACES['xlink'] + "}"
-}
-
 NSMAP = {
     None: NAMESPACES['mets'],
     'dc': NAMESPACES['dcterms'],
