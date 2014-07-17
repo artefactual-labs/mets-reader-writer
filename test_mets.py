@@ -4,7 +4,51 @@ from lxml import etree
 import os
 import uuid
 
+import pytest
+
 import mets
+
+
+def test_fromfile():
+    mw = mets.METSWriter()
+    root = etree.parse('fixtures/complete_mets.xml')
+    mw.fromfile('fixtures/complete_mets.xml')
+    assert isinstance(mw.tree, etree._ElementTree)
+    assert etree.tostring(mw.tree) == etree.tostring(root)
+
+
+def test_fromstring():
+    mw = mets.METSWriter()
+    root = etree.parse('fixtures/complete_mets.xml')
+    with open('fixtures/complete_mets.xml') as f:
+        metsstring = f.read()
+    mw.fromstring(metsstring)
+    assert isinstance(mw.tree, etree._ElementTree)
+    assert etree.tostring(mw.tree) == etree.tostring(root)
+
+
+def test_fromtree():
+    mw = mets.METSWriter()
+    root = etree.parse('fixtures/complete_mets.xml')
+    mw.fromtree(root)
+    assert isinstance(mw.tree, etree._ElementTree)
+    assert etree.tostring(mw.tree) == etree.tostring(root)
+
+
+def test_parse_tree():
+    mw = mets.METSWriter()
+    root = etree.parse('fixtures/complete_mets.xml')
+    mw.tree = root
+    mw._parse_tree()
+    assert mw.createdate == '2014-07-16T23:05:27'
+
+
+def test_parse_tree_createdate_too_new():
+    mw = mets.METSWriter()
+    root = etree.parse('fixtures/createdate_too_new.xml')
+    mw.tree = root
+    with pytest.raises(mets.ParseError):
+        mw._parse_tree()
 
 
 def test_write():

@@ -4,6 +4,8 @@ from random import randint
 from lxml import etree
 
 
+# LXML HELPERS
+
 NAMESPACES = {
     "xsi": "http://www.w3.org/2001/XMLSchema-instance",
     "mets": "http://www.loc.gov/METS/",
@@ -27,6 +29,18 @@ SCHEMA_LOCATIONS = "http://www.loc.gov/METS/ " + \
 
 def lxmlns(arg):
     return '{' + NAMESPACES[arg] + '}'
+
+
+# EXCEPTIONS
+
+class MetsError(Exception):
+    """ Base Exception for this module. """
+    pass
+
+
+class ParseError(MetsError):
+    """ Error parsing a METS file. """
+    pass
 
 
 def flatten_list(l):
@@ -243,7 +257,8 @@ class FileSec(object):
 
 class METSWriter(object):
     def __init__(self):
-        self.tree = etree.ElementTree()
+        # Stores the ElementTree if this was parsed from an existing file
+        self.tree = None
         # Only root-level elements are stored, since the rest
         # can be inferred via their #children attribute
         self.createdate = None
@@ -346,6 +361,40 @@ class METSWriter(object):
             elements.append(dmdsec.serialize())
 
         return elements
+
+    def _parse_tree(self):
+        # self._validate()
+        # Check CREATEDATE < now
+        createdate = self.tree.find('mets:metsHdr', namespaces=NAMESPACES).get('CREATEDATE')
+        now = datetime.utcnow().isoformat('T')
+        if createdate > now:
+            raise ParseError('CREATEDATE more recent than now (%s)' % now)
+        self.createdate = createdate
+
+    def _validate(self):
+        raise NotImplementedError()
+
+    def fromfile(self, path):
+        """
+        Accept a filepath pointing to a valid METS file and parses it.
+        """
+        self.tree = etree.parse(path)
+        self._parse_tree()
+
+    def fromstring(self, string):
+        """
+        Accept a string containing valid METS xml and parses it.
+        """
+        root = etree.fromstring(string)
+        self.tree = root.getroottree()
+        self._parse_tree()
+
+    def fromtree(self, tree):
+        """
+        Accept an ElementTree or Element and parses it.
+        """
+        self.tree = tree
+        self._parse_tree()
 
     def append_file(self, file):
         """
