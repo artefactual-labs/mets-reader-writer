@@ -1,7 +1,20 @@
+
+import filecmp
+from lxml import etree
+import os
 import uuid
 
-from lxml import etree
 import mets
+
+
+def test_write():
+    mw = mets.METSWriter()
+    # mock serialize
+    root = etree.parse('sample_mets.xml').getroot()
+    mw.serialize = lambda: root
+    mw.write('test_write.xml')
+    assert filecmp.cmp('sample_mets.xml', 'test_write.xml', shallow=False)
+    os.remove('test_write.xml')
 
 
 def test_mets_root():

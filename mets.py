@@ -384,7 +384,7 @@ class METSWriter(object):
 
     def serialize(self):
         """
-        Returns an ElementTree object representing this document.
+        Returns an Element object representing this document.
         """
         root = self._document_root()
         root.append(self._mets_header())
@@ -394,3 +394,8 @@ class METSWriter(object):
         root.append(self._structmap())
 
         return root
+
+    def write(self, filepath):
+        root = self.serialize()
+        tree = root.getroottree()
+        tree.write(filepath, xml_declaration=True)
