@@ -140,8 +140,8 @@ def test_mdsec_list_production():
 
 def test_structmap():
     children = [
-        mets.FSEntry('file1.txt', id='file-'+str(uuid.uuid4())),
-        mets.FSEntry('file2.txt', id='file-'+str(uuid.uuid4())),
+        mets.FSEntry('file1.txt', file_id='file-'+str(uuid.uuid4())),
+        mets.FSEntry('file2.txt', file_id='file-'+str(uuid.uuid4())),
     ]
     parent = mets.FSEntry('objects', type='directory', children=children)
     writer = mets.METSWriter()

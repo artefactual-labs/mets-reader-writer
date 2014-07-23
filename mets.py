@@ -78,21 +78,17 @@ class FSEntry(object):
     with it; these can take the form of either references to other XML
     files on disk, which should be wrapped in MDRef objects, or
     wrapped copies of those XML files, which should be wrapped in
-    MDWrap objects. These can be appended using one of the following
-    methods:
-
-    add_techmd(md, type, mode)     - technical metadata
-    add_digiprovmd(md, type, mode) - digital provenance metadata
+    MDWrap objects.
     """
     def __init__(self, path, children=[], type=u'file',
-                 use='original', id=None):
+                 use='original', file_id=None):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
         self.path = str(path)
         self.type = unicode(type)
         self.use = use
-        self.id = id
+        self.file_id = file_id
         self.children = children
         self.amdsecs = []
         self.dmdsecs = []
@@ -296,7 +292,7 @@ class METSWriter(object):
         """
         if child.type == 'file':
             type = 'Item'
-            fileid = child.id
+            fileid = child.file_id
         else:
             type = 'Directory'
             fileid = None
@@ -377,6 +373,8 @@ class METSWriter(object):
     def fromfile(self, path):
         """
         Accept a filepath pointing to a valid METS file and parses it.
+
+        :param str path: Path to a METS file.
         """
         self.tree = etree.parse(path)
         self._parse_tree()
@@ -384,6 +382,8 @@ class METSWriter(object):
     def fromstring(self, string):
         """
         Accept a string containing valid METS xml and parses it.
+
+        :param str string: String containing a METS file.
         """
         root = etree.fromstring(string)
         self.tree = root.getroottree()
@@ -392,35 +392,41 @@ class METSWriter(object):
     def fromtree(self, tree):
         """
         Accept an ElementTree or Element and parses it.
+
+        :param ElementTree tree: ElementTree to build a METS file from.
         """
         self.tree = tree
         self._parse_tree()
 
-    def append_file(self, file):
+    def append_file(self, fs_entry):
         """
         Adds an FSEntry object to this METS document's tree. Any of the
         represented object's children will also be added to the document.
 
         A given FSEntry object can only be included in a document once,
         and any attempt to add an object the second time will be ignored.
+
+        :param FSEntry fs_entry: FSEntry to add to the METS file
         """
 
-        if file in self.root_elements:
+        if fs_entry in self.root_elements:
             return
 
-        self.root_elements.append(file)
-        self._append_file_properties(file)
+        self.root_elements.append(fs_entry)
+        self._append_file_properties(fs_entry)
 
         # children are *not* included in the root properties list,
         # because anything that includes children will already
         # allow traversal down the tree.
         # However, we *do* require the full set of mdSecs at this time.
-        for child in file.children:
+        for child in fs_entry.children:
             self._append_file_properties(child)
 
     def serialize(self):
         """
-        Returns an Element object representing this document.
+        Returns this document serialized to an xml Element.
+
+        :return: Element for this document
         """
         root = self._document_root()
         root.append(self._mets_header())
@@ -432,6 +438,11 @@ class METSWriter(object):
         return root
 
     def write(self, filepath):
+        """
+        Serialize and write this METS file to `filepath`.
+
+        :param str filepath: Path to write the METS to
+        """
         root = self.serialize()
         tree = root.getroottree()
         tree.write(filepath, xml_declaration=True)
