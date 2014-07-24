@@ -100,7 +100,7 @@ class FSEntry(object):
         return prefix + '_' + str(randint(1, 999999))
 
     # TODO This probably needs to be far more flexible and support more than
-    # just techMD and digiProvMD types.
+    # just techMD and digiprovMD types.
     def _add_metadata_element(self, md, type, mode='mdwrap', category=None):
         if mode == 'mdwrap':
             mdsec = MDWrap(md, type)
@@ -109,15 +109,15 @@ class FSEntry(object):
         md_element = etree.Element(category, ID=self._create_id(category))
         md_element.append(mdsec.serialize())
         if category == 'techMD':
-            self.amdsecs.append(AMDSec(md_element, category))
-        elif category == 'digiProvMD':
-            self.dmdsecs.append(DMDSec(md_element, category))
+            self.amdsecs.append(AMDSec(md_element, md_type=category))
+        elif category == 'digiprovMD':
+            self.dmdsecs.append(DMDSec(md_element, md_type=category))
 
     def add_techmd(self, md, type, mode=None):
         self._add_metadata_element(md, type, mode, category='techMD')
 
     def add_digiprovmd(self, md, type, mode='mdwrap'):
-        self._add_metadata_element(md, type, mode, category='digiProvMD')
+        self._add_metadata_element(md, type, mode, category='digiprovMD')
 
 
 class MDRef(object):
@@ -170,18 +170,18 @@ class MDWrap(object):
     The `document` argument must contain a string copy of the document,
     and will be parsed into an ElementTree at the time of instantiation.
 
-    The `type` argument must be a string representing the type of XML
+    The `mdtype` argument must be a string representing the MDTYPE of XML
     document being enclosed. Examples include "PREMIS:OBJECT" and
     "PREMIS:EVENT".
     """
-    def __init__(self, document, type):
+    def __init__(self, document, mdtype):
         parser = etree.XMLParser(remove_blank_text=True)
         self.document = etree.fromstring(document, parser=parser)
-        self.type = type
+        self.mdtype = mdtype
         self.id = None
 
     def serialize(self):
-        el = etree.Element('mdWrap', MDTYPE=self.type)
+        el = etree.Element('mdWrap', MDTYPE=self.mdtype)
         xmldata = etree.SubElement(el, 'xmlData')
         xmldata.append(self.document)
 
@@ -189,19 +189,20 @@ class MDWrap(object):
 
 
 class MDSec(object):
-    type = None
+    tag = None
 
-    def __init__(self, contents, type):
+    def __init__(self, contents, md_type):
+
         self.contents = contents
-        self.type = type
+        self.md_type = md_type
         self.number = str(randint(1, 999999))
 
     def id_string(self):
         # e.g., amdSec_1
-        return self.__class__.type + '_' + self.number
+        return self.tag + '_' + self.number
 
     def serialize(self):
-        el = etree.Element(self.__class__.type, ID=self.id_string())
+        el = etree.Element(self.tag, ID=self.id_string())
         el.append(self.contents)
 
         return el
@@ -216,7 +217,7 @@ class AMDSec(MDSec):
     have to be instantiated directly.
     """
 
-    type = 'amdSec'
+    tag = 'amdSec'
 
 
 class DMDSec(MDSec):
@@ -228,7 +229,7 @@ class DMDSec(MDSec):
     have to be instantiated directly.
     """
 
-    type = 'dmdSec'
+    tag = 'dmdSec'
 
 
 class FileSec(object):
