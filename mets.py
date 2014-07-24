@@ -123,18 +123,16 @@ class FSEntry(object):
 class MDRef(object):
     """
     An object representing an external XML document, typically associated
-    with an FSEntry object.
+    with an :class:`FSEntry` object.
 
-    The `target` attribute is a path to the external document. MDRef does
-    not validate the existence of this target.
-
-    The `type` argument must be a string representing the type of XML
-    document being enclosed. Examples include "PREMIS:OBJECT" and
-    "PREMIS:EVENT".
+    :param str target: Path to the external document. MDRef does not validate
+        the existence of this target.
+    :param str mdtype: The string representing the mdtype of XML document being
+        enclosed. Examples include "PREMIS:OBJECT" and "PREMIS:EVENT".
     """
-    def __init__(self, target, type):
+    def __init__(self, target, mdtype):
         self.target = target
-        self.type = type
+        self.mdtype = mdtype
         self.id = None
 
     def serialize(self):
@@ -154,7 +152,7 @@ class MDRef(object):
             'LOCTYPE': 'URL',
             'OTHERLOCTYPE': 'SYSTEM',
             lxmlns('xlink')+'href': self.target,
-            'MDTYPE': self.type
+            'MDTYPE': self.mdtype
         }
         if XPTR:
             attrib['XPTR'] = XPTR
@@ -165,14 +163,12 @@ class MDWrap(object):
     """
     An object representing an XML document enclosed in a METS document.
     The entirety of the XML document will be included; to reference an
-    external document, use the MDRef class.
+    external document, use the :class:`MDRef` class.
 
-    The `document` argument must contain a string copy of the document,
-    and will be parsed into an ElementTree at the time of instantiation.
-
-    The `mdtype` argument must be a string representing the MDTYPE of XML
-    document being enclosed. Examples include "PREMIS:OBJECT" and
-    "PREMIS:EVENT".
+    :param str document: A string copy of the document, and will be parsed into
+        an ElementTree at the time of instantiation.
+    :param str mdtype: The MDTYPE of XML document being enclosed. Examples
+        include "PREMIS:OBJECT" and "PREMIS:EVENT".
     """
     def __init__(self, document, mdtype):
         parser = etree.XMLParser(remove_blank_text=True)
@@ -264,6 +260,9 @@ class METSWriter(object):
         self.amdsecs = []
 
     def _document_root(self):
+        """
+        Return the mets Element for the document root.
+        """
         attrib = {
             '{}schemaLocation'.format(lxmlns('xsi')):
             SCHEMA_LOCATIONS
@@ -271,6 +270,9 @@ class METSWriter(object):
         return etree.Element('mets', nsmap=NSMAP, attrib=attrib)
 
     def _mets_header(self):
+        """
+        Return the metsHdr Element.
+        """
         date = datetime.utcnow().isoformat('T')
         if self.createdate is None:
             e = etree.Element('metsHdr', CREATEDATE=date)
