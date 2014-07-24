@@ -90,7 +90,8 @@ class FSEntry(object):
         self.use = use
         self.file_id = file_id
         self.children = children
-        self.amdsecs = []
+        # FIXME how to handle multiple amdSecs?
+        self.amdsecs = [AMDSec()]
         self.dmdsecs = []
 
         if type == 'file' and children:
@@ -99,25 +100,55 @@ class FSEntry(object):
     def _create_id(self, prefix):
         return prefix + '_' + str(randint(1, 999999))
 
-    # TODO This probably needs to be far more flexible and support more than
-    # just techMD and digiprovMD types.
-    def _add_metadata_element(self, md, type, mode='mdwrap', category=None):
-        if mode == 'mdwrap':
-            mdsec = MDWrap(md, type)
-        elif mode == 'mdref':
-            mdsec = MDSec(md, type)
-        md_element = etree.Element(category, ID=self._create_id(category))
-        md_element.append(mdsec.serialize())
-        if category == 'techMD':
-            self.amdsecs.append(AMDSec(md_element, md_type=category))
-        elif category == 'digiprovMD':
-            self.dmdsecs.append(DMDSec(md_element, md_type=category))
+    def _add_metadata_element(self, md, subsection, mdtype, mode='mdwrap'):
+        """
+        :param md: Value to pass to the MDWrap/MDRef
+        :param str mdtype: Value for mdWrap/mdRef @MDTYPE
+        :param str mode: 'mdwrap' or 'mdref'
+        :param str subsection: Metadata tag to create.  See :const:`SubSection.ALLOWED_SUBSECTIONS`
 
-    def add_techmd(self, md, type, mode=None):
-        self._add_metadata_element(md, type, mode, category='techMD')
+        """
+        # HELP how handle multiple amdSecs?
+        # When adding *MD which amdSec to add to?
+        if mode.lower() == 'mdwrap':
+            mdsec = MDWrap(md, mdtype)
+        elif mode.lower() == 'mdref':
+            mdsec = MDSec(md, mdtype)
+        subsection = SubSection(subsection, mdsec)
+        self.amdsecs[0].subsections.append(subsection)
 
-    def add_digiprovmd(self, md, type, mode='mdwrap'):
-        self._add_metadata_element(md, type, mode, category='digiprovMD')
+
+class SubSection(object):
+    """
+    An object representing a metadata subsection in a document.
+
+    This is usually created automatically and does not have to be instantiated directly.
+
+    :param str subsection: Tag name for the subsection to be created.  Should be
+        one of 'techMD', 'rightsMD', 'sourceMD' or 'digiprovMD' if contained in an
+        :class:`amdSec`, or 'dmdSec'.
+    :param contents: The MDWrap or MDRef contained in this subsection.
+    :type contents: :class:`MDWrap` or :class:`MDRef`
+    """
+    ALLOWED_SUBSECTIONS = ('techMD', 'rightsMD', 'sourceMD', 'digiprovMD', 'dmdSec')
+
+    def __init__(self, subsection, contents):
+        if subsection not in self.ALLOWED_SUBSECTIONS:
+            raise ValueError(
+                '%s must be one of %s' % (subsection, self.ALLOWED_SUBSECTIONS))
+        self.subsection = subsection
+        self.contents = contents
+        self._id = None
+
+    def id_string(self, force_generate=False):
+        if force_generate or not self._id:
+            self._id = self.subsection + '_' + str(randint(1, 999999))
+        return self._id
+
+    def serialize(self):
+        el = etree.Element(self.subsection, ID=self.id_string())
+        el.append(self.contents.serialize())
+        return el
 
 
 class MDRef(object):
@@ -187,20 +218,20 @@ class MDWrap(object):
 class MDSec(object):
     tag = None
 
-    def __init__(self, contents, md_type):
+    def __init__(self):
+        self.subsections = []
+        self._id = None
 
-        self.contents = contents
-        self.md_type = md_type
-        self.number = str(randint(1, 999999))
-
-    def id_string(self):
+    def id_string(self, force_generate=False):
         # e.g., amdSec_1
-        return self.tag + '_' + self.number
+        if force_generate or not self._id:
+            self._id = self.tag + '_' + str(randint(1, 999999))
+        return self._id
 
     def serialize(self):
         el = etree.Element(self.tag, ID=self.id_string())
-        el.append(self.contents)
-
+        for child in self.subsections:
+            el.append(child.serialize())
         return el
 
 

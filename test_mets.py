@@ -91,7 +91,7 @@ def test_mets_header_lastmoddate():
 
 def test_mdsec_identifier():
     # should be in the format 'amdSec_1'
-    amdsec = mets.AMDSec('foo', 'techMD')
+    amdsec = mets.AMDSec()
     assert amdsec.id_string()
 
 
@@ -117,10 +117,28 @@ def test_mdref():
     assert mdreffed.get('MDTYPE') == 'PREMIS:DUMMY'
 
 
+def test_subsection_allowed_tags():
+    with pytest.raises(ValueError):
+        mets.SubSection('fakeMD', None)
+
+
+def test_subsection_serialize():
+    content = mets.MDWrap('<foo/>', None)
+    content.serialize = lambda: etree.Element('dummy_data')
+    subsection = mets.SubSection('techMD', content)
+    subsection._id = 'techMD_1'
+
+    target = """<techMD ID="techMD_1"><dummy_data/></techMD>"""
+
+    assert etree.tostring(subsection.serialize()) == target
+
+
 def test_mdsec_list_production():
     mw = mets.METSWriter()
-    xml = mets.MDWrap('<foo/>', 'techMD').serialize()
-    amdsec = mets.AMDSec(xml, 'techMD')
+    mdwrap = mets.MDWrap('<foo/>', 'PREMIS:DUMMY')
+    techmd = mets.SubSection('techMD', mdwrap)
+    amdsec = mets.AMDSec()
+    amdsec.subsections.append(techmd)
     mw.amdsecs.append(amdsec)
     elements = mw._mdsec_elements()
 
@@ -129,8 +147,9 @@ def test_mdsec_list_production():
     assert isinstance(elements[0], etree._Element)
     assert elements[0].tag == 'amdSec'
 
-    xml2 = mets.MDWrap('<bar/>', 'digiProvMD').serialize()
-    dmdsec = mets.DMDSec(xml2, 'digiProvMD')
+    mdwrap2 = mets.MDWrap('<bar/>', 'digiprovMD')
+    dmdsec = mets.DMDSec()
+    dmdsec.subsections.append(mdwrap2)
     mw.dmdsecs.append(dmdsec)
     elements = mw._mdsec_elements()
 
