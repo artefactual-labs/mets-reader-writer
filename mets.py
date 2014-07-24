@@ -1,6 +1,6 @@
 from datetime import datetime
+import os
 from random import randint
-
 from lxml import etree
 
 
@@ -43,16 +43,7 @@ class ParseError(MetsError):
     pass
 
 
-def flatten_list(l):
-    new = []
-    for item in l:
-        if isinstance(item, list):
-            new.extend(flatten_list(item))
-        else:
-            new.append(item)
-
-    return new
-
+# CLASSES
 
 class FSEntry(object):
     """
@@ -80,12 +71,15 @@ class FSEntry(object):
     wrapped copies of those XML files, which should be wrapped in
     MDWrap objects.
     """
-    def __init__(self, path, children=[], type=u'file',
+    def __init__(self, path, label=None, children=[], type=u'file',
                  use='original', file_id=None):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
         self.path = str(path)
+        if label is None:
+            label = os.path.basename(path)
+        self.label = label
         self.type = unicode(type)
         self.use = use
         self.file_id = file_id
@@ -99,6 +93,14 @@ class FSEntry(object):
 
     def _create_id(self, prefix):
         return prefix + '_' + str(randint(1, 999999))
+
+    def admids(self):
+        """ Returns a list of ADMIDs for this entry. """
+        return [a.id_string() for a in self.amdsecs]
+
+    def dmdids(self):
+        """ Returns a list of DMDIDs for this entry. """
+        return [d.id_string() for d in self.dmdsecs]
 
     def _add_metadata_element(self, md, subsection, mdtype, mode='mdwrap'):
         """
@@ -265,26 +267,6 @@ class DMDSec(MDSec):
     tag = 'dmdSec'
 
 
-class FileSec(object):
-    def __init__(self, files):
-        self.files = files
-
-    def serialize(self):
-        el = etree.Element('fileSec')
-        filegrp = etree.SubElement(el, 'fileGrp', USE='original')
-        # TODO ID? GROUPID? ADMID? DMDID?
-        for file_ in flatten_list(self.files):
-            file_el = etree.SubElement(filegrp, 'file', ID=file_.id)
-            attrib = {
-                lxmlns('xlink')+'href': file_.path,
-                'LOCTYPE': 'OTHER',
-                'OTHERLOCTYPE': 'SYSTEM'
-            }
-            etree.SubElement(file_el, 'FLocat', attrib=attrib)
-
-        return el
-
-
 class METSWriter(object):
     def __init__(self):
         # Stores the ElementTree if this was parsed from an existing file
@@ -369,7 +351,7 @@ class METSWriter(object):
             type = 'Directory'
             fileid = None
 
-        el = etree.Element('div', TYPE=type, LABEL=child.path)
+        el = etree.Element('div', TYPE=type, LABEL=child.label)
         if fileid:
             etree.SubElement(el, 'fptr', FILEID=fileid)
 
@@ -394,26 +376,37 @@ class METSWriter(object):
 
         return structmap
 
-    def _recursive_files(self, files=None):
+    def _filesec(self, files=None):
         """
-        Returns a recursive list of all files in the document,
-        including all children of the referenced files.
-
-        If called with no arguments, begins with self.root_elements.
+        Returns fileSec Element containing all files grouped by use.
         """
         if files is None:
-            files = self.root_elements
+            files = self._collect_files()
 
-        file_list = []
+        filesec = etree.Element('fileSec')
+        # TODO GROUPID
+        filegrps = {}
         for file_ in files:
-            file_list.append([file_])
-            if file_.children:
-                file_list.append(self._recursive_files(file_.children))
+            if file_.type != 'file':
+                continue
+            # Get fileGrp, or create if not exist
+            filegrp = filegrps.get(file_.use)
+            if filegrp is None:
+                filegrp = etree.SubElement(filesec, 'fileGrp', USE=file_.use)
+                filegrps[file_.use] = filegrp
 
-        return file_list
+            admids = file_.admids()
+            file_el = etree.SubElement(filegrp, 'file', ID=file_.file_id)
+            if admids:
+                file_el.set('ADMID', ' '.join(admids))
+            attrib = {
+                lxmlns('xlink')+'href': file_.path,
+                'LOCTYPE': 'OTHER',
+                'OTHERLOCTYPE': 'SYSTEM'
+            }
+            etree.SubElement(file_el, 'FLocat', attrib=attrib)
 
-    def _filesec(self):
-        return FileSec(self._recursive_files())
+        return filesec
 
     def _parse_tree(self):
         # self._validate()
@@ -482,7 +475,7 @@ class METSWriter(object):
         root.append(self._mets_header())
         for el in mdsecs:
             root.append(el)
-        root.append(self._filesec().serialize())
+        root.append(self._filesec())
         root.append(self._structmap())
 
         return root

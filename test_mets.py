@@ -187,10 +187,26 @@ def collect_mdsec_elements():
     assert elements[0].tag == 'amdSec'
 
 
+def test_filesec():
+    o = mets.FSEntry('objects/file1.txt', file_id='file-'+str(uuid.uuid4()))
+    p = mets.FSEntry('objects/file1-preservation.txt', use='preservaton', file_id='file-'+str(uuid.uuid4()))
+    o2 = mets.FSEntry('objects/file2.txt', file_id='file-'+str(uuid.uuid4()))
+    mw = mets.METSWriter()
+    element = mw._filesec([o,p,o2])
+    assert isinstance(element, etree._Element)
+    assert element.tag == 'fileSec'
+    assert len(element) == 2  # 2 groups
+    assert element[0].tag == 'fileGrp'
+    assert element[0].get('USE') == 'original'
+    assert element[1].tag == 'fileGrp'
+    assert element[1].get('USE') == 'preservaton'
+    # TODO test file & FLocat
+
+
 def test_structmap():
     children = [
-        mets.FSEntry('file1.txt', file_id='file-'+str(uuid.uuid4())),
-        mets.FSEntry('file2.txt', file_id='file-'+str(uuid.uuid4())),
+        mets.FSEntry('objects/file1.txt', file_id='file-'+str(uuid.uuid4())),
+        mets.FSEntry('objects/file2.txt', file_id='file-'+str(uuid.uuid4())),
     ]
     parent = mets.FSEntry('objects', type='directory', children=children)
     writer = mets.METSWriter()
