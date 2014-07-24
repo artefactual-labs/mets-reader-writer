@@ -97,8 +97,7 @@ class FSEntry(object):
         self.use = use
         self.file_id = file_id
         self.children = children
-        # FIXME how to handle multiple amdSecs?
-        self.amdsecs = [AMDSec()]
+        self.amdsecs = []
         self.dmdsecs = []
 
         if type != 'Directory' and children:
@@ -130,7 +129,38 @@ class FSEntry(object):
         elif mode.lower() == 'mdref':
             mdsec = MDSec(md, mdtype)
         subsection = SubSection(subsection, mdsec)
-        self.amdsecs[0].subsections.append(subsection)
+        try:
+            amdsec = self.amdsecs[0]
+        except IndexError:
+            amdsec = AMDSec()
+            self.amdsecs.append(amdsec)
+        amdsec.subsections.append(subsection)
+        return subsection
+
+    def add_techmd(self, md, mdtype, mode='mdwrap'):
+        return self._add_metadata_element(md, 'techMD', mdtype, mode)
+
+    def add_digiprovmd(self, md, mdtype, mode='mdwrap'):
+        return self._add_metadata_element(md, 'digiprovMD', mdtype, mode)
+
+    def add_rightsmd(self, md, mdtype, mode='mdwrap'):
+        return self._add_metadata_element(md, 'rightsMD', mdtype, mode)
+
+    def add_premis_object(self, md, mode='mdwrap'):
+        # TODO add extra args and create PREMIS object here
+        return self.add_techmd(md, 'PREMIS:OBJECT', mode)
+
+    def add_premis_event(self, md, mode='mdwrap'):
+        # TODO add extra args and create PREMIS object here
+        return self.add_digiprovmd(md, 'PREMIS:EVENT', mode)
+
+    def add_premis_agent(self, md, mode='mdwrap'):
+        # TODO add extra args and create PREMIS object here
+        return self.add_digiprovmd(md, 'PREMIS:AGENT', mode)
+
+    def add_premis_rights(self, md, mode='mdwrap'):
+        # TODO add extra args and create PREMIS object here
+        return self.add_rightsmd(md, 'PREMIS:RIGHTS', mode)
 
 
 class SubSection(object):
@@ -488,7 +518,7 @@ class METSWriter(object):
 
         return root
 
-    def write(self, filepath):
+    def write(self, filepath, pretty_print=False):
         """
         Serialize and write this METS file to `filepath`.
 
@@ -496,4 +526,4 @@ class METSWriter(object):
         """
         root = self.serialize()
         tree = root.getroottree()
-        tree.write(filepath, xml_declaration=True)
+        tree.write(filepath, xml_declaration=True, pretty_print=pretty_print)

@@ -225,3 +225,33 @@ def test_structmap():
     assert children[1].get('LABEL') == 'file2.txt'
     assert children[1].get('TYPE') == 'Item'
     assert children[0].find('fptr') is not None
+
+
+def test_full_mets():
+    mw = mets.METSWriter()
+    file1 = mets.FSEntry('objects/object1.ext', file_id='file-' + str(uuid.uuid4()))
+    file2 = mets.FSEntry('objects/object2.ext', file_id='file-' + str(uuid.uuid4()))
+    file1p = mets.FSEntry('objects/object1-preservation.ext', use='preservation', file_id='file-' + str(uuid.uuid4()))
+    file2p = mets.FSEntry('objects/object2-preservation.ext', use='preservation', file_id='file-' + str(uuid.uuid4()))
+    children = [file1, file2, file1p, file2p]
+    objects = mets.FSEntry('objects', type='Directory', children=children)
+    children = [
+        mets.FSEntry('transfers', type='Directory', children=[]),
+        mets.FSEntry('metadata/metadata.csv', use='metadata', file_id='file-' + str(uuid.uuid4())),
+    ]
+    metadata = mets.FSEntry('metadata', type='Directory', children=children)
+    children = [
+        mets.FSEntry('submissionDocumentation/METS.xml', use='submissionDocumentation', file_id='file-' + str(uuid.uuid4())),
+    ]
+    sub_doc = mets.FSEntry('submissionDocumentation', type='Directory', children=children)
+    children = [objects, metadata, sub_doc]
+    sip = mets.FSEntry('sipname-uuid', type='Directory', children=children)
+    file1.add_premis_object('<premis>object</premis>')
+    file1.add_premis_event('<premis>event</premis>')
+    file1.add_premis_agent('<premis>agent</premis>')
+    file1.add_premis_rights('<premis>rights</premis>')
+
+    mw.append_file(sip)
+    mw.write('full_mets.xml', pretty_print=True)
+
+    os.remove('full_mets.xml')
