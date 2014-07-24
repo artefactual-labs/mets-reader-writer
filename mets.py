@@ -48,31 +48,44 @@ class ParseError(MetsError):
 class FSEntry(object):
     """
     A class representing a filesystem entry - either a file or a directory.
-    Unless otherwise specified, an FSEntry object is assumed to be a file;
-    pass the `type` value as 'directory' to specify that the object is
-    instead a directory.
 
     When passed to a METSWriter instance, the tree of FSEntry objects will
     be used to construct the <fileSec> and <structMap> elements of a
     METS document.
 
+    Unless otherwise specified, an FSEntry object is assumed to be a file;
+    pass the `type` value as 'Directory' to specify that the object is
+    instead a directory.
+
     An FSEntry object must be instantiated with a path as the first
     argument to the constructor, which represents its path on disk.
 
-    An FSEntry object which is a directory may have one or more children,
+    An FSEntry object which is a Directory may have one or more children,
     representing files or directories contained within itself. Directory
     trees are designed for top-to-bottom traversal. Files cannot have
     children, and attempting to instantiate a file FSEntry object with
-    children will raise an Exception.
+    children will raise a ValueError.
 
     Any FSEntry object may have one or more metadata entries associated
     with it; these can take the form of either references to other XML
     files on disk, which should be wrapped in MDRef objects, or
     wrapped copies of those XML files, which should be wrapped in
     MDWrap objects.
+
+    :param str path: Path to the file on disk, as a bytestring. This will
+        populate FLocat @xlink:href
+    :param str label: Label in the structMap. If not provided, will be populated
+        with the basename of path
+    :param str use: Use for the fileGrp.  Items with identical uses will be
+        grouped together.
+    :param str type: Type of FSEntry this is. This will appear in the structMap.
+    :param list children: List of :class:`FSEntry` that are direct children of
+        this element in the structMap.  Only allowed if type is 'Directory'
+    :param str file_id: ID of this entry. Will be used in the fileSec and
+        structMap.  Only required if type is 'Item'
+    :raises ValueError: if children passed when type is not 'Directory'
     """
-    def __init__(self, path, label=None, children=[], type=u'file',
-                 use='original', file_id=None):
+    def __init__(self, path, label=None, use='original', type=u'Item', children=[], file_id=None):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
@@ -88,8 +101,8 @@ class FSEntry(object):
         self.amdsecs = [AMDSec()]
         self.dmdsecs = []
 
-        if type == 'file' and children:
-            raise Exception("Only directory objects can have children")
+        if type != 'Directory' and children:
+            raise ValueError("Only directory objects can have children")
 
     def _create_id(self, prefix):
         return prefix + '_' + str(randint(1, 999999))
@@ -344,16 +357,10 @@ class METSWriter(object):
         will be parented to that element. This is intended for
         use when recursing down a tree.
         """
-        if child.type == 'file':
-            type = 'Item'
-            fileid = child.file_id
-        else:
-            type = 'Directory'
-            fileid = None
-
-        el = etree.Element('div', TYPE=type, LABEL=child.label)
-        if fileid:
-            etree.SubElement(el, 'fptr', FILEID=fileid)
+        # TODO move this to FSEntry?
+        el = etree.Element('div', TYPE=child.type, LABEL=child.label)
+        if child.file_id:
+            etree.SubElement(el, 'fptr', FILEID=child.file_id)
 
         if parent is not None:
             parent.append(el)
@@ -387,7 +394,7 @@ class METSWriter(object):
         # TODO GROUPID
         filegrps = {}
         for file_ in files:
-            if file_.type != 'file':
+            if file_.type != 'Item':
                 continue
             # Get fileGrp, or create if not exist
             filegrp = filegrps.get(file_.use)
@@ -395,6 +402,7 @@ class METSWriter(object):
                 filegrp = etree.SubElement(filesec, 'fileGrp', USE=file_.use)
                 filegrps[file_.use] = filegrp
 
+            # TODO move this to the FSEntry?
             admids = file_.admids()
             file_el = etree.SubElement(filegrp, 'file', ID=file_.file_id)
             if admids:

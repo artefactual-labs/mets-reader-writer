@@ -150,11 +150,11 @@ def test_subsection_ordering():
 def test_collect_files():
     # Test collects several children deep
     f3 = mets.FSEntry('level3.txt', file_id='file-'+str(uuid.uuid4()))
-    d2 = mets.FSEntry('dir2', type='directory', children=[f3])
+    d2 = mets.FSEntry('dir2', type='Directory', children=[f3])
     f2 = mets.FSEntry('level2.txt', file_id='file-'+str(uuid.uuid4()))
-    d1 = mets.FSEntry('dir1', type='directory', children=[d2, f2])
+    d1 = mets.FSEntry('dir1', type='Directory', children=[d2, f2])
     f1 = mets.FSEntry('level1.txt', file_id='file-'+str(uuid.uuid4()))
-    d = mets.FSEntry('root', type='directory', children=[d1, f1])
+    d = mets.FSEntry('root', type='Directory', children=[d1, f1])
     mw = mets.METSWriter()
     mw.append_file(d)
     files = mw._collect_files()
@@ -208,7 +208,7 @@ def test_structmap():
         mets.FSEntry('objects/file1.txt', file_id='file-'+str(uuid.uuid4())),
         mets.FSEntry('objects/file2.txt', file_id='file-'+str(uuid.uuid4())),
     ]
-    parent = mets.FSEntry('objects', type='directory', children=children)
+    parent = mets.FSEntry('objects', type='Directory', children=children)
     writer = mets.METSWriter()
     writer.append_file(parent)
     sm = writer._structmap()
