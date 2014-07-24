@@ -147,28 +147,44 @@ def test_subsection_ordering():
     assert l[3].subsection == 'digiprovMD'
 
 
-def test_mdsec_list_production():
+def test_collect_files():
+    # Test collects several children deep
+    f3 = mets.FSEntry('level3.txt', file_id='file-'+str(uuid.uuid4()))
+    d2 = mets.FSEntry('dir2', type='directory', children=[f3])
+    f2 = mets.FSEntry('level2.txt', file_id='file-'+str(uuid.uuid4()))
+    d1 = mets.FSEntry('dir1', type='directory', children=[d2, f2])
+    f1 = mets.FSEntry('level1.txt', file_id='file-'+str(uuid.uuid4()))
+    d = mets.FSEntry('root', type='directory', children=[d1, f1])
     mw = mets.METSWriter()
-    mdwrap = mets.MDWrap('<foo/>', 'PREMIS:DUMMY')
-    techmd = mets.SubSection('techMD', mdwrap)
-    amdsec = mets.AMDSec()
-    amdsec.subsections.append(techmd)
-    mw.amdsecs.append(amdsec)
-    elements = mw._mdsec_elements()
+    mw.append_file(d)
+    files = mw._collect_files()
+    assert files
+    assert len(files) == 6
+    assert d in files
+    assert f1 in files
+    assert d1 in files
+    assert f2 in files
+    assert d2 in files
+    assert f3 in files
 
+
+def collect_mdsec_elements():
+    f1 = mets.FSEntry('file1.txt', file_id='file-'+str(uuid.uuid4()))
+    f1.amdsec.append(mets.AMDSec())
+    f1.dmdsecs.append(mets.DMDSec())
+    f2 = mets.FSEntry('file2.txt', file_id='file-'+str(uuid.uuid4()))
+    f2.dmdsecs.append(mets.DMDSec())
+    mw = mets.METSWriter()
+    elements = mw._collect_mdsec_elements([f1, f2])
+    # Check ordering - dmdSec before amdSec
     assert isinstance(elements, list)
-    assert len(elements) == 1
+    assert len(elements) == 3
     assert isinstance(elements[0], etree._Element)
+    assert elements[0].tag == 'dmdSec'
+    assert isinstance(elements[1], etree._Element)
+    assert elements[0].tag == 'dmdSec'
+    assert isinstance(elements[2], etree._Element)
     assert elements[0].tag == 'amdSec'
-
-    mdwrap2 = mets.MDWrap('<bar/>', 'digiprovMD')
-    dmdsec = mets.DMDSec()
-    dmdsec.subsections.append(mdwrap2)
-    mw.dmdsecs.append(dmdsec)
-    elements = mw._mdsec_elements()
-
-    assert len(elements) == 2
-    assert elements[1].tag == 'dmdSec'
 
 
 def test_structmap():

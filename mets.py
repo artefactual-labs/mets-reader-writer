@@ -318,6 +318,38 @@ class METSWriter(object):
                 CREATEDATE=self.createdate, LASTMODDATE=date)
         return e
 
+    def _collect_files(self, files=None):
+        """
+        Collect all FSEntrys into a flat list, including all descendants.
+
+        :param list files: List of :class:`FSEntry` to traverse.
+        """
+        if files is None:
+            files = self.root_elements
+        collected = set()
+        for entry in files:
+            collected.add(entry)
+            collected.update(self._collect_files(entry.children))
+        return collected
+
+    def _collect_mdsec_elements(self, files):
+        """
+        Return all dmdSec and amdSec Element associated with the files.
+
+        Returns all dmdSec Elements, then all amdSec Elements, suitable for
+        immediately appending to the mets.
+
+        :param list files: List of :class:`FSEntry` s to collect MDSecs for.
+        """
+        dmdsecs = []
+        amdsecs = []
+        for f in files:
+            for d in f.dmdsecs:
+                dmdsecs.append(d.serialize())
+            for a in f.amdsecs:
+                amdsecs.append(a.serialize())
+        return dmdsecs + amdsecs
+
     def _child_element(self, child, parent=None):
         """
         Creates a <div> element suitable for use in a structMap from
@@ -383,21 +415,6 @@ class METSWriter(object):
     def _filesec(self):
         return FileSec(self._recursive_files())
 
-    def _append_file_properties(self, file):
-        for amdsec in file.amdsecs:
-            self.amdsecs.append(amdsec)
-        for dmdsec in file.dmdsecs:
-            self.dmdsecs.append(dmdsec)
-
-    def _mdsec_elements(self):
-        elements = []
-        for amdsec in self.amdsecs:
-            elements.append(amdsec.serialize())
-        for dmdsec in self.dmdsecs:
-            elements.append(dmdsec.serialize())
-
-        return elements
-
     def _parse_tree(self):
         # self._validate()
         # Check CREATEDATE < now
@@ -451,16 +468,7 @@ class METSWriter(object):
 
         if fs_entry in self.root_elements:
             return
-
         self.root_elements.append(fs_entry)
-        self._append_file_properties(fs_entry)
-
-        # children are *not* included in the root properties list,
-        # because anything that includes children will already
-        # allow traversal down the tree.
-        # However, we *do* require the full set of mdSecs at this time.
-        for child in fs_entry.children:
-            self._append_file_properties(child)
 
     def serialize(self):
         """
@@ -468,9 +476,11 @@ class METSWriter(object):
 
         :return: Element for this document
         """
+        files = self._collect_files()
+        mdsecs = self._collect_mdsec_elements(files)
         root = self._document_root()
         root.append(self._mets_header())
-        for el in self._mdsec_elements():
+        for el in mdsecs:
             root.append(el)
         root.append(self._filesec().serialize())
         root.append(self._structmap())
