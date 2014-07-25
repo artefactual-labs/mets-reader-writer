@@ -140,6 +140,11 @@ class SubSection(object):
         self.contents = contents
         self._id = None
 
+    def __lt__(self, other):
+        # Sort based on the subsection's order in ALLOWED_SUBSECTIONS
+        # techMDs < rightsMD < sourceMD < digiprovMD < dmdSec
+        return self.ALLOWED_SUBSECTIONS.index(self.subsection) < self.ALLOWED_SUBSECTIONS.index(other.subsection)
+
     def id_string(self, force_generate=False):
         if force_generate or not self._id:
             self._id = self.subsection + '_' + str(randint(1, 999999))
@@ -230,6 +235,7 @@ class MDSec(object):
 
     def serialize(self):
         el = etree.Element(self.tag, ID=self.id_string())
+        self.subsections.sort()
         for child in self.subsections:
             el.append(child.serialize())
         return el

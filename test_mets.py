@@ -133,6 +133,20 @@ def test_subsection_serialize():
     assert etree.tostring(subsection.serialize()) == target
 
 
+def test_subsection_ordering():
+    mdwrap = mets.MDWrap('<foo/>', 'PREMIS:DUMMY')
+    l = []
+    l.append(mets.SubSection('digiprovMD', mdwrap))
+    l.append(mets.SubSection('sourceMD', mdwrap))
+    l.append(mets.SubSection('rightsMD', mdwrap))
+    l.append(mets.SubSection('techMD', mdwrap))
+    l.sort()
+    assert l[0].subsection == 'techMD'
+    assert l[1].subsection == 'rightsMD'
+    assert l[2].subsection == 'sourceMD'
+    assert l[3].subsection == 'digiprovMD'
+
+
 def test_mdsec_list_production():
     mw = mets.METSWriter()
     mdwrap = mets.MDWrap('<foo/>', 'PREMIS:DUMMY')
