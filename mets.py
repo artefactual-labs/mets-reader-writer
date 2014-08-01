@@ -129,12 +129,15 @@ class FSEntry(object):
         elif mode.lower() == 'mdref':
             mdsec = MDSec(md, mdtype)
         subsection = SubSection(subsection, mdsec)
-        try:
-            amdsec = self.amdsecs[0]
-        except IndexError:
-            amdsec = AMDSec()
-            self.amdsecs.append(amdsec)
-        amdsec.subsections.append(subsection)
+        if subsection.subsection == 'dmdSec':
+            self.dmdsecs.append(subsection)
+        else:
+            try:
+                amdsec = self.amdsecs[0]
+            except IndexError:
+                amdsec = AMDSec()
+                self.amdsecs.append(amdsec)
+            amdsec.subsections.append(subsection)
         return subsection
 
     def add_techmd(self, md, mdtype, mode='mdwrap'):
@@ -145,6 +148,9 @@ class FSEntry(object):
 
     def add_rightsmd(self, md, mdtype, mode='mdwrap'):
         return self._add_metadata_element(md, 'rightsMD', mdtype, mode)
+
+    def add_dmdsec(self, md, mdtype, mode='mdwrap'):
+        return self._add_metadata_element(md, 'dmdSec', mdtype, mode)
 
     def add_premis_object(self, md, mode='mdwrap'):
         # TODO add extra args and create PREMIS object here
@@ -161,6 +167,10 @@ class FSEntry(object):
     def add_premis_rights(self, md, mode='mdwrap'):
         # TODO add extra args and create PREMIS object here
         return self.add_rightsmd(md, 'PREMIS:RIGHTS', mode)
+
+    def add_dublin_core(self, md, mode='mdwrap'):
+        # TODO add extra args and create DC object here
+        return self.add_dmdsec(md, 'DC', mode)
 
 
 class SubSection(object):

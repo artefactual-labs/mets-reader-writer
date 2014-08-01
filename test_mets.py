@@ -187,6 +187,36 @@ def collect_mdsec_elements():
     assert elements[0].tag == 'amdSec'
 
 
+def test_add_metadata_to_fsentry():
+    f1 = mets.FSEntry('file1.txt', file_id='file-'+str(uuid.uuid4()))
+    f1.add_dublin_core('<dc />')
+    assert f1.dmdsecs
+    assert len(f1.dmdsecs) == 1
+    assert f1.dmdsecs[0].subsection == 'dmdSec'
+    assert f1.dmdsecs[0].contents.mdtype == 'DC'
+
+    f1.add_premis_object('<premis>object</premis>')
+
+    assert f1.amdsecs
+    assert f1.amdsecs[0].subsections
+    assert f1.amdsecs[0].subsections[0].subsection == 'techMD'
+    assert f1.amdsecs[0].subsections[0].contents.mdtype == 'PREMIS:OBJECT'
+
+    f1.add_premis_event('<premis>event</premis>')
+    assert f1.amdsecs[0].subsections[1].subsection == 'digiprovMD'
+    assert f1.amdsecs[0].subsections[1].contents.mdtype == 'PREMIS:EVENT'
+
+    f1.add_premis_agent('<premis>agent</premis>')
+    assert f1.amdsecs[0].subsections[2].subsection == 'digiprovMD'
+    assert f1.amdsecs[0].subsections[2].contents.mdtype == 'PREMIS:AGENT'
+
+    f1.add_premis_rights('<premis>rights</premis>')
+    assert f1.amdsecs[0].subsections[3].subsection == 'rightsMD'
+    assert f1.amdsecs[0].subsections[3].contents.mdtype == 'PREMIS:RIGHTS'
+
+    assert len(f1.amdsecs[0].subsections) == 4
+
+
 def test_filesec():
     o = mets.FSEntry('objects/file1.txt', file_id='file-'+str(uuid.uuid4()))
     p = mets.FSEntry('objects/file1-preservation.txt', use='preservaton', file_id='file-'+str(uuid.uuid4()))
