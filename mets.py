@@ -18,7 +18,6 @@ NAMESPACES = {
 
 NSMAP = {
     None: NAMESPACES['mets'],
-    'dc': NAMESPACES['dcterms'],
     'xsi': NAMESPACES['xsi'],
     'xlink': NAMESPACES['xlink']
 }
@@ -85,7 +84,7 @@ class FSEntry(object):
         structMap.  Only required if type is 'Item'
     :raises ValueError: if children passed when type is not 'Directory'
     """
-    def __init__(self, path, label=None, use='original', type=u'Item', children=[], file_id=None):
+    def __init__(self, path, label=None, use='original', type=u'Item', children=None, file_id=None):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
@@ -96,6 +95,8 @@ class FSEntry(object):
         self.type = unicode(type)
         self.use = use
         self.file_id = file_id
+        if children is None:
+            children = []
         self.children = children
         self.amdsecs = []
         self.dmdsecs = []
@@ -127,7 +128,7 @@ class FSEntry(object):
         if mode.lower() == 'mdwrap':
             mdsec = MDWrap(md, mdtype)
         elif mode.lower() == 'mdref':
-            mdsec = MDSec(md, mdtype)
+            mdsec = MDRef(md, mdtype)
         subsection = SubSection(subsection, mdsec)
         if subsection.subsection == 'dmdSec':
             self.dmdsecs.append(subsection)
@@ -345,7 +346,7 @@ class METSWriter(object):
         """
         Return the metsHdr Element.
         """
-        date = datetime.utcnow().isoformat('T')
+        date = datetime.utcnow().replace(microsecond=0).isoformat('T')
         if self.createdate is None:
             e = etree.Element('metsHdr', CREATEDATE=date)
         else:

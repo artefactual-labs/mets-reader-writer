@@ -68,7 +68,12 @@ def test_mets_root():
         "http://www.loc.gov/standards/mets/version18/mets.xsd"
     assert root.tag == 'mets'
     assert root.attrib[mets.lxmlns('xsi')+'schemaLocation'] == location
-    assert root.nsmap[None] == 'http://www.loc.gov/METS/'
+    nsmap = {
+        None: "http://www.loc.gov/METS/",
+        'xsi': "http://www.w3.org/2001/XMLSchema-instance",
+        'xlink': "http://www.w3.org/1999/xlink",
+    }
+    assert root.nsmap == nsmap
 
 
 def test_mets_header():
