@@ -173,12 +173,12 @@ def test_collect_files():
     assert f3 in files
 
 
-def collect_mdsec_elements():
+def test_collect_mdsec_elements():
     f1 = mets.FSEntry('file1.txt', file_id='file-'+str(uuid.uuid4()))
-    f1.amdsec.append(mets.AMDSec())
-    f1.dmdsecs.append(mets.DMDSec())
+    f1.amdsecs.append(mets.AMDSec())
+    f1.dmdsecs.append(mets.SubSection('dmdSec', None))
     f2 = mets.FSEntry('file2.txt', file_id='file-'+str(uuid.uuid4()))
-    f2.dmdsecs.append(mets.DMDSec())
+    f2.dmdsecs.append(mets.SubSection('dmdSec', None))
     mw = mets.METSWriter()
     elements = mw._collect_mdsec_elements([f1, f2])
     # Check ordering - dmdSec before amdSec
@@ -187,9 +187,9 @@ def collect_mdsec_elements():
     assert isinstance(elements[0], etree._Element)
     assert elements[0].tag == 'dmdSec'
     assert isinstance(elements[1], etree._Element)
-    assert elements[0].tag == 'dmdSec'
+    assert elements[1].tag == 'dmdSec'
     assert isinstance(elements[2], etree._Element)
-    assert elements[0].tag == 'amdSec'
+    assert elements[2].tag == 'amdSec'
 
 
 def test_add_metadata_to_fsentry():

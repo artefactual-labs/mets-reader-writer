@@ -208,7 +208,8 @@ class SubSection(object):
 
     def serialize(self):
         el = etree.Element(self.subsection, ID=self.id_string())
-        el.append(self.contents.serialize())
+        if self.contents:
+            el.append(self.contents.serialize())
         return el
 
 
@@ -276,14 +277,26 @@ class MDWrap(object):
         return el
 
 
-class MDSec(object):
-    tag = None
+class AMDSec(object):
+    """
+    An object representing a section of administrative metadata in a
+    document.
+
+    This is ordinarily created by METSWriter instances and does not
+    have to be instantiated directly.
+    """
+    tag = 'amdSec'
 
     def __init__(self):
         self.subsections = []
         self._id = None
 
     def id_string(self, force_generate=False):
+        """
+        Returns the ID string for the amdSec.
+
+        :param bool force_generate: If True, will generate a new ID from 'amdSec' and a random number.
+        """
         # e.g., amdSec_1
         if force_generate or not self._id:
             self._id = self.tag + '_' + str(randint(1, 999999))
@@ -295,30 +308,6 @@ class MDSec(object):
         for child in self.subsections:
             el.append(child.serialize())
         return el
-
-
-class AMDSec(MDSec):
-    """
-    An object representing a section of administrative metadata in a
-    document.
-
-    This is ordinarily created by METSWriter instances and does not
-    have to be instantiated directly.
-    """
-
-    tag = 'amdSec'
-
-
-class DMDSec(MDSec):
-    """
-    An object representing a section of descriptive metadata in a
-    document.
-
-    This is ordinarily created by METSWriter instances and does not
-    have to be instantiated directly.
-    """
-
-    tag = 'dmdSec'
 
 
 class METSWriter(object):
