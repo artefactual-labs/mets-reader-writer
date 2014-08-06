@@ -185,16 +185,17 @@ class SubSection(object):
         :class:`amdSec`, or 'dmdSec'.
     :param contents: The MDWrap or MDRef contained in this subsection.
     :type contents: :class:`MDWrap` or :class:`MDRef`
+    :param str section_id: ID of the section. If not provided, will be generated from subsection tag and a random number.
     """
     ALLOWED_SUBSECTIONS = ('techMD', 'rightsMD', 'sourceMD', 'digiprovMD', 'dmdSec')
 
-    def __init__(self, subsection, contents):
+    def __init__(self, subsection, contents, section_id=None):
         if subsection not in self.ALLOWED_SUBSECTIONS:
             raise ValueError(
                 '%s must be one of %s' % (subsection, self.ALLOWED_SUBSECTIONS))
         self.subsection = subsection
         self.contents = contents
-        self._id = None
+        self._id = section_id
 
     def __lt__(self, other):
         # Sort based on the subsection's order in ALLOWED_SUBSECTIONS
@@ -202,6 +203,11 @@ class SubSection(object):
         return self.ALLOWED_SUBSECTIONS.index(self.subsection) < self.ALLOWED_SUBSECTIONS.index(other.subsection)
 
     def id_string(self, force_generate=False):
+        """
+        Returns the ID string for this SubSection.
+
+        :param bool force_generate: If True, will generate a new ID from the subsection tag and a random number.
+        """
         if force_generate or not self._id:
             self._id = self.subsection + '_' + str(randint(1, 999999))
         return self._id
@@ -284,12 +290,17 @@ class AMDSec(object):
 
     This is ordinarily created by METSWriter instances and does not
     have to be instantiated directly.
+
+    :param str section_id: ID of the section. If not provided, will be generated from 'amdSec' and a random number.
+    :param list subsections: List of :class:`SubSection` that are part of this amdSec
     """
     tag = 'amdSec'
 
-    def __init__(self):
-        self.subsections = []
-        self._id = None
+    def __init__(self, section_id=None, subsections=None):
+        if subsections is None:
+            subsections = []
+        self.subsections = subsections
+        self._id = section_id
 
     def id_string(self, force_generate=False):
         """
@@ -391,6 +402,9 @@ class METSWriter(object):
         el = etree.Element('div', TYPE=child.type, LABEL=child.label)
         if child.file_id:
             etree.SubElement(el, 'fptr', FILEID=child.file_id)
+        dmdids = child.dmdids()
+        if dmdids:
+            el.set('DMDID', ' '.join(dmdids))
 
         if parent is not None:
             parent.append(el)
@@ -437,12 +451,11 @@ class METSWriter(object):
             file_el = etree.SubElement(filegrp, 'file', ID=file_.file_id)
             if admids:
                 file_el.set('ADMID', ' '.join(admids))
-            attrib = {
-                lxmlns('xlink')+'href': file_.path,
-                'LOCTYPE': 'OTHER',
-                'OTHERLOCTYPE': 'SYSTEM'
-            }
-            etree.SubElement(file_el, 'FLocat', attrib=attrib)
+            flocat = etree.SubElement(file_el, 'FLocat')
+            # Setting manually so order is correct
+            flocat.set(lxmlns('xlink')+'href', file_.path)
+            flocat.set('LOCTYPE', 'OTHER')
+            flocat.set('OTHERLOCTYPE', 'SYSTEM')
 
         return filesec
 
