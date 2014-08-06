@@ -173,6 +173,11 @@ class FSEntry(object):
         # TODO add extra args and create DC object here
         return self.add_dmdsec(md, 'DC', mode)
 
+    def add_child(self, child):
+        if self.type != 'Directory':
+            raise ValueError("Only directory objects can have children")
+        self.children.append(child)
+
 
 class SubSection(object):
     """
@@ -212,6 +217,29 @@ class SubSection(object):
             self._id = self.subsection + '_' + str(randint(1, 999999))
         return self._id
 
+    @classmethod
+    def parse(cls, root):
+        """
+        Create a new SubSection by parsing root.
+
+        :param root: Element or ElementTree to be parsed into an object.
+        :raises ParseError: If root's tag is not in :const:`SubSection.ALLOWED_SUBSECTIONS`.
+        :raises ParseError: If the first child of root is not mdRef or mdWrap.
+        """
+        subsection = root.tag.replace(lxmlns('mets'), '', 1)
+        if subsection not in cls.ALLOWED_SUBSECTIONS:
+            raise ParseError('SubSection can only parse elements with tag in %s with METS namespace' % cls.ALLOWED_SUBSECTIONS)
+        section_id = root.get('ID')
+        child = root[0]
+        if child.tag == lxmlns('mets') + 'mdWrap':
+            mdwrap = MDWrap.parse(child)
+            return cls(subsection, mdwrap, section_id)
+        elif child.tag == lxmlns('mets') + 'mdRef':
+            mdref = MDRef.parse(child)
+            return cls(subsection, mdref, section_id)
+        else:
+            raise ParseError('Child of %s must be mdWrap or mdRef' % subsection)
+
     def serialize(self):
         el = etree.Element(self.subsection, ID=self.id_string())
         if self.contents:
@@ -232,7 +260,23 @@ class MDRef(object):
     def __init__(self, target, mdtype):
         self.target = target
         self.mdtype = mdtype
-        self.id = None
+
+    @classmethod
+    def parse(cls, root):
+        """
+        Create a new MDWrap by parsing root.
+
+        :param root: Element or ElementTree to be parsed into a MDWrap.
+        """
+        if root.tag != lxmlns('mets') + 'mdRef':
+            raise ParseError('MDRef can only parse mdRef elements with METS namespace.')
+        mdtype = root.get('MDTYPE')
+        if not mdtype:
+            raise ParseError('mdRef must have a MDTYPE')
+        target = root.get(lxmlns('xlink') + 'href')
+        if not target:
+            raise ParseError('mdRef must have an xlink:href.')
+        return cls(target, mdtype)
 
     def serialize(self):
         # If the source document is a METS document, the XPTR attribute of
@@ -244,7 +288,7 @@ class MDRef(object):
             dmdsecs = [item.get('ID') for item in
                        target_doc.findall(lxmlns('mets')+'dmdSec')]
             XPTR = "xpointer(id(''))".format(' '.join(dmdsecs))
-        except:
+        except Exception:
             pass
 
         attrib = {
@@ -271,9 +315,31 @@ class MDWrap(object):
     """
     def __init__(self, document, mdtype):
         parser = etree.XMLParser(remove_blank_text=True)
-        self.document = etree.fromstring(document, parser=parser)
+        if isinstance(document, basestring):
+            self.document = etree.fromstring(document, parser=parser)
+        elif isinstance(document, etree._Element):
+            self.document = document
         self.mdtype = mdtype
-        self.id = None
+
+    @classmethod
+    def parse(cls, root):
+        """
+        Create a new MDWrap by parsing root.
+
+        :param root: Element or ElementTree to be parsed into a MDWrap.
+        :raises ParseError: If mdWrap does not contain MDTYPE
+        :raises ParseError: If mdWrap or xmlData contain multiple children
+        """
+        if root.tag != lxmlns('mets') + 'mdWrap':
+            raise ParseError('MDWrap can only parse mdWrap elements with METS namespace.')
+        mdtype = root.get('MDTYPE')
+        if not mdtype:
+            raise ParseError('mdWrap must have a MDTYPE')
+        document = root.xpath('mets:xmlData/*',  namespaces=NAMESPACES)
+        if len(document) != 1:
+            raise ParseError('mdWrap and xmlData can only have one child')
+        document = document[0]
+        return cls(document, mdtype)
 
     def serialize(self):
         el = etree.Element('mdWrap', MDTYPE=self.mdtype)
@@ -312,6 +378,22 @@ class AMDSec(object):
         if force_generate or not self._id:
             self._id = self.tag + '_' + str(randint(1, 999999))
         return self._id
+
+    @classmethod
+    def parse(cls, root):
+        """
+        Create a new AMDSec by parsing root.
+
+        :param root: Element or ElementTree to be parsed into an object.
+        """
+        if root.tag != lxmlns('mets') + 'amdSec':
+            raise ParseError('AMDSec can only parse amdSec elements with METS namespace.')
+        section_id = root.get('ID')
+        subsections = []
+        for child in root:
+            subsection = SubSection.parse(child)
+            subsections.append(subsection)
+        return cls(section_id, subsections)
 
     def serialize(self):
         el = etree.Element(self.tag, ID=self.id_string())
@@ -459,7 +541,60 @@ class METSWriter(object):
 
         return filesec
 
-    def _parse_tree(self):
+    def _parse_tree_structmap(self, tree, parent_elem):
+        """
+        Recursively parse all the children of parent_elem, including amdSecs and dmdSecs.
+        """
+        siblings = []
+        for elem in parent_elem:  # Iterates over children of parent_elem
+            # Only handle div's, not fptrs
+            if elem.tag != lxmlns('mets') + 'div':
+                continue
+            entry_type = elem.get('TYPE')
+            label = elem.get('LABEL')
+            fptr = elem.find('mets:fptr', namespaces=NAMESPACES)
+            file_id = None
+            use = None
+            path = None
+            amdids = None
+            if fptr is not None:
+                file_id = fptr.get('FILEID')
+                file_elem = tree.find('mets:fileSec//mets:file[@ID="' + file_id + '"]', namespaces=NAMESPACES)
+                if file_elem is None:
+                    raise ParseError('%s exists in structMap but not fileSec' % file_id)
+                use = file_elem.getparent().get('USE')
+                path = file_elem.find('mets:FLocat', namespaces=NAMESPACES).get(lxmlns('xlink') + 'href')
+                amdids = file_elem.get('ADMID')
+
+            # Recursively generate children
+            children = self._parse_tree_structmap(tree, elem)
+
+            # Create FSEntry
+            fsentry = FSEntry(path=path, label=label, use=use, type=entry_type, children=children, file_id=file_id)
+
+            # Add DMDSecs
+            dmdids = elem.get('DMDID')
+            if dmdids:
+                dmdids = dmdids.split()
+                for dmdid in dmdids:
+                    dmdsec_elem = tree.find('mets:dmdSec[@ID="' + dmdid + '"]', namespaces=NAMESPACES)
+                    dmdsec = SubSection.parse(dmdsec_elem)
+                    fsentry.dmdsecs.append(dmdsec)
+
+            # Add AMDSecs
+            if amdids:
+                amdids = amdids.split()
+                for amdid in amdids:
+                    amdsec_elem = tree.find('mets:amdSec[@ID="' + amdid + '"]', namespaces=NAMESPACES)
+                    amdsec = AMDSec.parse(amdsec_elem)
+                    fsentry.amdsecs.append(amdsec)
+
+            siblings.append(fsentry)
+        return siblings
+
+    def _parse_tree(self, tree=None):
+        if tree is None:
+            tree = self.tree
         # self._validate()
         # Check CREATEDATE < now
         createdate = self.tree.find('mets:metsHdr', namespaces=NAMESPACES).get('CREATEDATE')
@@ -467,6 +602,12 @@ class METSWriter(object):
         if createdate > now:
             raise ParseError('CREATEDATE more recent than now (%s)' % now)
         self.createdate = createdate
+
+        # Parse structMap
+        structMap = tree.find('mets:structMap[@TYPE="physical"]', namespaces=NAMESPACES)
+        if structMap is None:
+            raise ParseError('No physical structMap found.')
+        self.root_elements = self._parse_tree_structmap(tree, structMap)
 
     def _validate(self):
         raise NotImplementedError()
@@ -477,8 +618,9 @@ class METSWriter(object):
 
         :param str path: Path to a METS file.
         """
-        self.tree = etree.parse(path)
-        self._parse_tree()
+        parser = etree.XMLParser(remove_blank_text=True)
+        self.tree = etree.parse(path, parser=parser)
+        self._parse_tree(self.tree)
 
     def fromstring(self, string):
         """
@@ -486,9 +628,10 @@ class METSWriter(object):
 
         :param str string: String containing a METS file.
         """
-        root = etree.fromstring(string)
+        parser = etree.XMLParser(remove_blank_text=True)
+        root = etree.fromstring(string, parser)
         self.tree = root.getroottree()
-        self._parse_tree()
+        self._parse_tree(self.tree)
 
     def fromtree(self, tree):
         """
@@ -497,7 +640,7 @@ class METSWriter(object):
         :param ElementTree tree: ElementTree to build a METS file from.
         """
         self.tree = tree
-        self._parse_tree()
+        self._parse_tree(self.tree)
 
     def append_file(self, fs_entry):
         """

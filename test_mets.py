@@ -11,7 +11,8 @@ import mets
 
 def test_fromfile():
     mw = mets.METSWriter()
-    root = etree.parse('fixtures/complete_mets.xml')
+    parser = etree.XMLParser(remove_blank_text=True)
+    root = etree.parse('fixtures/complete_mets.xml', parser=parser)
     mw.fromfile('fixtures/complete_mets.xml')
     assert isinstance(mw.tree, etree._ElementTree)
     assert etree.tostring(mw.tree) == etree.tostring(root)
@@ -19,7 +20,8 @@ def test_fromfile():
 
 def test_fromstring():
     mw = mets.METSWriter()
-    root = etree.parse('fixtures/complete_mets.xml')
+    parser = etree.XMLParser(remove_blank_text=True)
+    root = etree.parse('fixtures/complete_mets.xml', parser=parser)
     with open('fixtures/complete_mets.xml') as f:
         metsstring = f.read()
     mw.fromstring(metsstring)
@@ -37,10 +39,11 @@ def test_fromtree():
 
 def test_parse_tree():
     mw = mets.METSWriter()
-    root = etree.parse('fixtures/complete_mets.xml')
+    parser = etree.XMLParser(remove_blank_text=True)
+    root = etree.parse('fixtures/complete_mets.xml', parser=parser)
     mw.tree = root
     mw._parse_tree()
-    assert mw.createdate == '2014-07-16T23:05:27'
+    assert mw.createdate == '2014-07-23T21:48:33'
 
 
 def test_parse_tree_createdate_too_new():
@@ -54,9 +57,10 @@ def test_parse_tree_createdate_too_new():
 def test_write():
     mw = mets.METSWriter()
     # mock serialize
-    root = etree.parse('fixtures/complete_mets.xml').getroot()
+    parser = etree.XMLParser(remove_blank_text=True)
+    root = etree.parse('fixtures/complete_mets.xml', parser=parser).getroot()
     mw.serialize = lambda: root
-    mw.write('test_write.xml')
+    mw.write('test_write.xml', pretty_print=True)
     assert filecmp.cmp('fixtures/complete_mets.xml', 'test_write.xml', shallow=False)
     os.remove('test_write.xml')
 
@@ -110,6 +114,31 @@ def test_mdwrap():
     assert mdwrap.document.tag == 'foo'
     assert etree.tostring(mdwrapped) == target
 
+def test_mdwrap_parse():
+    # Wrong tag name
+    bad = etree.Element('foo')
+    with pytest.raises(mets.ParseError):
+        mets.MDWrap.parse(bad)
+    # No MDTYPE
+    bad = etree.Element('{http://www.loc.gov/METS/}mdWrap')
+    with pytest.raises(mets.ParseError):
+        mets.MDWrap.parse(bad)
+    # mdWrap has no children
+    bad = etree.Element('{http://www.loc.gov/METS/}mdWrap', MDTYPE='dummy')
+    with pytest.raises(mets.ParseError):
+        mets.MDWrap.parse(bad)
+    # xmlData has no children
+    bad = etree.Element('{http://www.loc.gov/METS/}mdWrap', MDTYPE='dummy')
+    etree.SubElement(bad, '{http://www.loc.gov/METS/}xmlData')
+    with pytest.raises(mets.ParseError):
+        mets.MDWrap.parse(bad)
+    # Parses correctly
+    good = etree.Element('{http://www.loc.gov/METS/}mdWrap', MDTYPE='dummy')
+    xmldata = etree.SubElement(good, '{http://www.loc.gov/METS/}xmlData')
+    document = etree.SubElement(xmldata, 'foo')
+    mdwrap = mets.MDWrap.parse(good)
+    assert mdwrap.mdtype == 'dummy'
+    assert mdwrap.document == document
 
 def test_mdref():
     mdref = mets.MDRef('path/to/file.txt', 'PREMIS:DUMMY')
@@ -120,6 +149,23 @@ def test_mdref():
     assert mdreffed.get(mets.lxmlns('xlink')+'href') == \
         'path/to/file.txt'
     assert mdreffed.get('MDTYPE') == 'PREMIS:DUMMY'
+
+
+def test_mdref_parse():
+    # Wrong tag name
+    bad = etree.Element('foo')
+    with pytest.raises(mets.ParseError):
+        mets.MDRef.parse(bad)
+    # No MDTYPE
+    bad = etree.Element('{http://www.loc.gov/METS/}mdRef')
+    with pytest.raises(mets.ParseError):
+        mets.MDRef.parse(bad)
+    # Parses correctly
+    good = etree.Element('{http://www.loc.gov/METS/}mdRef', MDTYPE='dummy')
+    good.set('{http://www.w3.org/1999/xlink}href', 'url')
+    mdref = mets.MDRef.parse(good)
+    assert mdref.target == 'url'
+    assert mdref.mdtype == 'dummy'
 
 
 def test_subsection_allowed_tags():
