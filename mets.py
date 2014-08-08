@@ -1,7 +1,10 @@
+#!/usr/bin/python2 -OO
+
 from datetime import datetime
+from lxml import etree
 import os
 from random import randint
-from lxml import etree
+import sys
 
 
 # LXML HELPERS
@@ -685,3 +688,9 @@ class METSWriter(object):
         root = self.serialize(fully_qualified=fully_qualified)
         tree = root.getroottree()
         tree.write(filepath, xml_declaration=True, pretty_print=pretty_print)
+
+
+if __name__ == '__main__':
+    mw = METSWriter()
+    mw.fromfile(sys.argv[1])
+    mw.write(sys.argv[2], fully_qualified=True, pretty_print=True)
