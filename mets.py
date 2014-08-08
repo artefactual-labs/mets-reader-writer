@@ -16,12 +16,6 @@ NAMESPACES = {
     "dc": "http://purl.org/dc/elements/1.1/"
 }
 
-NSMAP = {
-    None: NAMESPACES['mets'],
-    'xsi': NAMESPACES['xsi'],
-    'xlink': NAMESPACES['xlink']
-}
-
 SCHEMA_LOCATIONS = "http://www.loc.gov/METS/ " + \
                    "http://www.loc.gov/standards/mets/version18/mets.xsd"
 
@@ -241,7 +235,7 @@ class SubSection(object):
             raise ParseError('Child of %s must be mdWrap or mdRef' % subsection)
 
     def serialize(self):
-        el = etree.Element(self.subsection, ID=self.id_string())
+        el = etree.Element(lxmlns('mets') + self.subsection, ID=self.id_string())
         if self.contents:
             el.append(self.contents.serialize())
         return el
@@ -299,7 +293,7 @@ class MDRef(object):
         }
         if XPTR:
             attrib['XPTR'] = XPTR
-        return etree.Element('mdRef', attrib=attrib)
+        return etree.Element(lxmlns('mets') + 'mdRef', attrib=attrib)
 
 
 class MDWrap(object):
@@ -342,8 +336,8 @@ class MDWrap(object):
         return cls(document, mdtype)
 
     def serialize(self):
-        el = etree.Element('mdWrap', MDTYPE=self.mdtype)
-        xmldata = etree.SubElement(el, 'xmlData')
+        el = etree.Element(lxmlns('mets') + 'mdWrap', MDTYPE=self.mdtype)
+        xmldata = etree.SubElement(el, lxmlns('mets') + 'xmlData')
         xmldata.append(self.document)
 
         return el
@@ -396,7 +390,7 @@ class AMDSec(object):
         return cls(section_id, subsections)
 
     def serialize(self):
-        el = etree.Element(self.tag, ID=self.id_string())
+        el = etree.Element(lxmlns('mets') + self.tag, ID=self.id_string())
         self.subsections.sort()
         for child in self.subsections:
             el.append(child.serialize())
@@ -414,15 +408,23 @@ class METSWriter(object):
         self.dmdsecs = []
         self.amdsecs = []
 
-    def _document_root(self):
+    def _document_root(self, fully_qualified=False):
         """
         Return the mets Element for the document root.
         """
+        nsmap = {
+            'xsi': NAMESPACES['xsi'],
+            'xlink': NAMESPACES['xlink']
+        }
+        if fully_qualified:
+            nsmap['mets'] = NAMESPACES['mets']
+        else:
+            nsmap[None] = NAMESPACES['mets']
         attrib = {
             '{}schemaLocation'.format(lxmlns('xsi')):
             SCHEMA_LOCATIONS
         }
-        return etree.Element('mets', nsmap=NSMAP, attrib=attrib)
+        return etree.Element(lxmlns('mets') + 'mets', nsmap=nsmap, attrib=attrib)
 
     def _mets_header(self):
         """
@@ -430,9 +432,9 @@ class METSWriter(object):
         """
         date = datetime.utcnow().replace(microsecond=0).isoformat('T')
         if self.createdate is None:
-            e = etree.Element('metsHdr', CREATEDATE=date)
+            e = etree.Element(lxmlns('mets') + 'metsHdr', CREATEDATE=date)
         else:
-            e = etree.Element('metsHdr',
+            e = etree.Element(lxmlns('mets') + 'metsHdr',
                 CREATEDATE=self.createdate, LASTMODDATE=date)
         return e
 
@@ -481,9 +483,9 @@ class METSWriter(object):
         use when recursing down a tree.
         """
         # TODO move this to FSEntry?
-        el = etree.Element('div', TYPE=child.type, LABEL=child.label)
+        el = etree.Element(lxmlns('mets') + 'div', TYPE=child.type, LABEL=child.label)
         if child.file_id:
-            etree.SubElement(el, 'fptr', FILEID=child.file_id)
+            etree.SubElement(el, lxmlns('mets') + 'fptr', FILEID=child.file_id)
         dmdids = child.dmdids()
         if dmdids:
             el.set('DMDID', ' '.join(dmdids))
@@ -498,7 +500,7 @@ class METSWriter(object):
         return el
 
     def _structmap(self):
-        structmap = etree.Element('structMap', TYPE='physical',
+        structmap = etree.Element(lxmlns('mets') + 'structMap', TYPE='physical',
                                   # TODO does it make sense that more
                                   # than one structmap might be generated?
                                   ID='structMap_1',
@@ -516,7 +518,7 @@ class METSWriter(object):
         if files is None:
             files = self._collect_files()
 
-        filesec = etree.Element('fileSec')
+        filesec = etree.Element(lxmlns('mets') + 'fileSec')
         # TODO GROUPID
         filegrps = {}
         for file_ in files:
@@ -525,15 +527,15 @@ class METSWriter(object):
             # Get fileGrp, or create if not exist
             filegrp = filegrps.get(file_.use)
             if filegrp is None:
-                filegrp = etree.SubElement(filesec, 'fileGrp', USE=file_.use)
+                filegrp = etree.SubElement(filesec, lxmlns('mets') + 'fileGrp', USE=file_.use)
                 filegrps[file_.use] = filegrp
 
             # TODO move this to the FSEntry?
             admids = file_.admids()
-            file_el = etree.SubElement(filegrp, 'file', ID=file_.file_id)
+            file_el = etree.SubElement(filegrp, lxmlns('mets') + 'file', ID=file_.file_id)
             if admids:
                 file_el.set('ADMID', ' '.join(admids))
-            flocat = etree.SubElement(file_el, 'FLocat')
+            flocat = etree.SubElement(file_el, lxmlns('mets') + 'FLocat')
             # Setting manually so order is correct
             flocat.set(lxmlns('xlink')+'href', file_.path)
             flocat.set('LOCTYPE', 'OTHER')
@@ -657,7 +659,7 @@ class METSWriter(object):
             return
         self.root_elements.append(fs_entry)
 
-    def serialize(self):
+    def serialize(self, fully_qualified=False):
         """
         Returns this document serialized to an xml Element.
 
@@ -665,7 +667,7 @@ class METSWriter(object):
         """
         files = self._collect_files()
         mdsecs = self._collect_mdsec_elements(files)
-        root = self._document_root()
+        root = self._document_root(fully_qualified=fully_qualified)
         root.append(self._mets_header())
         for el in mdsecs:
             root.append(el)
@@ -674,12 +676,12 @@ class METSWriter(object):
 
         return root
 
-    def write(self, filepath, pretty_print=False):
+    def write(self, filepath, fully_qualified=False, pretty_print=False):
         """
         Serialize and write this METS file to `filepath`.
 
         :param str filepath: Path to write the METS to
         """
-        root = self.serialize()
+        root = self.serialize(fully_qualified=fully_qualified)
         tree = root.getroottree()
         tree.write(filepath, xml_declaration=True, pretty_print=pretty_print)

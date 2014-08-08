@@ -59,7 +59,7 @@ def test_write():
     # mock serialize
     parser = etree.XMLParser(remove_blank_text=True)
     root = etree.parse('fixtures/complete_mets.xml', parser=parser).getroot()
-    mw.serialize = lambda: root
+    mw.serialize = lambda fully_qualified: root
     mw.write('test_write.xml', pretty_print=True)
     assert filecmp.cmp('fixtures/complete_mets.xml', 'test_write.xml', shallow=False)
     os.remove('test_write.xml')
@@ -70,7 +70,7 @@ def test_mets_root():
     root = mw._document_root()
     location = "http://www.loc.gov/METS/ " + \
         "http://www.loc.gov/standards/mets/version18/mets.xsd"
-    assert root.tag == 'mets'
+    assert root.tag == '{http://www.loc.gov/METS/}mets'
     assert root.attrib[mets.lxmlns('xsi')+'schemaLocation'] == location
     nsmap = {
         None: "http://www.loc.gov/METS/",
@@ -83,7 +83,7 @@ def test_mets_root():
 def test_mets_header():
     mw = mets.METSWriter()
     header = mw._mets_header()
-    assert header.tag == 'metsHdr'
+    assert header.tag == '{http://www.loc.gov/METS/}metsHdr'
     assert header.attrib['CREATEDATE']
 
 
@@ -92,7 +92,7 @@ def test_mets_header_lastmoddate():
     date = '2014-07-16T22:52:02.480108'
     mw.createdate = date
     header = mw._mets_header()
-    assert header.tag == 'metsHdr'
+    assert header.tag == '{http://www.loc.gov/METS/}metsHdr'
     assert header.attrib['CREATEDATE'] == date
     assert header.attrib['LASTMODDATE']
     assert header.attrib['CREATEDATE'] < header.attrib['LASTMODDATE']
@@ -108,11 +108,12 @@ def test_mdwrap():
     mdwrap = mets.MDWrap('<foo/>', 'PREMIS:DUMMY')
     mdwrapped = mdwrap.serialize()
 
-    target = '<mdWrap MDTYPE="PREMIS:DUMMY"><xmlData><foo/></xmlData></mdWrap>'
+    target = '<ns0:mdWrap xmlns:ns0="http://www.loc.gov/METS/" MDTYPE="PREMIS:DUMMY"><ns0:xmlData><foo/></ns0:xmlData></ns0:mdWrap>'
 
-    assert mdwrapped.tag == 'mdWrap'
+    assert mdwrapped.tag == '{http://www.loc.gov/METS/}mdWrap'
     assert mdwrap.document.tag == 'foo'
     assert etree.tostring(mdwrapped) == target
+
 
 def test_mdwrap_parse():
     # Wrong tag name
@@ -139,6 +140,7 @@ def test_mdwrap_parse():
     mdwrap = mets.MDWrap.parse(good)
     assert mdwrap.mdtype == 'dummy'
     assert mdwrap.document == document
+
 
 def test_mdref():
     mdref = mets.MDRef('path/to/file.txt', 'PREMIS:DUMMY')
@@ -179,7 +181,7 @@ def test_subsection_serialize():
     subsection = mets.SubSection('techMD', content)
     subsection._id = 'techMD_1'
 
-    target = """<techMD ID="techMD_1"><dummy_data/></techMD>"""
+    target = '<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" ID="techMD_1"><dummy_data/></ns0:techMD>'
 
     assert etree.tostring(subsection.serialize()) == target
 
@@ -231,11 +233,11 @@ def test_collect_mdsec_elements():
     assert isinstance(elements, list)
     assert len(elements) == 3
     assert isinstance(elements[0], etree._Element)
-    assert elements[0].tag == 'dmdSec'
+    assert elements[0].tag == '{http://www.loc.gov/METS/}dmdSec'
     assert isinstance(elements[1], etree._Element)
-    assert elements[1].tag == 'dmdSec'
+    assert elements[1].tag == '{http://www.loc.gov/METS/}dmdSec'
     assert isinstance(elements[2], etree._Element)
-    assert elements[2].tag == 'amdSec'
+    assert elements[2].tag == '{http://www.loc.gov/METS/}amdSec'
 
 
 def test_add_metadata_to_fsentry():
@@ -275,11 +277,11 @@ def test_filesec():
     mw = mets.METSWriter()
     element = mw._filesec([o,p,o2])
     assert isinstance(element, etree._Element)
-    assert element.tag == 'fileSec'
+    assert element.tag == '{http://www.loc.gov/METS/}fileSec'
     assert len(element) == 2  # 2 groups
-    assert element[0].tag == 'fileGrp'
+    assert element[0].tag == '{http://www.loc.gov/METS/}fileGrp'
     assert element[0].get('USE') == 'original'
-    assert element[1].tag == 'fileGrp'
+    assert element[1].tag == '{http://www.loc.gov/METS/}fileGrp'
     assert element[1].get('USE') == 'preservaton'
     # TODO test file & FLocat
 
@@ -294,18 +296,19 @@ def test_structmap():
     writer.append_file(parent)
     sm = writer._structmap()
 
-    parent = sm.find('div')
+    parent = sm.find('{http://www.loc.gov/METS/}div')
     children = parent.getchildren()
 
-    assert sm.tag == 'structMap'
+    assert sm.tag == '{http://www.loc.gov/METS/}structMap'
     assert len(children) == 2
     assert parent.get('LABEL') == 'objects'
     assert parent.get('TYPE') == 'Directory'
     assert children[0].get('LABEL') == 'file1.txt'
-    assert children[1].get('TYPE') == 'Item'
+    assert children[0].get('TYPE') == 'Item'
+    assert children[0].find('{http://www.loc.gov/METS/}fptr') is not None
     assert children[1].get('LABEL') == 'file2.txt'
     assert children[1].get('TYPE') == 'Item'
-    assert children[0].find('fptr') is not None
+    assert children[1].find('{http://www.loc.gov/METS/}fptr') is not None
 
 
 def test_full_mets():
