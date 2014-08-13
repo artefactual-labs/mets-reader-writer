@@ -27,6 +27,12 @@ def lxmlns(arg):
     return '{' + NAMESPACES[arg] + '}'
 
 
+# CONSTANTS
+
+FILE_ID_PREFIX = 'file-'
+GROUP_ID_PREFIX = 'Group-'
+
+
 # EXCEPTIONS
 
 class MetsError(Exception):
@@ -77,11 +83,13 @@ class FSEntry(object):
     :param str type: Type of FSEntry this is. This will appear in the structMap.
     :param list children: List of :class:`FSEntry` that are direct children of
         this element in the structMap.  Only allowed if type is 'Directory'
-    :param str file_id: ID of this entry. Will be used in the fileSec and
-        structMap.  Only required if type is 'Item'
+    :param str file_uuid: UUID of this entry. Will be used to construct the
+        FILEID used in the fileSec and structMap, and GROUPID.  Only required if
+        type is 'Item'.
+    :param FSEntry derived_from: FSEntry that this FSEntry is derived_from. This is used to set the GROUPID in the fileSec.
     :raises ValueError: if children passed when type is not 'Directory'
     """
-    def __init__(self, path, label=None, use='original', type=u'Item', children=None, file_id=None):
+    def __init__(self, path, label=None, use='original', type=u'Item', children=None, file_uuid=None, derived_from=None):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
@@ -89,12 +97,13 @@ class FSEntry(object):
         if label is None:
             label = os.path.basename(path)
         self.label = label
-        self.type = unicode(type)
         self.use = use
-        self.file_id = file_id
+        self.type = unicode(type)
         if children is None:
             children = []
         self.children = children
+        self.file_uuid = file_uuid
+        self.derived_from = derived_from
         self.amdsecs = []
         self.dmdsecs = []
 
@@ -103,6 +112,26 @@ class FSEntry(object):
 
     def _create_id(self, prefix):
         return prefix + '_' + str(randint(1, 999999))
+
+    def file_id(self):
+        """ Returns the fptr FILEID if this is not a Directory. """
+        if self.type == 'Directory':
+            return None
+        if self.file_uuid is None:
+            raise MetsError('No FILEID: File %s does not have file_uuid set', self.path)
+        return FILE_ID_PREFIX + self.file_uuid
+
+    def group_id(self):
+        """
+        Returns the GROUPID.
+
+        If derived_from is set, returns that group_id.
+        """
+        if self.derived_from is not None:
+            return self.derived_from.group_id()
+        if self.file_uuid is None:
+            raise MetsError('No GROUPID: File %s does not have file_uuid set', self.path)
+        return GROUP_ID_PREFIX + self.file_uuid
 
     def admids(self):
         """ Returns a list of ADMIDs for this entry. """
@@ -487,8 +516,8 @@ class METSWriter(object):
         """
         # TODO move this to FSEntry?
         el = etree.Element(lxmlns('mets') + 'div', TYPE=child.type, LABEL=child.label)
-        if child.file_id:
-            etree.SubElement(el, lxmlns('mets') + 'fptr', FILEID=child.file_id)
+        if child.file_id():
+            etree.SubElement(el, lxmlns('mets') + 'fptr', FILEID=child.file_id())
         dmdids = child.dmdids()
         if dmdids:
             el.set('DMDID', ' '.join(dmdids))
@@ -522,7 +551,6 @@ class METSWriter(object):
             files = self._collect_files()
 
         filesec = etree.Element(lxmlns('mets') + 'fileSec')
-        # TODO GROUPID
         filegrps = {}
         for file_ in files:
             if file_.type != 'Item':
@@ -535,7 +563,7 @@ class METSWriter(object):
 
             # TODO move this to the FSEntry?
             admids = file_.admids()
-            file_el = etree.SubElement(filegrp, lxmlns('mets') + 'file', ID=file_.file_id)
+            file_el = etree.SubElement(filegrp, lxmlns('mets') + 'file', ID=file_.file_id(), GROUPID=file_.group_id())
             if admids:
                 file_el.set('ADMID', ' '.join(admids))
             flocat = etree.SubElement(file_el, lxmlns('mets') + 'FLocat')
@@ -558,7 +586,7 @@ class METSWriter(object):
             entry_type = elem.get('TYPE')
             label = elem.get('LABEL')
             fptr = elem.find('mets:fptr', namespaces=NAMESPACES)
-            file_id = None
+            file_uuid = None
             use = None
             path = None
             amdids = None
@@ -567,6 +595,7 @@ class METSWriter(object):
                 file_elem = tree.find('mets:fileSec//mets:file[@ID="' + file_id + '"]', namespaces=NAMESPACES)
                 if file_elem is None:
                     raise ParseError('%s exists in structMap but not fileSec' % file_id)
+                file_uuid = file_id.replace(FILE_ID_PREFIX, '', 1)
                 use = file_elem.getparent().get('USE')
                 path = file_elem.find('mets:FLocat', namespaces=NAMESPACES).get(lxmlns('xlink') + 'href')
                 amdids = file_elem.get('ADMID')
@@ -575,7 +604,7 @@ class METSWriter(object):
             children = self._parse_tree_structmap(tree, elem)
 
             # Create FSEntry
-            fsentry = FSEntry(path=path, label=label, use=use, type=entry_type, children=children, file_id=file_id)
+            fsentry = FSEntry(path=path, label=label, use=use, type=entry_type, children=children, file_uuid=file_uuid)
 
             # Add DMDSecs
             dmdids = elem.get('DMDID')

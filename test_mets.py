@@ -200,13 +200,36 @@ def test_subsection_ordering():
     assert l[3].subsection == 'digiprovMD'
 
 
+def test_file_id():
+    d = mets.FSEntry('dir', type='Directory')
+    assert d.file_id() == None
+    f = mets.FSEntry('level1.txt')
+    with pytest.raises(mets.MetsError):
+        f.file_id()
+    file_uuid = str(uuid.uuid4())
+    f = mets.FSEntry('level1.txt', file_uuid=file_uuid)
+    assert f.file_id() == 'file-' + file_uuid
+
+
+def test_group_id():
+    f = mets.FSEntry('level1.txt')
+    with pytest.raises(mets.MetsError):
+        f.group_id()
+    file_uuid = str(uuid.uuid4())
+    f = mets.FSEntry('level1.txt', file_uuid=file_uuid)
+    assert f.group_id() == 'Group-' + file_uuid
+    derived = mets.FSEntry('level3.txt', file_uuid=str(uuid.uuid4()), derived_from=f)
+    assert derived.group_id() == 'Group-' + file_uuid
+    assert derived.group_id() == f.group_id()
+
+
 def test_collect_files():
     # Test collects several children deep
-    f3 = mets.FSEntry('level3.txt', file_id='file-'+str(uuid.uuid4()))
+    f3 = mets.FSEntry('level3.txt', file_uuid=str(uuid.uuid4()))
     d2 = mets.FSEntry('dir2', type='Directory', children=[f3])
-    f2 = mets.FSEntry('level2.txt', file_id='file-'+str(uuid.uuid4()))
+    f2 = mets.FSEntry('level2.txt', file_uuid=str(uuid.uuid4()))
     d1 = mets.FSEntry('dir1', type='Directory', children=[d2, f2])
-    f1 = mets.FSEntry('level1.txt', file_id='file-'+str(uuid.uuid4()))
+    f1 = mets.FSEntry('level1.txt', file_uuid=str(uuid.uuid4()))
     d = mets.FSEntry('root', type='Directory', children=[d1, f1])
     mw = mets.METSWriter()
     mw.append_file(d)
@@ -222,10 +245,10 @@ def test_collect_files():
 
 
 def test_collect_mdsec_elements():
-    f1 = mets.FSEntry('file1.txt', file_id='file-'+str(uuid.uuid4()))
+    f1 = mets.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
     f1.amdsecs.append(mets.AMDSec())
     f1.dmdsecs.append(mets.SubSection('dmdSec', None))
-    f2 = mets.FSEntry('file2.txt', file_id='file-'+str(uuid.uuid4()))
+    f2 = mets.FSEntry('file2.txt', file_uuid=str(uuid.uuid4()))
     f2.dmdsecs.append(mets.SubSection('dmdSec', None))
     mw = mets.METSWriter()
     elements = mw._collect_mdsec_elements([f1, f2])
@@ -241,7 +264,7 @@ def test_collect_mdsec_elements():
 
 
 def test_add_metadata_to_fsentry():
-    f1 = mets.FSEntry('file1.txt', file_id='file-'+str(uuid.uuid4()))
+    f1 = mets.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
     f1.add_dublin_core('<dc />')
     assert f1.dmdsecs
     assert len(f1.dmdsecs) == 1
@@ -271,9 +294,9 @@ def test_add_metadata_to_fsentry():
 
 
 def test_filesec():
-    o = mets.FSEntry('objects/file1.txt', file_id='file-'+str(uuid.uuid4()))
-    p = mets.FSEntry('objects/file1-preservation.txt', use='preservaton', file_id='file-'+str(uuid.uuid4()))
-    o2 = mets.FSEntry('objects/file2.txt', file_id='file-'+str(uuid.uuid4()))
+    o = mets.FSEntry('objects/file1.txt', file_uuid=str(uuid.uuid4()))
+    p = mets.FSEntry('objects/file1-preservation.txt', use='preservaton', file_uuid=str(uuid.uuid4()))
+    o2 = mets.FSEntry('objects/file2.txt', file_uuid=str(uuid.uuid4()))
     mw = mets.METSWriter()
     element = mw._filesec([o,p,o2])
     assert isinstance(element, etree._Element)
@@ -288,8 +311,8 @@ def test_filesec():
 
 def test_structmap():
     children = [
-        mets.FSEntry('objects/file1.txt', file_id='file-'+str(uuid.uuid4())),
-        mets.FSEntry('objects/file2.txt', file_id='file-'+str(uuid.uuid4())),
+        mets.FSEntry('objects/file1.txt', file_uuid=str(uuid.uuid4())),
+        mets.FSEntry('objects/file2.txt', file_uuid=str(uuid.uuid4())),
     ]
     parent = mets.FSEntry('objects', type='Directory', children=children)
     writer = mets.METSWriter()
@@ -313,19 +336,19 @@ def test_structmap():
 
 def test_full_mets():
     mw = mets.METSWriter()
-    file1 = mets.FSEntry('objects/object1.ext', file_id='file-' + str(uuid.uuid4()))
-    file2 = mets.FSEntry('objects/object2.ext', file_id='file-' + str(uuid.uuid4()))
-    file1p = mets.FSEntry('objects/object1-preservation.ext', use='preservation', file_id='file-' + str(uuid.uuid4()))
-    file2p = mets.FSEntry('objects/object2-preservation.ext', use='preservation', file_id='file-' + str(uuid.uuid4()))
+    file1 = mets.FSEntry('objects/object1.ext', file_uuid=str(uuid.uuid4()))
+    file2 = mets.FSEntry('objects/object2.ext', file_uuid=str(uuid.uuid4()))
+    file1p = mets.FSEntry('objects/object1-preservation.ext', use='preservation', file_uuid=str(uuid.uuid4()), derived_from=file1)
+    file2p = mets.FSEntry('objects/object2-preservation.ext', use='preservation', file_uuid=str(uuid.uuid4()), derived_from=file2)
     children = [file1, file2, file1p, file2p]
     objects = mets.FSEntry('objects', type='Directory', children=children)
     children = [
         mets.FSEntry('transfers', type='Directory', children=[]),
-        mets.FSEntry('metadata/metadata.csv', use='metadata', file_id='file-' + str(uuid.uuid4())),
+        mets.FSEntry('metadata/metadata.csv', use='metadata', file_uuid=str(uuid.uuid4())),
     ]
     metadata = mets.FSEntry('metadata', type='Directory', children=children)
     children = [
-        mets.FSEntry('submissionDocumentation/METS.xml', use='submissionDocumentation', file_id='file-' + str(uuid.uuid4())),
+        mets.FSEntry('submissionDocumentation/METS.xml', use='submissionDocumentation', file_uuid=str(uuid.uuid4())),
     ]
     sub_doc = mets.FSEntry('submissionDocumentation', type='Directory', children=children)
     children = [objects, metadata, sub_doc]
@@ -336,6 +359,6 @@ def test_full_mets():
     file1.add_premis_rights('<premis>rights</premis>')
 
     mw.append_file(sip)
-    mw.write('full_mets.xml', pretty_print=True)
+    mw.write('full_mets.xml', fully_qualified=True, pretty_print=True)
 
     os.remove('full_mets.xml')
