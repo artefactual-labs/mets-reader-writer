@@ -436,9 +436,88 @@ class METSWriter(object):
         # Only root-level elements are stored, since the rest
         # can be inferred via their #children attribute
         self.createdate = None
-        self.root_elements = []
+        self._root_elements = []
+        self._all_files = None
+        self._files_uuid = None
         self.dmdsecs = []
         self.amdsecs = []
+
+    # FSENTRYS
+
+    def _collect_all_files(self, files=None):
+        """
+        Collect all FSEntrys into a set, including all descendants.
+
+        :param list files: List of :class:`FSEntry` to traverse.
+        :returns: Set of FSEntry
+        """
+        if files is None:
+            files = self._root_elements
+        collected = set()
+        for entry in files:
+            collected.add(entry)
+            collected.update(self._collect_all_files(entry.children))
+        return collected
+
+    def all_files(self):
+        """
+        Return a set of all FSEntrys in this METSWriter.
+
+        :returns: Set containing all :class:`FSEntry` in this METSWriter,
+            including descendants of ones explicitly added.
+        """
+        # NOTE: Cannot use _collect_files_uuid and .values() because not all
+        # FSEntrys have UUIDs, and those without will be dropped.
+        if not self._all_files:
+            self._all_files = self._collect_all_files(self._root_elements)
+        return self._all_files
+
+    def _collect_files_uuid(self, files=None):
+        """
+        Collect all FSEntrys with UUIDs into a dict.
+
+        :param list files: List of :class:`FSEntry` to traverse.
+        :returns: Dict of {'uuid': FSEntry}
+        """
+        if files is None:
+            files = self._root_elements
+        collected = {}
+        for entry in files:
+            if entry.file_uuid is not None:
+                collected[entry.file_uuid] = entry
+            collected.update(self._collect_files_uuid(entry.children))
+        return collected
+
+    def get_file(self, file_uuid):
+        """
+        Return the FSEntry with file_uuid.
+
+        :param str file_uuid: UUID of the FSEntry to fetch.
+        :returns: :class:`FSEntry` with file_uuid.
+        """
+        if not self._files_uuid:
+            self._files_uuid = self._collect_files_uuid(self._root_elements)
+        return self._files_uuid.get(file_uuid)
+
+    def append_file(self, fs_entry):
+        """
+        Adds an FSEntry object to this METS document's tree. Any of the
+        represented object's children will also be added to the document.
+
+        A given FSEntry object can only be included in a document once,
+        and any attempt to add an object the second time will be ignored.
+
+        :param FSEntry fs_entry: FSEntry to add to the METS file
+        """
+
+        if fs_entry in self._root_elements:
+            return
+        self._root_elements.append(fs_entry)
+        # Reset file lists so they get regenerated with the new files(s)
+        self._all_files = None
+        self._files_uuid = None
+
+    # SERIALIZE
 
     def _document_root(self, fully_qualified=False):
         """
@@ -469,20 +548,6 @@ class METSWriter(object):
             e = etree.Element(lxmlns('mets') + 'metsHdr',
                 CREATEDATE=self.createdate, LASTMODDATE=date)
         return e
-
-    def _collect_files(self, files=None):
-        """
-        Collect all FSEntrys into a flat list, including all descendants.
-
-        :param list files: List of :class:`FSEntry` to traverse.
-        """
-        if files is None:
-            files = self.root_elements
-        collected = set()
-        for entry in files:
-            collected.add(entry)
-            collected.update(self._collect_files(entry.children))
-        return collected
 
     def _collect_mdsec_elements(self, files):
         """
@@ -538,7 +603,7 @@ class METSWriter(object):
                                   ID='structMap_1',
                                   # TODO don't hardcode this
                                   LABEL='Archivematica default')
-        for item in self.root_elements:
+        for item in self._root_elements:
             structmap.append(self._child_element(item))
 
         return structmap
@@ -548,7 +613,7 @@ class METSWriter(object):
         Returns fileSec Element containing all files grouped by use.
         """
         if files is None:
-            files = self._collect_files()
+            files = self.all_files()
 
         filesec = etree.Element(lxmlns('mets') + 'fileSec')
         filegrps = {}
@@ -641,7 +706,7 @@ class METSWriter(object):
         structMap = tree.find('mets:structMap[@TYPE="physical"]', namespaces=NAMESPACES)
         if structMap is None:
             raise ParseError('No physical structMap found.')
-        self.root_elements = self._parse_tree_structmap(tree, structMap)
+        self._root_elements = self._parse_tree_structmap(tree, structMap)
 
     def _validate(self):
         raise NotImplementedError()
@@ -676,34 +741,19 @@ class METSWriter(object):
         self.tree = tree
         self._parse_tree(self.tree)
 
-    def append_file(self, fs_entry):
-        """
-        Adds an FSEntry object to this METS document's tree. Any of the
-        represented object's children will also be added to the document.
-
-        A given FSEntry object can only be included in a document once,
-        and any attempt to add an object the second time will be ignored.
-
-        :param FSEntry fs_entry: FSEntry to add to the METS file
-        """
-
-        if fs_entry in self.root_elements:
-            return
-        self.root_elements.append(fs_entry)
-
     def serialize(self, fully_qualified=False):
         """
         Returns this document serialized to an xml Element.
 
         :return: Element for this document
         """
-        files = self._collect_files()
+        files = self.all_files()
         mdsecs = self._collect_mdsec_elements(files)
         root = self._document_root(fully_qualified=fully_qualified)
         root.append(self._mets_header())
         for el in mdsecs:
             root.append(el)
-        root.append(self._filesec())
+        root.append(self._filesec(files))
         root.append(self._structmap())
 
         return root

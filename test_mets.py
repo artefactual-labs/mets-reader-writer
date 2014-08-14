@@ -223,7 +223,7 @@ def test_group_id():
     assert derived.group_id() == f.group_id()
 
 
-def test_collect_files():
+def test_files():
     # Test collects several children deep
     f3 = mets.FSEntry('level3.txt', file_uuid=str(uuid.uuid4()))
     d2 = mets.FSEntry('dir2', type='Directory', children=[f3])
@@ -233,7 +233,7 @@ def test_collect_files():
     d = mets.FSEntry('root', type='Directory', children=[d1, f1])
     mw = mets.METSWriter()
     mw.append_file(d)
-    files = mw._collect_files()
+    files = mw.all_files()
     assert files
     assert len(files) == 6
     assert d in files
@@ -242,6 +242,35 @@ def test_collect_files():
     assert f2 in files
     assert d2 in files
     assert f3 in files
+    f4_uuid = str(uuid.uuid4())
+    f4 = mets.FSEntry('file4.txt', file_uuid=f4_uuid)
+    mw.append_file(f4)
+    files = mw.all_files()
+    assert len(files) == 7
+    assert f4 in files
+
+
+def test_get_file():
+    # Test collects several children deep
+    f3_uuid = str(uuid.uuid4())
+    f3 = mets.FSEntry('level3.txt', file_uuid=f3_uuid)
+    d2 = mets.FSEntry('dir2', type='Directory', children=[f3])
+    f2_uuid = str(uuid.uuid4())
+    f2 = mets.FSEntry('level2.txt', file_uuid=f2_uuid)
+    d1 = mets.FSEntry('dir1', type='Directory', children=[d2, f2])
+    f1_uuid = str(uuid.uuid4())
+    f1 = mets.FSEntry('level1.txt', file_uuid=f1_uuid)
+    d = mets.FSEntry('root', type='Directory', children=[d1, f1])
+    mw = mets.METSWriter()
+    mw.append_file(d)
+    assert mw.get_file(f3_uuid) == f3
+    assert mw.get_file(f2_uuid) == f2
+    assert mw.get_file(f1_uuid) == f1
+    assert mw.get_file('something') == None
+    f4_uuid = str(uuid.uuid4())
+    f4 = mets.FSEntry('file4.txt', file_uuid=f4_uuid)
+    mw.append_file(f4)
+    assert mw.get_file(f4_uuid) == f4
 
 
 def test_collect_mdsec_elements():
