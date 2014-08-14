@@ -681,6 +681,7 @@ class METSWriter(object):
             label = elem.get('LABEL')
             fptr = elem.find('mets:fptr', namespaces=NAMESPACES)
             file_uuid = None
+            derived_from = None
             use = None
             path = None
             amdids = None
@@ -690,6 +691,9 @@ class METSWriter(object):
                 if file_elem is None:
                     raise ParseError('%s exists in structMap but not fileSec' % file_id)
                 file_uuid = file_id.replace(FILE_ID_PREFIX, '', 1)
+                group_uuid = file_elem.get('GROUPID').replace(GROUP_ID_PREFIX, '', 1)
+                if group_uuid != file_uuid:
+                    derived_from = group_uuid  # Use group_uuid as placeholder
                 use = file_elem.getparent().get('USE')
                 path = file_elem.find('mets:FLocat', namespaces=NAMESPACES).get(lxmlns('xlink') + 'href')
                 amdids = file_elem.get('ADMID')
@@ -698,7 +702,7 @@ class METSWriter(object):
             children = self._parse_tree_structmap(tree, elem)
 
             # Create FSEntry
-            fsentry = FSEntry(path=path, label=label, use=use, type=entry_type, children=children, file_uuid=file_uuid)
+            fsentry = FSEntry(path=path, label=label, use=use, type=entry_type, children=children, file_uuid=file_uuid, derived_from=derived_from)
 
             # Add DMDSecs
             dmdids = elem.get('DMDID')
@@ -736,6 +740,11 @@ class METSWriter(object):
         if structMap is None:
             raise ParseError('No physical structMap found.')
         self._root_elements = self._parse_tree_structmap(tree, structMap)
+
+        # Associated derived files
+        for entry in self.all_files():
+            # get_file will return None with parameter None
+            entry.derived_from = self.get_file(entry.derived_from)
 
     def _validate(self):
         raise NotImplementedError()
