@@ -639,6 +639,35 @@ class METSWriter(object):
 
         return filesec
 
+    def serialize(self, fully_qualified=False):
+        """
+        Returns this document serialized to an xml Element.
+
+        :return: Element for this document
+        """
+        files = self.all_files()
+        mdsecs = self._collect_mdsec_elements(files)
+        root = self._document_root(fully_qualified=fully_qualified)
+        root.append(self._mets_header())
+        for el in mdsecs:
+            root.append(el)
+        root.append(self._filesec(files))
+        root.append(self._structmap())
+
+        return root
+
+    def write(self, filepath, fully_qualified=False, pretty_print=False):
+        """
+        Serialize and write this METS file to `filepath`.
+
+        :param str filepath: Path to write the METS to
+        """
+        root = self.serialize(fully_qualified=fully_qualified)
+        tree = root.getroottree()
+        tree.write(filepath, xml_declaration=True, pretty_print=pretty_print)
+
+    # PARSE HELPERS
+
     def _parse_tree_structmap(self, tree, parent_elem):
         """
         Recursively parse all the children of parent_elem, including amdSecs and dmdSecs.
@@ -740,33 +769,6 @@ class METSWriter(object):
         """
         self.tree = tree
         self._parse_tree(self.tree)
-
-    def serialize(self, fully_qualified=False):
-        """
-        Returns this document serialized to an xml Element.
-
-        :return: Element for this document
-        """
-        files = self.all_files()
-        mdsecs = self._collect_mdsec_elements(files)
-        root = self._document_root(fully_qualified=fully_qualified)
-        root.append(self._mets_header())
-        for el in mdsecs:
-            root.append(el)
-        root.append(self._filesec(files))
-        root.append(self._structmap())
-
-        return root
-
-    def write(self, filepath, fully_qualified=False, pretty_print=False):
-        """
-        Serialize and write this METS file to `filepath`.
-
-        :param str filepath: Path to write the METS to
-        """
-        root = self.serialize(fully_qualified=fully_qualified)
-        tree = root.getroottree()
-        tree.write(filepath, xml_declaration=True, pretty_print=pretty_print)
 
 
 if __name__ == '__main__':
