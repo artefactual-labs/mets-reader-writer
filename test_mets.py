@@ -82,19 +82,21 @@ def test_mets_root():
 
 def test_mets_header():
     mw = mets.METSWriter()
-    header = mw._mets_header()
+    date = '2014-07-16T22:52:02.480108'
+    header = mw._mets_header(date)
     assert header.tag == '{http://www.loc.gov/METS/}metsHdr'
-    assert header.attrib['CREATEDATE']
+    assert header.attrib['CREATEDATE'] == date
 
 
 def test_mets_header_lastmoddate():
     mw = mets.METSWriter()
     date = '2014-07-16T22:52:02.480108'
+    new_date = '3014-07-16T22:52:02.480108'
     mw.createdate = date
-    header = mw._mets_header()
+    header = mw._mets_header(new_date)
     assert header.tag == '{http://www.loc.gov/METS/}metsHdr'
     assert header.attrib['CREATEDATE'] == date
-    assert header.attrib['LASTMODDATE']
+    assert header.attrib['LASTMODDATE'] == new_date
     assert header.attrib['CREATEDATE'] < header.attrib['LASTMODDATE']
 
 
@@ -181,9 +183,9 @@ def test_subsection_serialize():
     subsection = mets.SubSection('techMD', content)
     subsection._id = 'techMD_1'
 
-    target = '<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" ID="techMD_1"><dummy_data/></ns0:techMD>'
+    target = '<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" ID="techMD_1" CREATED="2014-07-23T21:48:33"><dummy_data/></ns0:techMD>'
 
-    assert etree.tostring(subsection.serialize()) == target
+    assert etree.tostring(subsection.serialize("2014-07-23T21:48:33")) == target
 
 
 def test_subsection_ordering():
@@ -284,12 +286,11 @@ def test_collect_mdsec_elements():
     # Check ordering - dmdSec before amdSec
     assert isinstance(elements, list)
     assert len(elements) == 3
-    assert isinstance(elements[0], etree._Element)
-    assert elements[0].tag == '{http://www.loc.gov/METS/}dmdSec'
-    assert isinstance(elements[1], etree._Element)
-    assert elements[1].tag == '{http://www.loc.gov/METS/}dmdSec'
-    assert isinstance(elements[2], etree._Element)
-    assert elements[2].tag == '{http://www.loc.gov/METS/}amdSec'
+    assert isinstance(elements[0], mets.SubSection)
+    assert elements[0].subsection == 'dmdSec'
+    assert isinstance(elements[1], mets.SubSection)
+    assert elements[1].subsection == 'dmdSec'
+    assert isinstance(elements[2], mets.AMDSec)
 
 
 def test_add_metadata_to_fsentry():

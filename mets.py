@@ -227,6 +227,7 @@ class SubSection(object):
         self.subsection = subsection
         self.contents = contents
         self._id = section_id
+        self.created = None
 
     def __lt__(self, other):
         # Sort based on the subsection's order in ALLOWED_SUBSECTIONS
@@ -256,18 +257,22 @@ class SubSection(object):
         if subsection not in cls.ALLOWED_SUBSECTIONS:
             raise ParseError('SubSection can only parse elements with tag in %s with METS namespace' % cls.ALLOWED_SUBSECTIONS)
         section_id = root.get('ID')
+        created = root.get('CREATED')
         child = root[0]
         if child.tag == lxmlns('mets') + 'mdWrap':
             mdwrap = MDWrap.parse(child)
-            return cls(subsection, mdwrap, section_id)
+            obj = cls(subsection, mdwrap, section_id)
         elif child.tag == lxmlns('mets') + 'mdRef':
             mdref = MDRef.parse(child)
-            return cls(subsection, mdref, section_id)
+            obj = cls(subsection, mdref, section_id)
         else:
             raise ParseError('Child of %s must be mdWrap or mdRef' % subsection)
+        obj.created = created
+        return obj
 
-    def serialize(self):
-        el = etree.Element(lxmlns('mets') + self.subsection, ID=self.id_string())
+    def serialize(self, now):
+        created = self.created or now
+        el = etree.Element(lxmlns('mets') + self.subsection, ID=self.id_string(), CREATED=created)
         if self.contents:
             el.append(self.contents.serialize())
         return el
@@ -421,11 +426,11 @@ class AMDSec(object):
             subsections.append(subsection)
         return cls(section_id, subsections)
 
-    def serialize(self):
+    def serialize(self, now):
         el = etree.Element(lxmlns('mets') + self.tag, ID=self.id_string())
         self.subsections.sort()
         for child in self.subsections:
-            el.append(child.serialize())
+            el.append(child.serialize(now))
         return el
 
 
@@ -537,34 +542,34 @@ class METSWriter(object):
         }
         return etree.Element(lxmlns('mets') + 'mets', nsmap=nsmap, attrib=attrib)
 
-    def _mets_header(self):
+    def _mets_header(self, now):
         """
         Return the metsHdr Element.
         """
-        date = datetime.utcnow().replace(microsecond=0).isoformat('T')
         if self.createdate is None:
-            e = etree.Element(lxmlns('mets') + 'metsHdr', CREATEDATE=date)
+            e = etree.Element(lxmlns('mets') + 'metsHdr', CREATEDATE=now)
         else:
             e = etree.Element(lxmlns('mets') + 'metsHdr',
-                CREATEDATE=self.createdate, LASTMODDATE=date)
+                CREATEDATE=self.createdate, LASTMODDATE=now)
         return e
 
     def _collect_mdsec_elements(self, files):
         """
-        Return all dmdSec and amdSec Element associated with the files.
+        Return all dmdSec and amdSec classes associated with the files.
 
-        Returns all dmdSec Elements, then all amdSec Elements, suitable for
-        immediately appending to the mets.
+        Returns all dmdSecs, then all amdSecs, so they only need to be
+        serialized before being appended to the METS.
 
-        :param list files: List of :class:`FSEntry` s to collect MDSecs for.
+        :param List files: List of :class:`FSEntry` to collect MDSecs for.
+        :returns: List of AMDSecs and SubSections
         """
         dmdsecs = []
         amdsecs = []
         for f in files:
             for d in f.dmdsecs:
-                dmdsecs.append(d.serialize())
+                dmdsecs.append(d)
             for a in f.amdsecs:
-                amdsecs.append(a.serialize())
+                amdsecs.append(a)
         return dmdsecs + amdsecs
 
     def _child_element(self, child, parent=None):
@@ -645,12 +650,13 @@ class METSWriter(object):
 
         :return: Element for this document
         """
+        now = datetime.utcnow().replace(microsecond=0).isoformat('T')
         files = self.all_files()
         mdsecs = self._collect_mdsec_elements(files)
         root = self._document_root(fully_qualified=fully_qualified)
-        root.append(self._mets_header())
-        for el in mdsecs:
-            root.append(el)
+        root.append(self._mets_header(now=now))
+        for section in mdsecs:
+            root.append(section.serialize(now=now))
         root.append(self._filesec(files))
         root.append(self._structmap())
 
