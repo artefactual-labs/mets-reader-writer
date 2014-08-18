@@ -227,6 +227,9 @@ class SubSection(object):
         self.subsection = subsection
         self.contents = contents
         self._id = section_id
+        self.status = None
+        self.older = None
+        self.newer = None
         self.created = None
 
     def __lt__(self, other):
@@ -244,6 +247,47 @@ class SubSection(object):
             self._id = self.subsection + '_' + str(randint(1, 999999))
         return self._id
 
+    def get_status(self):
+        """
+        Returns the STATUS when serializing.
+
+        Calculates based on the subsection type and if it's replacing anything.
+
+        :returns: None or the STATUS string.
+        """
+        if self.status:
+            return self.status
+        if self.subsection == 'dmdSec':
+            if self.older is None:
+                return 'original'
+            else:
+                return 'updated'
+        if self.subsection == 'rightsMD':
+            # TODO how to handle ones where newer has been deleted?
+            if self.newer == None:
+                return 'current'
+            else:
+                return 'superseded'
+        return None
+
+
+    def replace_with(self, new_subsection):
+        """
+        Replace this SubSection with new_subsection.
+
+        Replacing SubSection must be the same time.  That is, you can only
+        replace a dmdSec with another dmdSec, or a rightsMD with a rightsMD etc.
+
+        :param new_subsection: Updated version of this SubSection
+        :type new_subsection: :class:`SubSection`
+        """
+        if self.subsection != new_subsection.subsection:
+            raise MetsError('Must replace a SubSection with one of the same type.')
+        # TODO convert this to a DB so have bidirectonal foreign keys??
+        self.newer = new_subsection
+        new_subsection.older = self
+        self.status = None
+
     @classmethod
     def parse(cls, root):
         """
@@ -258,6 +302,7 @@ class SubSection(object):
             raise ParseError('SubSection can only parse elements with tag in %s with METS namespace' % cls.ALLOWED_SUBSECTIONS)
         section_id = root.get('ID')
         created = root.get('CREATED')
+        status = root.get('STATUS')
         child = root[0]
         if child.tag == lxmlns('mets') + 'mdWrap':
             mdwrap = MDWrap.parse(child)
@@ -268,11 +313,15 @@ class SubSection(object):
         else:
             raise ParseError('Child of %s must be mdWrap or mdRef' % subsection)
         obj.created = created
+        obj.status = status
         return obj
 
     def serialize(self, now):
         created = self.created or now
         el = etree.Element(lxmlns('mets') + self.subsection, ID=self.id_string(), CREATED=created)
+        status = self.get_status()
+        if status:
+            el.set('STATUS', status)
         if self.contents:
             el.append(self.contents.serialize())
         return el

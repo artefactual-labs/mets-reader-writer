@@ -177,6 +177,57 @@ def test_subsection_allowed_tags():
         mets.SubSection('fakeMD', None)
 
 
+def test_subsection_replace_with():
+    mdwrap = mets.MDWrap('<foo/>', 'PREMIS:DUMMY')
+    # Different subsections
+    dmdsec = mets.SubSection('dmdSec', mdwrap)
+    rightsmd = mets.SubSection('rightsMD', mdwrap)
+    with pytest.raises(mets.MetsError):
+        dmdsec.replace_with(rightsmd)
+    # None for techMD
+    techmd_old = mets.SubSection('techMD', mdwrap)
+    techmd_new = mets.SubSection('techMD', mdwrap)
+    techmd_old.replace_with(techmd_new)
+    assert techmd_old.get_status() == None
+    assert techmd_new.get_status() == None
+    # None for sourceMD
+    sourcemd_old = mets.SubSection('sourceMD', mdwrap)
+    sourcemd_new = mets.SubSection('sourceMD', mdwrap)
+    sourcemd_old.replace_with(sourcemd_new)
+    assert sourcemd_old.get_status() == None
+    assert sourcemd_new.get_status() == None
+    # None for digiprovMD
+    digiprovmd_old = mets.SubSection('digiprovMD', mdwrap)
+    digiprovmd_new = mets.SubSection('digiprovMD', mdwrap)
+    digiprovmd_old.replace_with(digiprovmd_new)
+    assert digiprovmd_old.get_status() == None
+    assert digiprovmd_new.get_status() == None
+    # rightsMD
+    rightsmd_old = mets.SubSection('rightsMD', mdwrap)
+    assert rightsmd_old.get_status() == 'current'
+    rightsmd_new = mets.SubSection('rightsMD', mdwrap)
+    rightsmd_old.replace_with(rightsmd_new)
+    assert rightsmd_old.get_status() == 'superseded'
+    assert rightsmd_new.get_status() == 'current'
+    rightsmd_newer = mets.SubSection('rightsMD', mdwrap)
+    rightsmd_new.replace_with(rightsmd_newer)
+    assert rightsmd_old.get_status() == 'superseded'
+    assert rightsmd_new.get_status() == 'superseded'
+    assert rightsmd_newer.get_status() == 'current'
+    # dmdsec
+    dmdsec_old = mets.SubSection('dmdSec', mdwrap)
+    assert dmdsec_old.get_status() == 'original'
+    dmdsec_new = mets.SubSection('dmdSec', mdwrap)
+    dmdsec_old.replace_with(dmdsec_new)
+    assert dmdsec_old.get_status() == 'original'
+    assert dmdsec_new.get_status() == 'updated'
+    dmdsec_newer = mets.SubSection('dmdSec', mdwrap)
+    dmdsec_new.replace_with(dmdsec_newer)
+    assert dmdsec_old.get_status() == 'original'
+    assert dmdsec_new.get_status() == 'updated'
+    assert dmdsec_newer.get_status() == 'updated'
+
+
 def test_subsection_serialize():
     content = mets.MDWrap('<foo/>', None)
     content.serialize = lambda: etree.Element('dummy_data')
@@ -383,10 +434,14 @@ def test_full_mets():
     sub_doc = mets.FSEntry('submissionDocumentation', type='Directory', children=children)
     children = [objects, metadata, sub_doc]
     sip = mets.FSEntry('sipname-uuid', type='Directory', children=children)
+    sip.add_dublin_core('<dublincore>sip metadata</dublincore>')
     file1.add_premis_object('<premis>object</premis>')
     file1.add_premis_event('<premis>event</premis>')
     file1.add_premis_agent('<premis>agent</premis>')
-    file1.add_premis_rights('<premis>rights</premis>')
+    rights = file1.add_premis_rights('<premis>rights</premis>')
+    rights.replace_with(file1.add_premis_rights('<premis>newer rights</premis>'))
+    dc = file1.add_dublin_core('<dublincore>metadata</dublincore>')
+    dc.replace_with(file1.add_dublin_core('<dublincore>newer metadata</dublincore>'))
 
     mw.append_file(sip)
     mw.write('full_mets.xml', fully_qualified=True, pretty_print=True)
