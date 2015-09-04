@@ -167,6 +167,17 @@ def test_mdref_loctype():
     assert mdreffed.get(mets.lxmlns('xlink') + 'href') == 'path/to/file.txt'
     assert mdreffed.get('MDTYPE') == 'OTHER'
 
+def test_mdref_bad_loctype():
+    mets.MDRef(None, None, loctype='ARK')
+    mets.MDRef(None, None, loctype='URN')
+    mets.MDRef(None, None, loctype='URL')
+    mets.MDRef(None, None, loctype='PURL')
+    mets.MDRef(None, None, loctype='HANDLE')
+    mets.MDRef(None, None, loctype='DOI')
+    mets.MDRef(None, None, loctype='OTHER')
+    with pytest.raises(ValueError):
+        mets.MDRef(None, None, loctype='BAD')
+
 
 def test_mdref_parse():
     # Wrong tag name

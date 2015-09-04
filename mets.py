@@ -346,13 +346,17 @@ class MDRef(object):
     :param str mdtype: The string representing the mdtype of XML document being
         enclosed. Examples include "PREMIS:OBJECT" and "PREMIS:EVENT".
     :param str label: Optional LABEL for the mdRef element
-    :param str loctype: LOCTYPE of the mdRef.
+    :param str loctype: LOCTYPE of the mdRef.  Must be one of 'ARK', 'URN', 'URL', 'PURL', 'HANDLE', 'DOI' or 'OTHER'.
     :param str otherloctype: OTHERLOCTYPE of the mdRef. Should be provided if loctype is OTHER.
     """
+    VALID_LOCTYPE = ('ARK', 'URN', 'URL', 'PURL', 'HANDLE', 'DOI', 'OTHER')
+
     def __init__(self, target, mdtype, loctype, label=None, otherloctype=None):
         self.target = target
         self.mdtype = mdtype
         self.loctype = loctype
+        if loctype not in self.VALID_LOCTYPE:
+            raise ValueError('loctype must be one of {}'.format(', '.join(self.VALID_LOCTYPE)))
         self.label = label
         self.otherloctype = otherloctype
 
