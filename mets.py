@@ -144,12 +144,15 @@ class FSEntry(object):
         """ Returns a list of DMDIDs for this entry. """
         return [d.id_string() for d in self.dmdsecs]
 
-    def _add_metadata_element(self, md, subsection, mdtype, mode='mdwrap'):
+    def _add_metadata_element(self, md, subsection, mdtype, mode='mdwrap', **kwargs):
         """
         :param md: Value to pass to the MDWrap/MDRef
+        :param str subsection: Metadata tag to create.  See :const:`SubSection.ALLOWED_SUBSECTIONS`
         :param str mdtype: Value for mdWrap/mdRef @MDTYPE
         :param str mode: 'mdwrap' or 'mdref'
-        :param str subsection: Metadata tag to create.  See :const:`SubSection.ALLOWED_SUBSECTIONS`
+        :param str loctype: Required if mode is 'mdref'. LOCTYPE of a mdRef
+        :param str label: Optional. Label of a mdRef
+        :param str otherloctype: Optional. OTHERLOCTYPE of a mdRef.
 
         """
         # HELP how handle multiple amdSecs?
@@ -157,7 +160,10 @@ class FSEntry(object):
         if mode.lower() == 'mdwrap':
             mdsec = MDWrap(md, mdtype)
         elif mode.lower() == 'mdref':
-            mdsec = MDRef(md, mdtype)
+            loctype = kwargs.get('loctype')
+            label = kwargs.get('label')
+            otherloctype = kwargs.get('otherloctype')
+            mdsec = MDRef(md, mdtype, loctype, label, otherloctype)
         subsection = SubSection(subsection, mdsec)
         if subsection.subsection == 'dmdSec':
             self.dmdsecs.append(subsection)
@@ -170,17 +176,17 @@ class FSEntry(object):
             amdsec.subsections.append(subsection)
         return subsection
 
-    def add_techmd(self, md, mdtype, mode='mdwrap'):
-        return self._add_metadata_element(md, 'techMD', mdtype, mode)
+    def add_techmd(self, md, mdtype, mode='mdwrap', **kwargs):
+        return self._add_metadata_element(md, 'techMD', mdtype, mode, **kwargs)
 
-    def add_digiprovmd(self, md, mdtype, mode='mdwrap'):
-        return self._add_metadata_element(md, 'digiprovMD', mdtype, mode)
+    def add_digiprovmd(self, md, mdtype, mode='mdwrap', **kwargs):
+        return self._add_metadata_element(md, 'digiprovMD', mdtype, mode, **kwargs)
 
-    def add_rightsmd(self, md, mdtype, mode='mdwrap'):
-        return self._add_metadata_element(md, 'rightsMD', mdtype, mode)
+    def add_rightsmd(self, md, mdtype, mode='mdwrap', **kwargs):
+        return self._add_metadata_element(md, 'rightsMD', mdtype, mode, **kwargs)
 
-    def add_dmdsec(self, md, mdtype, mode='mdwrap'):
-        return self._add_metadata_element(md, 'dmdSec', mdtype, mode)
+    def add_dmdsec(self, md, mdtype, mode='mdwrap', **kwargs):
+        return self._add_metadata_element(md, 'dmdSec', mdtype, mode, **kwargs)
 
     def add_premis_object(self, md, mode='mdwrap'):
         # TODO add extra args and create PREMIS object here
@@ -339,10 +345,16 @@ class MDRef(object):
         the existence of this target.
     :param str mdtype: The string representing the mdtype of XML document being
         enclosed. Examples include "PREMIS:OBJECT" and "PREMIS:EVENT".
+    :param str label: Optional LABEL for the mdRef element
+    :param str loctype: LOCTYPE of the mdRef.
+    :param str otherloctype: OTHERLOCTYPE of the mdRef. Should be provided if loctype is OTHER.
     """
-    def __init__(self, target, mdtype):
+    def __init__(self, target, mdtype, loctype, label=None, otherloctype=None):
         self.target = target
         self.mdtype = mdtype
+        self.loctype = loctype
+        self.label = label
+        self.otherloctype = otherloctype
 
     @classmethod
     def parse(cls, root):
@@ -353,13 +365,21 @@ class MDRef(object):
         """
         if root.tag != lxmlns('mets') + 'mdRef':
             raise ParseError('MDRef can only parse mdRef elements with METS namespace.')
+        # Required attributes
         mdtype = root.get('MDTYPE')
         if not mdtype:
             raise ParseError('mdRef must have a MDTYPE')
         target = root.get(lxmlns('xlink') + 'href')
         if not target:
             raise ParseError('mdRef must have an xlink:href.')
-        return cls(target, mdtype)
+        loctype = root.get('LOCTYPE')
+        if not loctype:
+            raise ParseError('mdRef must have a LOCTYPE')
+        # Optional attributes
+        label = root.get('LABEL')
+        otherloctype = root.get('OTHERLOCTYPE')
+
+        return cls(target, mdtype, loctype, label, otherloctype)
 
     def serialize(self):
         # If the source document is a METS document, the XPTR attribute of
@@ -375,13 +395,17 @@ class MDRef(object):
             pass
 
         attrib = {
-            'LOCTYPE': 'URL',
-            'OTHERLOCTYPE': 'SYSTEM',
-            lxmlns('xlink')+'href': self.target,
-            'MDTYPE': self.mdtype
+            'MDTYPE': self.mdtype,
+            'LOCTYPE': self.loctype,
         }
+        if self.target:
+            attrib[lxmlns('xlink')+'href'] = self.target
+        if self.otherloctype:
+            attrib['OTHERLOCTYPE'] = self.otherloctype
         if XPTR:
             attrib['XPTR'] = XPTR
+        if self.label:
+            attrib['LABEL'] = self.label
         return etree.Element(lxmlns('mets') + 'mdRef', attrib=attrib)
 
 

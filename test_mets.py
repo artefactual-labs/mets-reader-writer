@@ -144,14 +144,28 @@ def test_mdwrap_parse():
     assert mdwrap.document == document
 
 
-def test_mdref():
-    mdref = mets.MDRef('path/to/file.txt', 'PREMIS:DUMMY')
+def test_mdref_defaults():
+    mdref = mets.MDRef('path/to/file.txt', 'PREMIS:DUMMY', 'URL')
     mdreffed = mdref.serialize()
 
     assert mdreffed.get('LOCTYPE') == 'URL'
-    assert mdreffed.get('OTHERLOCTYPE') == 'SYSTEM'
     assert mdreffed.get(mets.lxmlns('xlink')+'href') == 'path/to/file.txt'
     assert mdreffed.get('MDTYPE') == 'PREMIS:DUMMY'
+
+def test_mdref_loctype():
+    mdref = mets.MDRef(
+        target='path/to/file.txt',
+        mdtype='OTHER',
+        label='Label',
+        loctype='OTHER',
+        otherloctype='OUTSIDE'
+    )
+    mdreffed = mdref.serialize()
+
+    assert mdreffed.get('LOCTYPE') == 'OTHER'
+    assert mdreffed.get('OTHERLOCTYPE') == 'OUTSIDE'
+    assert mdreffed.get(mets.lxmlns('xlink') + 'href') == 'path/to/file.txt'
+    assert mdreffed.get('MDTYPE') == 'OTHER'
 
 
 def test_mdref_parse():
@@ -163,12 +177,22 @@ def test_mdref_parse():
     bad = etree.Element('{http://www.loc.gov/METS/}mdRef')
     with pytest.raises(mets.ParseError):
         mets.MDRef.parse(bad)
+    # No xlink:href
+    bad = etree.Element('{http://www.loc.gov/METS/}mdRef', MDTYPE='PREMIS:DUMMY')
+    with pytest.raises(mets.ParseError):
+        mets.MDRef.parse(bad)
+    # No LOCTYPE
+    bad = etree.Element('{http://www.loc.gov/METS/}mdRef', MDTYPE='PREMIS:DUMMY')
+    bad.set('{http://www.w3.org/1999/xlink}href', 'url')
+    with pytest.raises(mets.ParseError):
+        mets.MDRef.parse(bad)
     # Parses correctly
-    good = etree.Element('{http://www.loc.gov/METS/}mdRef', MDTYPE='dummy')
+    good = etree.Element('{http://www.loc.gov/METS/}mdRef', MDTYPE='dummy', LOCTYPE='URL')
     good.set('{http://www.w3.org/1999/xlink}href', 'url')
     mdref = mets.MDRef.parse(good)
     assert mdref.target == 'url'
     assert mdref.mdtype == 'dummy'
+    assert mdref.loctype == 'URL'
 
 
 def test_subsection_allowed_tags():
