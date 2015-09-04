@@ -150,8 +150,7 @@ def test_mdref():
 
     assert mdreffed.get('LOCTYPE') == 'URL'
     assert mdreffed.get('OTHERLOCTYPE') == 'SYSTEM'
-    assert mdreffed.get(mets.lxmlns('xlink')+'href') == \
-        'path/to/file.txt'
+    assert mdreffed.get(mets.lxmlns('xlink')+'href') == 'path/to/file.txt'
     assert mdreffed.get('MDTYPE') == 'PREMIS:DUMMY'
 
 
@@ -234,7 +233,7 @@ def test_subsection_serialize():
     subsection = mets.SubSection('techMD', content)
     subsection._id = 'techMD_1'
 
-    target = '<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" ID="techMD_1" CREATED="2014-07-23T21:48:33"><dummy_data/></ns0:techMD>'
+    target = '<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" CREATED="2014-07-23T21:48:33" ID="techMD_1"><dummy_data/></ns0:techMD>'
 
     assert etree.tostring(subsection.serialize("2014-07-23T21:48:33")) == target
 
