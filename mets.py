@@ -1,11 +1,14 @@
 #!/usr/bin/python2 -OO
 
 from datetime import datetime
+import logging
 from lxml import etree
 import os
 from random import randint
 import sys
 
+LOGGER = logging.getLogger(__name__)
+LOGGER.addHandler(logging.NullHandler())
 
 # LXML HELPERS
 
