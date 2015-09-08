@@ -118,7 +118,7 @@ class FSEntry(object):
         if self.type == 'Directory':
             return None
         if self.file_uuid is None:
-            raise MetsError('No FILEID: File %s does not have file_uuid set', self.path)
+            raise MetsError('No FILEID: File %s does not have file_uuid set' % self.path)
         return FILE_ID_PREFIX + self.file_uuid
 
     def group_id(self):
@@ -130,7 +130,7 @@ class FSEntry(object):
         if self.derived_from is not None:
             return self.derived_from.group_id()
         if self.file_uuid is None:
-            raise MetsError('No GROUPID: File %s does not have file_uuid set', self.path)
+            raise MetsError('No GROUPID: File %s does not have file_uuid set' % self.path)
         return GROUP_ID_PREFIX + self.file_uuid
 
     def admids(self):
