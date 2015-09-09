@@ -8,7 +8,7 @@ import metsrw
 class TestAMDSec(TestCase):
     """ Test AMDSec class. """
 
-    def test_mdsec_identifier(self):
+    def test_identifier(self):
         # should be in the format 'amdSec_1'
         amdsec = metsrw.AMDSec()
         assert amdsec.id_string()
@@ -17,55 +17,78 @@ class TestAMDSec(TestCase):
 class TestSubSection(TestCase):
     """ Test SubSection class. """
 
-    def test_subsection_allowed_tags(self):
+    STUB_MDWRAP = metsrw.MDWrap('<foo/>', 'PREMIS:DUMMY')
+
+    def test_allowed_tags(self):
+        """ It should only allow certain subsection tags. """
         with pytest.raises(ValueError):
             metsrw.SubSection('fakeMD', None)
+        metsrw.SubSection('dmdSec', None)
+        metsrw.SubSection('techMD', None)
+        metsrw.SubSection('rightsMD', None)
+        metsrw.SubSection('sourceMD', None)
+        metsrw.SubSection('digiprovMD', None)
 
-    def test_subsection_replace_with(self):
-        mdwrap = metsrw.MDWrap('<foo/>', 'PREMIS:DUMMY')
-        # Different subsections
-        dmdsec = metsrw.SubSection('dmdSec', mdwrap)
-        rightsmd = metsrw.SubSection('rightsMD', mdwrap)
+    def test_replace_with_diff_type(self):
+        """ It should assert if replacing with a different subsection type. """
+        dmdsec = metsrw.SubSection('dmdSec', self.STUB_MDWRAP)
+        rightsmd = metsrw.SubSection('rightsMD', self.STUB_MDWRAP)
         with pytest.raises(metsrw.MetsError):
             dmdsec.replace_with(rightsmd)
-        # None for techMD
-        techmd_old = metsrw.SubSection('techMD', mdwrap)
-        techmd_new = metsrw.SubSection('techMD', mdwrap)
+
+    def test_replacement_techmd(self):
+        """ It should have no special behaviour replacing techMDs. """
+        techmd_old = metsrw.SubSection('techMD', self.STUB_MDWRAP)
+        techmd_new = metsrw.SubSection('techMD', self.STUB_MDWRAP)
         techmd_old.replace_with(techmd_new)
         assert techmd_old.get_status() is None
         assert techmd_new.get_status() is None
-        # None for sourceMD
-        sourcemd_old = metsrw.SubSection('sourceMD', mdwrap)
-        sourcemd_new = metsrw.SubSection('sourceMD', mdwrap)
+
+    def test_replacement_sourcemd(self):
+        """ It should have no special behaviour replacing sourceMDs. """
+        sourcemd_old = metsrw.SubSection('sourceMD', self.STUB_MDWRAP)
+        sourcemd_new = metsrw.SubSection('sourceMD', self.STUB_MDWRAP)
         sourcemd_old.replace_with(sourcemd_new)
         assert sourcemd_old.get_status() is None
         assert sourcemd_new.get_status() is None
-        # None for digiprovMD
-        digiprovmd_old = metsrw.SubSection('digiprovMD', mdwrap)
-        digiprovmd_new = metsrw.SubSection('digiprovMD', mdwrap)
+
+    def test_replacement_digiprovmd(self):
+        """ It should have no special behaviour replacing digiprovMDs. """
+        digiprovmd_old = metsrw.SubSection('digiprovMD', self.STUB_MDWRAP)
+        digiprovmd_new = metsrw.SubSection('digiprovMD', self.STUB_MDWRAP)
         digiprovmd_old.replace_with(digiprovmd_new)
         assert digiprovmd_old.get_status() is None
         assert digiprovmd_new.get_status() is None
-        # rightsMD
-        rightsmd_old = metsrw.SubSection('rightsMD', mdwrap)
+
+    def test_replacement_rightsmd(self):
+        """
+        It should mark the most recent rightsMD 'current'.
+        It should mark all other rightsMDs 'superseded'.
+        """
+        rightsmd_old = metsrw.SubSection('rightsMD', self.STUB_MDWRAP)
         assert rightsmd_old.get_status() == 'current'
-        rightsmd_new = metsrw.SubSection('rightsMD', mdwrap)
+        rightsmd_new = metsrw.SubSection('rightsMD', self.STUB_MDWRAP)
         rightsmd_old.replace_with(rightsmd_new)
         assert rightsmd_old.get_status() == 'superseded'
         assert rightsmd_new.get_status() == 'current'
-        rightsmd_newer = metsrw.SubSection('rightsMD', mdwrap)
+        rightsmd_newer = metsrw.SubSection('rightsMD', self.STUB_MDWRAP)
         rightsmd_new.replace_with(rightsmd_newer)
         assert rightsmd_old.get_status() == 'superseded'
         assert rightsmd_new.get_status() == 'superseded'
         assert rightsmd_newer.get_status() == 'current'
-        # dmdsec
-        dmdsec_old = metsrw.SubSection('dmdSec', mdwrap)
+
+    def test_replacement_dmdsec(self):
+        """
+        It should mark the first dmdSec 'original'.
+        It should mark all other dmdSecs 'updated'.
+        """
+        dmdsec_old = metsrw.SubSection('dmdSec', self.STUB_MDWRAP)
         assert dmdsec_old.get_status() == 'original'
-        dmdsec_new = metsrw.SubSection('dmdSec', mdwrap)
+        dmdsec_new = metsrw.SubSection('dmdSec', self.STUB_MDWRAP)
         dmdsec_old.replace_with(dmdsec_new)
         assert dmdsec_old.get_status() == 'original'
         assert dmdsec_new.get_status() == 'updated'
-        dmdsec_newer = metsrw.SubSection('dmdSec', mdwrap)
+        dmdsec_newer = metsrw.SubSection('dmdSec', self.STUB_MDWRAP)
         dmdsec_new.replace_with(dmdsec_newer)
         assert dmdsec_old.get_status() == 'original'
         assert dmdsec_new.get_status() == 'updated'
@@ -82,12 +105,11 @@ class TestSubSection(TestCase):
         assert etree.tostring(subsection.serialize("2014-07-23T21:48:33")) == target
 
     def test_subsection_ordering(self):
-        mdwrap = metsrw.MDWrap('<foo/>', 'PREMIS:DUMMY')
         l = []
-        l.append(metsrw.SubSection('digiprovMD', mdwrap))
-        l.append(metsrw.SubSection('sourceMD', mdwrap))
-        l.append(metsrw.SubSection('rightsMD', mdwrap))
-        l.append(metsrw.SubSection('techMD', mdwrap))
+        l.append(metsrw.SubSection('digiprovMD', self.STUB_MDWRAP))
+        l.append(metsrw.SubSection('sourceMD', self.STUB_MDWRAP))
+        l.append(metsrw.SubSection('rightsMD', self.STUB_MDWRAP))
+        l.append(metsrw.SubSection('techMD', self.STUB_MDWRAP))
         l.sort()
         assert l[0].subsection == 'techMD'
         assert l[1].subsection == 'rightsMD'
@@ -184,15 +206,20 @@ class TestMDWrap(TestCase):
         assert mdwrap.document.tag == 'foo'
         assert etree.tostring(mdwrapped) == target
 
-    def test_parse(self):
-        # Wrong tag name
+    def test_parse_bad_tag(self):
+        """ It should assert if the tag name is invalid. """
         bad = etree.Element('foo')
         with pytest.raises(metsrw.ParseError):
             metsrw.MDWrap.parse(bad)
-        # No MDTYPE
+
+    def test_parse_no_mdtype(self):
+        """ It should assert if there is no MDTYPE. """
         bad = etree.Element('{http://www.loc.gov/METS/}mdWrap')
         with pytest.raises(metsrw.ParseError):
             metsrw.MDWrap.parse(bad)
+
+    def test_parse_no_children(self):
+        """ It should assert if there are no children. """
         # mdWrap has no children
         bad = etree.Element('{http://www.loc.gov/METS/}mdWrap', MDTYPE='dummy')
         with pytest.raises(metsrw.ParseError):
@@ -202,6 +229,9 @@ class TestMDWrap(TestCase):
         etree.SubElement(bad, '{http://www.loc.gov/METS/}xmlData')
         with pytest.raises(metsrw.ParseError):
             metsrw.MDWrap.parse(bad)
+
+    def test_parse_success(self):
+        """ It should correctly parse a valid mdWrap. """
         # Parses correctly
         good = etree.Element('{http://www.loc.gov/METS/}mdWrap', MDTYPE='dummy')
         xmldata = etree.SubElement(good, '{http://www.loc.gov/METS/}xmlData')
