@@ -3,6 +3,7 @@ Classes for metadata sections of the METS. Include amdSec, dmdSec, techMD, right
 """
 from __future__ import absolute_import
 
+import logging
 from lxml import etree
 from random import randint
 
@@ -10,6 +11,8 @@ import six
 
 from . import exceptions
 from . import utils
+
+LOGGER = logging.getLogger(__name__)
 
 
 class AMDSec(object):

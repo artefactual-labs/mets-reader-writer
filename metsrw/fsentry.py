@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import logging
 import os
 from random import randint
 
@@ -8,6 +9,8 @@ import six
 from . import exceptions
 from .metadata import MDWrap, MDRef, SubSection, AMDSec
 from . import utils
+
+LOGGER = logging.getLogger(__name__)
 
 
 class FSEntry(object):
