@@ -1,7 +1,7 @@
-mets module
+test Module
 ===========
 
-.. automodule:: mets
+.. automodule:: test
     :members:
     :undoc-members:
     :show-inheritance:

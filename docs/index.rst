@@ -11,7 +11,17 @@ Contents:
 .. toctree::
    :maxdepth: 4
 
-   mets
+   metsrw
+
+Building Docs
+-------------
+From the docs directory
+::
+    make html
+
+If new files are added, run apidoc from the repository root to regenerate the docstring files.
+::
+    sphinx-apidoc -f -o docs .
 
 
 Indices and tables
