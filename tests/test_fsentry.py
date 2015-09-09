@@ -20,8 +20,7 @@ class TestFSEntry(TestCase):
 
     def test_group_id(self):
         f = metsrw.FSEntry('level1.txt')
-        with pytest.raises(metsrw.MetsError):
-            f.group_id()
+        assert f.group_id() is None
         file_uuid = str(uuid.uuid4())
         f = metsrw.FSEntry('level1.txt', file_uuid=file_uuid)
         assert f.group_id() == 'Group-' + file_uuid

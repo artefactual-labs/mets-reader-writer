@@ -213,7 +213,9 @@ class METSWriter(object):
 
             # TODO move this to the FSEntry?
             admids = file_.admids()
-            file_el = etree.SubElement(filegrp, utils.lxmlns('mets') + 'file', ID=file_.file_id(), GROUPID=file_.group_id())
+            file_el = etree.SubElement(filegrp, utils.lxmlns('mets') + 'file', ID=file_.file_id())
+            if file_.group_id():
+                file_el.attrib['GROUPID'] = file_.group_id()
             if admids:
                 file_el.set('ADMID', ' '.join(admids))
             flocat = etree.SubElement(file_el, utils.lxmlns('mets') + 'FLocat')
