@@ -7,48 +7,12 @@ import os
 from random import randint
 import sys
 
+# This package
+import exceptions
+import utils
+
 LOGGER = logging.getLogger(__name__)
-LOGGER.addHandler(logging.NullHandler())
 
-# LXML HELPERS
-
-NAMESPACES = {
-    "xsi": "http://www.w3.org/2001/XMLSchema-instance",
-    "mets": "http://www.loc.gov/METS/",
-    "premis": "info:lc/xmlns/premis-v2",
-    "dcterms": "http://purl.org/dc/terms/",
-    "fits": "http://hul.harvard.edu/ois/xml/ns/fits/fits_output",
-    "xlink": "http://www.w3.org/1999/xlink",
-    "dc": "http://purl.org/dc/elements/1.1/"
-}
-
-SCHEMA_LOCATIONS = "http://www.loc.gov/METS/ " + \
-                   "http://www.loc.gov/standards/mets/version18/mets.xsd"
-
-
-def lxmlns(arg):
-    return '{' + NAMESPACES[arg] + '}'
-
-
-# CONSTANTS
-
-FILE_ID_PREFIX = 'file-'
-GROUP_ID_PREFIX = 'Group-'
-
-
-# EXCEPTIONS
-
-class MetsError(Exception):
-    """ Base Exception for this module. """
-    pass
-
-
-class ParseError(MetsError):
-    """ Error parsing a METS file. """
-    pass
-
-
-# CLASSES
 
 class FSEntry(object):
     """
@@ -121,8 +85,8 @@ class FSEntry(object):
         if self.type == 'Directory':
             return None
         if self.file_uuid is None:
-            raise MetsError('No FILEID: File %s does not have file_uuid set' % self.path)
-        return FILE_ID_PREFIX + self.file_uuid
+            raise exceptions.MetsError('No FILEID: File %s does not have file_uuid set' % self.path)
+        return utils.FILE_ID_PREFIX + self.file_uuid
 
     def group_id(self):
         """
@@ -133,8 +97,8 @@ class FSEntry(object):
         if self.derived_from is not None:
             return self.derived_from.group_id()
         if self.file_uuid is None:
-            raise MetsError('No GROUPID: File %s does not have file_uuid set' % self.path)
-        return GROUP_ID_PREFIX + self.file_uuid
+            raise exceptions.MetsError('No GROUPID: File %s does not have file_uuid set' % self.path)
+        return utils.GROUP_ID_PREFIX + self.file_uuid
 
     def admids(self):
         """ Returns a list of ADMIDs for this entry. """
@@ -291,7 +255,7 @@ class SubSection(object):
         :type new_subsection: :class:`SubSection`
         """
         if self.subsection != new_subsection.subsection:
-            raise MetsError('Must replace a SubSection with one of the same type.')
+            raise exceptions.MetsError('Must replace a SubSection with one of the same type.')
         # TODO convert this to a DB so have bidirectonal foreign keys??
         self.newer = new_subsection
         new_subsection.older = self
@@ -303,31 +267,31 @@ class SubSection(object):
         Create a new SubSection by parsing root.
 
         :param root: Element or ElementTree to be parsed into an object.
-        :raises ParseError: If root's tag is not in :const:`SubSection.ALLOWED_SUBSECTIONS`.
-        :raises ParseError: If the first child of root is not mdRef or mdWrap.
+        :raises exceptions.ParseError: If root's tag is not in :const:`SubSection.ALLOWED_SUBSECTIONS`.
+        :raises exceptions.ParseError: If the first child of root is not mdRef or mdWrap.
         """
-        subsection = root.tag.replace(lxmlns('mets'), '', 1)
+        subsection = root.tag.replace(utils.lxmlns('mets'), '', 1)
         if subsection not in cls.ALLOWED_SUBSECTIONS:
-            raise ParseError('SubSection can only parse elements with tag in %s with METS namespace' % cls.ALLOWED_SUBSECTIONS)
+            raise exceptions.exceptions.ParseError('SubSection can only parse elements with tag in %s with METS namespace' % cls.ALLOWED_SUBSECTIONS)
         section_id = root.get('ID')
         created = root.get('CREATED')
         status = root.get('STATUS')
         child = root[0]
-        if child.tag == lxmlns('mets') + 'mdWrap':
+        if child.tag == utils.lxmlns('mets') + 'mdWrap':
             mdwrap = MDWrap.parse(child)
             obj = cls(subsection, mdwrap, section_id)
-        elif child.tag == lxmlns('mets') + 'mdRef':
+        elif child.tag == utils.lxmlns('mets') + 'mdRef':
             mdref = MDRef.parse(child)
             obj = cls(subsection, mdref, section_id)
         else:
-            raise ParseError('Child of %s must be mdWrap or mdRef' % subsection)
+            raise exceptions.exceptions.ParseError('Child of %s must be mdWrap or mdRef' % subsection)
         obj.created = created
         obj.status = status
         return obj
 
     def serialize(self, now):
         created = self.created or now
-        el = etree.Element(lxmlns('mets') + self.subsection, ID=self.id_string(), CREATED=created)
+        el = etree.Element(utils.lxmlns('mets') + self.subsection, ID=self.id_string(), CREATED=created)
         status = self.get_status()
         if status:
             el.set('STATUS', status)
@@ -367,18 +331,18 @@ class MDRef(object):
 
         :param root: Element or ElementTree to be parsed into a MDWrap.
         """
-        if root.tag != lxmlns('mets') + 'mdRef':
-            raise ParseError('MDRef can only parse mdRef elements with METS namespace.')
+        if root.tag != utils.lxmlns('mets') + 'mdRef':
+            raise exceptions.ParseError('MDRef can only parse mdRef elements with METS namespace.')
         # Required attributes
         mdtype = root.get('MDTYPE')
         if not mdtype:
-            raise ParseError('mdRef must have a MDTYPE')
-        target = root.get(lxmlns('xlink') + 'href')
+            raise exceptions.ParseError('mdRef must have a MDTYPE')
+        target = root.get(utils.lxmlns('xlink') + 'href')
         if not target:
-            raise ParseError('mdRef must have an xlink:href.')
+            raise exceptions.ParseError('mdRef must have an xlink:href.')
         loctype = root.get('LOCTYPE')
         if not loctype:
-            raise ParseError('mdRef must have a LOCTYPE')
+            raise exceptions.ParseError('mdRef must have a LOCTYPE')
         # Optional attributes
         label = root.get('LABEL')
         otherloctype = root.get('OTHERLOCTYPE')
@@ -393,7 +357,7 @@ class MDRef(object):
         try:
             target_doc = etree.parse(self.target)
             dmdsecs = [item.get('ID') for item in
-                       target_doc.findall(lxmlns('mets')+'dmdSec')]
+                       target_doc.findall(utils.lxmlns('mets')+'dmdSec')]
             XPTR = "xpointer(id(''))".format(' '.join(dmdsecs))
         except Exception:
             pass
@@ -403,14 +367,14 @@ class MDRef(object):
             'LOCTYPE': self.loctype,
         }
         if self.target:
-            attrib[lxmlns('xlink')+'href'] = self.target
+            attrib[utils.lxmlns('xlink')+'href'] = self.target
         if self.otherloctype:
             attrib['OTHERLOCTYPE'] = self.otherloctype
         if XPTR:
             attrib['XPTR'] = XPTR
         if self.label:
             attrib['LABEL'] = self.label
-        return etree.Element(lxmlns('mets') + 'mdRef', attrib=attrib)
+        return etree.Element(utils.lxmlns('mets') + 'mdRef', attrib=attrib)
 
 
 class MDWrap(object):
@@ -438,23 +402,23 @@ class MDWrap(object):
         Create a new MDWrap by parsing root.
 
         :param root: Element or ElementTree to be parsed into a MDWrap.
-        :raises ParseError: If mdWrap does not contain MDTYPE
-        :raises ParseError: If mdWrap or xmlData contain multiple children
+        :raises exceptions.ParseError: If mdWrap does not contain MDTYPE
+        :raises exceptions.ParseError: If mdWrap or xmlData contain multiple children
         """
-        if root.tag != lxmlns('mets') + 'mdWrap':
-            raise ParseError('MDWrap can only parse mdWrap elements with METS namespace.')
+        if root.tag != utils.lxmlns('mets') + 'mdWrap':
+            raise exceptions.ParseError('MDWrap can only parse mdWrap elements with METS namespace.')
         mdtype = root.get('MDTYPE')
         if not mdtype:
-            raise ParseError('mdWrap must have a MDTYPE')
-        document = root.xpath('mets:xmlData/*',  namespaces=NAMESPACES)
+            raise exceptions.ParseError('mdWrap must have a MDTYPE')
+        document = root.xpath('mets:xmlData/*', namespaces=utils.NAMESPACES)
         if len(document) != 1:
-            raise ParseError('mdWrap and xmlData can only have one child')
+            raise exceptions.ParseError('mdWrap and xmlData can only have one child')
         document = document[0]
         return cls(document, mdtype)
 
     def serialize(self):
-        el = etree.Element(lxmlns('mets') + 'mdWrap', MDTYPE=self.mdtype)
-        xmldata = etree.SubElement(el, lxmlns('mets') + 'xmlData')
+        el = etree.Element(utils.lxmlns('mets') + 'mdWrap', MDTYPE=self.mdtype)
+        xmldata = etree.SubElement(el, utils.lxmlns('mets') + 'xmlData')
         xmldata.append(self.document)
 
         return el
@@ -497,8 +461,8 @@ class AMDSec(object):
 
         :param root: Element or ElementTree to be parsed into an object.
         """
-        if root.tag != lxmlns('mets') + 'amdSec':
-            raise ParseError('AMDSec can only parse amdSec elements with METS namespace.')
+        if root.tag != utils.lxmlns('mets') + 'amdSec':
+            raise exceptions.ParseError('AMDSec can only parse amdSec elements with METS namespace.')
         section_id = root.get('ID')
         subsections = []
         for child in root:
@@ -507,7 +471,7 @@ class AMDSec(object):
         return cls(section_id, subsections)
 
     def serialize(self, now):
-        el = etree.Element(lxmlns('mets') + self.tag, ID=self.id_string())
+        el = etree.Element(utils.lxmlns('mets') + self.tag, ID=self.id_string())
         self.subsections.sort()
         for child in self.subsections:
             el.append(child.serialize(now))
@@ -609,27 +573,27 @@ class METSWriter(object):
         Return the mets Element for the document root.
         """
         nsmap = {
-            'xsi': NAMESPACES['xsi'],
-            'xlink': NAMESPACES['xlink']
+            'xsi': utils.NAMESPACES['xsi'],
+            'xlink': utils.NAMESPACES['xlink']
         }
         if fully_qualified:
-            nsmap['mets'] = NAMESPACES['mets']
+            nsmap['mets'] = utils.NAMESPACES['mets']
         else:
-            nsmap[None] = NAMESPACES['mets']
+            nsmap[None] = utils.NAMESPACES['mets']
         attrib = {
-            '{}schemaLocation'.format(lxmlns('xsi')):
-            SCHEMA_LOCATIONS
+            '{}schemaLocation'.format(utils.lxmlns('xsi')):
+            utils.SCHEMA_LOCATIONS
         }
-        return etree.Element(lxmlns('mets') + 'mets', nsmap=nsmap, attrib=attrib)
+        return etree.Element(utils.lxmlns('mets') + 'mets', nsmap=nsmap, attrib=attrib)
 
     def _mets_header(self, now):
         """
         Return the metsHdr Element.
         """
         if self.createdate is None:
-            e = etree.Element(lxmlns('mets') + 'metsHdr', CREATEDATE=now)
+            e = etree.Element(utils.lxmlns('mets') + 'metsHdr', CREATEDATE=now)
         else:
-            e = etree.Element(lxmlns('mets') + 'metsHdr',
+            e = etree.Element(utils.lxmlns('mets') + 'metsHdr',
                 CREATEDATE=self.createdate, LASTMODDATE=now)
         return e
 
@@ -665,9 +629,9 @@ class METSWriter(object):
         use when recursing down a tree.
         """
         # TODO move this to FSEntry?
-        el = etree.Element(lxmlns('mets') + 'div', TYPE=child.type, LABEL=child.label)
+        el = etree.Element(utils.lxmlns('mets') + 'div', TYPE=child.type, LABEL=child.label)
         if child.file_id():
-            etree.SubElement(el, lxmlns('mets') + 'fptr', FILEID=child.file_id())
+            etree.SubElement(el, utils.lxmlns('mets') + 'fptr', FILEID=child.file_id())
         dmdids = child.dmdids()
         if dmdids:
             el.set('DMDID', ' '.join(dmdids))
@@ -682,7 +646,7 @@ class METSWriter(object):
         return el
 
     def _structmap(self):
-        structmap = etree.Element(lxmlns('mets') + 'structMap', TYPE='physical',
+        structmap = etree.Element(utils.lxmlns('mets') + 'structMap', TYPE='physical',
                                   # TODO does it make sense that more
                                   # than one structmap might be generated?
                                   ID='structMap_1',
@@ -700,7 +664,7 @@ class METSWriter(object):
         if files is None:
             files = self.all_files()
 
-        filesec = etree.Element(lxmlns('mets') + 'fileSec')
+        filesec = etree.Element(utils.lxmlns('mets') + 'fileSec')
         filegrps = {}
         for file_ in files:
             if file_.type != 'Item':
@@ -708,17 +672,17 @@ class METSWriter(object):
             # Get fileGrp, or create if not exist
             filegrp = filegrps.get(file_.use)
             if filegrp is None:
-                filegrp = etree.SubElement(filesec, lxmlns('mets') + 'fileGrp', USE=file_.use)
+                filegrp = etree.SubElement(filesec, utils.lxmlns('mets') + 'fileGrp', USE=file_.use)
                 filegrps[file_.use] = filegrp
 
             # TODO move this to the FSEntry?
             admids = file_.admids()
-            file_el = etree.SubElement(filegrp, lxmlns('mets') + 'file', ID=file_.file_id(), GROUPID=file_.group_id())
+            file_el = etree.SubElement(filegrp, utils.lxmlns('mets') + 'file', ID=file_.file_id(), GROUPID=file_.group_id())
             if admids:
                 file_el.set('ADMID', ' '.join(admids))
-            flocat = etree.SubElement(file_el, lxmlns('mets') + 'FLocat')
+            flocat = etree.SubElement(file_el, utils.lxmlns('mets') + 'FLocat')
             # Setting manually so order is correct
-            flocat.set(lxmlns('xlink')+'href', file_.path)
+            flocat.set(utils.lxmlns('xlink')+'href', file_.path)
             flocat.set('LOCTYPE', 'OTHER')
             flocat.set('OTHERLOCTYPE', 'SYSTEM')
 
@@ -761,11 +725,11 @@ class METSWriter(object):
         siblings = []
         for elem in parent_elem:  # Iterates over children of parent_elem
             # Only handle div's, not fptrs
-            if elem.tag != lxmlns('mets') + 'div':
+            if elem.tag != utils.lxmlns('mets') + 'div':
                 continue
             entry_type = elem.get('TYPE')
             label = elem.get('LABEL')
-            fptr = elem.find('mets:fptr', namespaces=NAMESPACES)
+            fptr = elem.find('mets:fptr', namespaces=utils.NAMESPACES)
             file_uuid = None
             derived_from = None
             use = None
@@ -773,15 +737,15 @@ class METSWriter(object):
             amdids = None
             if fptr is not None:
                 file_id = fptr.get('FILEID')
-                file_elem = tree.find('mets:fileSec//mets:file[@ID="' + file_id + '"]', namespaces=NAMESPACES)
+                file_elem = tree.find('mets:fileSec//mets:file[@ID="' + file_id + '"]', namespaces=utils.NAMESPACES)
                 if file_elem is None:
-                    raise ParseError('%s exists in structMap but not fileSec' % file_id)
-                file_uuid = file_id.replace(FILE_ID_PREFIX, '', 1)
-                group_uuid = file_elem.get('GROUPID').replace(GROUP_ID_PREFIX, '', 1)
+                    raise exceptions.ParseError('%s exists in structMap but not fileSec' % file_id)
+                file_uuid = file_id.replace(utils.FILE_ID_PREFIX, '', 1)
+                group_uuid = file_elem.get('GROUPID').replace(utils.GROUP_ID_PREFIX, '', 1)
                 if group_uuid != file_uuid:
                     derived_from = group_uuid  # Use group_uuid as placeholder
                 use = file_elem.getparent().get('USE')
-                path = file_elem.find('mets:FLocat', namespaces=NAMESPACES).get(lxmlns('xlink') + 'href')
+                path = file_elem.find('mets:FLocat', namespaces=utils.NAMESPACES).get(utils.lxmlns('xlink') + 'href')
                 amdids = file_elem.get('ADMID')
 
             # Recursively generate children
@@ -795,7 +759,7 @@ class METSWriter(object):
             if dmdids:
                 dmdids = dmdids.split()
                 for dmdid in dmdids:
-                    dmdsec_elem = tree.find('mets:dmdSec[@ID="' + dmdid + '"]', namespaces=NAMESPACES)
+                    dmdsec_elem = tree.find('mets:dmdSec[@ID="' + dmdid + '"]', namespaces=utils.NAMESPACES)
                     dmdsec = SubSection.parse(dmdsec_elem)
                     fsentry.dmdsecs.append(dmdsec)
 
@@ -803,7 +767,7 @@ class METSWriter(object):
             if amdids:
                 amdids = amdids.split()
                 for amdid in amdids:
-                    amdsec_elem = tree.find('mets:amdSec[@ID="' + amdid + '"]', namespaces=NAMESPACES)
+                    amdsec_elem = tree.find('mets:amdSec[@ID="' + amdid + '"]', namespaces=utils.NAMESPACES)
                     amdsec = AMDSec.parse(amdsec_elem)
                     fsentry.amdsecs.append(amdsec)
 
@@ -815,16 +779,16 @@ class METSWriter(object):
             tree = self.tree
         # self._validate()
         # Check CREATEDATE < now
-        createdate = self.tree.find('mets:metsHdr', namespaces=NAMESPACES).get('CREATEDATE')
+        createdate = self.tree.find('mets:metsHdr', namespaces=utils.NAMESPACES).get('CREATEDATE')
         now = datetime.utcnow().isoformat('T')
         if createdate > now:
-            raise ParseError('CREATEDATE more recent than now (%s)' % now)
+            raise exceptions.ParseError('CREATEDATE more recent than now (%s)' % now)
         self.createdate = createdate
 
         # Parse structMap
-        structMap = tree.find('mets:structMap[@TYPE="physical"]', namespaces=NAMESPACES)
+        structMap = tree.find('mets:structMap[@TYPE="physical"]', namespaces=utils.NAMESPACES)
         if structMap is None:
-            raise ParseError('No physical structMap found.')
+            raise exceptions.ParseError('No physical structMap found.')
         self._root_elements = self._parse_tree_structmap(tree, structMap)
 
         # Associated derived files
