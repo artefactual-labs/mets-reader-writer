@@ -209,6 +209,17 @@ class METSWriter(object):
 
         return root
 
+    def tostring(self, fully_qualified=False, pretty_print=True):
+        """
+        Serialize and return a string of this METS file.
+
+        To write to file, see :meth:`write`
+
+        :return: String of this document
+        """
+        root = self.serialize(fully_qualified=fully_qualified)
+        return etree.tostring(root, pretty_print=pretty_print, xml_declaration=True)
+
     def write(self, filepath, fully_qualified=False, pretty_print=False):
         """
         Serialize and write this METS file to `filepath`.
