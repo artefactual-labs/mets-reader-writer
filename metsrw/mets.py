@@ -14,7 +14,7 @@ from . import utils
 LOGGER = logging.getLogger(__name__)
 
 
-class METSWriter(object):
+class METSDocument(object):
     def __init__(self):
         # Stores the ElementTree if this was parsed from an existing file
         self.tree = None
@@ -46,9 +46,9 @@ class METSWriter(object):
 
     def all_files(self):
         """
-        Return a set of all FSEntrys in this METSWriter.
+        Return a set of all FSEntrys in this METS document.
 
-        :returns: Set containing all :class:`FSEntry` in this METSWriter,
+        :returns: Set containing all :class:`FSEntry` in this METS document,
             including descendants of ones explicitly added.
         """
         # NOTE: Cannot use _collect_files_uuid and .values() because not all
@@ -92,7 +92,7 @@ class METSWriter(object):
         A given FSEntry object can only be included in a document once,
         and any attempt to add an object the second time will be ignored.
 
-        :param FSEntry fs_entry: FSEntry to add to the METS file
+        :param FSEntry fs_entry: FSEntry to add to the METS document
         """
 
         if fs_entry in self._root_elements:
@@ -138,7 +138,7 @@ class METSWriter(object):
         Return all dmdSec and amdSec classes associated with the files.
 
         Returns all dmdSecs, then all amdSecs, so they only need to be
-        serialized before being appended to the METS.
+        serialized before being appended to the METS document.
 
         :param List files: List of :class:`FSEntry` to collect MDSecs for.
         :returns: List of AMDSecs and SubSections
@@ -211,7 +211,7 @@ class METSWriter(object):
 
     def tostring(self, fully_qualified=True, pretty_print=True):
         """
-        Serialize and return a string of this METS file.
+        Serialize and return a string of this METS document.
 
         To write to file, see :meth:`write`
 
@@ -222,9 +222,9 @@ class METSWriter(object):
 
     def write(self, filepath, fully_qualified=True, pretty_print=False):
         """
-        Serialize and write this METS file to `filepath`.
+        Serialize and write this METS document to `filepath`.
 
-        :param str filepath: Path to write the METS to
+        :param str filepath: Path to write the METS document to
         """
         root = self.serialize(fully_qualified=fully_qualified)
         tree = root.getroottree()
@@ -315,9 +315,9 @@ class METSWriter(object):
 
     def fromfile(self, path):
         """
-        Accept a filepath pointing to a valid METS file and parses it.
+        Accept a filepath pointing to a valid METS document and parses it.
 
-        :param str path: Path to a METS file.
+        :param str path: Path to a METS document.
         """
         parser = etree.XMLParser(remove_blank_text=True)
         self.tree = etree.parse(path, parser=parser)
@@ -327,7 +327,7 @@ class METSWriter(object):
         """
         Accept a string containing valid METS xml and parses it.
 
-        :param str string: String containing a METS file.
+        :param str string: String containing a METS document.
         """
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.fromstring(string, parser)
@@ -338,13 +338,13 @@ class METSWriter(object):
         """
         Accept an ElementTree or Element and parses it.
 
-        :param ElementTree tree: ElementTree to build a METS file from.
+        :param ElementTree tree: ElementTree to build a METS document from.
         """
         self.tree = tree
         self._parse_tree(self.tree)
 
 
 if __name__ == '__main__':
-    mw = METSWriter()
+    mw = METSDocument()
     mw.fromfile(sys.argv[1])
     mw.write(sys.argv[2], fully_qualified=True, pretty_print=True)

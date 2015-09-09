@@ -7,11 +7,11 @@ import uuid
 
 import metsrw
 
-class TestMETSWriter(TestCase):
-    """ Test METSWriter class. """
+class TestMETSDocument(TestCase):
+    """ Test METSDocument class. """
 
     def test_fromfile(self):
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse('fixtures/complete_mets.xml', parser=parser)
         mw.fromfile('fixtures/complete_mets.xml')
@@ -19,7 +19,7 @@ class TestMETSWriter(TestCase):
         assert etree.tostring(mw.tree) == etree.tostring(root)
 
     def test_fromstring(self):
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse('fixtures/complete_mets.xml', parser=parser)
         with open('fixtures/complete_mets.xml', 'rb') as f:
@@ -29,14 +29,14 @@ class TestMETSWriter(TestCase):
         assert etree.tostring(mw.tree) == etree.tostring(root)
 
     def test_fromtree(self):
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         root = etree.parse('fixtures/complete_mets.xml')
         mw.fromtree(root)
         assert isinstance(mw.tree, etree._ElementTree)
         assert etree.tostring(mw.tree) == etree.tostring(root)
 
     def test_parse_tree(self):
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse('fixtures/complete_mets.xml', parser=parser)
         mw.tree = root
@@ -44,14 +44,14 @@ class TestMETSWriter(TestCase):
         assert mw.createdate == '2014-07-23T21:48:33'
 
     def test_parse_tree_createdate_too_new(self):
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         root = etree.parse('fixtures/createdate_too_new.xml')
         mw.tree = root
         with pytest.raises(metsrw.ParseError):
             mw._parse_tree()
 
     def test_write(self):
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         # mock serialize
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse('fixtures/complete_mets.xml', parser=parser).getroot()
@@ -61,7 +61,7 @@ class TestMETSWriter(TestCase):
         os.remove('test_write.xml')
 
     def test_mets_root(self):
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         root = mw._document_root()
         location = "http://www.loc.gov/METS/ " + \
             "http://www.loc.gov/standards/mets/version18/mets.xsd"
@@ -75,14 +75,14 @@ class TestMETSWriter(TestCase):
         assert root.nsmap == nsmap
 
     def test_mets_header(self):
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         date = '2014-07-16T22:52:02.480108'
         header = mw._mets_header(date)
         assert header.tag == '{http://www.loc.gov/METS/}metsHdr'
         assert header.attrib['CREATEDATE'] == date
 
     def test_mets_header_lastmoddate(self):
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         date = '2014-07-16T22:52:02.480108'
         new_date = '3014-07-16T22:52:02.480108'
         mw.createdate = date
@@ -104,7 +104,7 @@ class TestWholeMETS(TestCase):
         d1 = metsrw.FSEntry('dir1', type='Directory', children=[d2, f2])
         f1 = metsrw.FSEntry('level1.txt', file_uuid=str(uuid.uuid4()))
         d = metsrw.FSEntry('root', type='Directory', children=[d1, f1])
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         mw.append_file(d)
         files = mw.all_files()
         assert files
@@ -133,7 +133,7 @@ class TestWholeMETS(TestCase):
         f1_uuid = str(uuid.uuid4())
         f1 = metsrw.FSEntry('level1.txt', file_uuid=f1_uuid)
         d = metsrw.FSEntry('root', type='Directory', children=[d1, f1])
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         mw.append_file(d)
         assert mw.get_file(f3_uuid) == f3
         assert mw.get_file(f2_uuid) == f2
@@ -150,7 +150,7 @@ class TestWholeMETS(TestCase):
         f1.dmdsecs.append(metsrw.SubSection('dmdSec', None))
         f2 = metsrw.FSEntry('file2.txt', file_uuid=str(uuid.uuid4()))
         f2.dmdsecs.append(metsrw.SubSection('dmdSec', None))
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         elements = mw._collect_mdsec_elements([f1, f2])
         # Check ordering - dmdSec before amdSec
         assert isinstance(elements, list)
@@ -165,7 +165,7 @@ class TestWholeMETS(TestCase):
         o = metsrw.FSEntry('objects/file1.txt', file_uuid=str(uuid.uuid4()))
         p = metsrw.FSEntry('objects/file1-preservation.txt', use='preservaton', file_uuid=str(uuid.uuid4()))
         o2 = metsrw.FSEntry('objects/file2.txt', file_uuid=str(uuid.uuid4()))
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         element = mw._filesec([o, p, o2])
         assert isinstance(element, etree._Element)
         assert element.tag == '{http://www.loc.gov/METS/}fileSec'
@@ -182,7 +182,7 @@ class TestWholeMETS(TestCase):
             metsrw.FSEntry('objects/file2.txt', file_uuid=str(uuid.uuid4())),
         ]
         parent = metsrw.FSEntry('objects', type='Directory', children=children)
-        writer = metsrw.METSWriter()
+        writer = metsrw.METSDocument()
         writer.append_file(parent)
         sm = writer._structmap()
 
@@ -201,7 +201,7 @@ class TestWholeMETS(TestCase):
         assert children[1].find('{http://www.loc.gov/METS/}fptr') is not None
 
     def test_full_mets(self):
-        mw = metsrw.METSWriter()
+        mw = metsrw.METSDocument()
         file1 = metsrw.FSEntry('objects/object1.ext', file_uuid=str(uuid.uuid4()))
         file2 = metsrw.FSEntry('objects/object2.ext', file_uuid=str(uuid.uuid4()))
         file1p = metsrw.FSEntry('objects/object1-preservation.ext', use='preservation', file_uuid=str(uuid.uuid4()), derived_from=file1)

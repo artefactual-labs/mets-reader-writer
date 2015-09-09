@@ -20,7 +20,7 @@ class AMDSec(object):
     An object representing a section of administrative metadata in a
     document.
 
-    This is ordinarily created by METSWriter instances and does not
+    This is ordinarily created by :class:`metsrw.mets.METSDocument` instances and does not
     have to be instantiated directly.
 
     :param str section_id: ID of the section. If not provided, will be generated from 'amdSec' and a random number.

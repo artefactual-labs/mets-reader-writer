@@ -18,7 +18,7 @@ class FSEntry(object):
     """
     A class representing a filesystem entry - either a file or a directory.
 
-    When passed to a METSWriter instance, the tree of FSEntry objects will
+    When passed to a :class:`metsrw.mets.METSDocument` instance, the tree of FSEntry objects will
     be used to construct the <fileSec> and <structMap> elements of a
     METS document.
 
