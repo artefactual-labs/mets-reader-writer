@@ -15,6 +15,7 @@ SCHEMA_LOCATIONS = "http://www.loc.gov/METS/ " + \
 
 
 def lxmlns(arg):
+    """ Return XPath-usable namespace. """
     return '{' + NAMESPACES[arg] + '}'
 
 

@@ -77,7 +77,7 @@ class FSEntry(object):
         return prefix + '_' + str(randint(1, 999999))
 
     def file_id(self):
-        """ Returns the fptr FILEID if this is not a Directory. """
+        """ Returns the fptr @FILEID if this is not a Directory. """
         if self.type == 'Directory':
             return None
         if self.file_uuid is None:
@@ -86,7 +86,7 @@ class FSEntry(object):
 
     def group_id(self):
         """
-        Returns the GROUPID.
+        Returns the @GROUPID.
 
         If derived_from is set, returns that group_id.
         """

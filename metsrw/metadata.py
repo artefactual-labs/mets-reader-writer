@@ -1,3 +1,6 @@
+"""
+Classes for metadata sections of the METS. Include amdSec, dmdSec, techMD, rightsMD, sourceMD, digiprovMD, mdRef and mdWrap.
+"""
 from __future__ import absolute_import
 
 from lxml import etree
