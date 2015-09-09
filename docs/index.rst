@@ -1,9 +1,9 @@
-.. . documentation master file, created by
+.. metsrw documentation master file, created by
    sphinx-quickstart on Wed Jul 23 16:07:11 2014.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to .'s documentation!
+Welcome to metsrw's documentation!
 =============================
 
 Contents:
