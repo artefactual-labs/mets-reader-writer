@@ -1,8 +1,12 @@
+from __future__ import absolute_import
+
 from lxml import etree
 from random import randint
 
-import exceptions
-import utils
+import six
+
+from . import exceptions
+from . import utils
 
 
 class AMDSec(object):
@@ -270,7 +274,7 @@ class MDWrap(object):
     """
     def __init__(self, document, mdtype):
         parser = etree.XMLParser(remove_blank_text=True)
-        if isinstance(document, basestring):
+        if isinstance(document, six.string_types):
             self.document = etree.fromstring(document, parser=parser)
         elif isinstance(document, etree._Element):
             self.document = document

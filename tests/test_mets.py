@@ -22,7 +22,7 @@ class TestMETSWriter(TestCase):
         mw = metsrw.METSWriter()
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse('fixtures/complete_mets.xml', parser=parser)
-        with open('fixtures/complete_mets.xml') as f:
+        with open('fixtures/complete_mets.xml', 'rb') as f:
             metsstring = f.read()
         mw.fromstring(metsstring)
         assert isinstance(mw.tree, etree._ElementTree)

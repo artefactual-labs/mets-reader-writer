@@ -37,11 +37,13 @@ setup(
         'License :: OSI Approved :: GNU Affero General Public License v3',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
     ],
 
     keywords='mets',
 
     packages=find_packages(exclude=['docs', 'fixtures', 'requirements', 'tests*']),
 
-    install_requires=['lxml'],
+    install_requires=['lxml', 'six'],
 )

@@ -100,7 +100,7 @@ class TestSubSection(TestCase):
         subsection = metsrw.SubSection('techMD', content)
         subsection._id = 'techMD_1'
 
-        target = '<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" CREATED="2014-07-23T21:48:33" ID="techMD_1"><dummy_data/></ns0:techMD>'
+        target = b'<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" CREATED="2014-07-23T21:48:33" ID="techMD_1"><dummy_data/></ns0:techMD>'
 
         assert etree.tostring(subsection.serialize("2014-07-23T21:48:33")) == target
 
@@ -200,7 +200,7 @@ class TestMDWrap(TestCase):
         mdwrap = metsrw.MDWrap('<foo/>', 'PREMIS:DUMMY')
         mdwrapped = mdwrap.serialize()
 
-        target = '<ns0:mdWrap xmlns:ns0="http://www.loc.gov/METS/" MDTYPE="PREMIS:DUMMY"><ns0:xmlData><foo/></ns0:xmlData></ns0:mdWrap>'
+        target = b'<ns0:mdWrap xmlns:ns0="http://www.loc.gov/METS/" MDTYPE="PREMIS:DUMMY"><ns0:xmlData><foo/></ns0:xmlData></ns0:mdWrap>'
 
         assert mdwrapped.tag == '{http://www.loc.gov/METS/}mdWrap'
         assert mdwrap.document.tag == 'foo'

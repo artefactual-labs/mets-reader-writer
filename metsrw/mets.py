@@ -1,13 +1,15 @@
+from __future__ import absolute_import
+
 from datetime import datetime
 import logging
 from lxml import etree
 import sys
 
 # This package
-import exceptions
-import fsentry
-import metadata
-import utils
+from . import exceptions
+from . import fsentry
+from . import metadata
+from . import utils
 
 LOGGER = logging.getLogger(__name__)
 

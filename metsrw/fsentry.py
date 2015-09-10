@@ -1,9 +1,13 @@
+from __future__ import absolute_import
+
 import os
 from random import randint
 
-import exceptions
-from metadata import MDWrap, MDRef, SubSection, AMDSec
-import utils
+import six
+
+from . import exceptions
+from .metadata import MDWrap, MDRef, SubSection, AMDSec
+from . import utils
 
 
 class FSEntry(object):
@@ -57,7 +61,7 @@ class FSEntry(object):
             label = os.path.basename(path)
         self.label = label
         self.use = use
-        self.type = unicode(type)
+        self.type = six.text_type(type)
         if children is None:
             children = []
         self.children = children
