@@ -8,6 +8,27 @@ import metsrw
 class TestFSEntry(TestCase):
     """ Test FSEntry class. """
 
+    def test_create_invalid_checksum_type(self):
+        """ It should only accept METS valid checksum types. """
+        metsrw.FSEntry('file1.txt', checksumtype='Adler-32', checksum='dummy')
+        metsrw.FSEntry('file1.txt', checksumtype='CRC32', checksum='dummy')
+        metsrw.FSEntry('file1.txt', checksumtype='HAVAL', checksum='dummy')
+        metsrw.FSEntry('file1.txt', checksumtype='MD5', checksum='daa05c683a4913b268653f7a7e36a5b4')
+        metsrw.FSEntry('file1.txt', checksumtype='MNP', checksum='dummy')
+        metsrw.FSEntry('file1.txt', checksumtype='SHA-1', checksum='dummy')
+        metsrw.FSEntry('file1.txt', checksumtype='SHA-256', checksum='dummy')
+        metsrw.FSEntry('file1.txt', checksumtype='SHA-384', checksum='dummy')
+        metsrw.FSEntry('file1.txt', checksumtype='SHA-512', checksum='dummy')
+        metsrw.FSEntry('file1.txt', checksumtype='TIGER WHIRLPOOL', checksum='dummy')
+        with pytest.raises(ValueError):
+            metsrw.FSEntry('file1.txt', checksumtype='DNE', checksum='dummy')
+
+    def test_create_checksum_and_checksumtype(self):
+        with pytest.raises(ValueError):
+            metsrw.FSEntry('file1.txt', checksum='daa05c683a4913b268653f7a7e36a5b4')
+        with pytest.raises(ValueError):
+            metsrw.FSEntry('file1.txt', checksumtype='MD5')
+
     def test_file_id_directory(self):
         """ It should have no file ID. """
         d = metsrw.FSEntry('dir', type='Directory')
@@ -97,10 +118,16 @@ class TestFSEntry(TestCase):
         It should not have ADMIDs.
         It should have a child mets:FLocat element with the path.
         """
-        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry(
+            'file1.txt',
+            file_uuid=str(uuid.uuid4()),
+            checksumtype='MD5',
+            checksum='daa05c683a4913b268653f7a7e36a5b4')
         el = f.serialize_filesec()
         assert el.tag == '{http://www.loc.gov/METS/}file'
         assert el.attrib['ID'].startswith('file-')
+        assert el.attrib['CHECKSUM'] == 'daa05c683a4913b268653f7a7e36a5b4'
+        assert el.attrib['CHECKSUMTYPE'] == 'MD5'
         assert el.attrib.get('ADMID') is None
         assert len(el) == 1
         assert el[0].tag == '{http://www.loc.gov/METS/}FLocat'

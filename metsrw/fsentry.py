@@ -54,9 +54,16 @@ class FSEntry(object):
         FILEID used in the fileSec and structMap, and GROUPID.  Only required if
         type is 'Item'.
     :param FSEntry derived_from: FSEntry that this FSEntry is derived_from. This is used to set the GROUPID in the fileSec.
+    :param str checksum: Value of the file's checksum. Required if checksumtype passed.
+    :param str checksumtype: Type of the checksum. Must be one of :const:`FSEntry.ALLOWED_CHECKSUMS`.  Required if checksum passed.
     :raises ValueError: if children passed when type is not 'Directory'
+    :raises ValueError: if only one of checksum or checksumtype passed
+    :raises ValueError: if checksumtype is not in :const:`FSEntry.ALLOWED_CHECKSUMS`
     """
-    def __init__(self, path, label=None, use='original', type=u'Item', children=None, file_uuid=None, derived_from=None):
+
+    ALLOWED_CHECKSUMS = ('Adler-32', 'CRC32', 'HAVAL', 'MD5', 'MNP', 'SHA-1', 'SHA-256', 'SHA-384', 'SHA-512', 'TIGER WHIRLPOOL')
+
+    def __init__(self, path, label=None, use='original', type=u'Item', children=None, file_uuid=None, derived_from=None, checksum=None, checksumtype=None):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
@@ -71,6 +78,13 @@ class FSEntry(object):
         self.children = children
         self.file_uuid = file_uuid
         self.derived_from = derived_from
+        if bool(checksum) != bool(checksumtype):
+            raise ValueError("Must provide both checksum and checksumtype, or neither. Provided values: %s and %s" % (checksum, checksumtype))
+        if checksumtype and checksumtype not in self.ALLOWED_CHECKSUMS:
+            raise ValueError(
+                '%s must be one of %s' % (checksumtype, self.ALLOWED_CHECKSUMS))
+        self.checksum = checksum
+        self.checksumtype = checksumtype
         self.amdsecs = []
         self.dmdsecs = []
 
@@ -194,6 +208,9 @@ class FSEntry(object):
             el.attrib['GROUPID'] = self.group_id()
         if self.admids():
             el.set('ADMID', ' '.join(self.admids()))
+        if self.checksum and self.checksumtype:
+            el.attrib['CHECKSUM'] = self.checksum
+            el.attrib['CHECKSUMTYPE'] = self.checksumtype
         flocat = etree.SubElement(el, utils.lxmlns('mets') + 'FLocat')
         # Setting manually so order is correct
         flocat.set(utils.lxmlns('xlink') + 'href', self.path)
