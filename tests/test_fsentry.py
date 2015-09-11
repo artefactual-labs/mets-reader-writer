@@ -56,3 +56,73 @@ class TestFSEntry(TestCase):
         assert f1.amdsecs[0].subsections[3].contents.mdtype == 'PREMIS:RIGHTS'
 
         assert len(f1.amdsecs[0].subsections) == 4
+
+    def test_serialize_filesec_basic(self):
+        """
+        It should produce a mets:file element.
+        It should have an ID attribute.
+        It should not have ADMIDs.
+        It should have a child mets:FLocat element with the path.
+        """
+        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        el = f.serialize_filesec()
+        assert el.tag == '{http://www.loc.gov/METS/}file'
+        assert el.attrib['ID'].startswith('file-')
+        assert el.attrib.get('ADMID') is None
+        assert len(el) == 1
+        assert el[0].tag == '{http://www.loc.gov/METS/}FLocat'
+        assert el[0].attrib['LOCTYPE'] == 'OTHER'
+        assert el[0].attrib['OTHERLOCTYPE'] == 'SYSTEM'
+        assert el[0].attrib['{http://www.w3.org/1999/xlink}href'] == 'file1.txt'
+
+    def test_serialize_filesec_metadata(self):
+        """
+        It should produce a mets:file element.
+        It should have an ID attribute.
+        It should have one ADMID.
+        It should have a child mets:FLocat element with the path.
+        """
+        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f.add_premis_object('<premis>object</premis>')
+        el = f.serialize_filesec()
+        assert el.tag == '{http://www.loc.gov/METS/}file'
+        assert el.attrib['ID'].startswith('file-')
+        assert len(el.attrib['ADMID'].split()) == 1
+        assert len(el) == 1
+        assert el[0].tag == '{http://www.loc.gov/METS/}FLocat'
+        assert el[0].attrib['LOCTYPE'] == 'OTHER'
+        assert el[0].attrib['OTHERLOCTYPE'] == 'SYSTEM'
+        assert el[0].attrib['{http://www.w3.org/1999/xlink}href'] == 'file1.txt'
+
+    def test_serialize_filesec_not_item(self):
+        """
+        It should not produce a mets:file element.
+        """
+        f = metsrw.FSEntry('file1.txt', type='Directory', file_uuid=str(uuid.uuid4()))
+        el = f.serialize_filesec()
+        assert el is None
+
+    def test_serialize_filesec_no_use(self):
+        """
+        It should not produce a mets:file element.
+        """
+        f = metsrw.FSEntry('file1.txt', use=None, file_uuid=str(uuid.uuid4()))
+        el = f.serialize_filesec()
+        assert el is None
+
+    def test_serialize_structmap_file(self):
+        """
+        It should produce a mets:div element.
+        It should have a TYPE and LABEL.
+        It should have a child mets:fptr element with FILEID.
+        """
+        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f.add_dublin_core('<dc />')
+        el = f.serialize_structmap()
+        assert el.tag == '{http://www.loc.gov/METS/}div'
+        assert el.attrib['TYPE'] == 'Item'
+        assert el.attrib['LABEL'] == 'file1.txt'
+        assert len(el.attrib['DMDID'].split()) == 1
+        assert len(el) == 1
+        assert el[0].tag == '{http://www.loc.gov/METS/}fptr'
+        assert el[0].attrib['FILEID'].startswith('file-')

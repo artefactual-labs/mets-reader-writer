@@ -164,13 +164,7 @@ class METSWriter(object):
         will be parented to that element. This is intended for
         use when recursing down a tree.
         """
-        # TODO move this to FSEntry?
-        el = etree.Element(utils.lxmlns('mets') + 'div', TYPE=child.type, LABEL=child.label)
-        if child.file_id():
-            etree.SubElement(el, utils.lxmlns('mets') + 'fptr', FILEID=child.file_id())
-        dmdids = child.dmdids()
-        if dmdids:
-            el.set('DMDID', ' '.join(dmdids))
+        el = child.serialize_structmap()
 
         if parent is not None:
             parent.append(el)
@@ -211,18 +205,9 @@ class METSWriter(object):
                 filegrp = etree.SubElement(filesec, utils.lxmlns('mets') + 'fileGrp', USE=file_.use)
                 filegrps[file_.use] = filegrp
 
-            # TODO move this to the FSEntry?
-            admids = file_.admids()
-            file_el = etree.SubElement(filegrp, utils.lxmlns('mets') + 'file', ID=file_.file_id())
-            if file_.group_id():
-                file_el.attrib['GROUPID'] = file_.group_id()
-            if admids:
-                file_el.set('ADMID', ' '.join(admids))
-            flocat = etree.SubElement(file_el, utils.lxmlns('mets') + 'FLocat')
-            # Setting manually so order is correct
-            flocat.set(utils.lxmlns('xlink')+'href', file_.path)
-            flocat.set('LOCTYPE', 'OTHER')
-            flocat.set('OTHERLOCTYPE', 'SYSTEM')
+            file_el = file_.serialize_filesec()
+            if file_el is not None:
+                filegrp.append(file_el)
 
         return filesec
 

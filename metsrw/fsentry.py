@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import logging
+from lxml import etree
 import os
 from random import randint
 
@@ -175,3 +176,42 @@ class FSEntry(object):
         if self.type != 'Directory':
             raise ValueError("Only directory objects can have children")
         self.children.append(child)
+
+    # SERIALIZE
+
+    def serialize_filesec(self):
+        """
+        Return the file Element for this file, appropriate for use in a fileSec.
+
+        If this is not an Item or has no use, return None.
+
+        :return: fileSec element for this FSEntry
+        """
+        if self.type != "Item" or self.use is None:
+            return None
+        el = etree.Element(utils.lxmlns('mets') + 'file', ID=self.file_id())
+        if self.group_id():
+            el.attrib['GROUPID'] = self.group_id()
+        if self.admids():
+            el.set('ADMID', ' '.join(self.admids()))
+        flocat = etree.SubElement(el, utils.lxmlns('mets') + 'FLocat')
+        # Setting manually so order is correct
+        flocat.set(utils.lxmlns('xlink') + 'href', self.path)
+        flocat.set('LOCTYPE', 'OTHER')
+        flocat.set('OTHERLOCTYPE', 'SYSTEM')
+
+        return el
+
+    def serialize_structmap(self):
+        """
+        Return the div Element for this file, appropriate for use in a structMap.
+
+        :return: structMap element for this FSEntry
+        """
+        el = etree.Element(utils.lxmlns('mets') + 'div', TYPE=self.type, LABEL=self.label)
+        if self.file_id():
+            etree.SubElement(el, utils.lxmlns('mets') + 'fptr', FILEID=self.file_id())
+        if self.dmdids():
+            el.set('DMDID', ' '.join(self.dmdids()))
+
+        return el
