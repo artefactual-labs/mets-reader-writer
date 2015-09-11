@@ -104,7 +104,7 @@ class METSWriter(object):
 
     # SERIALIZE
 
-    def _document_root(self, fully_qualified=False):
+    def _document_root(self, fully_qualified=True):
         """
         Return the mets Element for the document root.
         """
@@ -191,7 +191,7 @@ class METSWriter(object):
 
         return filesec
 
-    def serialize(self, fully_qualified=False):
+    def serialize(self, fully_qualified=True):
         """
         Returns this document serialized to an xml Element.
 
@@ -209,7 +209,7 @@ class METSWriter(object):
 
         return root
 
-    def tostring(self, fully_qualified=False, pretty_print=True):
+    def tostring(self, fully_qualified=True, pretty_print=True):
         """
         Serialize and return a string of this METS file.
 
@@ -220,7 +220,7 @@ class METSWriter(object):
         root = self.serialize(fully_qualified=fully_qualified)
         return etree.tostring(root, pretty_print=pretty_print, xml_declaration=True)
 
-    def write(self, filepath, fully_qualified=False, pretty_print=False):
+    def write(self, filepath, fully_qualified=True, pretty_print=False):
         """
         Serialize and write this METS file to `filepath`.
 

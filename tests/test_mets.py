@@ -68,7 +68,7 @@ class TestMETSWriter(TestCase):
         assert root.tag == '{http://www.loc.gov/METS/}mets'
         assert root.attrib[metsrw.lxmlns('xsi') + 'schemaLocation'] == location
         nsmap = {
-            None: "http://www.loc.gov/METS/",
+            'mets': "http://www.loc.gov/METS/",
             'xsi': "http://www.w3.org/2001/XMLSchema-instance",
             'xlink': "http://www.w3.org/1999/xlink",
         }
