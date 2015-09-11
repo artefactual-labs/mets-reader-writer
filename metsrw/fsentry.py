@@ -202,10 +202,14 @@ class FSEntry(object):
 
         return el
 
-    def serialize_structmap(self):
+    def serialize_structmap(self, recurse=True):
         """
         Return the div Element for this file, appropriate for use in a structMap.
 
+        If this FSEntry represents a directory, its children will be recursively appended to itself.
+        If this FSEntry represents a file, it will contain a <fptr> element.
+
+        :param bool recurse: If true, serialize and apppend all children.  Otherwise, only serialize this element but not any children.
         :return: structMap element for this FSEntry
         """
         el = etree.Element(utils.lxmlns('mets') + 'div', TYPE=self.type, LABEL=self.label)
@@ -213,5 +217,9 @@ class FSEntry(object):
             etree.SubElement(el, utils.lxmlns('mets') + 'fptr', FILEID=self.file_id())
         if self.dmdids():
             el.set('DMDID', ' '.join(self.dmdids()))
+
+        if recurse and self.children:
+            for child in self.children:
+                el.append(child.serialize_structmap(recurse=recurse))
 
         return el

@@ -152,38 +152,18 @@ class METSWriter(object):
                 amdsecs.append(a)
         return dmdsecs + amdsecs
 
-    def _child_element(self, child, parent=None):
-        """
-        Creates a <div> element suitable for use in a structMap from
-        an FSEntry object. If the passed `child` represents a
-        directory, its children will be recursively appended to itself.
-        If the passed `child` represents a file, it will contain a
-        <fptr> element.
-
-        If the keyword argument `parent` is passed, the created element
-        will be parented to that element. This is intended for
-        use when recursing down a tree.
-        """
-        el = child.serialize_structmap()
-
-        if parent is not None:
-            parent.append(el)
-
-        if child.children:
-            for subchild in child.children:
-                el.append(self._child_element(subchild, parent=el))
-
-        return el
-
     def _structmap(self):
-        structmap = etree.Element(utils.lxmlns('mets') + 'structMap', TYPE='physical',
-                                  # TODO does it make sense that more
-                                  # than one structmap might be generated?
+        """
+        Returns structMap element for all files.
+        """
+        structmap = etree.Element(utils.lxmlns('mets') + 'structMap',
+                                  TYPE='physical',
+                                  # TODO Add ability for multiple structMaps
                                   ID='structMap_1',
                                   # TODO don't hardcode this
                                   LABEL='Archivematica default')
         for item in self._root_elements:
-            structmap.append(self._child_element(item))
+            structmap.append(item.serialize_structmap(recurse=True))
 
         return structmap
 

@@ -118,7 +118,7 @@ class TestFSEntry(TestCase):
         """
         f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
         f.add_dublin_core('<dc />')
-        el = f.serialize_structmap()
+        el = f.serialize_structmap(recurse=False)
         assert el.tag == '{http://www.loc.gov/METS/}div'
         assert el.attrib['TYPE'] == 'Item'
         assert el.attrib['LABEL'] == 'file1.txt'
@@ -126,3 +126,40 @@ class TestFSEntry(TestCase):
         assert len(el) == 1
         assert el[0].tag == '{http://www.loc.gov/METS/}fptr'
         assert el[0].attrib['FILEID'].startswith('file-')
+
+    def test_serialize_structmap_no_recurse(self):
+        """
+        It should produce a mets:div element.
+        It should have a TYPE and LABEL.
+        It should not have children.
+        """
+        d = metsrw.FSEntry('dir', type='Directory')
+        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        d.add_child(f)
+        el = d.serialize_structmap(recurse=False)
+        assert el.tag == '{http://www.loc.gov/METS/}div'
+        assert el.attrib['TYPE'] == 'Directory'
+        assert el.attrib['LABEL'] == 'dir'
+        assert len(el) == 0
+
+    def test_serialize_structmap_recurse(self):
+        """
+        It should produce a mets:div element.
+        It should have a TYPE and LABEL.
+        It should have a child mets:div with the file.
+        """
+        d = metsrw.FSEntry('dir', type='Directory')
+        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        d.add_child(f)
+        el = d.serialize_structmap(recurse=True)
+        assert el.tag == '{http://www.loc.gov/METS/}div'
+        assert el.attrib['TYPE'] == 'Directory'
+        assert el.attrib['LABEL'] == 'dir'
+        assert len(el) == 1
+        assert el[0].tag == '{http://www.loc.gov/METS/}div'
+        assert el[0].attrib['TYPE'] == 'Item'
+        assert el[0].attrib['LABEL'] == 'file1.txt'
+        assert len(el[0]) == 1
+        assert el[0][0].tag == '{http://www.loc.gov/METS/}fptr'
+        assert el[0][0].attrib['FILEID'].startswith('file-')
+
