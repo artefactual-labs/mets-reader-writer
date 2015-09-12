@@ -247,24 +247,23 @@ class MDRef(object):
         try:
             target_doc = etree.parse(self.target)
             dmdsecs = [item.get('ID') for item in
-                       target_doc.findall(utils.lxmlns('mets')+'dmdSec')]
+                       target_doc.findall(utils.lxmlns('mets') + 'dmdSec')]
             XPTR = "xpointer(id(''))".format(' '.join(dmdsecs))
         except Exception:
             pass
 
-        attrib = {
-            'MDTYPE': self.mdtype,
-            'LOCTYPE': self.loctype,
-        }
-        if self.target:
-            attrib[utils.lxmlns('xlink')+'href'] = self.target
-        if self.otherloctype:
-            attrib['OTHERLOCTYPE'] = self.otherloctype
-        if XPTR:
-            attrib['XPTR'] = XPTR
+        el = etree.Element(utils.lxmlns('mets') + 'mdRef')
         if self.label:
-            attrib['LABEL'] = self.label
-        return etree.Element(utils.lxmlns('mets') + 'mdRef', attrib=attrib)
+            el.attrib['LABEL'] = self.label
+        if self.target:
+            el.attrib[utils.lxmlns('xlink') + 'href'] = self.target
+        el.attrib['MDTYPE'] = self.mdtype
+        el.attrib['LOCTYPE'] = self.loctype
+        if self.otherloctype:
+            el.attrib['OTHERLOCTYPE'] = self.otherloctype
+        if XPTR:
+            el.attrib['XPTR'] = XPTR
+        return el
 
 
 class MDWrap(object):
