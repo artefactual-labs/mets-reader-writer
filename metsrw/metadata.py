@@ -280,6 +280,60 @@ class MDRef(object):
         return el
 
 
+class DublinCoreXmlData(object):
+    """
+    An object representing a METS xmlData element containing a Dublin Core element.
+
+    :raises exceptions.ParseError: If the root element tag is not xmlData.
+    """
+    DC_ELEMENTS = ['title', 'creator', 'subject', 'description', 'publisher', 'contributor', 'date', 'format', 'identifier', 'source', 'relation', 'language', 'coverage', 'rights']
+
+    def __init__(self, title=None, creator=None, subject=None, description=None, publisher=None, contributor=None, date=None, format=None, identifier=None, source=None, relation=None, language=None, coverage=None, rights=None):
+        for element in self.DC_ELEMENTS:
+            setattr(self, element, locals()[element])
+
+    @classmethod
+    def parse(cls, root):
+        """
+        Parse an xmlData element containing a Dublin Core dublincore element.
+
+        :param root: Element or ElementTree to be parsed into an object.
+        :raises exceptions.ParseError: If the root is not xmlData or doesn't contain a dublincore element.
+        """
+        if root.tag != utils.lxmlns('mets') + 'xmlData':
+            raise exceptions.ParseError('DublinCoreXmlData can only parse xmlData elements with mets namespace.')
+
+        dc_el = root.find('dcterms:dublincore', namespaces=utils.NAMESPACES)
+
+        if dc_el is None or dc_el.tag != utils.lxmlns('dcterms') + 'dublincore':
+            raise exceptions.ParseError('xmlData can only contain a dublincore element with the dcterms namespace.')
+
+        args = []
+
+        for element in DublinCoreXmlData.DC_ELEMENTS:
+            args.append(dc_el.findtext("dc:" + element, namespaces=utils.NAMESPACES))
+
+        return cls(*args)
+
+    def serialize(self):
+        nsmap = {'mets': utils.NAMESPACES['mets'], 'xsi': utils.NAMESPACES['xsi'], 'xlink': utils.NAMESPACES['xlink']}
+        root = etree.Element(utils.lxmlns('mets') + 'xmlData', nsmap=nsmap)
+        root.append(self._serialize_dublincore())
+        return root
+
+    def _serialize_dublincore(self):
+        nsmap = {'dcterms': utils.NAMESPACES['dcterms'], 'dc': utils.NAMESPACES['dc']}
+        attrib = {'{}schemaLocation'.format(utils.lxmlns('xsi')): utils.DUBLINCORE_SCHEMA_LOCATIONS}
+        dc_root = etree.Element(utils.lxmlns('dcterms') + 'dublincore', nsmap=nsmap, attrib=attrib)
+
+        for element in DublinCoreXmlData.DC_ELEMENTS:
+            dc_el = etree.Element(utils.lxmlns('dc') + element)
+            dc_el.text = getattr(self, element)
+            dc_root.append(dc_el)
+
+        return dc_root
+
+
 class MDWrap(object):
     """
     An object representing an XML document enclosed in a METS document.
@@ -291,13 +345,16 @@ class MDWrap(object):
     :param str mdtype: The MDTYPE of XML document being enclosed. Examples
         include "PREMIS:OBJECT" and "PREMIS:EVENT".
     """
-    def __init__(self, document, mdtype):
+    MDTYPE_CLASSES = {'DC': DublinCoreXmlData}
+
+    def __init__(self, document, mdtype, data=None):
         parser = etree.XMLParser(remove_blank_text=True)
         if isinstance(document, six.string_types):
             self.document = etree.fromstring(document, parser=parser)
         elif isinstance(document, etree._Element):
             self.document = document
         self.mdtype = mdtype
+        self.data = data
 
     @classmethod
     def parse(cls, root):
@@ -313,11 +370,17 @@ class MDWrap(object):
         mdtype = root.get('MDTYPE')
         if not mdtype:
             raise exceptions.ParseError('mdWrap must have a MDTYPE')
+        if mdtype in MDWrap.MDTYPE_CLASSES.keys():
+            mdtype_class = MDWrap.MDTYPE_CLASSES[mdtype]()
+            data = mdtype_class.parse(root.find('mets:xmlData', namespaces=utils.NAMESPACES)).__dict__
+        else:
+            data = None
+
         document = root.xpath('mets:xmlData/*', namespaces=utils.NAMESPACES)
         if len(document) != 1:
             raise exceptions.ParseError('mdWrap and xmlData can only have one child')
         document = document[0]
-        return cls(document, mdtype)
+        return cls(document, mdtype, data)
 
     def serialize(self):
         el = etree.Element(utils.lxmlns('mets') + 'mdWrap', MDTYPE=self.mdtype)

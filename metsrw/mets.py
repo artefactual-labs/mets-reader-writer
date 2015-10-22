@@ -118,7 +118,7 @@ class METSDocument(object):
             nsmap[None] = utils.NAMESPACES['mets']
         attrib = {
             '{}schemaLocation'.format(utils.lxmlns('xsi')):
-            utils.SCHEMA_LOCATIONS
+            utils.METS_SCHEMA_LOCATIONS
         }
         return etree.Element(utils.lxmlns('mets') + 'mets', nsmap=nsmap, attrib=attrib)
 
@@ -284,6 +284,10 @@ class METSDocument(object):
                     amdsec_elem = tree.find('mets:amdSec[@ID="' + amdid + '"]', namespaces=utils.NAMESPACES)
                     amdsec = metadata.AMDSec.parse(amdsec_elem)
                     fs_entry.amdsecs.append(amdsec)
+
+                    # Add subsections to convience properties
+                    for subsection in amdsec.subsections:
+                        getattr(fs_entry, subsection.subsection.lower() + 's').append(subsection)
 
             siblings.append(fs_entry)
         return siblings
