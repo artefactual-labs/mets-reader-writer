@@ -118,7 +118,7 @@ class METSWriter(object):
             nsmap[None] = utils.NAMESPACES['mets']
         attrib = {
             '{}schemaLocation'.format(utils.lxmlns('xsi')):
-            utils.SCHEMA_LOCATIONS
+            utils.METS_SCHEMA_LOCATIONS
         }
         return etree.Element(utils.lxmlns('mets') + 'mets', nsmap=nsmap, attrib=attrib)
 
