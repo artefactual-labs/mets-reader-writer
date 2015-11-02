@@ -46,4 +46,6 @@ setup(
     packages=find_packages(exclude=['docs', 'fixtures', 'requirements', 'tests*']),
 
     install_requires=['lxml', 'six'],
+
+    scripts=['scripts/mets_server'],
 )
