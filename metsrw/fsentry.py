@@ -90,6 +90,11 @@ class FSEntry(object):
         self.amdsecs = []
         self.dmdsecs = []
 
+    def __str__(self):
+        return '{s.type}: {s.path}'.format(s=self)
+
+    def __repr__(self):
+        return 'FSEntry(type={s.type!r}, path={s.path!r}, use={s.use!r}, label={s.label!r}, file_uuid={s.file_uuid!r}, checksum={s.checksum!r}, checksumtype={s.checksumtype!r})'.format(s=self)
 
     # PROPERTIES
 
