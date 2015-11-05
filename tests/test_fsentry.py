@@ -68,19 +68,19 @@ class TestFSEntry(TestCase):
     def test_admids(self):
         """ It should return 0 or 1 amdSecs. """
         f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
-        assert len(f.admids()) == 0
+        assert len(f.admids) == 0
         f.add_premis_object('<premis>object</premis>')
-        assert len(f.admids()) == 1
+        assert len(f.admids) == 1
         f.add_premis_event('<premis>event</premis>')
         # Can only have one amdSec
-        assert len(f.admids()) == 1
+        assert len(f.admids) == 1
 
     def test_dmdids(self):
         """ It should return a DMDID for each dmdSec. """
         f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
-        assert len(f.dmdids()) == 0
+        assert len(f.dmdids) == 0
         f.add_dublin_core('<dc />')
-        assert len(f.dmdids()) == 1
+        assert len(f.dmdids) == 1
 
     def test_add_metadata_to_fsentry(self):
         f1 = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))

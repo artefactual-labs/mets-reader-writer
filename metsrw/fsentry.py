@@ -91,6 +91,8 @@ class FSEntry(object):
         if type != 'Directory' and children:
             raise ValueError("Only directory objects can have children")
 
+    # PROPERTIES
+
     def _create_id(self, prefix):
         return prefix + '_' + str(randint(1, 999999))
 
@@ -114,13 +116,17 @@ class FSEntry(object):
             return None
         return utils.GROUP_ID_PREFIX + self.file_uuid
 
+    @property
     def admids(self):
         """ Returns a list of ADMIDs for this entry. """
         return [a.id_string() for a in self.amdsecs]
 
+    @property
     def dmdids(self):
         """ Returns a list of DMDIDs for this entry. """
         return [d.id_string() for d in self.dmdsecs]
+
+    # ADD ATTRIBUTES
 
     def _add_metadata_element(self, md, subsection, mdtype, mode='mdwrap', **kwargs):
         """
@@ -206,8 +212,8 @@ class FSEntry(object):
         el = etree.Element(utils.lxmlns('mets') + 'file', ID=self.file_id())
         if self.group_id():
             el.attrib['GROUPID'] = self.group_id()
-        if self.admids():
-            el.set('ADMID', ' '.join(self.admids()))
+        if self.admids:
+            el.set('ADMID', ' '.join(self.admids))
         if self.checksum and self.checksumtype:
             el.attrib['CHECKSUM'] = self.checksum
             el.attrib['CHECKSUMTYPE'] = self.checksumtype
@@ -232,8 +238,8 @@ class FSEntry(object):
         el = etree.Element(utils.lxmlns('mets') + 'div', TYPE=self.type, LABEL=self.label)
         if self.file_id():
             etree.SubElement(el, utils.lxmlns('mets') + 'fptr', FILEID=self.file_id())
-        if self.dmdids():
-            el.set('DMDID', ' '.join(self.dmdids()))
+        if self.dmdids:
+            el.set('DMDID', ' '.join(self.dmdids))
 
         if recurse and self.children:
             for child in self.children:
