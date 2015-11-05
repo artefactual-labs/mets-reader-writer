@@ -73,9 +73,11 @@ class FSEntry(object):
         self.label = label
         self.use = use
         self.type = six.text_type(type)
-        if children is None:
-            children = []
-        self.children = children
+        self.parent = None
+        self._children = []
+        children = children or []
+        for child in children:
+            self.add_child(child)
         self.file_uuid = file_uuid
         self.derived_from = derived_from
         if bool(checksum) != bool(checksumtype):
@@ -88,8 +90,6 @@ class FSEntry(object):
         self.amdsecs = []
         self.dmdsecs = []
 
-        if type != 'Directory' and children:
-            raise ValueError("Only directory objects can have children")
 
     # PROPERTIES
 
@@ -125,6 +125,11 @@ class FSEntry(object):
     def dmdids(self):
         """ Returns a list of DMDIDs for this entry. """
         return [d.id_string() for d in self.dmdsecs]
+
+    @property
+    def children(self):
+        # Read-only
+        return self._children
 
     # ADD ATTRIBUTES
 
@@ -195,7 +200,8 @@ class FSEntry(object):
     def add_child(self, child):
         if self.type != 'Directory':
             raise ValueError("Only directory objects can have children")
-        self.children.append(child)
+        self._children.append(child)
+        child.parent = self
 
     # SERIALIZE
 
@@ -241,8 +247,8 @@ class FSEntry(object):
         if self.dmdids:
             el.set('DMDID', ' '.join(self.dmdids))
 
-        if recurse and self.children:
-            for child in self.children:
+        if recurse and self._children:
+            for child in self._children:
                 el.append(child.serialize_structmap(recurse=recurse))
 
         return el
