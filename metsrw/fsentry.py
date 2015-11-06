@@ -106,6 +106,7 @@ class FSEntry(object):
         if self.type.lower() == 'directory':
             return None
         if self.file_uuid is None:
+            # TODO generate UUID here???
             raise exceptions.MetsError('No FILEID: File %s does not have file_uuid set' % self.path)
         return utils.FILE_ID_PREFIX + self.file_uuid
 
@@ -118,6 +119,7 @@ class FSEntry(object):
         if self.derived_from is not None:
             return self.derived_from.group_id()
         if self.file_uuid is None:
+            LOGGER.debug('No GROUPID: File %s does not have file_uuid set', self.path)
             return None
         return utils.GROUP_ID_PREFIX + self.file_uuid
 
