@@ -313,7 +313,7 @@ class METSDocument(object):
     def _validate(self):
         raise NotImplementedError()
 
-    def fromfile(self, path):
+    def _fromfile(self, path):
         """
         Accept a filepath pointing to a valid METS document and parses it.
 
@@ -323,7 +323,14 @@ class METSDocument(object):
         self.tree = etree.parse(path, parser=parser)
         self._parse_tree(self.tree)
 
-    def fromstring(self, string):
+    @classmethod
+    def fromfile(klass, path):
+        """ Creates a METS by parsing a file. """
+        i = klass()
+        i._fromfile(path)
+        return i
+
+    def _fromstring(self, string):
         """
         Accept a string containing valid METS xml and parses it.
 
@@ -334,7 +341,14 @@ class METSDocument(object):
         self.tree = root.getroottree()
         self._parse_tree(self.tree)
 
-    def fromtree(self, tree):
+    @classmethod
+    def fromstring(klass, string):
+        """ Create a METS by parsing a string. """
+        i = klass()
+        i._fromstring(string)
+        return i
+
+    def _fromtree(self, tree):
         """
         Accept an ElementTree or Element and parses it.
 
@@ -343,6 +357,12 @@ class METSDocument(object):
         self.tree = tree
         self._parse_tree(self.tree)
 
+    @classmethod
+    def fromtree(klass, tree):
+        """ Create a METS from an ElementTree or Element. """
+        i = klass()
+        i._fromtree(tree)
+        return i
 
 if __name__ == '__main__':
     mw = METSDocument()

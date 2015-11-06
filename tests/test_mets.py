@@ -11,27 +11,24 @@ class TestMETSDocument(TestCase):
     """ Test METSDocument class. """
 
     def test_fromfile(self):
-        mw = metsrw.METSDocument()
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse('fixtures/complete_mets.xml', parser=parser)
-        mw.fromfile('fixtures/complete_mets.xml')
+        mw = metsrw.METSDocument.fromfile('fixtures/complete_mets.xml')
         assert isinstance(mw.tree, etree._ElementTree)
         assert etree.tostring(mw.tree) == etree.tostring(root)
 
     def test_fromstring(self):
-        mw = metsrw.METSDocument()
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse('fixtures/complete_mets.xml', parser=parser)
         with open('fixtures/complete_mets.xml', 'rb') as f:
             metsstring = f.read()
-        mw.fromstring(metsstring)
+        mw = metsrw.METSDocument.fromstring(metsstring)
         assert isinstance(mw.tree, etree._ElementTree)
         assert etree.tostring(mw.tree) == etree.tostring(root)
 
     def test_fromtree(self):
-        mw = metsrw.METSDocument()
         root = etree.parse('fixtures/complete_mets.xml')
-        mw.fromtree(root)
+        mw = metsrw.METSDocument.fromtree(root)
         assert isinstance(mw.tree, etree._ElementTree)
         assert etree.tostring(mw.tree) == etree.tostring(root)
 
