@@ -293,7 +293,7 @@ class METSDocument(object):
         # Check CREATEDATE < now
         createdate = self.tree.find('mets:metsHdr', namespaces=utils.NAMESPACES).get('CREATEDATE')
         now = datetime.utcnow().isoformat('T')
-        if createdate > now:
+        if createdate and createdate > now:
             raise exceptions.ParseError('CREATEDATE more recent than now (%s)' % now)
         self.createdate = createdate
 

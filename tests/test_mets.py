@@ -47,6 +47,18 @@ class TestMETSDocument(TestCase):
         with pytest.raises(metsrw.ParseError):
             mw._parse_tree()
 
+    def test_parse_tree_no_createdate(self):
+        mw = metsrw.METSDocument()
+        mets_string = b"""<?xml version='1.0' encoding='ASCII'?>
+<mets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.loc.gov/METS/" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version18/mets.xsd">
+  <metsHdr/><structMap TYPE="physical"></structMap>
+</mets>
+"""
+        root = etree.fromstring(mets_string)
+        mw.tree = root
+        mw._parse_tree()
+        assert mw.createdate is None
+
     def test_write(self):
         mw = metsrw.METSDocument()
         # mock serialize
