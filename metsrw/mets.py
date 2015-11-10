@@ -244,11 +244,7 @@ class METSDocument(object):
             entry_type = elem.get('TYPE')
             label = elem.get('LABEL')
             fptr = elem.find('mets:fptr', namespaces=utils.NAMESPACES)
-            file_uuid = None
-            derived_from = None
-            use = None
-            path = None
-            amdids = None
+            file_uuid = derived_from = use = path = amdids = checksum = checksumtype = None
             if fptr is not None:
                 file_id = fptr.get('FILEID')
                 file_elem = tree.find('mets:fileSec//mets:file[@ID="' + file_id + '"]', namespaces=utils.NAMESPACES)
@@ -261,12 +257,14 @@ class METSDocument(object):
                 use = file_elem.getparent().get('USE')
                 path = file_elem.find('mets:FLocat', namespaces=utils.NAMESPACES).get(utils.lxmlns('xlink') + 'href')
                 amdids = file_elem.get('ADMID')
+                checksum = file_elem.get('CHECKSUM')
+                checksumtype = file_elem.get('CHECKSUMTYPE')
 
             # Recursively generate children
             children = self._parse_tree_structmap(tree, elem)
 
             # Create FSEntry
-            fs_entry = fsentry.FSEntry(path=path, label=label, use=use, type=entry_type, children=children, file_uuid=file_uuid, derived_from=derived_from)
+            fs_entry = fsentry.FSEntry(path=path, label=label, use=use, type=entry_type, children=children, file_uuid=file_uuid, derived_from=derived_from, checksum=checksum, checksumtype=checksumtype)
 
             # Add DMDSecs
             dmdids = elem.get('DMDID')
