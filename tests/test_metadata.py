@@ -100,9 +100,19 @@ class TestSubSection(TestCase):
         subsection = metsrw.SubSection('techMD', content)
         subsection._id = 'techMD_1'
 
-        target = b'<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" CREATED="2014-07-23T21:48:33" ID="techMD_1"><dummy_data/></ns0:techMD>'
+        target = b'<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" ID="techMD_1" CREATED="2014-07-23T21:48:33"><dummy_data/></ns0:techMD>'
 
         assert etree.tostring(subsection.serialize("2014-07-23T21:48:33")) == target
+
+    def test_subsection_serialize_no_date(self):
+        content = metsrw.MDWrap('<foo/>', None)
+        content.serialize = lambda: etree.Element('dummy_data')
+        subsection = metsrw.SubSection('techMD', content)
+        subsection._id = 'techMD_1'
+
+        target = b'<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" ID="techMD_1"><dummy_data/></ns0:techMD>'
+
+        assert etree.tostring(subsection.serialize()) == target
 
     def test_subsection_ordering(self):
         l = []

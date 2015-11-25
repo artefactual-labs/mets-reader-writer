@@ -61,7 +61,13 @@ class AMDSec(object):
             subsections.append(subsection)
         return cls(section_id, subsections)
 
-    def serialize(self, now):
+    def serialize(self, now=None):
+        """
+        Serialize this amdSec and all children to lxml Element and return it.
+
+        :param str now: Default value for CREATED in children if none set
+        :return: amdSec Element with all children
+        """
         el = etree.Element(utils.lxmlns('mets') + self.tag, ID=self.id_string())
         self.subsections.sort()
         for child in self.subsections:
@@ -179,9 +185,17 @@ class SubSection(object):
         obj.status = status
         return obj
 
-    def serialize(self, now):
+    def serialize(self, now=None):
+        """
+        Serialize this SubSection and all children to lxml Element and return it.
+
+        :param str now: Default value for CREATED if none set
+        :return: dmdSec/techMD/rightsMD/sourceMD/digiprovMD Element with all children
+        """
         created = self.created or now
-        el = etree.Element(utils.lxmlns('mets') + self.subsection, ID=self.id_string(), CREATED=created)
+        el = etree.Element(utils.lxmlns('mets') + self.subsection, ID=self.id_string())
+        if created:
+            el.set('CREATED', created)
         status = self.get_status()
         if status:
             el.set('STATUS', status)
