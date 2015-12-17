@@ -103,7 +103,7 @@ class FSEntry(object):
 
     def file_id(self):
         """ Returns the fptr @FILEID if this is not a Directory. """
-        if self.type == 'Directory':
+        if self.type.lower() == 'directory':
             return None
         if self.file_uuid is None:
             raise exceptions.MetsError('No FILEID: File %s does not have file_uuid set' % self.path)
@@ -203,7 +203,7 @@ class FSEntry(object):
         return self.add_dmdsec(md, 'DC', mode)
 
     def add_child(self, child):
-        if self.type != 'Directory':
+        if self.type.lower() != 'directory':
             raise ValueError("Only directory objects can have children")
         self._children.append(child)
         child.parent = self
@@ -218,7 +218,7 @@ class FSEntry(object):
 
         :return: fileSec element for this FSEntry
         """
-        if self.type != "Item" or self.use is None:
+        if self.type.lower() != 'item' or self.use is None:
             return None
         el = etree.Element(utils.lxmlns('mets') + 'file', ID=self.file_id())
         if self.group_id():

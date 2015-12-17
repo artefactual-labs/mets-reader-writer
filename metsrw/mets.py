@@ -177,7 +177,7 @@ class METSDocument(object):
         filesec = etree.Element(utils.lxmlns('mets') + 'fileSec')
         filegrps = {}
         for file_ in files:
-            if file_.type != 'Item':
+            if file_.type.lower() != 'item':
                 continue
             # Get fileGrp, or create if not exist
             filegrp = filegrps.get(file_.use)
