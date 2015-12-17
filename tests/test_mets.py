@@ -59,6 +59,10 @@ class TestMETSDocument(TestCase):
         mw._parse_tree()
         assert mw.createdate is None
 
+    def test_parse_tree_no_groupid(self):
+        mw = metsrw.METSDocument().fromfile('fixtures/mets_without_groupid_in_file.xml')
+        assert mw.get_file('db653873-d0ab-4bc1-9edb-2b6d2d84ab5a') is not None
+
     def test_write(self):
         mw = metsrw.METSDocument()
         # mock serialize
