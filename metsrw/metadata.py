@@ -125,7 +125,7 @@ class SubSection(object):
 
         :returns: None or the STATUS string.
         """
-        if self.status:
+        if self.status is not None:
             return self.status
         if self.subsection == 'dmdSec':
             if self.older is None:
@@ -170,8 +170,8 @@ class SubSection(object):
         if subsection not in cls.ALLOWED_SUBSECTIONS:
             raise exceptions.ParseError('SubSection can only parse elements with tag in %s with METS namespace' % (cls.ALLOWED_SUBSECTIONS,))
         section_id = root.get('ID')
-        created = root.get('CREATED')
-        status = root.get('STATUS')
+        created = root.get('CREATED', '')
+        status = root.get('STATUS', '')
         child = root[0]
         if child.tag == utils.lxmlns('mets') + 'mdWrap':
             mdwrap = MDWrap.parse(child)
@@ -192,9 +192,9 @@ class SubSection(object):
         :param str now: Default value for CREATED if none set
         :return: dmdSec/techMD/rightsMD/sourceMD/digiprovMD Element with all children
         """
-        created = self.created or now
+        created = self.created if self.created is not None else now
         el = etree.Element(utils.lxmlns('mets') + self.subsection, ID=self.id_string())
-        if created:
+        if created:  # Don't add CREATED if none was parsed
             el.set('CREATED', created)
         status = self.get_status()
         if status:

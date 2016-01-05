@@ -159,6 +159,29 @@ class TestSubSection(TestCase):
             metsrw.SubSection.parse(elem)
             assert 'must be mdWrap or mdRef' in e.value
 
+    def test_roundtrip(self):
+        """ It should be able to parse and write out a subsection unchanged. """
+        elem = etree.Element('{http://www.loc.gov/METS/}techMD', ID='techMD_42', CREATED='2016-01-02T03:04:05', STATUS='original')
+        mdr = etree.SubElement(elem, '{http://www.loc.gov/METS/}mdRef', MDTYPE='dummy', LOCTYPE='URL')
+        mdr.set('{http://www.w3.org/1999/xlink}href', 'url')
+        obj = metsrw.SubSection.parse(elem)
+        new = obj.serialize(now='2001-02-03T09:10')
+        assert new.tag == '{http://www.loc.gov/METS/}techMD'
+        assert new.attrib['ID'] == 'techMD_42'
+        assert new.attrib['CREATED'] == '2016-01-02T03:04:05'
+        assert new.attrib['STATUS'] == 'original'
+        assert len(new.attrib) == 3
+
+    def test_roundtrip_bare(self):
+        """ It should be able to parse and write out a subsection unchanged. """
+        elem = etree.Element('{http://www.loc.gov/METS/}techMD', ID='techMD_42')
+        mdr = etree.SubElement(elem, '{http://www.loc.gov/METS/}mdRef', MDTYPE='dummy', LOCTYPE='URL')
+        mdr.set('{http://www.w3.org/1999/xlink}href', 'url')
+        obj = metsrw.SubSection.parse(elem)
+        new = obj.serialize(now='2001-02-03T09:10')
+        assert new.tag == '{http://www.loc.gov/METS/}techMD'
+        assert new.attrib['ID'] == 'techMD_42'
+        assert len(new.attrib) == 1
 
 class TestMDRef(TestCase):
     """ Test MDRef class. """
