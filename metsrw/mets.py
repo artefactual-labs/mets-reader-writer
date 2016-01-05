@@ -150,6 +150,9 @@ class METSDocument(object):
                 dmdsecs.append(d)
             for a in f.amdsecs:
                 amdsecs.append(a)
+
+        dmdsecs.sort(key=lambda x: x.id_string())
+        amdsecs.sort(key=lambda x: x.id_string())
         return dmdsecs + amdsecs
 
     def _structmap(self):
