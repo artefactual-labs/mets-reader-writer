@@ -61,7 +61,7 @@ class TestMETSDocument(TestCase):
 
     def test_parse_tree_no_groupid(self):
         mw = metsrw.METSDocument().fromfile('fixtures/mets_without_groupid_in_file.xml')
-        assert mw.get_file('db653873-d0ab-4bc1-9edb-2b6d2d84ab5a') is not None
+        assert mw.get_file(file_uuid='db653873-d0ab-4bc1-9edb-2b6d2d84ab5a') is not None
 
     def test_write(self):
         mw = metsrw.METSDocument()
@@ -136,26 +136,49 @@ class TestWholeMETS(TestCase):
         assert f4 in files
 
     def test_get_file(self):
-        # Test collects several children deep
+        # Setup
         f3_uuid = str(uuid.uuid4())
-        f3 = metsrw.FSEntry('level3.txt', file_uuid=f3_uuid)
-        d2 = metsrw.FSEntry('dir2', type='Directory', children=[f3])
+        f3 = metsrw.FSEntry('dir1/dir2/level3.txt', file_uuid=f3_uuid)
+        d2 = metsrw.FSEntry('dir1/dir2', type='Directory', children=[f3])
         f2_uuid = str(uuid.uuid4())
-        f2 = metsrw.FSEntry('level2.txt', file_uuid=f2_uuid)
+        f2 = metsrw.FSEntry('dir1/level2.txt', file_uuid=f2_uuid)
         d1 = metsrw.FSEntry('dir1', type='Directory', children=[d2, f2])
         f1_uuid = str(uuid.uuid4())
         f1 = metsrw.FSEntry('level1.txt', file_uuid=f1_uuid)
         d = metsrw.FSEntry('root', type='Directory', children=[d1, f1])
         mw = metsrw.METSDocument()
         mw.append_file(d)
-        assert mw.get_file(f3_uuid) == f3
-        assert mw.get_file(f2_uuid) == f2
-        assert mw.get_file(f1_uuid) == f1
-        assert mw.get_file('something') is None
+        # Test
+        # By UUID
+        assert mw.get_file(file_uuid=f3_uuid) == f3
+        assert mw.get_file(file_uuid=f2_uuid) == f2
+        assert mw.get_file(file_uuid=f1_uuid) == f1
+        assert mw.get_file(file_uuid='does not exist') is None
+        # By path
+        assert mw.get_file(path='dir1/dir2/level3.txt') == f3
+        assert mw.get_file(path='dir1/dir2') == d2
+        assert mw.get_file(path='dir1/level2.txt') == f2
+        assert mw.get_file(path='dir1') == d1
+        assert mw.get_file(path='level1.txt') == f1
+        assert mw.get_file(path='does not exist') is None
+        # By label
+        assert mw.get_file(label='level3.txt') == f3
+        assert mw.get_file(label='dir2') == d2
+        assert mw.get_file(label='level2.txt') == f2
+        assert mw.get_file(label='dir1') == d1
+        assert mw.get_file(label='level1.txt') == f1
+        assert mw.get_file(label='does not exist') is None
+        # By multiple
+        assert mw.get_file(label='level3.txt', path='dir1/dir2/level3.txt') == f3
+        assert mw.get_file(label='dir2', type='Directory') == d2
+        assert mw.get_file(label='level2.txt', type='Item') == f2
+        assert mw.get_file(file_uuid=None, type='Item') is None
+        # Updates list
         f4_uuid = str(uuid.uuid4())
         f4 = metsrw.FSEntry('file4.txt', file_uuid=f4_uuid)
         mw.append_file(f4)
-        assert mw.get_file(f4_uuid) == f4
+        assert mw.get_file(file_uuid=f4_uuid) == f4
+        assert mw.get_file(path='file4.txt') == f4
 
     def test_collect_mdsec_elements(self):
         f1 = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))

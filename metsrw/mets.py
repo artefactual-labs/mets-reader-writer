@@ -23,7 +23,6 @@ class METSDocument(object):
         self.createdate = None
         self._root_elements = []
         self._all_files = None
-        self._files_uuid = None
         self.dmdsecs = []
         self.amdsecs = []
 
@@ -57,32 +56,22 @@ class METSDocument(object):
             self._all_files = self._collect_all_files(self._root_elements)
         return self._all_files
 
-    def _collect_files_uuid(self, files=None):
+    def get_file(self, **kwargs):
         """
-        Collect all FSEntrys with UUIDs into a dict.
+        Return the FSEntry that matches parameters.
 
-        :param list files: List of :class:`FSEntry` to traverse.
-        :returns: Dict of {'uuid': FSEntry}
+        :param str file_uuid: UUID of the target FSEntry.
+        :param str label: structMap LABEL of the target FSEntry.
+        :param str type: structMap TYPE of the target FSEntry.
+        :returns: :class:`FSEntry` that matches parameters, or None.
         """
-        if files is None:
-            files = self._root_elements
-        collected = {}
-        for entry in files:
-            if entry.file_uuid is not None:
-                collected[entry.file_uuid] = entry
-            collected.update(self._collect_files_uuid(entry.children))
-        return collected
-
-    def get_file(self, file_uuid):
-        """
-        Return the FSEntry with file_uuid.
-
-        :param str file_uuid: UUID of the FSEntry to fetch.
-        :returns: :class:`FSEntry` with file_uuid.
-        """
-        if not self._files_uuid:
-            self._files_uuid = self._collect_files_uuid(self._root_elements)
-        return self._files_uuid.get(file_uuid)
+        # TODO put this in a sqlite DB so it can be queried efficiently
+        # TODO handle multiple matches (with DB?)
+        # TODO check that kwargs are actual attrs
+        for entry in self.all_files():
+            if all(value == getattr(entry, key) for key, value in kwargs.items()):
+                return entry
+        return None
 
     def append_file(self, fs_entry):
         """
@@ -100,7 +89,6 @@ class METSDocument(object):
         self._root_elements.append(fs_entry)
         # Reset file lists so they get regenerated with the new files(s)
         self._all_files = None
-        self._files_uuid = None
 
     # SERIALIZE
 
@@ -310,8 +298,7 @@ class METSDocument(object):
 
         # Associated derived files
         for entry in self.all_files():
-            # get_file will return None with parameter None
-            entry.derived_from = self.get_file(entry.derived_from)
+            entry.derived_from = self.get_file(file_uuid=entry.derived_from, type='Item')
 
     def _validate(self):
         raise NotImplementedError()
