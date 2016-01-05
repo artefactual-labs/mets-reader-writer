@@ -168,7 +168,7 @@ class SubSection(object):
         """
         subsection = root.tag.replace(utils.lxmlns('mets'), '', 1)
         if subsection not in cls.ALLOWED_SUBSECTIONS:
-            raise exceptions.exceptions.ParseError('SubSection can only parse elements with tag in %s with METS namespace' % cls.ALLOWED_SUBSECTIONS)
+            raise exceptions.ParseError('SubSection can only parse elements with tag in %s with METS namespace' % (cls.ALLOWED_SUBSECTIONS,))
         section_id = root.get('ID')
         created = root.get('CREATED')
         status = root.get('STATUS')
@@ -180,7 +180,7 @@ class SubSection(object):
             mdref = MDRef.parse(child)
             obj = cls(subsection, mdref, section_id)
         else:
-            raise exceptions.exceptions.ParseError('Child of %s must be mdWrap or mdRef' % subsection)
+            raise exceptions.ParseError('Child of %s must be mdWrap or mdRef' % subsection)
         obj.created = created
         obj.status = status
         return obj

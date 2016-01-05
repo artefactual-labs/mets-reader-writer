@@ -126,6 +126,39 @@ class TestSubSection(TestCase):
         assert l[2].subsection == 'sourceMD'
         assert l[3].subsection == 'digiprovMD'
 
+    def test_parse(self):
+        """
+        It should parse SubSection ID, CREATED & STATUS.
+        It should create an MDWrap or MDRef child.
+        """
+        # Parses correctly
+        elem = etree.Element('{http://www.loc.gov/METS/}techMD', ID='techMD_42', CREATED='2016-01-02T03:04:05', STATUS='original')
+        mdr = etree.SubElement(elem, '{http://www.loc.gov/METS/}mdRef', MDTYPE='dummy', LOCTYPE='URL')
+        mdr.set('{http://www.w3.org/1999/xlink}href', 'url')
+        obj = metsrw.SubSection.parse(elem)
+        assert obj.subsection == 'techMD'
+        assert obj.status == 'original'
+        assert obj.created == '2016-01-02T03:04:05'
+        assert obj.id_string() == 'techMD_42'
+        assert obj.newer is obj.older is None
+        assert isinstance(obj.contents, metsrw.MDRef)
+
+    def test_parse_bad_subsection_type(self):
+        """ It should only accept valid subsection tags. """
+        # Wrong tag name
+        bad = etree.Element('foo')
+        with pytest.raises(metsrw.ParseError) as e:
+            metsrw.SubSection.parse(bad)
+            assert 'METS namespace' in e.value
+
+    def test_parse_bad_child_type(self):
+        """ It should only accept valid child tags. """
+        elem = etree.Element('{http://www.loc.gov/METS/}techMD', ID='techMD_42', CREATED='2016-01-02T03:04:05', STATUS='original')
+        etree.SubElement(elem, 'foo')
+        with pytest.raises(metsrw.ParseError) as e:
+            metsrw.SubSection.parse(elem)
+            assert 'must be mdWrap or mdRef' in e.value
+
 
 class TestMDRef(TestCase):
     """ Test MDRef class. """
