@@ -147,12 +147,14 @@ class FSEntry(object):
         :param str loctype: Required if mode is 'mdref'. LOCTYPE of a mdRef
         :param str label: Optional. Label of a mdRef
         :param str otherloctype: Optional. OTHERLOCTYPE of a mdRef.
+        :param str othermdtype: Optional. OTHERMDTYPE of a mdWrap.
 
         """
         # HELP how handle multiple amdSecs?
         # When adding *MD which amdSec to add to?
         if mode.lower() == 'mdwrap':
-            mdsec = MDWrap(md, mdtype)
+            othermdtype = kwargs.get('othermdtype')
+            mdsec = MDWrap(md, mdtype, othermdtype)
         elif mode.lower() == 'mdref':
             loctype = kwargs.get('loctype')
             label = kwargs.get('label')

@@ -289,15 +289,17 @@ class MDWrap(object):
     :param str document: A string copy of the document, and will be parsed into
         an ElementTree at the time of instantiation.
     :param str mdtype: The MDTYPE of XML document being enclosed. Examples
-        include "PREMIS:OBJECT" and "PREMIS:EVENT".
+        include "PREMIS:OBJECT", "PREMIS:EVENT,", "DC" and "OTHER".
+    :param str othermdtype: The OTHERMDTYPE of the XML document. Should be set if mdtype is "OTHER".
     """
-    def __init__(self, document, mdtype):
+    def __init__(self, document, mdtype, othermdtype=None):
         parser = etree.XMLParser(remove_blank_text=True)
         if isinstance(document, six.string_types):
             self.document = etree.fromstring(document, parser=parser)
         elif isinstance(document, etree._Element):
             self.document = document
         self.mdtype = mdtype
+        self.othermdtype = othermdtype
 
     @classmethod
     def parse(cls, root):
@@ -313,14 +315,17 @@ class MDWrap(object):
         mdtype = root.get('MDTYPE')
         if not mdtype:
             raise exceptions.ParseError('mdWrap must have a MDTYPE')
+        othermdtype = root.get('OTHERMDTYPE')
         document = root.xpath('mets:xmlData/*', namespaces=utils.NAMESPACES)
         if len(document) != 1:
             raise exceptions.ParseError('mdWrap and xmlData can only have one child')
         document = document[0]
-        return cls(document, mdtype)
+        return cls(document, mdtype, othermdtype)
 
     def serialize(self):
         el = etree.Element(utils.lxmlns('mets') + 'mdWrap', MDTYPE=self.mdtype)
+        if self.othermdtype:
+            el.attrib['OTHERMDTYPE'] = self.othermdtype
         xmldata = etree.SubElement(el, utils.lxmlns('mets') + 'xmlData')
         xmldata.append(self.document)
 

@@ -262,16 +262,6 @@ class TestMDRef(TestCase):
 class TestMDWrap(TestCase):
     """ Test MDWrap class. """
 
-    def test_create_defaults(self):
-        mdwrap = metsrw.MDWrap('<foo/>', 'PREMIS:DUMMY')
-        mdwrapped = mdwrap.serialize()
-
-        target = b'<ns0:mdWrap xmlns:ns0="http://www.loc.gov/METS/" MDTYPE="PREMIS:DUMMY"><ns0:xmlData><foo/></ns0:xmlData></ns0:mdWrap>'
-
-        assert mdwrapped.tag == '{http://www.loc.gov/METS/}mdWrap'
-        assert mdwrap.document.tag == 'foo'
-        assert etree.tostring(mdwrapped) == target
-
     def test_parse_bad_tag(self):
         """ It should assert if the tag name is invalid. """
         bad = etree.Element('foo')
@@ -299,9 +289,49 @@ class TestMDWrap(TestCase):
     def test_parse_success(self):
         """ It should correctly parse a valid mdWrap. """
         # Parses correctly
-        good = etree.Element('{http://www.loc.gov/METS/}mdWrap', MDTYPE='dummy')
+        good = etree.Element('{http://www.loc.gov/METS/}mdWrap', MDTYPE='OTHER', OTHERMDTYPE='SYSTEM')
         xmldata = etree.SubElement(good, '{http://www.loc.gov/METS/}xmlData')
         document = etree.SubElement(xmldata, 'foo')
         mdwrap = metsrw.MDWrap.parse(good)
-        assert mdwrap.mdtype == 'dummy'
+        assert mdwrap.mdtype == 'OTHER'
+        assert mdwrap.othermdtype == 'SYSTEM'
         assert mdwrap.document == document
+
+    def test_serialize_defaults(self):
+        mdwrap = metsrw.MDWrap('<foo/>', 'PREMIS:DUMMY')
+        elem = mdwrap.serialize()
+
+        assert elem.tag == '{http://www.loc.gov/METS/}mdWrap'
+        assert elem.attrib['MDTYPE'] == 'PREMIS:DUMMY'
+        assert len(elem.attrib) == 1
+        assert elem[0].tag == '{http://www.loc.gov/METS/}xmlData'
+        assert len(elem[0].attrib) == 0
+        assert elem[0][0].tag == 'foo'
+
+    def test_serialize_params(self):
+        mdwrap = metsrw.MDWrap(etree.Element('foo'), mdtype='OTHER', othermdtype='SYSTEM')
+        elem = mdwrap.serialize()
+
+        assert elem.tag == '{http://www.loc.gov/METS/}mdWrap'
+        assert elem.attrib['MDTYPE'] == 'OTHER'
+        assert elem.attrib['OTHERMDTYPE'] == 'SYSTEM'
+        assert len(elem.attrib) == 2
+        assert elem[0].tag == '{http://www.loc.gov/METS/}xmlData'
+        assert len(elem[0].attrib) == 0
+        assert elem[0][0].tag == 'foo'
+
+    def test_roundtrip(self):
+        elem = etree.Element('{http://www.loc.gov/METS/}mdWrap', MDTYPE='OTHER', OTHERMDTYPE='SYSTEM')
+        xmldata = etree.SubElement(elem, '{http://www.loc.gov/METS/}xmlData')
+        etree.SubElement(xmldata, 'foo')
+
+        mdwrap = metsrw.MDWrap.parse(elem)
+        elem = mdwrap.serialize()
+
+        assert elem.tag == '{http://www.loc.gov/METS/}mdWrap'
+        assert elem.attrib['MDTYPE'] == 'OTHER'
+        assert elem.attrib['OTHERMDTYPE'] == 'SYSTEM'
+        assert len(elem.attrib) == 2
+        assert elem[0].tag == '{http://www.loc.gov/METS/}xmlData'
+        assert len(elem[0].attrib) == 0
+        assert elem[0][0].tag == 'foo'
