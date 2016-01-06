@@ -267,6 +267,11 @@ class METSDocument(object):
                     dmdsec_elem = tree.find('mets:dmdSec[@ID="' + dmdid + '"]', namespaces=utils.NAMESPACES)
                     dmdsec = metadata.SubSection.parse(dmdsec_elem)
                     fs_entry.dmdsecs.append(dmdsec)
+                # Create older/newer relationships
+                fs_entry.dmdsecs.sort(key=lambda x: x.created)
+                for prev_dmdsec, dmdsec in zip(fs_entry.dmdsecs, fs_entry.dmdsecs[1:]):
+                    if dmdsec.status == 'updated':
+                        prev_dmdsec.replace_with(dmdsec)
 
             # Add AMDSecs
             if amdids:
