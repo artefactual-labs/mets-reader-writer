@@ -135,6 +135,28 @@ class TestWholeMETS(TestCase):
         assert len(files) == 7
         assert f4 in files
 
+    def test_add_file_to_child(self):
+        # Test collects several children deep
+        f2 = metsrw.FSEntry('level2.txt', file_uuid=str(uuid.uuid4()))
+        d1 = metsrw.FSEntry('dir1', type='Directory', children=[f2])
+        f1 = metsrw.FSEntry('level1.txt', file_uuid=str(uuid.uuid4()))
+        d = metsrw.FSEntry('root', type='Directory', children=[d1, f1])
+        mw = metsrw.METSDocument()
+        mw.append_file(d)
+        files = mw.all_files()
+        assert files
+        assert len(files) == 4
+        assert d in files
+        assert f1 in files
+        assert d1 in files
+        assert f2 in files
+
+        f3 = metsrw.FSEntry('level3.txt', file_uuid=str(uuid.uuid4()))
+        d1.add_child(f3)
+        files = mw.all_files()
+        assert len(files) == 5
+        assert f3 in files
+
     def test_get_file(self):
         # Setup
         f3_uuid = str(uuid.uuid4())

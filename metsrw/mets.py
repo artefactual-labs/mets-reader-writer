@@ -50,11 +50,8 @@ class METSDocument(object):
         :returns: Set containing all :class:`FSEntry` in this METS document,
             including descendants of ones explicitly added.
         """
-        # NOTE: Cannot use _collect_files_uuid and .values() because not all
-        # FSEntrys have UUIDs, and those without will be dropped.
-        if not self._all_files:
-            self._all_files = self._collect_all_files(self._root_elements)
-        return self._all_files
+        # FIXME cache this. Should not break when add_child is called on an element already in the document.
+        return self._collect_all_files(self._root_elements)
 
     def get_file(self, **kwargs):
         """
