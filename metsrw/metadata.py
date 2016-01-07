@@ -25,14 +25,18 @@ class AMDSec(object):
 
     :param str section_id: ID of the section. If not provided, will be generated from 'amdSec' and a random number.
     :param list subsections: List of :class:`SubSection` that are part of this amdSec
+    :param Element tree: An lxml.Element that is an externally generated amdSec.  This will overwrite any automatic serialization.  If passed, section_id must also be passed.
     """
     tag = 'amdSec'
 
-    def __init__(self, section_id=None, subsections=None):
+    def __init__(self, section_id=None, subsections=None, tree=None):
         if subsections is None:
             subsections = []
         self.subsections = subsections
         self._id = section_id
+        self._tree = tree
+        if tree is not None and not section_id:
+            raise ValueError('If tree is provided, section_id must also be provided')
 
     def id_string(self, force_generate=False):
         """
@@ -68,6 +72,8 @@ class AMDSec(object):
         :param str now: Default value for CREATED in children if none set
         :return: amdSec Element with all children
         """
+        if self._tree is not None:
+            return self._tree
         el = etree.Element(utils.lxmlns('mets') + self.tag, ID=self.id_string())
         self.subsections.sort()
         for child in self.subsections:

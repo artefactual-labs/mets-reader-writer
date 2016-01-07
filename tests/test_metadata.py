@@ -13,6 +13,16 @@ class TestAMDSec(TestCase):
         amdsec = metsrw.AMDSec()
         assert amdsec.id_string()
 
+    def test_tree_no_id(self):
+        with pytest.raises(ValueError) as excinfo:
+            metsrw.AMDSec(tree=etree.Element('amdSec'))
+        assert 'section_id' in str(excinfo.value)
+
+    def test_tree_overwrites_serialize(self):
+        elem = etree.Element('temp')
+        amdsec = metsrw.AMDSec(tree=elem, section_id='id1')
+        assert amdsec.serialize() == elem
+
 
 class TestSubSection(TestCase):
     """ Test SubSection class. """
