@@ -51,8 +51,8 @@ class TestSubSection(TestCase):
         techmd_old = metsrw.SubSection('techMD', self.STUB_MDWRAP)
         techmd_new = metsrw.SubSection('techMD', self.STUB_MDWRAP)
         techmd_old.replace_with(techmd_new)
-        assert techmd_old.get_status() is None
-        assert techmd_new.get_status() is None
+        assert techmd_old.get_status() is 'superseded'
+        assert techmd_new.get_status() is 'current'
 
     def test_replacement_sourcemd(self):
         """ It should have no special behaviour replacing sourceMDs. """
@@ -114,7 +114,8 @@ class TestSubSection(TestCase):
         assert root.tag == '{http://www.loc.gov/METS/}techMD'
         assert root.attrib['ID'] == 'techMD_1'
         assert root.attrib['CREATED'] == '2014-07-23T21:48:33'
-        assert len(root.attrib) == 2
+        assert root.attrib['STATUS'] == 'current'
+        assert len(root.attrib) == 3
         assert len(root) == 1
         assert root[0].tag == 'dummy_data'
 
@@ -127,7 +128,8 @@ class TestSubSection(TestCase):
         root = subsection.serialize()
         assert root.tag == '{http://www.loc.gov/METS/}techMD'
         assert root.attrib['ID'] == 'techMD_1'
-        assert len(root.attrib) == 1
+        assert root.attrib['STATUS'] == 'current'
+        assert len(root.attrib) == 2
         assert len(root) == 1
         assert root[0].tag == 'dummy_data'
 

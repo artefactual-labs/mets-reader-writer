@@ -138,7 +138,7 @@ class SubSection(object):
                 return 'original'
             else:
                 return 'updated'
-        if self.subsection == 'rightsMD':
+        if self.subsection in ('techMD', 'rightsMD',):
             # TODO how to handle ones where newer has been deleted?
             if self.newer == None:
                 return 'current'
