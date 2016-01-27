@@ -110,9 +110,13 @@ class TestSubSection(TestCase):
         subsection = metsrw.SubSection('techMD', content)
         subsection._id = 'techMD_1'
 
-        target = b'<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" ID="techMD_1" CREATED="2014-07-23T21:48:33"><dummy_data/></ns0:techMD>'
-
-        assert etree.tostring(subsection.serialize("2014-07-23T21:48:33")) == target
+        root = subsection.serialize("2014-07-23T21:48:33")
+        assert root.tag == '{http://www.loc.gov/METS/}techMD'
+        assert root.attrib['ID'] == 'techMD_1'
+        assert root.attrib['CREATED'] == '2014-07-23T21:48:33'
+        assert len(root.attrib) == 2
+        assert len(root) == 1
+        assert root[0].tag == 'dummy_data'
 
     def test_subsection_serialize_no_date(self):
         content = metsrw.MDWrap('<foo/>', None)
@@ -120,9 +124,12 @@ class TestSubSection(TestCase):
         subsection = metsrw.SubSection('techMD', content)
         subsection._id = 'techMD_1'
 
-        target = b'<ns0:techMD xmlns:ns0="http://www.loc.gov/METS/" ID="techMD_1"><dummy_data/></ns0:techMD>'
-
-        assert etree.tostring(subsection.serialize()) == target
+        root = subsection.serialize()
+        assert root.tag == '{http://www.loc.gov/METS/}techMD'
+        assert root.attrib['ID'] == 'techMD_1'
+        assert len(root.attrib) == 1
+        assert len(root) == 1
+        assert root[0].tag == 'dummy_data'
 
     def test_subsection_ordering(self):
         l = []
