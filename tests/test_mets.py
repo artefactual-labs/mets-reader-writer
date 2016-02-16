@@ -32,13 +32,52 @@ class TestMETSDocument(TestCase):
         assert isinstance(mw.tree, etree._ElementTree)
         assert etree.tostring(mw.tree) == etree.tostring(root)
 
-    def test_parse_tree(self):
+    def test_parse(self):
+        """
+        It should set the correct createdate.
+        It should create FSEntrys for every file and directory.
+        It should associate amdSec and dmdSec with the FSEntry.
+        It should associated derived files.
+        """
         mw = metsrw.METSDocument()
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse('fixtures/complete_mets.xml', parser=parser)
         mw.tree = root
         mw._parse_tree()
         assert mw.createdate == '2014-07-23T21:48:33'
+        assert len(mw.all_files()) == 14
+        assert mw.get_file(type='Directory', label='csv-48accdf3-e425-4874-aad3-67ade019a214') is not None
+        parent = mw.get_file(type='Directory', label='objects')
+        assert parent is not None
+        f = mw.get_file(type='Item', label='Landing_zone.jpg')
+        assert f is not None
+        assert f.path == 'objects/Landing_zone.jpg'
+        assert f.use == 'original'
+        assert f.parent == parent
+        assert f.children == []
+        assert f.file_uuid == 'ab5c67fc-8f80-4e46-9f20-8d5ae29c43f2'
+        assert f.derived_from is None
+        assert f.admids == ['amdSec_1']
+        assert f.dmdids == ['dmdSec_1']
+        assert f.file_id() == 'file-ab5c67fc-8f80-4e46-9f20-8d5ae29c43f2'
+        assert f.group_id() == 'Group-ab5c67fc-8f80-4e46-9f20-8d5ae29c43f2'
+        f = mw.get_file(type='Item', label='Landing_zone-fc33fc0e-40ef-4ad9-ba52-860368e8ce5a.tif')
+        assert f is not None
+        assert f.path == 'objects/Landing_zone-fc33fc0e-40ef-4ad9-ba52-860368e8ce5a.tif'
+        assert f.use == 'preservation'
+        assert f.parent == parent
+        assert f.children == []
+        assert f.file_uuid == 'e284d015-cfb0-45dd-961d-512bf0f47cf6'
+        assert f.derived_from == mw.get_file(type='Item', label='Landing_zone.jpg')
+        assert f.admids == ['amdSec_2']
+        assert f.dmdids == []
+        assert f.file_id() == 'file-e284d015-cfb0-45dd-961d-512bf0f47cf6'
+        assert f.group_id() == 'Group-ab5c67fc-8f80-4e46-9f20-8d5ae29c43f2'
+        assert mw.get_file(type='Directory', label='metadata') is not None
+        assert mw.get_file(type='Directory', label='transfers') is not None
+        assert mw.get_file(type='Directory', label='csv-55599568-90bd-46ac-b1be-d1a538793cae') is not None
+        assert mw.get_file(type='Directory', label='submissionDocumentation') is not None
+        assert mw.get_file(type='Directory', label='transfer-csv-55599568-90bd-46ac-b1be-d1a538793cae') is not None
 
     def test_parse_tree_createdate_too_new(self):
         mw = metsrw.METSDocument()
@@ -59,7 +98,8 @@ class TestMETSDocument(TestCase):
         mw._parse_tree()
         assert mw.createdate is None
 
-    def test_parse_tree_no_groupid(self):
+    def test_parse_no_groupid(self):
+        """ It should handle files with no GROUPID. """
         mw = metsrw.METSDocument().fromfile('fixtures/mets_without_groupid_in_file.xml')
         assert mw.get_file(file_uuid='db653873-d0ab-4bc1-9edb-2b6d2d84ab5a') is not None
 

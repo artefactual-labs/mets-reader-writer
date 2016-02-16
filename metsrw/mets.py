@@ -241,11 +241,9 @@ class METSDocument(object):
                 if file_elem is None:
                     raise exceptions.ParseError('%s exists in structMap but not fileSec' % file_id)
                 file_uuid = file_id.replace(utils.FILE_ID_PREFIX, '', 1)
-                group_uuid = file_elem.get('GROUPID')
-                if group_uuid:
-                    group_uuid.replace(utils.GROUP_ID_PREFIX, '', 1)
-                    if group_uuid != file_uuid:
-                        derived_from = group_uuid  # Use group_uuid as placeholder
+                group_uuid = file_elem.get('GROUPID', '').replace(utils.GROUP_ID_PREFIX, '', 1)
+                if group_uuid != file_uuid:
+                    derived_from = group_uuid  # Use group_uuid as placeholder
                 use = file_elem.getparent().get('USE')
                 path = file_elem.find('mets:FLocat', namespaces=utils.NAMESPACES).get(utils.lxmlns('xlink') + 'href')
                 amdids = file_elem.get('ADMID')
