@@ -170,6 +170,20 @@ class TestFSEntry(TestCase):
         el = f.serialize_filesec()
         assert el is None
 
+    def test_serialize_filesec_no_path(self):
+        """
+        It should produce a mets:file element.
+        It should not have a child mets:FLocat.
+        """
+        file_uuid = str(uuid.uuid4())
+        f = metsrw.FSEntry(file_uuid=file_uuid, use='deletion')
+        el = f.serialize_filesec()
+        assert el.tag == '{http://www.loc.gov/METS/}file'
+        assert el.attrib['ID'] == 'file-' + file_uuid
+        assert el.attrib['GROUPID'] == 'Group-' + file_uuid
+        assert len(el.attrib) == 2
+        assert len(el) == 0
+
     def test_serialize_structmap_file(self):
         """
         It should produce a mets:div element.

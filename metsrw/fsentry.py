@@ -63,12 +63,15 @@ class FSEntry(object):
 
     ALLOWED_CHECKSUMS = ('Adler-32', 'CRC32', 'HAVAL', 'MD5', 'MNP', 'SHA-1', 'SHA-256', 'SHA-384', 'SHA-512', 'TIGER WHIRLPOOL')
 
-    def __init__(self, path, label=None, use='original', type=u'Item', children=None, file_uuid=None, derived_from=None, checksum=None, checksumtype=None):
+    def __init__(self, path=None, label=None, use='original', type=u'Item', children=None, file_uuid=None, derived_from=None, checksum=None, checksumtype=None):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
-        self.path = str(path)
-        if label is None:
+        # TODO update this with six and bytes
+        if path:
+            path = str(path)
+        self.path = path
+        if label is None and path is not None:
             label = os.path.basename(path)
         self.label = label
         self.use = use
@@ -230,11 +233,12 @@ class FSEntry(object):
         if self.checksum and self.checksumtype:
             el.attrib['CHECKSUM'] = self.checksum
             el.attrib['CHECKSUMTYPE'] = self.checksumtype
-        flocat = etree.SubElement(el, utils.lxmlns('mets') + 'FLocat')
-        # Setting manually so order is correct
-        flocat.set(utils.lxmlns('xlink') + 'href', self.path)
-        flocat.set('LOCTYPE', 'OTHER')
-        flocat.set('OTHERLOCTYPE', 'SYSTEM')
+        if self.path:
+            flocat = etree.SubElement(el, utils.lxmlns('mets') + 'FLocat')
+            # Setting manually so order is correct
+            flocat.set(utils.lxmlns('xlink') + 'href', self.path)
+            flocat.set('LOCTYPE', 'OTHER')
+            flocat.set('OTHERLOCTYPE', 'SYSTEM')
 
         return el
 
