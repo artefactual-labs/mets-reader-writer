@@ -151,7 +151,9 @@ class METSDocument(object):
                                   # TODO don't hardcode this
                                   LABEL='Archivematica default')
         for item in self._root_elements:
-            structmap.append(item.serialize_structmap(recurse=True))
+            child = item.serialize_structmap(recurse=True)
+            if child is not None:
+                structmap.append(child)
 
         return structmap
 

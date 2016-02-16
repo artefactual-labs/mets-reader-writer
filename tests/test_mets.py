@@ -235,28 +235,44 @@ class TestWholeMETS(TestCase):
         # TODO test file & FLocat
 
     def test_structmap(self):
+        """
+        It should create a structMap tag.
+        It should have a div tag for the directory.
+        It should have div tags for the children beneath the directory.
+        It should not have div tags for deleted files (without label).
+        """
         children = [
             metsrw.FSEntry('objects/file1.txt', file_uuid=str(uuid.uuid4())),
             metsrw.FSEntry('objects/file2.txt', file_uuid=str(uuid.uuid4())),
         ]
         parent = metsrw.FSEntry('objects', type='Directory', children=children)
+        deleted_f = metsrw.FSEntry(use='deletion', file_uuid=str(uuid.uuid4()))
+
         writer = metsrw.METSDocument()
         writer.append_file(parent)
+        writer.append_file(deleted_f)
         sm = writer._structmap()
 
-        parent = sm.find('{http://www.loc.gov/METS/}div')
-        children = parent.getchildren()
-
         assert sm.tag == '{http://www.loc.gov/METS/}structMap'
-        assert len(children) == 2
-        assert parent.get('LABEL') == 'objects'
-        assert parent.get('TYPE') == 'Directory'
-        assert children[0].get('LABEL') == 'file1.txt'
-        assert children[0].get('TYPE') == 'Item'
-        assert children[0].find('{http://www.loc.gov/METS/}fptr') is not None
-        assert children[1].get('LABEL') == 'file2.txt'
-        assert children[1].get('TYPE') == 'Item'
-        assert children[1].find('{http://www.loc.gov/METS/}fptr') is not None
+        assert sm.attrib['TYPE'] == 'physical'
+        assert sm.attrib['ID'] == 'structMap_1'
+        assert sm.attrib['LABEL'] == 'Archivematica default'
+        assert len(sm.attrib) == 3
+        assert len(sm) == 1
+        parent = sm[0]
+        assert parent.tag == '{http://www.loc.gov/METS/}div'
+        assert parent.attrib['LABEL'] == 'objects'
+        assert parent.attrib['TYPE'] == 'Directory'
+        assert len(parent.attrib) == 2
+        assert len(parent) == 2
+        assert parent[0].attrib['LABEL'] == 'file1.txt'
+        assert parent[0].attrib['TYPE'] == 'Item'
+        assert len(parent[0].attrib) == 2
+        assert parent[0].find('{http://www.loc.gov/METS/}fptr') is not None
+        assert parent[1].attrib['LABEL'] == 'file2.txt'
+        assert parent[1].attrib['TYPE'] == 'Item'
+        assert len(parent[1].attrib) == 2
+        assert parent[1].find('{http://www.loc.gov/METS/}fptr') is not None
 
     def test_full_mets(self):
         mw = metsrw.METSDocument()

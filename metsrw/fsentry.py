@@ -252,6 +252,8 @@ class FSEntry(object):
         :param bool recurse: If true, serialize and apppend all children.  Otherwise, only serialize this element but not any children.
         :return: structMap element for this FSEntry
         """
+        if not self.label:
+            return None
         el = etree.Element(utils.lxmlns('mets') + 'div', TYPE=self.type, LABEL=self.label)
         if self.file_id():
             etree.SubElement(el, utils.lxmlns('mets') + 'fptr', FILEID=self.file_id())
@@ -260,6 +262,8 @@ class FSEntry(object):
 
         if recurse and self._children:
             for child in self._children:
-                el.append(child.serialize_structmap(recurse=recurse))
+                child_el = child.serialize_structmap(recurse=recurse)
+                if child_el is not None:
+                    el.append(child_el)
 
         return el

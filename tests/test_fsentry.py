@@ -237,3 +237,20 @@ class TestFSEntry(TestCase):
         assert el[0][0].tag == '{http://www.loc.gov/METS/}fptr'
         assert el[0][0].attrib['FILEID'].startswith('file-')
 
+    def test_serialize_structmap_no_label(self):
+        """ It should return None. """
+        f = metsrw.FSEntry()
+        el = f.serialize_structmap(recurse=False)
+        assert el is None
+
+    def test_serialize_structmap_child_empty(self):
+        """ It should handle children with no structMap entry. """
+        d = metsrw.FSEntry('dir', type='Directory')
+        f = metsrw.FSEntry(use='deletion', file_uuid=str(uuid.uuid4()))
+        d.add_child(f)
+        el = d.serialize_structmap(recurse=True)
+        assert el.tag == '{http://www.loc.gov/METS/}div'
+        assert el.attrib['TYPE'] == 'Directory'
+        assert el.attrib['LABEL'] == 'dir'
+        assert len(el.attrib) == 2
+        assert len(el) == 0
