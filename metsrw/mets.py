@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+from collections import OrderedDict
 from datetime import datetime
 import logging
 from lxml import etree
@@ -108,10 +109,10 @@ class METSDocument(object):
         """
         Return the mets Element for the document root.
         """
-        nsmap = {
-            'xsi': utils.NAMESPACES['xsi'],
-            'xlink': utils.NAMESPACES['xlink']
-        }
+        nsmap = OrderedDict([
+            ('xsi', utils.NAMESPACES['xsi']),
+            ('xlink', utils.NAMESPACES['xlink'])
+        ])
         if fully_qualified:
             nsmap['mets'] = utils.NAMESPACES['mets']
         else:

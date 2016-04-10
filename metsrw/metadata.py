@@ -3,6 +3,7 @@ Classes for metadata sections of the METS. Include amdSec, dmdSec, techMD, right
 """
 from __future__ import absolute_import
 
+from collections import OrderedDict
 import logging
 from lxml import etree
 from random import randint
@@ -316,13 +317,20 @@ class DublinCoreXmlData(object):
         return cls(*args)
 
     def serialize(self):
-        nsmap = {'mets': utils.NAMESPACES['mets'], 'xsi': utils.NAMESPACES['xsi'], 'xlink': utils.NAMESPACES['xlink']}
+        nsmap = OrderedDict([
+            ('mets', utils.NAMESPACES['mets']),
+            ('xsi', utils.NAMESPACES['xsi']),
+            ('xlink', utils.NAMESPACES['xlink'])
+        ])
         root = etree.Element(utils.lxmlns('mets') + 'xmlData', nsmap=nsmap)
         root.append(self._serialize_dublincore())
         return root
 
     def _serialize_dublincore(self):
-        nsmap = {'dcterms': utils.NAMESPACES['dcterms'], 'dc': utils.NAMESPACES['dc']}
+        nsmap = OrderedDict([
+            ('dcterms', utils.NAMESPACES['dcterms']),
+            ('dc', utils.NAMESPACES['dc'])
+        ])
         attrib = {'{}schemaLocation'.format(utils.lxmlns('xsi')): utils.DUBLINCORE_SCHEMA_LOCATIONS}
         dc_root = etree.Element(utils.lxmlns('dcterms') + 'dublincore', nsmap=nsmap, attrib=attrib)
 
