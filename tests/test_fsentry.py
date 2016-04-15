@@ -111,6 +111,48 @@ class TestFSEntry(TestCase):
 
         assert len(f1.amdsecs[0].subsections) == 4
 
+    def test_add_child(self):
+        """
+        It should add a new entry to the children list.
+        It should add a parent link.
+        It should handle duplicates.
+        """
+        d = metsrw.FSEntry('dir', type='Directory')
+        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+
+        d.add_child(f)
+        assert f in d.children
+        assert len(d.children) == 1
+        assert f.parent is d
+
+        d.add_child(f)
+        assert f in d.children
+        assert len(d.children) == 1
+        assert f.parent is d
+
+        with pytest.raises(ValueError):
+            f.add_child(d)
+
+    def test_remove_child(self):
+        """
+        It should remove the child from the parent's children list.
+        It should remove the parent from the child's parent link.
+        """
+        d = metsrw.FSEntry('dir', type='Directory')
+        f1 = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f2 = metsrw.FSEntry('file2.txt', file_uuid=str(uuid.uuid4()))
+        d.add_child(f1)
+        d.add_child(f2)
+        assert f1 in d.children
+        assert f1.parent is d
+        assert len(d.children) == 2
+
+        d.remove_child(f1)
+
+        assert f1 not in d.children
+        assert f1.parent is None
+        assert len(d.children) == 1
+
     def test_serialize_filesec_basic(self):
         """
         It should produce a mets:file element.

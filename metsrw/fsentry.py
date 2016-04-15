@@ -208,10 +208,41 @@ class FSEntry(object):
         return self.add_dmdsec(md, 'DC', mode)
 
     def add_child(self, child):
+        """
+        Add a child FSEntry to this FSEntry.
+
+        Only FSEntrys with a type of 'directory' can have children.
+
+        This does not detect cyclic parent/child relationships, but that will cause problems.
+
+        :param FSEntry child: FSEntry to add as a child
+        :return: The newly added child
+        :raises ValueError: If this FSEntry cannot have children.
+        :raises ValueError: If the child and the parent are the same
+        """
         if self.type.lower() != 'directory':
             raise ValueError("Only directory objects can have children")
-        self._children.append(child)
+        if child is self:
+            raise ValueError('Cannot be a child of itself!')
+        if child not in self._children:
+            self._children.append(child)
         child.parent = self
+        return child
+
+    def remove_child(self, child):
+        """
+        Remove a child from this FSEntry
+
+        If `child` is not actually a child of this entry, nothing happens.
+
+        :param child: Child to remove
+        """
+        try:
+            self._children.remove(child)
+        except ValueError:  # Child may not be in list
+            pass
+        else:
+            child.parent = None
 
     # SERIALIZE
 

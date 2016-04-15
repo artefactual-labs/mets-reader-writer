@@ -87,6 +87,24 @@ class METSDocument(object):
         # Reset file lists so they get regenerated with the new files(s)
         self._all_files = None
 
+    def remove_entry(self, fs_entry):
+        """
+        Removes an FSEntry object from this METS document.
+
+        Any children of this FSEntry will also be removed. This will be removed as a child of it's parent, if any.
+
+        :param FSEntry fs_entry: FSEntry to remove from the METS
+        """
+        try:
+            self._root_elements.remove(fs_entry)
+        except ValueError:  # fs_entry may not be in the root elements
+            pass
+        if fs_entry.parent:
+            fs_entry.parent.remove_child(fs_entry)
+        # Reset file lists so they get regenerated without the removed file(s)
+        self._all_files = None
+
+
     # SERIALIZE
 
     def _document_root(self, fully_qualified=True):

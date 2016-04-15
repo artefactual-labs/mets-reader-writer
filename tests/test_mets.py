@@ -242,6 +242,40 @@ class TestWholeMETS(TestCase):
         assert mw.get_file(file_uuid=f4_uuid) == f4
         assert mw.get_file(path='file4.txt') == f4
 
+    def test_remove_file(self):
+        """ It should """
+        # Setup
+        f3_uuid = str(uuid.uuid4())
+        f3 = metsrw.FSEntry('dir1/dir2/level3.txt', file_uuid=f3_uuid)
+        d2 = metsrw.FSEntry('dir1/dir2', type='Directory', children=[f3])
+        f2_uuid = str(uuid.uuid4())
+        f2 = metsrw.FSEntry('dir1/level2.txt', file_uuid=f2_uuid)
+        d1 = metsrw.FSEntry('dir1', type='Directory', children=[d2, f2])
+        f1_uuid = str(uuid.uuid4())
+        f1 = metsrw.FSEntry('level1.txt', file_uuid=f1_uuid)
+        d = metsrw.FSEntry('root', type='Directory', children=[d1, f1])
+        mw = metsrw.METSDocument()
+        mw.append_file(d)
+        assert len(mw.all_files()) == 6
+        # Test remove file
+        mw.remove_entry(f3)
+        assert len(mw.all_files()) == 5
+        assert mw.get_file(file_uuid=f3_uuid) is None
+        assert f3 not in d2.children
+        assert f3 not in mw.all_files()
+        # Test remove dir
+        mw.remove_entry(d1)
+        assert len(mw.all_files()) == 2
+        assert mw.get_file(path='dir1') is None
+        assert d1 not in d.children
+        assert d1 not in mw.all_files()
+        assert f2 not in mw.all_files()
+        assert d2 not in mw.all_files()
+        assert f1 in d.children
+        # Test remove root element
+        mw.remove_entry(d)
+        assert len(mw.all_files()) == 0
+
     def test_collect_mdsec_elements(self):
         f1 = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
         f1.amdsecs.append(metsrw.AMDSec())
