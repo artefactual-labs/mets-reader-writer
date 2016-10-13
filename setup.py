@@ -19,7 +19,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='metsrw',
-    version='0.0.1',
+    version='0.1.0',
 
     description='Library for dealing with METS files.',
     long_description=long_description,
