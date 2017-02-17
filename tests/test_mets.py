@@ -117,7 +117,7 @@ class TestMETSDocument(TestCase):
         mw = metsrw.METSDocument()
         root = mw._document_root()
         location = "http://www.loc.gov/METS/ " + \
-            "http://www.loc.gov/standards/mets/version18/mets.xsd"
+            "http://www.loc.gov/standards/mets/version111/mets.xsd"
         assert root.tag == '{http://www.loc.gov/METS/}mets'
         assert root.attrib[metsrw.lxmlns('xsi') + 'schemaLocation'] == location
         nsmap = {
