@@ -302,7 +302,7 @@ class MDWrap(object):
         parser = etree.XMLParser(remove_blank_text=True)
         if isinstance(document, six.string_types):
             self.document = etree.fromstring(document, parser=parser)
-        elif isinstance(document, etree._Element):
+        elif isinstance(document, (etree._Element, list)):
             self.document = document
         self.mdtype = mdtype
         self.othermdtype = othermdtype
@@ -314,7 +314,7 @@ class MDWrap(object):
 
         :param root: Element or ElementTree to be parsed into a MDWrap.
         :raises exceptions.ParseError: If mdWrap does not contain MDTYPE
-        :raises exceptions.ParseError: If mdWrap or xmlData contain multiple children
+        :raises exceptions.ParseError: If xmlData contains no children
         """
         if root.tag != utils.lxmlns('mets') + 'mdWrap':
             raise exceptions.ParseError('MDWrap can only parse mdWrap elements with METS namespace.')
@@ -323,9 +323,12 @@ class MDWrap(object):
             raise exceptions.ParseError('mdWrap must have a MDTYPE')
         othermdtype = root.get('OTHERMDTYPE')
         document = root.xpath('mets:xmlData/*', namespaces=utils.NAMESPACES)
-        if len(document) != 1:
-            raise exceptions.ParseError('mdWrap and xmlData can only have one child')
-        document = document[0]
+        if len(document) == 0:
+            raise exceptions.ParseError(
+                'All mdWrap/xmlData elements must have at least one child; this'
+                ' one has none')
+        elif len(document) == 1:
+            document = document[0]
         return cls(document, mdtype, othermdtype)
 
     def serialize(self):
@@ -333,6 +336,10 @@ class MDWrap(object):
         if self.othermdtype:
             el.attrib['OTHERMDTYPE'] = self.othermdtype
         xmldata = etree.SubElement(el, utils.lxmlns('mets') + 'xmlData')
-        xmldata.append(self.document)
+        if isinstance(self.document, list):
+            for child in self.document:
+                xmldata.append(child)
+        else:
+            xmldata.append(self.document)
 
         return el

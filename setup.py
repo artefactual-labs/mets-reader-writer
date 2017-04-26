@@ -14,12 +14,12 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the relevant file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
     name='metsrw',
-    version='0.1.1',
+    version='0.1.2',
 
     description='Library for dealing with METS files.',
     long_description=long_description,
