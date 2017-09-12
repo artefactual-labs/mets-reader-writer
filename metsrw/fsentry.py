@@ -69,7 +69,8 @@ class FSEntry(object):
 
     def __init__(self, path=None, label=None, use='original', type=u'Item',
                  children=None, file_uuid=None, derived_from=None,
-                 checksum=None, checksumtype=None, transform_files=None):
+                 checksum=None, checksumtype=None, transform_files=None,
+                 mets_div_type=None):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
@@ -87,6 +88,7 @@ class FSEntry(object):
         if not transform_files:
             transform_files = []
         self.transform_files = transform_files
+        self.mets_div_type = mets_div_type
         children = children or []
         for child in children:
             self.add_child(child)
@@ -305,7 +307,8 @@ class FSEntry(object):
         """
         if not self.label:
             return None
-        el = etree.Element(utils.lxmlns('mets') + 'div', TYPE=self.type)
+        el = etree.Element(utils.lxmlns('mets') + 'div',
+                           TYPE=self.mets_div_type or self.type)
         el.attrib['LABEL'] = self.label
         if self.file_id():
             etree.SubElement(el, utils.lxmlns('mets') + 'fptr', FILEID=self.file_id())
