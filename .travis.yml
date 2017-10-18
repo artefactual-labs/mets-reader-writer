@@ -1,0 +1,28 @@
+sudo: false
+language: python
+
+install:
+  - pip install tox coveralls
+
+matrix:
+  include:
+    - python: 3.6
+      env: TOXENV=flake8
+    - python: 2.7
+      env: TOXENV=py27
+    - python: 3.4
+      env: TOXENV=py34
+    - python: 3.6
+      env: TOXENV=py36
+  allow_failures:
+    - python: 3.6
+      env: TOXENV=flake8
+
+script:
+  - tox -e $TOXENV
+
+after_success:
+  - coveralls
+
+notifications:
+  email: false

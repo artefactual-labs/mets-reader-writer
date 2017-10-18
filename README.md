@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/metsrw.svg)](https://badge.fury.io/py/metsrw) [![Travis CI](https://travis-ci.org/artefactual-labs/mets-reader-writer.svg?branch=master)](https://travis-ci.org/artefactual-labs/mets-reader-writer) [![Coverage status](https://img.shields.io/coveralls/artefactual-labs/mets-reader-writer/master.svg)](https://coveralls.io/r/artefactual-labs/mets-reader-writer)
+
 # METS Reader & Writer
 
 By [Artefactual](https://www.artefactual.com/)
