@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version111/mets.xsd">
+  <mets:metsHdr CREATEDATE="2017-08-15T00:30:55"/>
+  <mets:amdSec ID="amdSec_1">
+    <mets:techMD ID="techMD_1">
+      <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+        <mets:xmlData>
+          <premis:object xmlns:premis="info:lc/xmlns/premis-v2" version="2.2" xsi:type="premis:file" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd">
+            <premis:objectIdentifier>
+              <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+              <premis:objectIdentifierValue>7327b00f-d83a-4ae8-bb89-84fce994e827</premis:objectIdentifierValue>
+            </premis:objectIdentifier>
+            <premis:objectCharacteristics>
+              <premis:compositionLevel>1</premis:compositionLevel>
+              <premis:fixity>
+                <premis:messageDigestAlgorithm>sha256</premis:messageDigestAlgorithm>
+                <premis:messageDigest>78e4509313928d2964fe877a6a82f1ba728c171eedf696e3f5b0aed61ec547f6</premis:messageDigest>
+              </premis:fixity>
+              <premis:size>11854</premis:size>
+              <premis:format>
+                <premis:formatDesignation>
+                  <premis:formatName>7Zip format</premis:formatName>
+                  <premis:formatVersion/>
+                </premis:formatDesignation>
+                <premis:formatRegistry>
+                  <premis:formatRegistryName>PRONOM</premis:formatRegistryName>
+                  <premis:formatRegistryKey>fmt/484</premis:formatRegistryKey>
+                </premis:formatRegistry>
+              </premis:format>
+              <premis:creatingApplication>
+                <premis:creatingApplicationName>7-Zip</premis:creatingApplicationName>
+                <premis:creatingApplicationVersion>9.20</premis:creatingApplicationVersion>
+                <premis:dateCreatedByApplication>2017-08-15T00:30:55</premis:dateCreatedByApplication>
+              </premis:creatingApplication>
+            </premis:objectCharacteristics>
+          </premis:object>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:digiprovMD ID="digiprovMD_1">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>4ae19186-a1d6-4f71-b7cf-9aa5b2c9f8aa</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>compression</premis:eventType>
+            <premis:eventDateTime>2017-08-15T00:30:53+00:00</premis:eventDateTime>
+            <premis:eventDetail>program=7z; version=p7zip Version 9.20 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,2 CPUs)
+</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>Standard Output="
+7-Zip [64] 9.20  Copyright (c) 1999-2010 Igor Pavlov  2010-11-18
+p7zip Version 9.20 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,2 CPUs)
+Scanning
+
+Creating archive /var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/compressionAIPDecisions/easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/easy7-7327b00f-d83a-4ae8-bb89-84fce994e827.7z
+
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/thumbnails/dea86fcb-dfd6-4b2a-bca5-043002c884e9.jpg
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/METS.7327b00f-d83a-4ae8-bb89-84fce994e827.xml
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/objects/submissionDocumentation/transfer-easy7-558c7ab2-afd4-470a-b132-44cbe8ccaba4/METS.xml
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/README.html
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/bag-info.txt
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/bagit.txt
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/logs/transfers/easy7-558c7ab2-afd4-470a-b132-44cbe8ccaba4/logs/clamAVScan.txt
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/logs/clamAVScan.txt
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/objects/easy.txt
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/manifest-sha256.txt
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/tagmanifest-md5.txt
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/logs/transfers/easy7-558c7ab2-afd4-470a-b132-44cbe8ccaba4/logs/fileFormatIdentification.log
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/logs/fileFormatIdentification.log
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/logs/transfers/easy7-558c7ab2-afd4-470a-b132-44cbe8ccaba4/logs/filenameCleanup.log
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/logs/filenameCleanup.log
+Compressing  easy7-7327b00f-d83a-4ae8-bb89-84fce994e827/data/logs/transfers/easy7-558c7ab2-afd4-470a-b132-44cbe8ccaba4/logs/FileUUIDsError.log
+
+Everything is Ok
+"; Standard Error=""</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_2">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>preservation system</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>Archivematica-1.7</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>Archivematica</premis:agentName>
+            <premis:agentType>software</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_3">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>repository code</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>test</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>test</premis:agentName>
+            <premis:agentType>organization</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:fileSec>
+    <mets:fileGrp USE="Archival Information Package">
+      <mets:file ID="easy7-7327b00f-d83a-4ae8-bb89-84fce994e827">
+        <mets:FLocat OTHERLOCTYPE="SYSTEM" LOCTYPE="OTHER" xlink:href="/var/archivematica/sharedDirectory/www/AIPsStore/7327/b00f/d83a/4ae8/bb89/84fc/e994/e827/easy7-7327b00f-d83a-4ae8-bb89-84fce994e827.7z"/>
+        <mets:transformFile TRANSFORMALGORITHM="bzip2" TRANSFORMORDER="1" TRANSFORMTYPE="decompression"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap TYPE="physical">
+    <mets:div ADMID="amdSec_1" TYPE="Archival Information Package">
+      <mets:fptr FILEID="easy7-7327b00f-d83a-4ae8-bb89-84fce994e827"/>
+    </mets:div>
+  </mets:structMap>
+</mets:mets>

@@ -184,12 +184,13 @@ class METSDocument(object):
         filesec = etree.Element(utils.lxmlns('mets') + 'fileSec')
         filegrps = {}
         for file_ in files:
-            if file_.type.lower() != 'item':
+            if file_.type.lower() not in ('item', 'archival information package'):
                 continue
             # Get fileGrp, or create if not exist
             filegrp = filegrps.get(file_.use)
             if filegrp is None:
-                filegrp = etree.SubElement(filesec, utils.lxmlns('mets') + 'fileGrp', USE=file_.use)
+                filegrp = etree.SubElement(
+                    filesec, utils.lxmlns('mets') + 'fileGrp', USE=file_.use)
                 filegrps[file_.use] = filegrp
 
             file_el = file_.serialize_filesec()

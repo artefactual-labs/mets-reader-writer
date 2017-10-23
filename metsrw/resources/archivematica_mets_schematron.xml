@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2008 The University of North Carolina at Chapel Hill
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron" 
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:p="info:lc/xmlns/premis-v2"
+    xmlns:m="http://www.loc.gov/METS/">
+    <!-- queryBinding="xslt2"> -->
+    <sch:title>Simple Content Model Validation</sch:title>
+    <sch:ns uri="http://www.loc.gov/METS/" prefix="m"/>
+    <sch:ns uri="info:lc/xmlns/premis-v2" prefix="p"/>
+    <sch:ns uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
+    <sch:ns uri="http://www.w3.org/2001/XMLSchema-instance" prefix="xsi"/>
+
+    <sch:let name="profileUrl" value="'http://cdr.unc.edu/METS/profiles/Simple'"/>
+    <sch:let name="premisEventTypes" value="'ingestion, message digest calculation, virus check, name cleanup, format identification, validation, normalization, fixity check, creation, unpacking, compression'"/>
+    <sch:let name="exception3401" value="true"/>
+
+    <xsl:key name="fileid" match="/m:mets/m:fileSec/m:fileGrp/m:file" use="@ID"/>
+    <xsl:key name="dmdid" match="/m:mets/m:dmdSec" use="@ID"/>
+    <xsl:key name="admid" match="/m:mets/m:amdSec" use="@ID"/>
+    <!-- <xsl:key name="filegrpid" match="/m:mets/m:fileSec/m:fileGrp" use="@ID"/> -->
+    <!-- <xsl:key name="nestedfilegrpid" match="/m:mets/m:fileSec/m:fileGrp/m:fileGrp" use="@ID"/> -->
+    <!-- <xsl:key name="fileuse" match="/m:mets/m:fileSec/m:fileGrp/m:file" use="@USE | parent::m:fileGrp/@USE"/> -->
+    <!-- <xsl:key name="divid" match="/m:mets/m:structMap//m:div" use="@ID"/> -->
+
+    <sch:pattern>
+        <sch:title>mets root element validation</sch:title>
+        <sch:rule context="m:mets">
+          <sch:assert test="count(m:metsHdr) = 1">The mets element MUST contain
+            a single metsHdr element.</sch:assert>
+          <sch:assert test="count(m:amdSec) &gt; 0">The mets element MUST
+            contain one or more amdSec elements.</sch:assert>
+          <sch:assert test="count(m:fileSec) = 1">The mets element MUST contain
+            a single fileSec element.</sch:assert>
+          <sch:assert test="count(m:structMap) &gt; 0">The mets element MUST
+            contain one or more structMap elements.</sch:assert>
+          <!-- <sch:assert test="count(m:dmdSec) &gt; 0">The mets element MUST
+               contain one or more dmdSec elements.</sch:assert> -->
+        </sch:rule>
+    </sch:pattern>
+
+    <sch:pattern>
+        <sch:title>metsHdr validation</sch:title>
+        <sch:rule context="m:metsHdr">
+          <sch:assert test="@CREATEDATE">The metsHdr element MUST contain one
+            CREATEDATE attribute.</sch:assert>
+          <!-- TODO what kind of dates? -->
+          <!-- NOTE: Python's lxml does not allow the matches function in assertions.
+               See https://stackoverflow.com/questions/34047567/xpathevalerror-unregistered-function-for-matches-in-lxml
+               This is why the following assertion has been commented out. -->
+          <!-- <sch:assert test="matches(@CREATEDATE,'^(\d\d\d\d)(-(\d\d)(-(\d\d))?)?([T| ]?(\d\d):(\d\d)(:((\d\d)(\.(\d+))?)?)?(Z|([\+\-]\d\d:\d\d)|([A-Z]{3}))?)?$')">The metsHdr CREATEDATE MUST be valid ISO 8601. (<sch:value-of select="@CREATEDATE"/>)</sch:assert> -->
+        </sch:rule>
+    </sch:pattern>
+
+    <sch:pattern>
+        <sch:title>dmdSec validation</sch:title>
+        <sch:rule context="m:dmdSec">
+          <sch:assert test="@ID">A dmdSec element MUST contain an ID
+            attribute.</sch:assert>
+          <sch:assert test="m:mdWrap or m:mdRef">A dmdSec MUST contain either
+            an mdWrap element or an mdRef element.</sch:assert>
+        </sch:rule>
+    </sch:pattern>
+
+    <sch:pattern>
+        <sch:title>mdRef validation</sch:title>
+        <sch:rule context="m:mdRef">
+          <sch:assert test="@LABEL">An mdRef element MUST contain a LABEL
+            attribute.</sch:assert>
+          <sch:assert test="@xlink">An mdRef element MUST contain an xlink
+            attribute.</sch:assert>
+          <sch:assert test="@MDTYPE">An mdRef element MUST contain an MDTYPE
+            attribute.</sch:assert>
+          <sch:assert test="@LOCTYPE">An mdRef element MUST contain a LOCTYPE
+            attribute.</sch:assert>
+          <sch:assert test="not(@LOCTYPE = 'OTHER') or @OTHERLOCTYPE">An mdRef
+            element MUST contain an OTHERLOCTYPE if LOCTYPE is
+            OTHER.</sch:assert>
+        </sch:rule>
+    </sch:pattern>
+
+    <sch:pattern>
+        <sch:title>mdWrap validation</sch:title>
+        <sch:rule context="m:mdWrap">
+          <sch:assert test="@MDTYPE">An mdWrap element MUST contain an MDTYPE
+            attribute.</sch:assert>
+          <sch:assert test="m:xmlData">An mdWrap element MUST contain an
+            xmlData element.</sch:assert>
+          <!-- TODO compliance exception 3401 -->
+          <sch:assert test="@MDTYPE = 'PREMIS:AGENT' or
+                            (@MDTYPE = 'OTHER' or
+                            m:xmlData/*/@xsi:schemaLocation)">Unless MDTYPE is
+                            OTHER an mdRef element MUST contain an XML schema
+                            location.</sch:assert>
+        </sch:rule>
+    </sch:pattern>
+
+    <sch:pattern>
+        <sch:title>amdSec validation</sch:title>
+        <sch:rule context="m:amdSec">
+          <sch:assert test="@ID">An amdSec element MUST contain an ID
+            attribute.</sch:assert>
+          <sch:assert test="m:techMD">An amdSec element MUST contain a techMD
+            element.</sch:assert>
+          <sch:assert test="m:digiprovMD">An amdSec element MUST contain a
+            digiprovMD element.</sch:assert>
+          <sch:assert test="count(m:digiprovMD/m:mdWrap[@MDTYPE = 'PREMIS:AGENT']) = 3"
+            >Each amdSec MUST contain 3 digiprovMD elements that contain
+            mdWraps of MDTYPE PREMIS:AGENT</sch:assert>
+        </sch:rule>
+    </sch:pattern>
+
+    <sch:pattern>
+        <sch:title>techMD validation</sch:title>
+        <sch:rule context="m:techMD">
+          <sch:assert test="@ID">A techMD element MUST contain an ID attribute.</sch:assert>
+          <sch:assert test="count(m:mdWrap) = 1">A techMD element MUST contain a single mdWrap element.</sch:assert>
+        </sch:rule>
+        <sch:rule context="m:techMD/m:mdWrap">
+          <sch:assert test="@MDTYPE = 'PREMIS:OBJECT'">A techMD mdWrap element MUST have an MDTYPE attribute of PREMIS:OBJECT.</sch:assert>
+          <sch:assert test="m:xmlData/p:object">A techMD mdWrap element must contain a PREMIS object element.</sch:assert>
+          <sch:assert test="m:xmlData/p:object/@xsi:schemaLocation">A techMD mdWrap element MUST contain an XML schema location.</sch:assert>
+            <sch:assert test="m:xmlData/p:object/@xsi:type = 'premis:file'">A techMD mdWrap element MUST have an xsi:type attribute of file.</sch:assert>
+        </sch:rule>
+    </sch:pattern>
+
+    <sch:pattern>
+        <sch:title>digiprovMD validation</sch:title>
+        <sch:rule context="m:digiprovMD">
+          <sch:assert test="@ID">A digiprovMD element MUST contain an ID attribute.</sch:assert>
+          <sch:assert test="count(m:mdWrap) = 1">A digiprovMD element MUST contain a single mdWrap element.</sch:assert>
+        </sch:rule>
+        <sch:rule context="m:digiprovMD/m:mdWrap">
+          <sch:assert test="@MDTYPE = 'PREMIS:EVENT' or @MDTYPE = 'PREMIS:AGENT'">A digiprovMD mdWrap element MUST have an MDTYPE attribute of PREMIS:EVENT.</sch:assert>
+          <!-- TODO compliance exception 3401 -->
+          <sch:assert test="@MDTYPE = 'PREMIS:AGENT' or m:xmlData/p:*/@xsi:schemaLocation">A digiprovMD mdWrap element MUST contain an XML schema location.</sch:assert>
+        </sch:rule>
+    </sch:pattern>
+
+    <sch:pattern>
+      <sch:title>PREMIS Event validation</sch:title>
+      <sch:rule context="m:mdWrap[@MDTYPE = 'PREMIS:EVENT']">
+        <sch:assert test="m:xmlData/p:event">A PREMIS:EVENT must be represented by a PREMIS event element.</sch:assert>
+        <sch:assert test="contains($premisEventTypes, m:xmlData/p:event/p:eventType)">A PREMIS event MUST be of a recognized eventType. (<sch:value-of select="m:xmlData/p:event/p:eventType"/> is not in <sch:value-of select="$premisEventTypes"/>)</sch:assert>
+      </sch:rule>
+    </sch:pattern>
+
+    <sch:pattern>
+        <sch:title>fileSec validation</sch:title>
+        <sch:rule context="m:fileSec">
+          <sch:assert test="count(m:fileGrp) &gt; 0">fileSec MUST contain at least 1 fileGrp element</sch:assert>
+        </sch:rule>
+        <sch:rule context="m:fileGrp">
+          <sch:assert test="@USE">fileGrp MUST contain 1 USE attribute</sch:assert>
+          <sch:assert test="count(m:file) &gt; 0">fileGrp MUST contain at least 1 file element</sch:assert>
+        </sch:rule>
+        <sch:rule context="m:file">
+          <sch:assert test="@GROUPID">file element MUST contain 1 GROUPID attribute</sch:assert>
+          <sch:assert test="@ID">file element MUST contain 1 ID attribute</sch:assert>
+          <sch:assert test="@ADMID">file element MAY contain 1 or more ADMID attributes</sch:assert>
+          <sch:assert test="not(@ADMID) or count(key('admid',@ADMID)) &gt; 0">A file element's ADMID must refer to the ID of an amdSec element. (ADMID <sch:value-of select="@ADMID"/> does not match an amdSec element)</sch:assert>
+          <sch:assert test="count(m:FLocat) &gt; 0">file element MUST contain 1 FLocat element</sch:assert>
+        </sch:rule>
+        <sch:rule context="m:FLocat">
+          <sch:assert test="@xlink:href">FLocat element MUST contain 1 xlink attribute</sch:assert>
+          <sch:assert test="@LOCTYPE">FLocat element MUST contain 1 LOCTYPE attribute</sch:assert>
+          <sch:assert test="not(@LOCTYPE = 'OTHER') or @OTHERLOCTYPE">If FLocat LOCTYPE attribute is "OTHER", FLocat element MUST contain 1 OTHERLOCTYPE attribute</sch:assert>
+        </sch:rule>
+    </sch:pattern>
+
+  <sch:pattern>
+    <sch:title>structMap validation</sch:title>
+    <sch:rule context="m:structMap">
+      <sch:assert test="@ID">structMap MUST have 1 ID attribute</sch:assert>
+      <sch:assert test="@TYPE">structMap MUST have 1 TYPE attribute</sch:assert>
+      <sch:assert test="@LABEL">structMap MUST have 1 LABEL attribute</sch:assert>
+      <sch:assert test="count(m:div) &gt; 0">structMap MUST have 1 or more div elements</sch:assert>
+    </sch:rule>
+    <sch:rule context="m:div">
+      <sch:assert test="@TYPE">div element MUST have 1 TYPE attribute</sch:assert>
+      <sch:assert test="@LABEL">div element MUST have 1 LABEL attribute</sch:assert>
+      <!-- <sch:assert test="@DMDID">div element MAY have 1 DMDID attribute</sch:assert> -->
+      <sch:assert test="not(@DMDID) or count(key('dmdid',@DMDID)) &gt; 0">If a div has a DMDID attribute, then it must refer to the ID of a dmdSec. (DMDID <sch:value-of select="@DMDID"/> does not match a dmdSec)</sch:assert>
+      <sch:assert test="not(@TYPE = 'Item') or count(m:fptr) &gt; 0">if div TYPE attribute is "Item", div element MUST have 1 fptr element</sch:assert>
+    </sch:rule>
+    <sch:rule context="m:fptr">
+      <sch:assert test="@FILEID">fptr element MUST have 1 FILEID attribute</sch:assert>
+      <sch:assert test="count(key('fileid',@FILEID)) &gt; 0">A fptr element's FILEID must refer to the ID of a file element. (FILEID <sch:value-of select="@FILEID"/> does not match a file element)</sch:assert>
+    </sch:rule>
+  </sch:pattern>
+
+</sch:schema>

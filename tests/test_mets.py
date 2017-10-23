@@ -1,6 +1,9 @@
+import datetime
 import filecmp
 from lxml import etree
+from lxml.builder import ElementMaker
 import os
+import pprint
 import pytest
 from unittest import TestCase
 import uuid
@@ -379,5 +382,201 @@ class TestWholeMETS(TestCase):
 
         mw.append_file(sip)
         mw.write('full_metsrw.xml', fully_qualified=True, pretty_print=True)
+        self.assert_mets_valid(mw.serialize())
+
+        pprint.pprint(etree.tostring(mw._filesec(), pretty_print=True))
 
         os.remove('full_metsrw.xml')
+
+    def test_pointer_file(self):
+        """Test the creation of pointer files."""
+
+        # Mocks of the AIP, its compression event, and other details.
+        aip_uuid = str(uuid.uuid4())
+        aip = {
+            'current_path': '/path/to/myaip-{}.7z'.format(aip_uuid),
+            'uuid': aip_uuid,
+            'package_type': 'Archival Information Package',
+            'checksum_algorithm': 'sha256',
+            'checksum': '78e4509313928d2964fe877a6a82f1ba728c171eedf696e3f5b0aed61ec547f6',
+            'size': '11854',
+            'extension': '.7z',
+            'archive_tool': '7-Zip',
+            'archive_tool_version': '9.20',
+            'transform_files': [
+                {'algorithm': 'bzip2',
+                 'order': '2',
+                 'type': 'decompression'},
+                {'algorithm': 'gpg',
+                 'order': '1',
+                 'type': 'decryption'}
+            ]
+        }
+        compression_event = {
+            'uuid': str(uuid.uuid4()),
+            'detail': (
+                'program=7z; version=p7zip Version 9.20'
+                ' (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,2 CPUs)'),
+            'outcome': '',
+            # This should be the output from 7-zip or other...
+            'outcome_detail_note': '',
+            'agents': [
+                {'name': 'Archivematica',
+                 'type': 'software',
+                 'identifier_type': 'preservation system',
+                 'identifier_value': 'Archivematica-1.6.1'},
+                {'name': 'test',
+                 'type': 'organization',
+                 'identifier_type': 'repository code',
+                 'identifier_value': 'test'}
+            ]
+        }
+        now = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+        pronom_conversion = {
+            '.7z': {'puid': 'fmt/484', 'name': '7Zip format'},
+            '.bz2': {'puid': 'x-fmt/268', 'name': 'BZIP2 Compressed Archive'},
+        }
+
+        # Create the METS using metsrw
+        mw = metsrw.METSDocument()
+
+        # TODO: metsrw will prefix "file-" to the AIP UUID when creating <mets:fptr
+        # FILEID> and <mets:file ID> attr vals. However, we want "file-" to be
+        # replaced by the AIP's (i.e., the transfer's) name.
+        aip_fs_entry = metsrw.FSEntry(
+            path=aip['current_path'],
+            file_uuid=aip['uuid'],
+            use=aip['package_type'],
+            type=aip['package_type'],
+            transform_files=aip['transform_files'])
+
+        premis_schema_location = (
+            'info:lc/xmlns/premis-v2'
+            ' http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd')
+        nsmap = {
+            'mets': metsrw.NAMESPACES['mets'],
+            'xsi': metsrw.NAMESPACES['xsi'],
+            'xlink': metsrw.NAMESPACES['xlink'],
+        }
+        E_P = ElementMaker(namespace=metsrw.NAMESPACES['premis'],
+                           nsmap={'premis': metsrw.NAMESPACES['premis']})
+
+        # Create the AIP's PREMIS:OBJECT using raw lxml
+        aip_premis_object = E_P.object(
+            E_P.objectIdentifier(
+                E_P.objectIdentifierType('UUID'),
+                E_P.objectIdentifierValue(aip['uuid']),
+            ),
+            E_P.objectCharacteristics(
+                E_P.compositionLevel('1'),
+                E_P.fixity(
+                    E_P.messageDigestAlgorithm(aip['checksum_algorithm']),
+                    E_P.messageDigest(aip['checksum']),
+                ),
+                E_P.size(str(aip['size'])),
+                E_P.format(
+                    E_P.formatDesignation(
+                        E_P.formatName(
+                            pronom_conversion[aip['extension']]['name']),
+                        E_P.formatVersion(),
+                    ),
+                    E_P.formatRegistry(
+                        E_P.formatRegistryName('PRONOM'),
+                        E_P.formatRegistryKey(
+                            pronom_conversion[aip['extension']]['puid'])
+                    ),
+                ),
+                E_P.creatingApplication(
+                    E_P.creatingApplicationName(aip['archive_tool']),
+                    E_P.creatingApplicationVersion(aip['archive_tool_version']),
+                    E_P.dateCreatedByApplication(now),
+                ),
+            ),
+            version='2.2',
+        )
+        aip_premis_object.attrib['{' + nsmap['xsi'] + '}type'] = 'premis:file'
+        aip_premis_object.attrib['{' + nsmap['xsi'] + '}schemaLocation'] = (
+            premis_schema_location)
+        aip_fs_entry.add_premis_object(aip_premis_object)
+
+        # Create the AIP's PREMIS:EVENT for the compression using raw lxml
+        aip_premis_compression_event = E_P.event(
+            E_P.eventIdentifier(
+                E_P.eventIdentifierType('UUID'),
+                E_P.eventIdentifierValue(compression_event['uuid']),
+            ),
+            E_P.eventType('compression'),
+            E_P.eventDateTime(now),
+            E_P.eventDetail(compression_event['detail']),
+            E_P.eventOutcomeInformation(
+                E_P.eventOutcome(compression_event['outcome']),
+                E_P.eventOutcomeDetail(
+                    E_P.eventOutcomeDetailNote(
+                        compression_event['outcome_detail_note'])
+                ),
+            ),
+            *[E_P.linkingAgentIdentifier(
+                E_P.linkingAgentIdentifierType(ag['identifier_type']),
+                E_P.linkingAgentIdentifierValue(ag['identifier_value']))
+            for ag in compression_event['agents']],
+            version='2.2'
+        )
+        aip_premis_compression_event.attrib[
+            '{' + nsmap['xsi'] + '}schemaLocation'] = (premis_schema_location)
+        aip_fs_entry.add_premis_event(aip_premis_compression_event)
+
+        # Create the AIP's PREMIS:AGENTs using raw lxml
+        for agent in compression_event['agents']:
+            agent_el = E_P.agent(
+                E_P.agentIdentifier(
+                    E_P.agentIdentifierType(agent['identifier_type']),
+                    E_P.agentIdentifierValue(agent['identifier_value'])
+                ),
+                E_P.agentName(agent['name']),
+                E_P.agentType(agent['type'])
+            )
+            agent_el.attrib['{' + nsmap['xsi'] + '}schemaLocation'] = (
+                premis_schema_location)
+            aip_fs_entry.add_premis_agent(agent_el)
+
+        # TODO: we need metsrw to be able to set transformFile elements.
+        # compression - 7z or tar.bz2
+        """
+        if extension == '.7z':
+            etree.SubElement(file_, namespaces.metsBNS + "transformFile",
+                            TRANSFORMORDER='1',
+                            TRANSFORMTYPE='decompression',
+                            TRANSFORMALGORITHM=algorithm)
+        elif extension == '.bz2':
+            etree.SubElement(file_, namespaces.metsBNS + "transformFile",
+                            TRANSFORMORDER='1',
+                            TRANSFORMTYPE='decompression',
+                            TRANSFORMALGORITHM='bzip2')
+            etree.SubElement(file_, namespaces.metsBNS + "transformFile",
+                            TRANSFORMORDER='2',
+                            TRANSFORMTYPE='decompression',
+                            TRANSFORMALGORITHM='tar')
+        """
+
+        mw.append_file(aip_fs_entry)
+        self.assert_pointer_valid(mw.serialize())
+
+    def test_production_mets_file(self):
+        mets_path = 'fixtures/production-aip-mets-file.xml'
+        mets_doc = etree.parse(mets_path)
+        self.assert_mets_valid(mets_doc)
+
+    def test_production_pointer_file(self):
+        mets_path = 'fixtures/production-pointer-file.xml'
+        mets_doc = etree.parse(mets_path)
+        self.assert_pointer_valid(mets_doc)
+
+    # Helper methods
+
+    def assert_mets_valid(self, mets_doc, schematron=metsrw.AM_SCT_PATH):
+        is_valid, report = metsrw.validate(mets_doc, schematron=schematron)
+        if not is_valid:
+            raise AssertionError(report['report'])
+
+    def assert_pointer_valid(self, mets_doc):
+        self.assert_mets_valid(mets_doc, schematron=metsrw.AM_PNTR_SCT_PATH)

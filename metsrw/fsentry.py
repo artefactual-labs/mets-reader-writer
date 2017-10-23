@@ -18,9 +18,9 @@ class FSEntry(object):
     """
     A class representing a filesystem entry - either a file or a directory.
 
-    When passed to a :class:`metsrw.mets.METSDocument` instance, the tree of FSEntry objects will
-    be used to construct the <fileSec> and <structMap> elements of a
-    METS document.
+    When passed to a :class:`metsrw.mets.METSDocument` instance, the tree of
+    FSEntry objects will be used to construct the <fileSec> and <structMap>
+    elements of a METS document.
 
     Unless otherwise specified, an FSEntry object is assumed to be a file;
     pass the `type` value as 'Directory' to specify that the object is
@@ -56,6 +56,10 @@ class FSEntry(object):
     :param FSEntry derived_from: FSEntry that this FSEntry is derived_from. This is used to set the GROUPID in the fileSec.
     :param str checksum: Value of the file's checksum. Required if checksumtype passed.
     :param str checksumtype: Type of the checksum. Must be one of :const:`FSEntry.ALLOWED_CHECKSUMS`.  Required if checksum passed.
+    :param list transform_files: a list of dicts representing METS transform
+        file elements, which provide "a means to access any subsidiary files
+        listed below a <file> element by indicating the steps required to
+        'unpack' or transform the subsidiary files."
     :raises ValueError: if children passed when type is not 'Directory'
     :raises ValueError: if only one of checksum or checksumtype passed
     :raises ValueError: if checksumtype is not in :const:`FSEntry.ALLOWED_CHECKSUMS`
@@ -63,7 +67,9 @@ class FSEntry(object):
 
     ALLOWED_CHECKSUMS = ('Adler-32', 'CRC32', 'HAVAL', 'MD5', 'MNP', 'SHA-1', 'SHA-256', 'SHA-384', 'SHA-512', 'TIGER WHIRLPOOL')
 
-    def __init__(self, path=None, label=None, use='original', type=u'Item', children=None, file_uuid=None, derived_from=None, checksum=None, checksumtype=None):
+    def __init__(self, path=None, label=None, use='original', type=u'Item',
+                 children=None, file_uuid=None, derived_from=None,
+                 checksum=None, checksumtype=None, transform_files=None):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
@@ -78,6 +84,9 @@ class FSEntry(object):
         self.type = six.text_type(type)
         self.parent = None
         self._children = []
+        if not transform_files:
+            transform_files = []
+        self.transform_files = transform_files
         children = children or []
         for child in children:
             self.add_child(child)
@@ -110,6 +119,8 @@ class FSEntry(object):
             return None
         if self.file_uuid is None:
             raise exceptions.MetsError('No FILEID: File %s does not have file_uuid set' % self.path)
+        if self.is_aip:
+            return os.path.splitext(os.path.basename(self.path))[0]
         return utils.FILE_ID_PREFIX + self.file_uuid
 
     def group_id(self):
@@ -138,6 +149,10 @@ class FSEntry(object):
     def children(self):
         # Read-only
         return self._children
+
+    @property
+    def is_aip(self):
+        return self.type.lower() == 'archival information package'
 
     # ADD ATTRIBUTES
 
@@ -254,7 +269,7 @@ class FSEntry(object):
 
         :return: fileSec element for this FSEntry
         """
-        if self.type.lower() != 'item' or self.use is None:
+        if self.type.lower() not in ('item', 'archival information package') or self.use is None:
             return None
         el = etree.Element(utils.lxmlns('mets') + 'file', ID=self.file_id())
         if self.group_id():
@@ -270,7 +285,12 @@ class FSEntry(object):
             flocat.set(utils.lxmlns('xlink') + 'href', self.path)
             flocat.set('LOCTYPE', 'OTHER')
             flocat.set('OTHERLOCTYPE', 'SYSTEM')
-
+        for transform_file in self.transform_files:
+            transform_file_el = etree.SubElement(
+                el, utils.lxmlns('mets') + 'transformFile')
+            for key, val in transform_file.items():
+                attribute = 'transform{}'.format(key).upper()
+                transform_file_el.attrib[attribute] = str(val)
         return el
 
     def serialize_structmap(self, recurse=True):
@@ -285,7 +305,8 @@ class FSEntry(object):
         """
         if not self.label:
             return None
-        el = etree.Element(utils.lxmlns('mets') + 'div', TYPE=self.type, LABEL=self.label)
+        el = etree.Element(utils.lxmlns('mets') + 'div', TYPE=self.type)
+        el.attrib['LABEL'] = self.label
         if self.file_id():
             etree.SubElement(el, utils.lxmlns('mets') + 'fptr', FILEID=self.file_id())
         if self.dmdids:
