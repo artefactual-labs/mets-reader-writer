@@ -1,12 +1,14 @@
 from __future__ import absolute_import
 
+from itertools import chain
 import logging
-from lxml import etree
 import os
 from random import randint
 
+from lxml import etree
 import six
 
+from .di import is_class, has_methods, has_class_methods, Dependency
 from . import exceptions
 from .metadata import MDWrap, MDRef, SubSection, AMDSec
 from . import utils
@@ -67,6 +69,29 @@ class FSEntry(object):
 
     ALLOWED_CHECKSUMS = ('Adler-32', 'CRC32', 'HAVAL', 'MD5', 'MNP', 'SHA-1', 'SHA-256', 'SHA-384', 'SHA-512', 'TIGER WHIRLPOOL')
 
+    # Dependencies that must be injected. This means that an
+    # ``FSEntry`` instance must be able to call ``self.premis_object_class`` and
+    # get a class with methods ``fromtree`` and ``serialize``.
+    premis_object_class = Dependency(
+        'premis_object_class',
+        has_methods('serialize'),
+        has_class_methods('fromtree'),
+        is_class)
+    premis_event_class = Dependency(
+        'premis_event_class',
+        has_methods('serialize'),
+        has_class_methods('fromtree'),
+        is_class)
+    premis_agent_class = Dependency(
+        'premis_agent_class',
+        has_methods('serialize'),
+        has_class_methods('fromtree'),
+        is_class)
+
+    PREMIS_OBJECT = 'PREMIS:OBJECT'
+    PREMIS_EVENT = 'PREMIS:EVENT'
+    PREMIS_AGENT = 'PREMIS:AGENT'
+
     def __init__(self, path=None, label=None, use='original', type=u'Item',
                  children=None, file_uuid=None, derived_from=None,
                  checksum=None, checksumtype=None, transform_files=None,
@@ -88,7 +113,7 @@ class FSEntry(object):
         if not transform_files:
             transform_files = []
         self.transform_files = transform_files
-        self.mets_div_type = mets_div_type
+        self.mets_div_type = mets_div_type or self.type
         children = children or []
         for child in children:
             self.add_child(child)
@@ -204,17 +229,36 @@ class FSEntry(object):
     def add_dmdsec(self, md, mdtype, mode='mdwrap', **kwargs):
         return self._add_metadata_element(md, 'dmdSec', mdtype, mode, **kwargs)
 
+    def serialize_md_inst(self, md_inst, md_class):
+        """Serialize object ``md_inst`` by transforming it into an
+        ``lxml.etree._ElementTree``. If it already is such, return it. If not,
+        make sure it is the correct type and return the output of calling
+        ``seriaize()`` on it.
+        """
+        valid_insts = tuple(
+            chain((etree._ElementTree, etree._Element), six.string_types))
+        if isinstance(md_inst, valid_insts):
+            return md_inst
+        if not isinstance(md_inst, md_class):
+            raise TypeError(
+                'Instance {!r} must be instance of {!r}'.format(
+                    md_inst, md_class))
+        return md_inst.serialize()
+
     def add_premis_object(self, md, mode='mdwrap'):
-        # TODO add extra args and create PREMIS object here
-        return self.add_techmd(md, 'PREMIS:OBJECT', mode)
+        return self.add_techmd(
+            self.serialize_md_inst(md, self.premis_object_class),
+            self.PREMIS_OBJECT, mode)
 
     def add_premis_event(self, md, mode='mdwrap'):
-        # TODO add extra args and create PREMIS object here
-        return self.add_digiprovmd(md, 'PREMIS:EVENT', mode)
+        return self.add_digiprovmd(
+            self.serialize_md_inst(md, self.premis_event_class),
+            self.PREMIS_EVENT, mode)
 
     def add_premis_agent(self, md, mode='mdwrap'):
-        # TODO add extra args and create PREMIS object here
-        return self.add_digiprovmd(md, 'PREMIS:AGENT', mode)
+        return self.add_digiprovmd(
+            self.serialize_md_inst(md, self.premis_agent_class),
+            self.PREMIS_AGENT, mode)
 
     def add_premis_rights(self, md, mode='mdwrap'):
         # TODO add extra args and create PREMIS object here
@@ -308,7 +352,7 @@ class FSEntry(object):
         if not self.label:
             return None
         el = etree.Element(utils.lxmlns('mets') + 'div',
-                           TYPE=self.mets_div_type or self.type)
+                           TYPE=self.mets_div_type)
         el.attrib['LABEL'] = self.label
         if self.file_id():
             etree.SubElement(el, utils.lxmlns('mets') + 'fptr', FILEID=self.file_id())
@@ -322,3 +366,20 @@ class FSEntry(object):
                     el.append(child_el)
 
         return el
+
+    def get_subsections_of_type(self, mdtype, md_class):
+        return [md_class.fromtree(ss.contents.document)
+                for ss in self.amdsecs[0].subsections
+                if ss.contents.mdtype == mdtype]
+
+    def get_premis_objects(self):
+        return self.get_subsections_of_type(
+            self.PREMIS_OBJECT, self.premis_object_class)
+
+    def get_premis_events(self):
+        return self.get_subsections_of_type(
+            self.PREMIS_EVENT, self.premis_event_class)
+
+    def get_premis_agents(self):
+        return self.get_subsections_of_type(
+            self.PREMIS_AGENT, self.premis_agent_class)

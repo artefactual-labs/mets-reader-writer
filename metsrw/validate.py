@@ -82,7 +82,6 @@ def get_xmlschema(xmlschema, mets_doc):
         for namespace, location in zip(*[iter(namespaces_locations)] * 2):
             if namespace == NAMESPACES['mets']:
                 continue
-            print(namespace)
             xs_import = etree.Element(
                 '{http://www.w3.org/2001/XMLSchema}import')
             xs_import.attrib['namespace'] = namespace

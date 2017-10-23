@@ -112,7 +112,7 @@ class TestMETSDocument(TestCase):
         # mock serialize
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse('fixtures/complete_mets.xml', parser=parser).getroot()
-        mw.serialize = lambda fully_qualified: root
+        mw.serialize = lambda fully_qualified=True: root
         mw.write('test_write.xml', pretty_print=True)
         assert filecmp.cmp('fixtures/complete_mets.xml', 'test_write.xml', shallow=False)
         os.remove('test_write.xml')
@@ -382,10 +382,6 @@ class TestWholeMETS(TestCase):
 
         mw.append_file(sip)
         mw.write('full_metsrw.xml', fully_qualified=True, pretty_print=True)
-        self.assert_mets_valid(mw.serialize())
-
-        pprint.pprint(etree.tostring(mw._filesec(), pretty_print=True))
-
         os.remove('full_metsrw.xml')
 
     def test_pointer_file(self):
@@ -570,6 +566,17 @@ class TestWholeMETS(TestCase):
         mets_path = 'fixtures/production-pointer-file.xml'
         mets_doc = etree.parse(mets_path)
         self.assert_pointer_valid(mets_doc)
+
+    def test_parse_production_pointer_file(self):
+        """Test that we can use ``get_file`` to get the FSEntry instance
+        representing the AIP using the AIP's UUID. This is made challenging by
+        the fact that in pointer files the FILEID attribute's value is NOT
+        prefixed by "file-".
+        """
+        mets_path = 'fixtures/production-pointer-file.xml'
+        mw = metsrw.METSDocument.fromfile(mets_path)
+        aip_uuid = '7327b00f-d83a-4ae8-bb89-84fce994e827'
+        assert mw.get_file(file_uuid=aip_uuid)
 
     # Helper methods
 

@@ -268,7 +268,7 @@ class MDRef(object):
             target_doc = etree.parse(self.target)
             dmdsecs = [item.get('ID') for item in
                        target_doc.findall(utils.lxmlns('mets') + 'dmdSec')]
-            XPTR = "xpointer(id(''))".format(' '.join(dmdsecs))
+            XPTR = "xpointer(id('{}'))".format(' '.join(dmdsecs))
         except Exception:
             pass
 

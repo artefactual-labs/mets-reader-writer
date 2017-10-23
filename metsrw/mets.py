@@ -2,8 +2,10 @@ from __future__ import absolute_import
 
 from datetime import datetime
 import logging
-from lxml import etree
+import os
 import sys
+
+from lxml import etree
 
 # This package
 from . import exceptions
@@ -11,7 +13,10 @@ from . import fsentry
 from . import metadata
 from . import utils
 
+
 LOGGER = logging.getLogger(__name__)
+
+AIP_ENTRY_TYPE = 'archival information package'
 
 
 class METSDocument(object):
@@ -184,7 +189,7 @@ class METSDocument(object):
         filesec = etree.Element(utils.lxmlns('mets') + 'fileSec')
         filegrps = {}
         for file_ in files:
-            if file_.type.lower() not in ('item', 'archival information package'):
+            if file_.type.lower() not in ('item', AIP_ENTRY_TYPE):
                 continue
             # Get fileGrp, or create if not exist
             filegrp = filegrps.get(file_.use)
@@ -258,21 +263,32 @@ class METSDocument(object):
                 file_elem = tree.find('mets:fileSec//mets:file[@ID="' + file_id + '"]', namespaces=utils.NAMESPACES)
                 if file_elem is None:
                     raise exceptions.ParseError('%s exists in structMap but not fileSec' % file_id)
-                file_uuid = file_id.replace(utils.FILE_ID_PREFIX, '', 1)
-                group_uuid = file_elem.get('GROUPID', '').replace(utils.GROUP_ID_PREFIX, '', 1)
-                if group_uuid != file_uuid:
-                    derived_from = group_uuid  # Use group_uuid as placeholder
                 use = file_elem.getparent().get('USE')
                 path = file_elem.find('mets:FLocat', namespaces=utils.NAMESPACES).get(utils.lxmlns('xlink') + 'href')
                 amdids = file_elem.get('ADMID')
                 checksum = file_elem.get('CHECKSUM')
                 checksumtype = file_elem.get('CHECKSUMTYPE')
+                file_id_prefix = utils.FILE_ID_PREFIX
+                # If the file is an AIP, then its prefix is not "file-" but the
+                # name of the AIP. Therefore we need to get the extension-less
+                # basename of the AIP's path and remove its UUID suffix to get
+                # the prefix to remove from the FILEID attribute value.
+                if entry_type.lower() == AIP_ENTRY_TYPE:
+                    file_id_prefix = os.path.splitext(os.path.basename(path))[0][:-36]
+                file_uuid = file_id.replace(file_id_prefix, '', 1)
+                group_uuid = file_elem.get('GROUPID', '').replace(utils.GROUP_ID_PREFIX, '', 1)
+                if group_uuid != file_uuid:
+                    derived_from = group_uuid  # Use group_uuid as placeholder
 
             # Recursively generate children
             children = self._parse_tree_structmap(tree, elem)
 
             # Create FSEntry
-            fs_entry = fsentry.FSEntry(path=path, label=label, use=use, type=entry_type, children=children, file_uuid=file_uuid, derived_from=derived_from, checksum=checksum, checksumtype=checksumtype)
+            fs_entry = fsentry.FSEntry(
+                path=path, label=label, use=use, type=entry_type,
+                children=children, file_uuid=file_uuid,
+                derived_from=derived_from, checksum=checksum,
+                checksumtype=checksumtype)
 
             # Add DMDSecs
             dmdids = elem.get('DMDID')
@@ -334,9 +350,9 @@ class METSDocument(object):
         self._parse_tree(self.tree)
 
     @classmethod
-    def fromfile(klass, path):
+    def fromfile(cls, path):
         """ Creates a METS by parsing a file. """
-        i = klass()
+        i = cls()
         i._fromfile(path)
         return i
 
@@ -352,9 +368,9 @@ class METSDocument(object):
         self._parse_tree(self.tree)
 
     @classmethod
-    def fromstring(klass, string):
+    def fromstring(cls, string):
         """ Create a METS by parsing a string. """
-        i = klass()
+        i = cls()
         i._fromstring(string)
         return i
 
@@ -368,9 +384,9 @@ class METSDocument(object):
         self._parse_tree(self.tree)
 
     @classmethod
-    def fromtree(klass, tree):
+    def fromtree(cls, tree):
         """ Create a METS from an ElementTree or Element. """
-        i = klass()
+        i = cls()
         i._fromtree(tree)
         return i
 
