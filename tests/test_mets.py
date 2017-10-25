@@ -513,7 +513,7 @@ class TestWholeMETS(TestCase):
             *[E_P.linkingAgentIdentifier(
                 E_P.linkingAgentIdentifierType(ag['identifier_type']),
                 E_P.linkingAgentIdentifierValue(ag['identifier_value']))
-            for ag in compression_event['agents']],
+              for ag in compression_event['agents']],
             version='2.2'
         )
         aip_premis_compression_event.attrib[
