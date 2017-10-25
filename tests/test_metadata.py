@@ -134,16 +134,16 @@ class TestSubSection(TestCase):
         assert root[0].tag == 'dummy_data'
 
     def test_subsection_ordering(self):
-        l = []
-        l.append(metsrw.SubSection('digiprovMD', self.STUB_MDWRAP))
-        l.append(metsrw.SubSection('sourceMD', self.STUB_MDWRAP))
-        l.append(metsrw.SubSection('rightsMD', self.STUB_MDWRAP))
-        l.append(metsrw.SubSection('techMD', self.STUB_MDWRAP))
-        l.sort()
-        assert l[0].subsection == 'techMD'
-        assert l[1].subsection == 'rightsMD'
-        assert l[2].subsection == 'sourceMD'
-        assert l[3].subsection == 'digiprovMD'
+        list_ = []
+        list_.append(metsrw.SubSection('digiprovMD', self.STUB_MDWRAP))
+        list_.append(metsrw.SubSection('sourceMD', self.STUB_MDWRAP))
+        list_.append(metsrw.SubSection('rightsMD', self.STUB_MDWRAP))
+        list_.append(metsrw.SubSection('techMD', self.STUB_MDWRAP))
+        list_.sort()
+        assert list_[0].subsection == 'techMD'
+        assert list_[1].subsection == 'rightsMD'
+        assert list_[2].subsection == 'sourceMD'
+        assert list_[3].subsection == 'digiprovMD'
 
     def test_parse(self):
         """
