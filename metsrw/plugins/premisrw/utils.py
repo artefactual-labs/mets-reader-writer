@@ -36,7 +36,6 @@ def camel_to_snake(camel):
     last_lower = False
     for char in camel:
         current_upper = char.upper() == char
-        #theDog
         if current_upper and last_lower:
             ret.append('_')
             ret.append(char.lower())
