@@ -665,13 +665,6 @@ def _get_event_detail_attr(attr, parsed_event_detail):
         return 'No value found'
 
 
-PREMISRW_PLUGINS = {
-    'PREMIS:OBJECT': PREMISObject,
-    'PREMIS:EVENT': PREMISEvent,
-    'PREMIS:AGENT': PREMISAgent
-}
-
-
 def _get_relationship_tag_names():
     premis_version = utils.PREMIS_META['version']
     related_object_identifier = {'2.2': 'related_object_identification'}.get(
