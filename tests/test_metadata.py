@@ -202,6 +202,7 @@ class TestSubSection(TestCase):
         assert new.attrib['ID'] == 'techMD_42'
         assert len(new.attrib) == 1
 
+
 class TestMDRef(TestCase):
     """ Test MDRef class. """
 

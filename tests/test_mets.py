@@ -7,6 +7,7 @@ import uuid
 
 import metsrw
 
+
 class TestMETSDocument(TestCase):
     """ Test METSDocument class. """
 
