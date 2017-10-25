@@ -373,6 +373,7 @@ class METSDocument(object):
         i._fromtree(tree)
         return i
 
+
 if __name__ == '__main__':
     mw = METSDocument()
     mw.fromfile(sys.argv[1])
