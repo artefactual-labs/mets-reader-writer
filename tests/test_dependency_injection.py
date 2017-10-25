@@ -25,11 +25,14 @@ class BetterPREMISObject(object):
     """A dummy PREMIS object class that can be used to meet the dependency of
     ``FSEntry``.
     """
+
     def __init__(self, tree):
         self.tree = tree
+
     @classmethod
     def fromtree(cls, tree):
         return cls(tree)
+
     def serialize(self):
         return self.tree
 
