@@ -1,9 +1,5 @@
-from itertools import chain
-import pprint
 from unittest import TestCase
-import uuid
 
-from lxml import etree
 import pytest
 
 import tests.constants as c
@@ -278,15 +274,6 @@ class TestPREMIS(TestCase):
         assert old_premis_object.composition_level == '1'
         assert new_premis_object.composition_level == new_composition_level
         assert [old_premis_object.relationship[0], c.EX_RELATIONSHIP_2] == new_premis_object.relationship
-
-        """
-        print(old_premis_object)
-        pprint.pprint(old_premis_object.object_identifier)
-        pprint.pprint(old_premis_object.find('object_identifier'))
-        pprint.pprint(old_premis_object.find('object_characteristics'))
-        pprint.pprint(old_premis_object.find('relationship'))
-        pprint.pprint(old_premis_object.findall('relationship'))
-        """
 
         # Here are two ways to create a new PREMIS:OBJECT that's just like an
         # old one.

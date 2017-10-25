@@ -3,7 +3,6 @@ import filecmp
 from lxml import etree
 from lxml.builder import ElementMaker
 import os
-import pprint
 import pytest
 from unittest import TestCase
 import uuid
