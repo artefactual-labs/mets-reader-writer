@@ -97,7 +97,7 @@ class Dependency(object):
         for assertion in self.assertions:
             assert assertion(obj), (
                 'The value {!r} of {!r} does not match the specified'
-                ' criteria'.format( obj, self.dependency_name))
+                ' criteria'.format(obj, self.dependency_name))
         return obj
 
 # ==============================================================================
