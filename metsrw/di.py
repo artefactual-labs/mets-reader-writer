@@ -100,6 +100,7 @@ class Dependency(object):
                 ' criteria'.format(obj, self.dependency_name))
         return obj
 
+
 # ==============================================================================
 #   Assertions for declaring dependencies using Dependency
 # ==============================================================================
