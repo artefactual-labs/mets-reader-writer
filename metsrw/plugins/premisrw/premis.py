@@ -61,9 +61,13 @@ class PREMISElement:
             if isinstance(data, PREMISElement):
                 data = data.data
             self._data = data
+            self.premis_version = _premis_version_from_data(data)
         else:
+            self.premis_version = kwargs.get(
+                'premis_version', utils.PREMIS_VERSION)
             self._xml_element_values = self._get_xml_element_values(kwargs)
-            self._xml_attribute_values = _get_xml_attribute_values(kwargs)
+            self._xml_attribute_values = _get_xml_attribute_values(
+                kwargs, self.premis_version)
             self._data = self.generate_data()
 
     @property
@@ -125,7 +129,7 @@ class PREMISElement:
         return self._attributes
 
     def serialize(self):
-        return data_to_premis(self._data)
+        return data_to_premis(self._data, self.premis_version)
 
     def tostring(self, pretty_print=True):
         return etree.tostring(self.serialize(), pretty_print=pretty_print)
@@ -253,7 +257,7 @@ class PREMISObject(PREMISElement):
     @property
     def schema(self):
         related_object_identifier, related_event_identifier = (
-            _get_relationship_tag_names())
+            _get_relationship_tag_names(self.premis_version))
         return (
             'object',
             (
@@ -561,7 +565,7 @@ def _lxml_el_to_data(lxml_el, ns, nsmap, snake=True):
     return tuple(ret)
 
 
-def data_to_premis(data):
+def data_to_premis(data, premis_version=utils.PREMIS_VERSION):
     """Given tuple ``data`` representing a PREMIS entity (object, event or
     agent), return an ``lxml.etree._Element`` instance. E.g.,::
 
@@ -586,12 +590,15 @@ def data_to_premis(data):
             </premis:eventIdentifier>
         </premis:event>'''
     """
-    return _data_to_lxml_el(data, 'premis', utils.NAMESPACES)
+    nsmap = utils.PREMIS_VERSIONS_MAP[premis_version]['namespaces']
+    return _data_to_lxml_el(data, 'premis', nsmap)
 
 
 def premis_to_data(premis_lxml_el):
     """Transform a PREMIS ``lxml._Element`` instance to a Python tuple."""
-    return _lxml_el_to_data(premis_lxml_el, 'premis', utils.NAMESPACES)
+    premis_version = premis_lxml_el.get('version', utils.PREMIS_VERSION)
+    nsmap = utils.PREMIS_VERSIONS_MAP[premis_version]['namespaces']
+    return _lxml_el_to_data(premis_lxml_el, 'premis', nsmap)
 
 
 def data_find(data, path):
@@ -665,8 +672,7 @@ def _get_event_detail_attr(attr, parsed_event_detail):
         return 'No value found'
 
 
-def _get_relationship_tag_names():
-    premis_version = utils.PREMIS_META['version']
+def _get_relationship_tag_names(premis_version):
     related_object_identifier = {'2.2': 'related_object_identification'}.get(
         premis_version, 'related_object_identifier')
     related_event_identifier = {'2.2': 'related_event_identification'}.get(
@@ -754,9 +760,22 @@ def get_attrs_to_paths(schema, attrs_to_paths=None, path=None):
     return attrs_to_paths
 
 
-def _get_xml_attribute_values(kwargs):
-    premis_el_attrs = utils.PREMIS_META.copy()
+def _get_xml_attribute_values(kwargs, premis_version=utils.PREMIS_VERSION):
+    premis_el_attrs = utils.PREMIS_VERSIONS_MAP[premis_version]['meta'].copy()
     xsi_type = kwargs.get('xsi_type')
     if xsi_type:
         premis_el_attrs['xsi:type'] = xsi_type
     return premis_el_attrs
+
+
+def _premis_version_from_data(data):
+    """Given tuple ``data`` encoding a PREMIS element, attempt to return the
+    PREMIS version it is using. If none can be found, return the default PREMIS
+    version.
+    """
+    for child in data:
+        if isinstance(child, dict):
+            version = child.get('version')
+            if version:
+                return version
+    return utils.PREMIS_VERSION

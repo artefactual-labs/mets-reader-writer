@@ -2,9 +2,9 @@ from unittest import TestCase
 
 import pytest
 
-import tests.constants as c
 import metsrw
 import metsrw.plugins.premisrw as premisrw
+import tests.constants as c
 
 
 class TestPREMIS(TestCase):

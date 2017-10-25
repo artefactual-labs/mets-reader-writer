@@ -296,3 +296,32 @@ class TestFSEntry(TestCase):
         assert el.attrib['LABEL'] == 'dir'
         assert len(el.attrib) == 2
         assert len(el) == 0
+
+    def test_is_empty_dir(self):
+        """It should be able to determine whether it is an empty directory."""
+
+        r = metsrw.FSEntry('dir', type='Directory')
+        d1 = metsrw.FSEntry('dir', type='Directory')
+        d2 = metsrw.FSEntry('dir', type='Directory')
+        d1a = metsrw.FSEntry('dir', type='Directory')
+        d2a = metsrw.FSEntry('dir', type='Directory')
+        d2b = metsrw.FSEntry('dir', type='Directory')
+        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        r.add_child(d1)
+        r.add_child(d2)
+        d1.add_child(d1a)
+        d2.add_child(d2a)
+        d2.add_child(d2b)
+        d1a.add_child(f)
+
+        assert d2a.is_empty_dir
+        assert not d2a.children
+        assert not d1a.is_empty_dir
+        assert len(d1a.children) == 1
+        assert not d1.is_empty_dir
+        assert not r.is_empty_dir
+        assert not f.is_empty_dir
+        # Directory d2 is an empty directory because it contains nothing but
+        # empty directories.
+        assert d2.is_empty_dir
+        assert len(d2.children) == 2

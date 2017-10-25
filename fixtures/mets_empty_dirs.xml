@@ -1,0 +1,1590 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version111/mets.xsd">
+  <mets:metsHdr CREATEDATE="2017-10-19T17:17:04"/>
+  <mets:dmdSec ID="dmdSec_1">
+    <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+      <mets:xmlData>
+        <premis:object xmlns:premis="http://www.loc.gov/premis/v3" xsi:type="premis:intellectualEntity" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+          <premis:objectIdentifier>
+            <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>aaafe402-cd27-4e0a-bc9c-f965364ba358</premis:objectIdentifierValue>
+          </premis:objectIdentifier>
+          <premis:originalName>objects/metadata/transfers/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c</premis:originalName>
+        </premis:object>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_2">
+    <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+      <mets:xmlData>
+        <premis:object xmlns:premis="http://www.loc.gov/premis/v3" xsi:type="premis:intellectualEntity" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+          <premis:objectIdentifier>
+            <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>1afdeb7a-7c76-444c-b8f7-2ea248a23c23</premis:objectIdentifierValue>
+          </premis:objectIdentifier>
+          <premis:originalName>objects/dir2/dir2a/dir2aiii</premis:originalName>
+        </premis:object>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_3">
+    <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+      <mets:xmlData>
+        <premis:object xmlns:premis="http://www.loc.gov/premis/v3" xsi:type="premis:intellectualEntity" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+          <premis:objectIdentifier>
+            <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>31d2689d-91d0-42b4-91be-1b1b0c2e65a4</premis:objectIdentifierValue>
+          </premis:objectIdentifier>
+          <premis:originalName>thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4</premis:originalName>
+        </premis:object>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:amdSec ID="amdSec_1">
+    <mets:techMD ID="techMD_1">
+      <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+        <mets:xmlData>
+          <premis:object xmlns:premis="info:lc/xmlns/premis-v2" xsi:type="premis:file" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:objectIdentifier>
+              <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+              <premis:objectIdentifierValue>78756d71-73fd-4988-a1c1-c2971ee2160f</premis:objectIdentifierValue>
+            </premis:objectIdentifier>
+            <premis:objectCharacteristics>
+              <premis:compositionLevel>0</premis:compositionLevel>
+              <premis:fixity>
+                <premis:messageDigestAlgorithm>sha256</premis:messageDigestAlgorithm>
+                <premis:messageDigest>74f69e3aadb702159ca70c5e6965ce8fef4d0ef9d9f26ee157360c93a4306268</premis:messageDigest>
+              </premis:fixity>
+              <premis:size>5</premis:size>
+              <premis:format>
+                <premis:formatDesignation>
+                  <premis:formatName>Plain Text</premis:formatName>
+                  <premis:formatVersion></premis:formatVersion>
+                </premis:formatDesignation>
+                <premis:formatRegistry>
+                  <premis:formatRegistryName>PRONOM</premis:formatRegistryName>
+                  <premis:formatRegistryKey>x-fmt/111</premis:formatRegistryKey>
+                </premis:formatRegistry>
+              </premis:format>
+              <premis:objectCharacteristicsExtension>
+                <fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd" version="0.8.4" timestamp="10/19/17 5:13 PM">
+                  <identification status="SINGLE_RESULT">
+                    <identity format="Plain text" mimetype="text/plain" toolname="FITS" toolversion="0.8.4">
+                      <tool toolname="file utility" toolversion="5.14"/>
+                    </identity>
+                  </identification>
+                  <fileinfo>
+                    <filepath toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir1/dir1a/dir1ai/file.txt</filepath>
+                    <filename toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">file.txt</filename>
+                    <size toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">5</size>
+                    <fslastmodified toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">1502998537000</fslastmodified>
+                  </fileinfo>
+                  <filestatus/>
+                  <metadata>
+                    <text>
+                      <charset toolname="file utility" toolversion="5.14" status="SINGLE_RESULT">US-ASCII</charset>
+                    </text>
+                  </metadata>
+                  <toolOutput>
+                    <tool name="file utility" version="5.14">
+                      <fileUtilityOutput xmlns="">
+                        <rawOutput>ASCII text
+text/plain; charset=us-ascii</rawOutput>
+                        <mimetype>text/plain</mimetype>
+                        <format>Plain text</format>
+                        <charset>US-ASCII</charset>
+                      </fileUtilityOutput>
+                    </tool>
+                    <tool name="NLNZ Metadata Extractor" version="3.4GA">
+                      <DEFAULT xmlns="">
+                        <METADATA>
+                          <FILENAME>file.txt</FILENAME>
+                          <SEPARATOR>/</SEPARATOR>
+                          <PARENT>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir1/dir1a/dir1ai</PARENT>
+                          <CANONICALPATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir1/dir1a/dir1ai/file.txt</CANONICALPATH>
+                          <ABSOLUTEPATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir1/dir1a/dir1ai/file.txt</ABSOLUTEPATH>
+                          <PATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir1/dir1a/dir1ai/file.txt</PATH>
+                          <FILE>true</FILE>
+                          <DIRECTORY>false</DIRECTORY>
+                          <FILELENGTH>5</FILELENGTH>
+                          <HIDDEN>false</HIDDEN>
+                          <ABSOLUTE>true</ABSOLUTE>
+                          <URL>file:/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir1/dir1a/dir1ai/file.txt</URL>
+                          <URI>file:/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir1/dir1a/dir1ai/file.txt</URI>
+                          <READ>true</READ>
+                          <WRITE>true</WRITE>
+                          <EXTENSION>txt</EXTENSION>
+                          <MODIFIED>2017-08-17 19:35:37</MODIFIED>
+                          <DATE>20170817</DATE>
+                          <DATEPATTERN>yyyyMMdd</DATEPATTERN>
+                          <TIME>193537000</TIME>
+                          <TIMEPATTERN>HHmmssSSS</TIMEPATTERN>
+                          <TYPE>text/plain</TYPE>
+                          <PID>null</PID>
+                          <OID>null</OID>
+                          <FID>null</FID>
+                          <PROCESSOR>unknown</PROCESSOR>
+                        </METADATA>
+                      </DEFAULT>
+                    </tool>
+                    <tool name="OIS File Information" version="0.2">
+                      <fits xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd">
+                        <fileinfo>
+                          <filepath>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir1/dir1a/dir1ai/file.txt</filepath>
+                          <filename>file.txt</filename>
+                          <size>5</size>
+                          <fslastmodified>1502998537000</fslastmodified>
+                        </fileinfo>
+                      </fits>
+                    </tool>
+                    <tool name="ffident" version="0.2">
+                      <ffidentOutput xmlns="">
+                        <shortName/>
+                        <longName>Unknown Binary</longName>
+                        <group/>
+                        <mimetypes>
+                          <mimetype>application/octet-stream</mimetype>
+                        </mimetypes>
+                        <fileExtensions/>
+                      </ffidentOutput>
+                    </tool>
+                    <tool name="Tika" version="1.3">
+                      <metadata xmlns="">
+                        <field name="Content-Encoding">
+                          <value>ISO-8859-1</value>
+                        </field>
+                        <field name="Content-Type">
+                          <value>text/plain; charset=ISO-8859-1</value>
+                        </field>
+                      </metadata>
+                    </tool>
+                  </toolOutput>
+                </fits>
+              </premis:objectCharacteristicsExtension>
+              <premis:creatingApplication>
+                <premis:dateCreatedByApplication>2017-08-17</premis:dateCreatedByApplication>
+              </premis:creatingApplication>
+            </premis:objectCharacteristics>
+            <premis:originalName>%transferDirectory%objects/dir1/dir1a/dir1ai/file.txt</premis:originalName>
+          </premis:object>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:digiprovMD ID="digiprovMD_1">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>85b9e382-117f-4523-8518-a62664bb0c9d</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>ingestion</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:12:49+00:00</premis:eventDateTime>
+            <premis:eventDetail></premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome></premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote></premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_2">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>221a5136-45c0-41df-a03a-83ebd1492507</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>message digest calculation</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:12:53+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome></premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>74f69e3aadb702159ca70c5e6965ce8fef4d0ef9d9f26ee157360c93a4306268</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_3">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>65c7cefc-9819-45b0-916f-807acb202a16</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>virus check</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:13:11+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="Clam AV"; version="ClamAV 0.99.2"; virusDefinitions="23965/Thu Oct 19 00:02:02 2017"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote></premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_4">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>c8083873-1b50-43fa-8352-70f962f2b736</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>format identification</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:13:25+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="Fido"; version="1"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Positive</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>x-fmt/111</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_5">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>2d72f8ea-23c9-4e8d-ab3a-8b113717a007</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:14:53+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>74f69e3aadb702159ca70c5e6965ce8fef4d0ef9d9f26ee157360c93a4306268 verified</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_6">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>preservation system</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>Archivematica-1.7</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>Archivematica</premis:agentName>
+            <premis:agentType>software</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_7">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>repository code</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>test</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>test</premis:agentName>
+            <premis:agentType>organization</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_8">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>Archivematica user pk</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>1</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>username="test", first_name="test", last_name="test"</premis:agentName>
+            <premis:agentType>Archivematica user</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="amdSec_2">
+    <mets:techMD ID="techMD_2">
+      <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+        <mets:xmlData>
+          <premis:object xmlns:premis="info:lc/xmlns/premis-v2" xsi:type="premis:file" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:objectIdentifier>
+              <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+              <premis:objectIdentifierValue>b6d28a8e-3b3a-44df-a1b1-098edd7e7b1a</premis:objectIdentifierValue>
+            </premis:objectIdentifier>
+            <premis:objectCharacteristics>
+              <premis:compositionLevel>0</premis:compositionLevel>
+              <premis:fixity>
+                <premis:messageDigestAlgorithm>sha256</premis:messageDigestAlgorithm>
+                <premis:messageDigest>74f69e3aadb702159ca70c5e6965ce8fef4d0ef9d9f26ee157360c93a4306268</premis:messageDigest>
+              </premis:fixity>
+              <premis:size>5</premis:size>
+              <premis:format>
+                <premis:formatDesignation>
+                  <premis:formatName>Plain Text</premis:formatName>
+                  <premis:formatVersion></premis:formatVersion>
+                </premis:formatDesignation>
+                <premis:formatRegistry>
+                  <premis:formatRegistryName>PRONOM</premis:formatRegistryName>
+                  <premis:formatRegistryKey>x-fmt/111</premis:formatRegistryKey>
+                </premis:formatRegistry>
+              </premis:format>
+              <premis:objectCharacteristicsExtension>
+                <fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd" version="0.8.4" timestamp="10/19/17 5:13 PM">
+                  <identification status="SINGLE_RESULT">
+                    <identity format="Plain text" mimetype="text/plain" toolname="FITS" toolversion="0.8.4">
+                      <tool toolname="file utility" toolversion="5.14"/>
+                    </identity>
+                  </identification>
+                  <fileinfo>
+                    <filepath toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2ai/file.txt</filepath>
+                    <filename toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">file.txt</filename>
+                    <size toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">5</size>
+                    <fslastmodified toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">1502998537000</fslastmodified>
+                  </fileinfo>
+                  <filestatus/>
+                  <metadata>
+                    <text>
+                      <charset toolname="file utility" toolversion="5.14" status="SINGLE_RESULT">US-ASCII</charset>
+                    </text>
+                  </metadata>
+                  <toolOutput>
+                    <tool name="file utility" version="5.14">
+                      <fileUtilityOutput xmlns="">
+                        <rawOutput>ASCII text
+text/plain; charset=us-ascii</rawOutput>
+                        <mimetype>text/plain</mimetype>
+                        <format>Plain text</format>
+                        <charset>US-ASCII</charset>
+                      </fileUtilityOutput>
+                    </tool>
+                    <tool name="NLNZ Metadata Extractor" version="3.4GA">
+                      <DEFAULT xmlns="">
+                        <METADATA>
+                          <FILENAME>file.txt</FILENAME>
+                          <SEPARATOR>/</SEPARATOR>
+                          <PARENT>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2ai</PARENT>
+                          <CANONICALPATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2ai/file.txt</CANONICALPATH>
+                          <ABSOLUTEPATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2ai/file.txt</ABSOLUTEPATH>
+                          <PATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2ai/file.txt</PATH>
+                          <FILE>true</FILE>
+                          <DIRECTORY>false</DIRECTORY>
+                          <FILELENGTH>5</FILELENGTH>
+                          <HIDDEN>false</HIDDEN>
+                          <ABSOLUTE>true</ABSOLUTE>
+                          <URL>file:/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2ai/file.txt</URL>
+                          <URI>file:/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2ai/file.txt</URI>
+                          <READ>true</READ>
+                          <WRITE>true</WRITE>
+                          <EXTENSION>txt</EXTENSION>
+                          <MODIFIED>2017-08-17 19:35:37</MODIFIED>
+                          <DATE>20170817</DATE>
+                          <DATEPATTERN>yyyyMMdd</DATEPATTERN>
+                          <TIME>193537000</TIME>
+                          <TIMEPATTERN>HHmmssSSS</TIMEPATTERN>
+                          <TYPE>text/plain</TYPE>
+                          <PID>null</PID>
+                          <OID>null</OID>
+                          <FID>null</FID>
+                          <PROCESSOR>unknown</PROCESSOR>
+                        </METADATA>
+                      </DEFAULT>
+                    </tool>
+                    <tool name="OIS File Information" version="0.2">
+                      <fits xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd">
+                        <fileinfo>
+                          <filepath>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2ai/file.txt</filepath>
+                          <filename>file.txt</filename>
+                          <size>5</size>
+                          <fslastmodified>1502998537000</fslastmodified>
+                        </fileinfo>
+                      </fits>
+                    </tool>
+                    <tool name="ffident" version="0.2">
+                      <ffidentOutput xmlns="">
+                        <shortName/>
+                        <longName>Unknown Binary</longName>
+                        <group/>
+                        <mimetypes>
+                          <mimetype>application/octet-stream</mimetype>
+                        </mimetypes>
+                        <fileExtensions/>
+                      </ffidentOutput>
+                    </tool>
+                    <tool name="Tika" version="1.3">
+                      <metadata xmlns="">
+                        <field name="Content-Encoding">
+                          <value>ISO-8859-1</value>
+                        </field>
+                        <field name="Content-Type">
+                          <value>text/plain; charset=ISO-8859-1</value>
+                        </field>
+                      </metadata>
+                    </tool>
+                  </toolOutput>
+                </fits>
+              </premis:objectCharacteristicsExtension>
+              <premis:creatingApplication>
+                <premis:dateCreatedByApplication>2017-08-17</premis:dateCreatedByApplication>
+              </premis:creatingApplication>
+            </premis:objectCharacteristics>
+            <premis:originalName>%transferDirectory%objects/dir2/dir2a/dir2ai/file.txt</premis:originalName>
+          </premis:object>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:digiprovMD ID="digiprovMD_9">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>135eaeb2-a735-41d0-b522-76c6060f2854</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>ingestion</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:12:51+00:00</premis:eventDateTime>
+            <premis:eventDetail></premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome></premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote></premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_10">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>b9cd0e15-1f83-44ea-b6c1-e5f29be75523</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>message digest calculation</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:12:54+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome></premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>74f69e3aadb702159ca70c5e6965ce8fef4d0ef9d9f26ee157360c93a4306268</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_11">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>9e39a1b5-207a-48dd-b582-2b9e921d8982</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>virus check</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:13:09+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="Clam AV"; version="ClamAV 0.99.2"; virusDefinitions="23965/Thu Oct 19 00:02:02 2017"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote></premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_12">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>3b84bd60-7f9f-4894-812a-93a8bc190b86</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>format identification</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:13:24+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="Fido"; version="1"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Positive</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>x-fmt/111</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_13">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>7c15defd-650f-40fa-8573-d56d05ed076b</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:14:54+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>74f69e3aadb702159ca70c5e6965ce8fef4d0ef9d9f26ee157360c93a4306268 verified</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_14">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>preservation system</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>Archivematica-1.7</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>Archivematica</premis:agentName>
+            <premis:agentType>software</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_15">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>repository code</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>test</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>test</premis:agentName>
+            <premis:agentType>organization</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_16">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>Archivematica user pk</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>1</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>username="test", first_name="test", last_name="test"</premis:agentName>
+            <premis:agentType>Archivematica user</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="amdSec_3">
+    <mets:techMD ID="techMD_3">
+      <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+        <mets:xmlData>
+          <premis:object xmlns:premis="info:lc/xmlns/premis-v2" xsi:type="premis:file" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:objectIdentifier>
+              <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+              <premis:objectIdentifierValue>d37f9c13-48c3-474a-8634-f96a01a34e30</premis:objectIdentifierValue>
+            </premis:objectIdentifier>
+            <premis:objectCharacteristics>
+              <premis:compositionLevel>0</premis:compositionLevel>
+              <premis:fixity>
+                <premis:messageDigestAlgorithm>sha256</premis:messageDigestAlgorithm>
+                <premis:messageDigest>74f69e3aadb702159ca70c5e6965ce8fef4d0ef9d9f26ee157360c93a4306268</premis:messageDigest>
+              </premis:fixity>
+              <premis:size>5</premis:size>
+              <premis:format>
+                <premis:formatDesignation>
+                  <premis:formatName>Plain Text</premis:formatName>
+                  <premis:formatVersion></premis:formatVersion>
+                </premis:formatDesignation>
+                <premis:formatRegistry>
+                  <premis:formatRegistryName>PRONOM</premis:formatRegistryName>
+                  <premis:formatRegistryKey>x-fmt/111</premis:formatRegistryKey>
+                </premis:formatRegistry>
+              </premis:format>
+              <premis:objectCharacteristicsExtension>
+                <fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd" version="0.8.4" timestamp="10/19/17 5:13 PM">
+                  <identification status="SINGLE_RESULT">
+                    <identity format="Plain text" mimetype="text/plain" toolname="FITS" toolversion="0.8.4">
+                      <tool toolname="file utility" toolversion="5.14"/>
+                    </identity>
+                  </identification>
+                  <fileinfo>
+                    <filepath toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2aii/file.txt</filepath>
+                    <filename toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">file.txt</filename>
+                    <size toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">5</size>
+                    <fslastmodified toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">1502998537000</fslastmodified>
+                  </fileinfo>
+                  <filestatus/>
+                  <metadata>
+                    <text>
+                      <charset toolname="file utility" toolversion="5.14" status="SINGLE_RESULT">US-ASCII</charset>
+                    </text>
+                  </metadata>
+                  <toolOutput>
+                    <tool name="file utility" version="5.14">
+                      <fileUtilityOutput xmlns="">
+                        <rawOutput>ASCII text
+text/plain; charset=us-ascii</rawOutput>
+                        <mimetype>text/plain</mimetype>
+                        <format>Plain text</format>
+                        <charset>US-ASCII</charset>
+                      </fileUtilityOutput>
+                    </tool>
+                    <tool name="NLNZ Metadata Extractor" version="3.4GA">
+                      <DEFAULT xmlns="">
+                        <METADATA>
+                          <FILENAME>file.txt</FILENAME>
+                          <SEPARATOR>/</SEPARATOR>
+                          <PARENT>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2aii</PARENT>
+                          <CANONICALPATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2aii/file.txt</CANONICALPATH>
+                          <ABSOLUTEPATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2aii/file.txt</ABSOLUTEPATH>
+                          <PATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2aii/file.txt</PATH>
+                          <FILE>true</FILE>
+                          <DIRECTORY>false</DIRECTORY>
+                          <FILELENGTH>5</FILELENGTH>
+                          <HIDDEN>false</HIDDEN>
+                          <ABSOLUTE>true</ABSOLUTE>
+                          <URL>file:/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2aii/file.txt</URL>
+                          <URI>file:/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2aii/file.txt</URI>
+                          <READ>true</READ>
+                          <WRITE>true</WRITE>
+                          <EXTENSION>txt</EXTENSION>
+                          <MODIFIED>2017-08-17 19:35:37</MODIFIED>
+                          <DATE>20170817</DATE>
+                          <DATEPATTERN>yyyyMMdd</DATEPATTERN>
+                          <TIME>193537000</TIME>
+                          <TIMEPATTERN>HHmmssSSS</TIMEPATTERN>
+                          <TYPE>text/plain</TYPE>
+                          <PID>null</PID>
+                          <OID>null</OID>
+                          <FID>null</FID>
+                          <PROCESSOR>unknown</PROCESSOR>
+                        </METADATA>
+                      </DEFAULT>
+                    </tool>
+                    <tool name="OIS File Information" version="0.2">
+                      <fits xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd">
+                        <fileinfo>
+                          <filepath>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/objects/dir2/dir2a/dir2aii/file.txt</filepath>
+                          <filename>file.txt</filename>
+                          <size>5</size>
+                          <fslastmodified>1502998537000</fslastmodified>
+                        </fileinfo>
+                      </fits>
+                    </tool>
+                    <tool name="ffident" version="0.2">
+                      <ffidentOutput xmlns="">
+                        <shortName/>
+                        <longName>Unknown Binary</longName>
+                        <group/>
+                        <mimetypes>
+                          <mimetype>application/octet-stream</mimetype>
+                        </mimetypes>
+                        <fileExtensions/>
+                      </ffidentOutput>
+                    </tool>
+                    <tool name="Tika" version="1.3">
+                      <metadata xmlns="">
+                        <field name="Content-Encoding">
+                          <value>ISO-8859-1</value>
+                        </field>
+                        <field name="Content-Type">
+                          <value>text/plain; charset=ISO-8859-1</value>
+                        </field>
+                      </metadata>
+                    </tool>
+                  </toolOutput>
+                </fits>
+              </premis:objectCharacteristicsExtension>
+              <premis:creatingApplication>
+                <premis:dateCreatedByApplication>2017-08-17</premis:dateCreatedByApplication>
+              </premis:creatingApplication>
+            </premis:objectCharacteristics>
+            <premis:originalName>%transferDirectory%objects/dir2/dir2a/dir2aii/file.txt</premis:originalName>
+          </premis:object>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:digiprovMD ID="digiprovMD_17">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>d7eaae44-f8da-4616-9c81-dd731cbe6895</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>ingestion</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:12:50+00:00</premis:eventDateTime>
+            <premis:eventDetail></premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome></premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote></premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_18">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>888ce646-145b-4259-bfc9-75a5023b53ef</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>message digest calculation</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:12:52+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome></premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>74f69e3aadb702159ca70c5e6965ce8fef4d0ef9d9f26ee157360c93a4306268</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_19">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>c4a4437b-5bcd-4d04-96df-7bfb3507ce86</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>virus check</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:13:09+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="Clam AV"; version="ClamAV 0.99.2"; virusDefinitions="23965/Thu Oct 19 00:02:02 2017"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote></premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_20">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>6bee1366-9a7f-47ca-8a84-3458b7cd38e9</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>format identification</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:13:23+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="Fido"; version="1"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Positive</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>x-fmt/111</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_21">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>561b68f9-ed1b-458c-9bcb-056d4012915d</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:14:52+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>74f69e3aadb702159ca70c5e6965ce8fef4d0ef9d9f26ee157360c93a4306268 verified</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_22">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>preservation system</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>Archivematica-1.7</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>Archivematica</premis:agentName>
+            <premis:agentType>software</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_23">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>repository code</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>test</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>test</premis:agentName>
+            <premis:agentType>organization</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_24">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>Archivematica user pk</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>1</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>username="test", first_name="test", last_name="test"</premis:agentName>
+            <premis:agentType>Archivematica user</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="amdSec_4">
+    <mets:techMD ID="techMD_4">
+      <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+        <mets:xmlData>
+          <premis:object xmlns:premis="info:lc/xmlns/premis-v2" xsi:type="premis:file" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:objectIdentifier>
+              <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+              <premis:objectIdentifierValue>cca9f22a-2a9e-4239-aa83-d0614ca326c8</premis:objectIdentifierValue>
+            </premis:objectIdentifier>
+            <premis:objectCharacteristics>
+              <premis:compositionLevel>0</premis:compositionLevel>
+              <premis:fixity>
+                <premis:messageDigestAlgorithm>sha256</premis:messageDigestAlgorithm>
+                <premis:messageDigest>cb65a761f3bd04d6b38baed8ba7ee217aafbe6fe5bfbbbe257056868e805c420</premis:messageDigest>
+              </premis:fixity>
+              <premis:size>35652</premis:size>
+              <premis:format>
+                <premis:formatDesignation>
+                  <premis:formatName>XML</premis:formatName>
+                  <premis:formatVersion>1.0</premis:formatVersion>
+                </premis:formatDesignation>
+                <premis:formatRegistry>
+                  <premis:formatRegistryName>PRONOM</premis:formatRegistryName>
+                  <premis:formatRegistryKey>fmt/101</premis:formatRegistryKey>
+                </premis:formatRegistry>
+              </premis:format>
+              <premis:objectCharacteristicsExtension>
+                <fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd" version="0.8.4" timestamp="10/19/17 5:14 PM">
+                  <identification>
+                    <identity format="Extensible Markup Language" mimetype="text/xml" toolname="FITS" toolversion="0.8.4">
+                      <tool toolname="Exiftool" toolversion="9.13"/>
+                      <tool toolname="NLNZ Metadata Extractor" toolversion="3.4GA"/>
+                      <tool toolname="OIS XML Metadata" toolversion="0.2"/>
+                      <tool toolname="ffident" toolversion="0.2"/>
+                      <version toolname="NLNZ Metadata Extractor" toolversion="3.4GA">1.0</version>
+                    </identity>
+                  </identification>
+                  <fileinfo>
+                    <lastmodified toolname="Exiftool" toolversion="9.13" status="SINGLE_RESULT">2017:10:19 17:13:29+00:00</lastmodified>
+                    <filepath toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/metadataReminder/thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4/objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/METS.xml</filepath>
+                    <filename toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">METS.xml</filename>
+                    <size toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">35652</size>
+                    <fslastmodified toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">1508433209000</fslastmodified>
+                  </fileinfo>
+                  <filestatus/>
+                  <metadata>
+                    <text>
+                      <charset toolname="NLNZ Metadata Extractor" toolversion="3.4GA" status="SINGLE_RESULT">utf-8</charset>
+                      <markupBasis toolname="Exiftool" toolversion="9.13">XML</markupBasis>
+                      <markupBasisVersion toolname="NLNZ Metadata Extractor" toolversion="3.4GA" status="SINGLE_RESULT">1.0</markupBasisVersion>
+                      <markupLanguage toolname="OIS XML Metadata" toolversion="0.2" status="SINGLE_RESULT">http://www.loc.gov/standards/mets/mets.xsd</markupLanguage>
+                    </text>
+                  </metadata>
+                  <toolOutput>
+                    <tool name="file utility" version="5.14">
+                      <fileUtilityOutput xmlns="">
+                        <rawOutput>XML 1.0 document text
+application/xml; charset=us-ascii</rawOutput>
+                        <mimetype>application/xml</mimetype>
+                        <format>XML 1.0 document text</format>
+                      </fileUtilityOutput>
+                    </tool>
+                    <tool name="Exiftool" version="9.13">
+                      <exiftool xmlns="">
+                        <rawOutput>ExifToolVersion  9.13
+FileName  METS.xml
+Directory /var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/metadataReminder/thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4/objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c
+FileSize  35 kB
+FileModifyDate  2017:10:19 17:13:29+00:00
+FileAccessDate  2017:10:19 17:14:37+00:00
+FileInodeChangeDate 2017:10:19 17:14:34+00:00
+FilePermissions rw-r--r--
+FileType  XML
+MIMEType  application/xml
+MetsObjid 8969d4ab-c179-4e78-8fe2-a9d77d656b6c
+MetsSchemaLocation  http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd
+MetsMetsHdrCreatedate 2017:10:19 17:12:55
+MetsMetsHdrAgentOthertype SOFTWARE
+MetsMetsHdrAgentRole  CREATOR
+MetsMetsHdrAgentType  OTHER
+MetsMetsHdrAgentName  a337fd99-7821-4667-95b7-ed8ccbcf3193
+MetsMetsHdrAgentNote  Archivematica dashboard UUID
+MetsAmdSecId  digiprov-78756d71-73fd-4988-a1c1-c2971ee2160f
+MetsAmdSecDigiprovMDMdWrapXmlDataEventSchemaLocation  info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd
+MetsAmdSecDigiprovMDMdWrapXmlDataEventVersion 2.2
+MetsAmdSecDigiprovMDMdWrapXmlDataEventEventIdentifierEventIdentifierType  UUID
+MetsAmdSecDigiprovMDMdWrapXmlDataEventEventIdentifierEventIdentifierValue c8083873-1b50-43fa-8352-70f962f2b736
+MetsAmdSecDigiprovMDMdWrapXmlDataEventEventType format identification
+MetsAmdSecDigiprovMDMdWrapXmlDataEventEventDateTime 2017:10:19 17:13:25+00:00
+MetsAmdSecDigiprovMDMdWrapXmlDataEventEventDetail program="Fido"; version="1"
+MetsAmdSecDigiprovMDMdWrapXmlDataEventEventOutcomeInformationEventOutcome Positive
+MetsAmdSecDigiprovMDMdWrapXmlDataEventEventOutcomeInformationEventOutcomeDetailEventOutcomeDetailNote x-fmt/111
+MetsAmdSecDigiprovMDMdWrapXmlDataEventLinkingAgentIdentifierLinkingAgentIdentifierType  Archivematica user pk
+MetsAmdSecDigiprovMDMdWrapXmlDataEventLinkingAgentIdentifierLinkingAgentIdentifierValue 1
+MetsAmdSecDigiprovMDId  digiprovMD_7
+MetsAmdSecDigiprovMDMdWrapMdtype  PREMIS:AGENT
+MetsAmdSecDigiprovMDMdWrapXmlDataAgentSchemaLocation  info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd
+MetsAmdSecDigiprovMDMdWrapXmlDataAgentVersion 2.2
+MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentIdentifierAgentIdentifierType  Archivematica user pk
+MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentIdentifierAgentIdentifierValue 1
+MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentName username="test", first_name="test", last_name="test"
+MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentType Archivematica user
+MetsFileSecFileGrpUse original
+MetsFileSecFileGrpFileId  file-d37f9c13-48c3-474a-8634-f96a01a34e30
+MetsFileSecFileGrpFileAdmid digiprov-d37f9c13-48c3-474a-8634-f96a01a34e30
+MetsFileSecFileGrpFileFLocatHref  objects/dir2/dir2a/dir2aii/file.txt
+MetsFileSecFileGrpFileFLocatLoctype OTHER
+MetsFileSecFileGrpFileFLocatOtherloctype  SYSTEM
+MetsStructMapLabel  processed
+MetsStructMapType physical
+MetsStructMapDivType  directory
+MetsStructMapDivLabel thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c
+MetsStructMapDivDivType directory
+MetsStructMapDivDivLabel  objects
+MetsStructMapDivDivDivType  directory
+MetsStructMapDivDivDivLabel dir2
+MetsStructMapDivDivDivDivType directory
+MetsStructMapDivDivDivDivLabel  dir2a
+MetsStructMapDivDivDivDivDivFptrFileid  file-d37f9c13-48c3-474a-8634-f96a01a34e30
+MetsStructMapDivDivDivDivDivType  directory
+MetsStructMapDivDivDivDivDivLabel dir2aiii</rawOutput>
+                        <ExifToolVersion>9.13</ExifToolVersion>
+                        <FileName>METS.xml</FileName>
+                        <Directory>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/metadataReminder/thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4/objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c</Directory>
+                        <FileSize>35 kB</FileSize>
+                        <FileModifyDate>2017:10:19 17:13:29+00:00</FileModifyDate>
+                        <FileAccessDate>2017:10:19 17:14:37+00:00</FileAccessDate>
+                        <FileInodeChangeDate>2017:10:19 17:14:34+00:00</FileInodeChangeDate>
+                        <FilePermissions>rw-r--r--</FilePermissions>
+                        <FileType>XML</FileType>
+                        <MIMEType>application/xml</MIMEType>
+                        <MetsObjid>8969d4ab-c179-4e78-8fe2-a9d77d656b6c</MetsObjid>
+                        <MetsSchemaLocation>http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd</MetsSchemaLocation>
+                        <MetsMetsHdrCreatedate>2017:10:19 17:12:55</MetsMetsHdrCreatedate>
+                        <MetsMetsHdrAgentOthertype>SOFTWARE</MetsMetsHdrAgentOthertype>
+                        <MetsMetsHdrAgentRole>CREATOR</MetsMetsHdrAgentRole>
+                        <MetsMetsHdrAgentType>OTHER</MetsMetsHdrAgentType>
+                        <MetsMetsHdrAgentName>a337fd99-7821-4667-95b7-ed8ccbcf3193</MetsMetsHdrAgentName>
+                        <MetsMetsHdrAgentNote>Archivematica dashboard UUID</MetsMetsHdrAgentNote>
+                        <MetsAmdSecId>digiprov-78756d71-73fd-4988-a1c1-c2971ee2160f</MetsAmdSecId>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventSchemaLocation>info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd</MetsAmdSecDigiprovMDMdWrapXmlDataEventSchemaLocation>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventVersion>2.2</MetsAmdSecDigiprovMDMdWrapXmlDataEventVersion>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventEventIdentifierEventIdentifierType>UUID</MetsAmdSecDigiprovMDMdWrapXmlDataEventEventIdentifierEventIdentifierType>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventEventIdentifierEventIdentifierValue>c8083873-1b50-43fa-8352-70f962f2b736</MetsAmdSecDigiprovMDMdWrapXmlDataEventEventIdentifierEventIdentifierValue>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventEventType>format identification</MetsAmdSecDigiprovMDMdWrapXmlDataEventEventType>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventEventDateTime>2017:10:19 17:13:25+00:00</MetsAmdSecDigiprovMDMdWrapXmlDataEventEventDateTime>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventEventDetail>program="Fido"; version="1"</MetsAmdSecDigiprovMDMdWrapXmlDataEventEventDetail>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventEventOutcomeInformationEventOutcome>Positive</MetsAmdSecDigiprovMDMdWrapXmlDataEventEventOutcomeInformationEventOutcome>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventEventOutcomeInformationEventOutcomeDetailEventOutcomeDetailNote>x-fmt/111</MetsAmdSecDigiprovMDMdWrapXmlDataEventEventOutcomeInformationEventOutcomeDetailEventOutcomeDetailNote>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventLinkingAgentIdentifierLinkingAgentIdentifierType>Archivematica user pk</MetsAmdSecDigiprovMDMdWrapXmlDataEventLinkingAgentIdentifierLinkingAgentIdentifierType>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataEventLinkingAgentIdentifierLinkingAgentIdentifierValue>1</MetsAmdSecDigiprovMDMdWrapXmlDataEventLinkingAgentIdentifierLinkingAgentIdentifierValue>
+                        <MetsAmdSecDigiprovMDId>digiprovMD_7</MetsAmdSecDigiprovMDId>
+                        <MetsAmdSecDigiprovMDMdWrapMdtype>PREMIS:AGENT</MetsAmdSecDigiprovMDMdWrapMdtype>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataAgentSchemaLocation>info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd</MetsAmdSecDigiprovMDMdWrapXmlDataAgentSchemaLocation>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataAgentVersion>2.2</MetsAmdSecDigiprovMDMdWrapXmlDataAgentVersion>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentIdentifierAgentIdentifierType>Archivematica user pk</MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentIdentifierAgentIdentifierType>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentIdentifierAgentIdentifierValue>1</MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentIdentifierAgentIdentifierValue>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentName>username="test", first_name="test", last_name="test"</MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentName>
+                        <MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentType>Archivematica user</MetsAmdSecDigiprovMDMdWrapXmlDataAgentAgentType>
+                        <MetsFileSecFileGrpUse>original</MetsFileSecFileGrpUse>
+                        <MetsFileSecFileGrpFileId>file-d37f9c13-48c3-474a-8634-f96a01a34e30</MetsFileSecFileGrpFileId>
+                        <MetsFileSecFileGrpFileAdmid>digiprov-d37f9c13-48c3-474a-8634-f96a01a34e30</MetsFileSecFileGrpFileAdmid>
+                        <MetsFileSecFileGrpFileFLocatHref>objects/dir2/dir2a/dir2aii/file.txt</MetsFileSecFileGrpFileFLocatHref>
+                        <MetsFileSecFileGrpFileFLocatLoctype>OTHER</MetsFileSecFileGrpFileFLocatLoctype>
+                        <MetsFileSecFileGrpFileFLocatOtherloctype>SYSTEM</MetsFileSecFileGrpFileFLocatOtherloctype>
+                        <MetsStructMapLabel>processed</MetsStructMapLabel>
+                        <MetsStructMapType>physical</MetsStructMapType>
+                        <MetsStructMapDivType>directory</MetsStructMapDivType>
+                        <MetsStructMapDivLabel>thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c</MetsStructMapDivLabel>
+                        <MetsStructMapDivDivType>directory</MetsStructMapDivDivType>
+                        <MetsStructMapDivDivLabel>objects</MetsStructMapDivDivLabel>
+                        <MetsStructMapDivDivDivType>directory</MetsStructMapDivDivDivType>
+                        <MetsStructMapDivDivDivLabel>dir2</MetsStructMapDivDivDivLabel>
+                        <MetsStructMapDivDivDivDivType>directory</MetsStructMapDivDivDivDivType>
+                        <MetsStructMapDivDivDivDivLabel>dir2a</MetsStructMapDivDivDivDivLabel>
+                        <MetsStructMapDivDivDivDivDivFptrFileid>file-d37f9c13-48c3-474a-8634-f96a01a34e30</MetsStructMapDivDivDivDivDivFptrFileid>
+                        <MetsStructMapDivDivDivDivDivType>directory</MetsStructMapDivDivDivDivDivType>
+                        <MetsStructMapDivDivDivDivDivLabel>dir2aiii</MetsStructMapDivDivDivDivDivLabel>
+                      </exiftool>
+                    </tool>
+                    <tool name="NLNZ Metadata Extractor" version="3.4GA">
+                      <XML xmlns="">
+                        <METADATA>
+                          <FILENAME>METS.xml</FILENAME>
+                          <SEPARATOR>/</SEPARATOR>
+                          <PARENT>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/metadataReminder/thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4/objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c</PARENT>
+                          <CANONICALPATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/metadataReminder/thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4/objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/METS.xml</CANONICALPATH>
+                          <ABSOLUTEPATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/metadataReminder/thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4/objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/METS.xml</ABSOLUTEPATH>
+                          <PATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/metadataReminder/thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4/objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/METS.xml</PATH>
+                          <FILE>true</FILE>
+                          <DIRECTORY>false</DIRECTORY>
+                          <FILELENGTH>35652</FILELENGTH>
+                          <HIDDEN>false</HIDDEN>
+                          <ABSOLUTE>true</ABSOLUTE>
+                          <URL>file:/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/metadataReminder/thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4/objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/METS.xml</URL>
+                          <URI>file:/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/metadataReminder/thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4/objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/METS.xml</URI>
+                          <READ>true</READ>
+                          <WRITE>true</WRITE>
+                          <EXTENSION>xml</EXTENSION>
+                          <MODIFIED>2017-10-19 17:13:29</MODIFIED>
+                          <DATE>20171019</DATE>
+                          <DATEPATTERN>yyyyMMdd</DATEPATTERN>
+                          <TIME>171329000</TIME>
+                          <TIMEPATTERN>HHmmssSSS</TIMEPATTERN>
+                          <TYPE>application/xml</TYPE>
+                          <PID>null</PID>
+                          <OID>null</OID>
+                          <FID>null</FID>
+                          <PROCESSOR>unknown</PROCESSOR>
+                        </METADATA>
+                        <INFORMATION>
+                          <VERSION>1.0</VERSION>
+                          <ENCODING>utf-8</ENCODING>
+                          <STANDALONE>unspecified</STANDALONE>
+                        </INFORMATION>
+                      </XML>
+                    </tool>
+                    <tool name="OIS File Information" version="0.2">
+                      <fits xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd">
+                        <fileinfo>
+                          <filepath>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/metadataReminder/thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4/objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/METS.xml</filepath>
+                          <filename>METS.xml</filename>
+                          <size>35652</size>
+                          <fslastmodified>1508433209000</fslastmodified>
+                        </fileinfo>
+                      </fits>
+                    </tool>
+                    <tool name="OIS XML Metadata" version="0.2">
+                      <fits xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd">
+                        <identification>
+                          <identity format="Extensible Markup Language" mimetype="text/xml"/>
+                        </identification>
+                        <metadata>
+                          <text>
+                            <markupLanguage>http://www.loc.gov/standards/mets/mets.xsd</markupLanguage>
+                          </text>
+                        </metadata>
+                      </fits>
+                    </tool>
+                    <tool name="ffident" version="0.2">
+                      <ffidentOutput xmlns="">
+                        <shortName>XML</shortName>
+                        <longName>Extensible Markup Language</longName>
+                        <group>doc</group>
+                        <mimetypes>
+                          <mimetype>text/xml</mimetype>
+                        </mimetypes>
+                        <fileExtensions>
+                          <extension>xml</extension>
+                        </fileExtensions>
+                      </ffidentOutput>
+                    </tool>
+                    <tool name="Tika" version="1.3">
+                      <metadata xmlns="">
+                        <field name="Content-Type">
+                          <value>application/xml</value>
+                        </field>
+                      </metadata>
+                    </tool>
+                  </toolOutput>
+                </fits>
+              </premis:objectCharacteristicsExtension>
+              <premis:creatingApplication>
+                <premis:dateCreatedByApplication>2017-10-19</premis:dateCreatedByApplication>
+              </premis:creatingApplication>
+            </premis:objectCharacteristics>
+            <premis:originalName>%SIPDirectory%objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/METS.xml</premis:originalName>
+          </premis:object>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:digiprovMD ID="digiprovMD_25">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>cc1160ce-5e84-4d97-95ef-b38d96cf0ea1</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>ingestion</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:14:36+00:00</premis:eventDateTime>
+            <premis:eventDetail></premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome></premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote></premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_26">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>b31ad8e4-4008-4a71-804d-6a26550be6fa</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>message digest calculation</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:14:37+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome></premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>cb65a761f3bd04d6b38baed8ba7ee217aafbe6fe5bfbbbe257056868e805c420</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_27">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>d5c89682-f2b7-4dc9-b149-b1f559e4e174</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>virus check</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:14:39+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="Clam AV"; version="ClamAV 0.99.2"; virusDefinitions="23965/Thu Oct 19 00:02:02 2017"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote></premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_28">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>e0b5fecc-01a3-4d95-80bd-774ab2409d24</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>format identification</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:14:41+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="Fido"; version="1"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Positive</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>fmt/101</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_29">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>63ca6a2e-7bc3-46a7-b384-fb22ac03fcbe</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2017-10-19T17:14:51+00:00</premis:eventDateTime>
+            <premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>cb65a761f3bd04d6b38baed8ba7ee217aafbe6fe5bfbbbe257056868e805c420 verified</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.7</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_30">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>preservation system</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>Archivematica-1.7</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>Archivematica</premis:agentName>
+            <premis:agentType>software</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_31">
+      <mets:mdWrap MDTYPE="PREMIS:AGENT">
+        <mets:xmlData>
+          <premis:agent xmlns:premis="info:lc/xmlns/premis-v2" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd" version="2.2">
+            <premis:agentIdentifier>
+              <premis:agentIdentifierType>repository code</premis:agentIdentifierType>
+              <premis:agentIdentifierValue>test</premis:agentIdentifierValue>
+            </premis:agentIdentifier>
+            <premis:agentName>test</premis:agentName>
+            <premis:agentType>organization</premis:agentType>
+          </premis:agent>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:fileSec>
+    <mets:fileGrp USE="original">
+      <mets:file GROUPID="Group-78756d71-73fd-4988-a1c1-c2971ee2160f" ID="file-78756d71-73fd-4988-a1c1-c2971ee2160f" ADMID="amdSec_1">
+        <mets:FLocat xlink:href="objects/dir1/dir1a/dir1ai/file.txt" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+      <mets:file GROUPID="Group-b6d28a8e-3b3a-44df-a1b1-098edd7e7b1a" ID="file-b6d28a8e-3b3a-44df-a1b1-098edd7e7b1a" ADMID="amdSec_2">
+        <mets:FLocat xlink:href="objects/dir2/dir2a/dir2ai/file.txt" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+      <mets:file GROUPID="Group-d37f9c13-48c3-474a-8634-f96a01a34e30" ID="file-d37f9c13-48c3-474a-8634-f96a01a34e30" ADMID="amdSec_3">
+        <mets:FLocat xlink:href="objects/dir2/dir2a/dir2aii/file.txt" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+    </mets:fileGrp>
+    <mets:fileGrp USE="submissionDocumentation">
+      <mets:file GROUPID="Group-cca9f22a-2a9e-4239-aa83-d0614ca326c8" ID="file-cca9f22a-2a9e-4239-aa83-d0614ca326c8" ADMID="amdSec_4">
+        <mets:FLocat xlink:href="objects/submissionDocumentation/transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c/METS.xml" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap ID="structMap_1" LABEL="Archivematica default" TYPE="physical">
+    <mets:div LABEL="thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4" TYPE="Directory" DMDID="dmdSec_3">
+      <mets:div LABEL="objects" TYPE="Directory">
+        <mets:div LABEL="dir1" TYPE="Directory">
+          <mets:div LABEL="dir1a" TYPE="Directory">
+            <mets:div LABEL="dir1ai" TYPE="Directory">
+              <mets:div LABEL="file.txt" TYPE="Item">
+                <mets:fptr FILEID="file-78756d71-73fd-4988-a1c1-c2971ee2160f"/>
+              </mets:div>
+            </mets:div>
+          </mets:div>
+        </mets:div>
+        <mets:div LABEL="dir2" TYPE="Directory">
+          <mets:div LABEL="dir2a" TYPE="Directory">
+            <mets:div LABEL="dir2ai" TYPE="Directory">
+              <mets:div LABEL="file.txt" TYPE="Item">
+                <mets:fptr FILEID="file-b6d28a8e-3b3a-44df-a1b1-098edd7e7b1a"/>
+              </mets:div>
+            </mets:div>
+            <mets:div LABEL="dir2aii" TYPE="Directory">
+              <mets:div LABEL="file.txt" TYPE="Item">
+                <mets:fptr FILEID="file-d37f9c13-48c3-474a-8634-f96a01a34e30"/>
+              </mets:div>
+            </mets:div>
+          </mets:div>
+        </mets:div>
+        <mets:div LABEL="submissionDocumentation" TYPE="Directory">
+          <mets:div LABEL="transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c" TYPE="Directory">
+            <mets:div LABEL="METS.xml" TYPE="Item">
+              <mets:fptr FILEID="file-cca9f22a-2a9e-4239-aa83-d0614ca326c8"/>
+            </mets:div>
+          </mets:div>
+        </mets:div>
+      </mets:div>
+    </mets:div>
+  </mets:structMap>
+  <mets:structMap ID="structMap_2" LABEL="Normative Directory Structure" TYPE="logical">
+    <mets:div LABEL="thu1-31d2689d-91d0-42b4-91be-1b1b0c2e65a4" TYPE="Directory">
+      <mets:div LABEL="objects" TYPE="Directory">
+        <mets:div LABEL="submissionDocumentation" TYPE="Directory">
+          <mets:div LABEL="transfer-thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c" TYPE="Directory">
+            <mets:div LABEL="METS.xml" TYPE="Item"/>
+          </mets:div>
+        </mets:div>
+        <mets:div LABEL="metadata" TYPE="Directory">
+          <mets:div LABEL="transfers" TYPE="Directory">
+            <mets:div LABEL="thu1-8969d4ab-c179-4e78-8fe2-a9d77d656b6c" TYPE="Directory" DMDID="dmdSec_1"/>
+          </mets:div>
+        </mets:div>
+        <mets:div LABEL="dir2" TYPE="Directory">
+          <mets:div LABEL="dir2a" TYPE="Directory">
+            <mets:div LABEL="dir2ai" TYPE="Directory">
+              <mets:div LABEL="file.txt" TYPE="Item"/>
+            </mets:div>
+            <mets:div LABEL="dir2aii" TYPE="Directory">
+              <mets:div LABEL="file.txt" TYPE="Item"/>
+            </mets:div>
+            <mets:div LABEL="dir2aiii" TYPE="Directory" DMDID="dmdSec_2"/>
+          </mets:div>
+        </mets:div>
+        <mets:div LABEL="dir1" TYPE="Directory">
+          <mets:div LABEL="dir1a" TYPE="Directory">
+            <mets:div LABEL="dir1ai" TYPE="Directory">
+              <mets:div LABEL="file.txt" TYPE="Item"/>
+            </mets:div>
+          </mets:div>
+        </mets:div>
+      </mets:div>
+    </mets:div>
+  </mets:structMap>
+</mets:mets>

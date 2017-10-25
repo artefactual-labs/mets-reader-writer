@@ -246,7 +246,10 @@ class FSEntry(object):
         return md_inst.serialize()
 
     def add_premis_object(self, md, mode='mdwrap'):
-        return self.add_techmd(
+        meth = self.add_techmd
+        if self.is_empty_dir:
+            meth = self.add_dmdsec
+        return meth(
             self.serialize_md_inst(md, self.premis_object_class),
             self.PREMIS_OBJECT, mode)
 
@@ -339,32 +342,58 @@ class FSEntry(object):
                 transform_file_el.attrib[attribute] = str(val)
         return el
 
-    def serialize_structmap(self, recurse=True):
+    @property
+    def is_empty_dir(self):
+        """Returns ``True`` if this fs item is a directory with no children or
+        a directory with only other empty directories as children.
         """
-        Return the div Element for this file, appropriate for use in a structMap.
+        if self.mets_div_type == 'Directory':
+            children = self._children
+            if children:
+                if all(child.is_empty_dir for child in children):
+                    return True
+                else:
+                    return False
+            else:
+                return True
+        else:
+            return False
 
-        If this FSEntry represents a directory, its children will be recursively appended to itself.
-        If this FSEntry represents a file, it will contain a <fptr> element.
+    def serialize_structmap(self, recurse=True, normative=False):
+        """Return the div Element for this file, appropriate for use in a
+        structMap.
 
-        :param bool recurse: If true, serialize and apppend all children.  Otherwise, only serialize this element but not any children.
+        If this FSEntry represents a directory, its children will be
+        recursively appended to itself. If this FSEntry represents a file, it
+        will contain a <fptr> element.
+
+        :param bool recurse: If true, serialize and apppend all children.
+            Otherwise, only serialize this element but not any children.
+        :param bool normative: If true, we are creating a "Normative Directory
+            Structure" logical structmap, in which case we add div elements for
+            empty directories and do not add fptr elements for files.
         :return: structMap element for this FSEntry
         """
         if not self.label:
             return None
+        # Empty directories are not included in the physical structmap.
+        if self.is_empty_dir and not normative:
+            return None
         el = etree.Element(utils.lxmlns('mets') + 'div',
                            TYPE=self.mets_div_type)
         el.attrib['LABEL'] = self.label
-        if self.file_id():
-            etree.SubElement(el, utils.lxmlns('mets') + 'fptr', FILEID=self.file_id())
+        if (not normative) and self.file_id():
+            etree.SubElement(el, utils.lxmlns('mets') + 'fptr',
+                             FILEID=self.file_id())
         if self.dmdids:
-            el.set('DMDID', ' '.join(self.dmdids))
-
+            if (not normative) or (normative and self.is_empty_dir):
+                el.set('DMDID', ' '.join(self.dmdids))
         if recurse and self._children:
             for child in self._children:
-                child_el = child.serialize_structmap(recurse=recurse)
+                child_el = child.serialize_structmap(
+                    recurse=recurse, normative=normative)
                 if child_el is not None:
                     el.append(child_el)
-
         return el
 
     def get_subsections_of_type(self, mdtype, md_class):
