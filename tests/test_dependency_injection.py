@@ -57,12 +57,15 @@ class TestDependencyInjection(TestCase):
         """
 
         class C(object):
+
             @classmethod
             def cm(cls):
                 pass
+
             @staticmethod
             def sm():
                 pass
+
             def rm(self):
                 pass
 
