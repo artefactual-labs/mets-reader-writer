@@ -155,4 +155,5 @@ def has_methods(*method_names):
     return test
 
 
-is_class = lambda x: isinstance(x, type)
+def is_class(obj):
+    return isinstance(obj, type)
