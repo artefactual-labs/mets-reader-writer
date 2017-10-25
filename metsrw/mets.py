@@ -104,7 +104,6 @@ class METSDocument(object):
         # Reset file lists so they get regenerated without the removed file(s)
         self._all_files = None
 
-
     # SERIALIZE
 
     def _document_root(self, fully_qualified=True):
