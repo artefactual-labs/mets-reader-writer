@@ -132,7 +132,7 @@ class METSDocument(object):
             e = etree.Element(utils.lxmlns('mets') + 'metsHdr', CREATEDATE=now)
         else:
             e = etree.Element(utils.lxmlns('mets') + 'metsHdr',
-                CREATEDATE=self.createdate, LASTMODDATE=now)
+                              CREATEDATE=self.createdate, LASTMODDATE=now)
         return e
 
     def _collect_mdsec_elements(self, files):
