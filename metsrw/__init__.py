@@ -1,3 +1,5 @@
+"""METS reader and writer."""
+
 from __future__ import absolute_import
 import logging
 
@@ -38,6 +40,7 @@ from . import plugins
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.addHandler(logging.NullHandler())
+__version__ = '0.2.0'
 
 __all__ = ['MetsError', 'ParseError', 'FSEntry', 'AMDSec', 'SubSection',
            'MDRef', 'MDWrap', 'METSDocument', 'NAMESPACES', 'SCHEMA_LOCATIONS',
@@ -47,4 +50,4 @@ __all__ = ['MetsError', 'ParseError', 'FSEntry', 'AMDSec', 'SubSection',
            'sct_report_string', 'xsd_error_log_string', 'report_string',
            'FeatureBroker', 'set_feature_broker_to_default_state',
            'feature_broker', 'Dependency', 'has_class_methods', 'has_methods',
-           'is_class', 'plugins']
+           'is_class', 'plugins', '__version__']

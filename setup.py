@@ -11,15 +11,18 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
+from metsrw import __version__
+
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the relevant file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+
 setup(
     name='metsrw',
-    version='0.1.2',
+    version=__version__,
 
     description='Library for dealing with METS files.',
     long_description=long_description,
