@@ -1,4 +1,4 @@
-setup Module
+setup module
 ============
 
 .. automodule:: setup

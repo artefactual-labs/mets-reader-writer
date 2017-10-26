@@ -1,15 +1,25 @@
-metsrw Package
+metsrw package
 ==============
 
-:mod:`metsrw` Package
----------------------
+Subpackages
+-----------
 
-.. automodule:: metsrw
+.. toctree::
+
+    metsrw.plugins
+
+Submodules
+----------
+
+metsrw.di module
+----------------
+
+.. automodule:: metsrw.di
     :members:
     :undoc-members:
     :show-inheritance:
 
-:mod:`exceptions` Module
+metsrw.exceptions module
 ------------------------
 
 .. automodule:: metsrw.exceptions
@@ -17,7 +27,7 @@ metsrw Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`fsentry` Module
+metsrw.fsentry module
 ---------------------
 
 .. automodule:: metsrw.fsentry
@@ -25,7 +35,7 @@ metsrw Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`metadata` Module
+metsrw.metadata module
 ----------------------
 
 .. automodule:: metsrw.metadata
@@ -33,7 +43,7 @@ metsrw Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`mets` Module
+metsrw.mets module
 ------------------
 
 .. automodule:: metsrw.mets
@@ -41,7 +51,7 @@ metsrw Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`utils` Module
+metsrw.utils module
 -------------------
 
 .. automodule:: metsrw.utils
@@ -49,3 +59,19 @@ metsrw Package
     :undoc-members:
     :show-inheritance:
 
+metsrw.validate module
+----------------------
+
+.. automodule:: metsrw.validate
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: metsrw
+    :members:
+    :undoc-members:
+    :show-inheritance:

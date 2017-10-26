@@ -22,6 +22,20 @@ METSRW has been tested with:
 
 * Python 2.7
 * Python 3.4
+* Python 3.6
+
+
+## Basic Usage
+
+Read a METS file
+
+    mets = metsrw.METSDocument.fromfile('path/to/file')  # Reads a file
+    mets = metsrw.METSDocument.fromstring('<mets document>')  # Parses a string
+    mets = metsrw.METSDocument.fromtree(lxml.ElementTree)  # Parses an lxml.Element or lxml.ElementTree
+
+Create a new METS file
+
+    mets = metsrw.METSDocument()
 
 
 ## Contributing

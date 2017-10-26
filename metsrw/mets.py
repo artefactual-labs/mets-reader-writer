@@ -88,7 +88,7 @@ class METSDocument(object):
         A given FSEntry object can only be included in a document once,
         and any attempt to add an object the second time will be ignored.
 
-        :param FSEntry fs_entry: FSEntry to add to the METS document
+        :param metsrw.mets.FSEntry fs_entry: FSEntry to add to the METS document
         """
 
         if fs_entry in self._root_elements:
@@ -103,7 +103,7 @@ class METSDocument(object):
         Any children of this FSEntry will also be removed. This will be removed
         as a child of it's parent, if any.
 
-        :param FSEntry fs_entry: FSEntry to remove from the METS
+        :param metsrw.mets.FSEntry fs_entry: FSEntry to remove from the METS
         """
         try:
             self._root_elements.remove(fs_entry)

@@ -17,8 +17,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class FSEntry(object):
-    """
-    A class representing a filesystem entry - either a file or a directory.
+    """A class representing a filesystem entry - either a file or a directory.
 
     When passed to a :class:`metsrw.mets.METSDocument` instance, the tree of
     FSEntry objects will be used to construct the <fileSec> and <structMap>
@@ -50,14 +49,17 @@ class FSEntry(object):
     :param str use: Use for the fileGrp.  Items with identical uses will be
         grouped together.
     :param str type: Type of FSEntry this is. This will appear in the structMap.
-    :param list children: List of :class:`FSEntry` that are direct children of
-        this element in the structMap.  Only allowed if type is 'Directory'
+    :param list children: List of :class:`metsrw.fsentry.FSEntry` that are
+        direct children of this element in the structMap.  Only allowed if type
+        is 'Directory'
     :param str file_uuid: UUID of this entry. Will be used to construct the
         FILEID used in the fileSec and structMap, and GROUPID.  Only required if
         type is 'Item'.
-    :param FSEntry derived_from: FSEntry that this FSEntry is derived_from. This is used to set the GROUPID in the fileSec.
+    :param metsrw.fsentry.FSEntry derived_from: FSEntry that this FSEntry is
+        derived_from. This is used to set the GROUPID in the fileSec.
     :param str checksum: Value of the file's checksum. Required if checksumtype passed.
-    :param str checksumtype: Type of the checksum. Must be one of :const:`FSEntry.ALLOWED_CHECKSUMS`.  Required if checksum passed.
+    :param str checksumtype: Type of the checksum. Must be one of
+        :const:`FSEntry.ALLOWED_CHECKSUMS`.  Required if checksum passed.
     :param list transform_files: a list of dicts representing METS transform
         file elements, which provide "a means to access any subsidiary files
         listed below a <file> element by indicating the steps required to
@@ -272,14 +274,14 @@ class FSEntry(object):
         return self.add_dmdsec(md, 'DC', mode)
 
     def add_child(self, child):
-        """
-        Add a child FSEntry to this FSEntry.
+        """Add a child FSEntry to this FSEntry.
 
         Only FSEntrys with a type of 'directory' can have children.
 
-        This does not detect cyclic parent/child relationships, but that will cause problems.
+        This does not detect cyclic parent/child relationships, but that will
+        cause problems.
 
-        :param FSEntry child: FSEntry to add as a child
+        :param metsrw.fsentry.FSEntry child: FSEntry to add as a child
         :return: The newly added child
         :raises ValueError: If this FSEntry cannot have children.
         :raises ValueError: If the child and the parent are the same

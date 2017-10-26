@@ -24,7 +24,7 @@ class AMDSec(object):
     have to be instantiated directly.
 
     :param str section_id: ID of the section. If not provided, will be generated from 'amdSec' and a random number.
-    :param list subsections: List of :class:`SubSection` that are part of this amdSec
+    :param list subsections: List of :class:`metsrw.metadata.SubSection` that are part of this amdSec
     :param Element tree: An lxml.Element that is an externally generated amdSec.  This will overwrite any automatic serialization.  If passed, section_id must also be passed.
     """
     tag = 'amdSec'
@@ -213,7 +213,7 @@ class SubSection(object):
 class MDRef(object):
     """
     An object representing an external XML document, typically associated
-    with an :class:`FSEntry` object.
+    with an :class:`metsrw.fsentry.FSEntry` object.
 
     :param str target: Path to the external document. MDRef does not validate
         the existence of this target.

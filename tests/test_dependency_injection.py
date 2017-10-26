@@ -128,6 +128,7 @@ class TestDependencyInjection(TestCase):
 
     def test_dependency_injection(self):
         """Test the dependency injection (DI) infrastructure for metsrw plugins.
+
         - client: metsrw.FSEntry
         - services: classes for reading and writing metadata elements, e.g.,
           the PREMISObject class of metsrw.plugins.premisrw or other classes
@@ -142,7 +143,8 @@ class TestDependencyInjection(TestCase):
 
             >>> premis_object_class = Dependency(
             ...     'premis_object_class',
-            ...     has_methods('fromtree', 'serialize'),
+            ...     has_methods('serialize'),
+            ...     has_class_methods('fromtree'),
             ...     is_class)
 
         """

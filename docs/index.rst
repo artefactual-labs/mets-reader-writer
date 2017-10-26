@@ -4,30 +4,32 @@
    contain the root `toctree` directive.
 
 Welcome to metsrw's documentation!
-=============================
+================================================================================
 
 Contents:
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    metsrw
+   metsrw.plugins.premisrw
 
 Building Docs
--------------
-From the docs directory
-::
+--------------------------------------------------------------------------------
+
+From the docs directory::
+
     make html
 
-If new files are added, run apidoc from the repository root to regenerate the docstring files.
-::
+If new files are added, run apidoc from the repository root to regenerate the
+docstring files::
+
     sphinx-apidoc -f -o docs .
 
 
 Indices and tables
-==================
+================================================================================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
