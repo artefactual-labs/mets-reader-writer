@@ -90,6 +90,11 @@ class FSEntry(object):
         self.amdsecs = []
         self.dmdsecs = []
 
+        # Convenient access to metadata (without cycling through amdsecs)
+        self.techmds = []
+        self.digiprovmds = []
+        self.rightsmds = []
+
     def __str__(self):
         return '{s.type}: {s.path}'.format(s=self)
 
