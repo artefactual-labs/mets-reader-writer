@@ -11,18 +11,30 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-from metsrw import __version__
 
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the relevant file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
+
+
+def get_version():
+    version = '0.1.0'
+    with open(path.join(HERE, 'metsrw', '__init__.py')) as fi:
+        for line in fi:
+            if line.startswith('__version__'):
+                parts = line.strip().split()
+                try:
+                    version = parts[2].replace("'", '').replace('"', '').strip()
+                except (IndexError, AttributeError):
+                    continue
+    return version
 
 
 setup(
     name='metsrw',
-    version=__version__,
+    version=get_version(),
 
     description='Library for dealing with METS files.',
     long_description=long_description,
