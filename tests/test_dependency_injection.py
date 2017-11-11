@@ -2,11 +2,13 @@ from unittest import TestCase
 
 import metsrw
 import metsrw.plugins.premisrw as premisrw
+import metsrw.plugins.yapremisrw as yapremisrw
 
 from .constants import (
     EX_AGT_1,
     EX_AGT_2,
     EX_COMPR_EVT,
+    EX_COMPR_EVT_TYPE,
     EX_PTR_AIP_SUBTYPE,
     EX_PTR_DATE_CREATED_BY_APPLICATION,
     EX_PTR_FORMAT_NAME,
@@ -152,7 +154,7 @@ class TestDependencyInjection(TestCase):
         # Clear the feature broker and then register/provide the premisrw
         # plugin classes (services) with the feature broker.
         feature_broker = metsrw.feature_broker
-        assert len(feature_broker) == 3
+        assert len(feature_broker) == 4
         feature_broker.clear()
         assert not feature_broker
         feature_broker.provide('premis_object_class', premisrw.PREMISObject)
@@ -270,6 +272,48 @@ class TestDependencyInjection(TestCase):
         mets_doc_el = mets_doc.serialize()
         assert (mets_doc_el.find(xpath, namespaces=metsrw.NAMESPACES).text ==
                 EX_PTR_IDENTIFIER_VALUE)
+
+        # Now change the feature broker so that ``FSEntry``'s dependencies on
+        # ``premis_object_class`` and ``premis_event_class`` class attributes
+        # are being fulfilled by the relevant classes from yapremisrw.
+        feature_broker.provide('premis_object_class', yapremisrw.Object)
+        feature_broker.provide('premis_event_class', yapremisrw.Event)
+
+        # premis_object_tree
+        premis_object = yapremisrw.Object.fromtree(premis_object_tree)
+        premis_event_tree = premis_events[0].serialize()
+        premis_event = yapremisrw.Event.fromtree(premis_event_tree)
+
+        # Create metsrw ``METSDocument`` and ``FSEntry`` instances.
+        mets_doc = metsrw.METSDocument()
+        fs_entry = metsrw.FSEntry(
+            path=EX_PTR_PATH,
+            file_uuid=EX_PTR_IDENTIFIER_VALUE,
+            use=EX_PTR_PACKAGE_TYPE,
+            type=EX_PTR_PACKAGE_TYPE,
+            transform_files=transform_files,
+            mets_div_type=EX_PTR_AIP_SUBTYPE)
+        mets_doc.append_file(fs_entry)
+
+        # Use the ``add_premis_...`` methods to add the PREMIS metadata
+        # elements to the ``FSEntry`` instance. This will assert that each
+        # PREMIS instance is of the correct type (e.g., that ``premis_object``
+        # is an instance of ``FSEntry().premis_object_class``) and will call the
+        # instance's ``serialize`` method and incorporate the resulting
+        # ``lxml.etree._ElementTree`` instance into the ``FSEntry`` instance
+        # appropriately.
+        fs_entry.add_premis_object(premis_object)
+        fs_entry.add_premis_event(premis_event)
+
+        # Assert that the instances returned by the
+        # ``FSEntry().get_premis_...`` methods are of the anticipated type.
+        for new_premis_event in fs_entry.get_premis_events():
+            assert isinstance(new_premis_event, yapremisrw.Event)
+            assert new_premis_event.event_type == EX_COMPR_EVT_TYPE
+        for new_premis_object in fs_entry.get_premis_objects():
+            assert isinstance(new_premis_object, yapremisrw.Object)
+            for po_id in new_premis_object.object_identifiers:
+                assert po_id['value'] == EX_PTR_IDENTIFIER_VALUE
 
         # Reset the feature broker to its default state so subsequent tests
         # don't break.

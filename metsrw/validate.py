@@ -14,7 +14,7 @@ AM_SCT_PATH = 'resources/archivematica_mets_schematron.xml'
 AM_PNTR_SCT_PATH = 'resources/archivematica_mets_pointer_file_schematron.xml'
 
 
-def _get_file_path(path):
+def get_file_path(path):
     if not os.path.isfile(path):
         path_2 = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
@@ -31,7 +31,7 @@ def get_schematron(sct_path):
     """Return an lxml ``isoschematron.Schematron()`` instance using the
     schematron file at ``sct_path``.
     """
-    sct_path = _get_file_path(sct_path)
+    sct_path = get_file_path(sct_path)
     parser = etree.XMLParser(remove_blank_text=True)
     sct_doc = etree.parse(sct_path, parser=parser)
     return isoschematron.Schematron(sct_doc, store_report=True)
@@ -73,7 +73,7 @@ def get_xmlschema(xmlschema, mets_doc):
     - https://stackoverflow.com/questions/26712645/xml-type-definition-is-absent
     - https://stackoverflow.com/questions/2979824/in-document-schema-declarations-and-lxml
     """
-    xsd_path = _get_file_path(xmlschema)
+    xsd_path = get_file_path(xmlschema)
     xmlschema = etree.parse(xsd_path)
     schema_locations = set(
         mets_doc.xpath('//*/@xsi:schemaLocation', namespaces=NAMESPACES))

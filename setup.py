@@ -12,7 +12,8 @@ from codecs import open
 from os import path
 
 
-here = path.abspath(path.dirname(__file__))
+HERE = path.abspath(path.dirname(__file__))
+
 
 # Get the long description from the relevant file
 with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:

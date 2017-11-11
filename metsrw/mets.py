@@ -389,6 +389,11 @@ class METSDocument(object):
                     namespaces=utils.NAMESPACES)
                 amdsec = metadata.AMDSec.parse(amdsec_elem)
                 fs_entry.amdsecs.append(amdsec)
+                # Add subsections to convience properties
+                for subsection in amdsec.subsections:
+                    getattr(
+                        fs_entry, subsection.subsection.lower() + 's').append(
+                            subsection)
 
     def _parse_tree(self, tree=None):
         if tree is None:

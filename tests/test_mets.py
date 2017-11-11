@@ -581,8 +581,19 @@ class TestWholeMETS(TestCase):
 
     def assert_mets_valid(self, mets_doc, schematron=metsrw.AM_SCT_PATH):
         is_valid, report = metsrw.validate(mets_doc, schematron=schematron)
-        if not is_valid:
+        try:
+            assert is_valid
+        except AssertionError:
             raise AssertionError(report['report'])
 
     def assert_pointer_valid(self, mets_doc):
         self.assert_mets_valid(mets_doc, schematron=metsrw.AM_PNTR_SCT_PATH)
+
+
+def test_invalid_mets_file():
+    mets_path = 'fixtures/mets_without_groupid_in_file.xml'
+    mets_doc = etree.parse(mets_path)
+    schematron = metsrw.AM_SCT_PATH
+    is_valid, report = metsrw.validate(mets_doc, schematron=schematron)
+    assert not is_valid
+    assert 'An amdSec element MUST contain a techMD' in report['report']
