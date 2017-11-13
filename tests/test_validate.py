@@ -24,9 +24,8 @@ def test_get_schematron(mocker):
             get_file_path.assert_called_once_with(bad_path)
 
     def mockisfile(path):
-        if path == bad_path:
-            return False
-        return True
+        return not (path == bad_path)
+
     mocker.patch.object(os.path, 'isfile', mockisfile)
     with pytest.raises(IOError):
         metsrw.get_schematron(bad_path)
