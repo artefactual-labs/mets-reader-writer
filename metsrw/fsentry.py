@@ -412,9 +412,12 @@ class FSEntry(object):
         return el
 
     def get_subsections_of_type(self, mdtype, md_class):
-        return [md_class.fromtree(ss.contents.document)
-                for ss in self.amdsecs[0].subsections
-                if ss.contents.mdtype == mdtype]
+        try:
+            return [md_class.fromtree(ss.contents.document)
+                    for ss in self.amdsecs[0].subsections
+                    if ss.contents.mdtype == mdtype]
+        except IndexError:
+            return []
 
     def get_premis_objects(self):
         return self.get_subsections_of_type(
