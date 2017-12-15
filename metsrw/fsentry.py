@@ -89,10 +89,16 @@ class FSEntry(object):
         has_methods('serialize'),
         has_class_methods('fromtree'),
         is_class)
+    dublin_core_class = Dependency(
+        'dublin_core_class',
+        has_methods('serialize'),
+        has_class_methods('fromtree'),
+        is_class)
 
     PREMIS_OBJECT = 'PREMIS:OBJECT'
     PREMIS_EVENT = 'PREMIS:EVENT'
     PREMIS_AGENT = 'PREMIS:AGENT'
+    DublinCore = 'DC'
 
     def __init__(self, path=None, label=None, use='original', type=u'Item',
                  children=None, file_uuid=None, derived_from=None,
@@ -130,6 +136,11 @@ class FSEntry(object):
         self.checksumtype = checksumtype
         self.amdsecs = []
         self.dmdsecs = []
+
+        # Convenient access to metadata (without cycling through amdsecs)
+        self.techmds = []
+        self.digiprovmds = []
+        self.rightsmds = []
 
     def __str__(self):
         return '{s.type}: {s.path}'.format(s=self)
@@ -271,7 +282,9 @@ class FSEntry(object):
 
     def add_dublin_core(self, md, mode='mdwrap'):
         # TODO add extra args and create DC object here
-        return self.add_dmdsec(md, 'DC', mode)
+        return self.add_dmdsec(
+            self.serialize_md_inst(md, self.dublin_core_class),
+            self.DublinCore, mode)
 
     def add_child(self, child):
         """Add a child FSEntry to this FSEntry.
@@ -399,9 +412,12 @@ class FSEntry(object):
         return el
 
     def get_subsections_of_type(self, mdtype, md_class):
-        return [md_class.fromtree(ss.contents.document)
-                for ss in self.amdsecs[0].subsections
-                if ss.contents.mdtype == mdtype]
+        try:
+            return [md_class.fromtree(ss.contents.document)
+                    for ss in self.amdsecs[0].subsections
+                    if ss.contents.mdtype == mdtype]
+        except IndexError:
+            return []
 
     def get_premis_objects(self):
         return self.get_subsections_of_type(
@@ -414,3 +430,7 @@ class FSEntry(object):
     def get_premis_agents(self):
         return self.get_subsections_of_type(
             self.PREMIS_AGENT, self.premis_agent_class)
+
+    def get_dublin_core(self):
+        return self.get_subsections_of_type(
+            self.DublinCore, self.dublin_core_class)

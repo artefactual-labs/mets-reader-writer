@@ -19,7 +19,10 @@ with the same names, e.g.,::
 See http://code.activestate.com/recipes/413268/
 """
 
-from .plugins import premisrw
+from .plugins import (
+    premisrw,
+    dcrw
+)
 
 
 class FeatureBroker(object):
@@ -62,10 +65,21 @@ class FeatureBroker(object):
 
 
 def set_feature_broker_to_default_state(fb):
+    """Provide dependencies via the global singleton feature broker.
+
+    To use yapremisrw, provide different class(es) from that plugin, e.g., to
+    use ``yapremisrw.Event``::
+
+        >>> from .plugins import yapremisrw
+        >>> from metsrw import feature_broker as fb
+        >>> fb.provide('premis_event_class', yapremisrw.Event)
+
+    """
     fb.clear()
     fb.provide('premis_object_class', premisrw.PREMISObject)
     fb.provide('premis_event_class', premisrw.PREMISEvent)
     fb.provide('premis_agent_class', premisrw.PREMISAgent)
+    fb.provide('dublin_core_class', dcrw.DublinCoreXmlData)
 
 
 feature_broker = FeatureBroker()  # global singleton feature broker

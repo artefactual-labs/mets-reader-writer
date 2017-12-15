@@ -5,27 +5,36 @@ https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
 
-# Always prefer setuptools over distutils
+import codecs
+import os
+import re
+
 from setuptools import setup, find_packages
-# To use a consistent encoding
-from codecs import open
-from os import path
 
-from metsrw import __version__
 
-here = path.abspath(path.dirname(__file__))
+def read(*parts):
+    path = os.path.join(os.path.dirname(__file__), *parts)
+    with codecs.open(path, encoding='utf-8') as fobj:
+        return fobj.read()
 
-# Get the long description from the relevant file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+
+README = read('README.md')
+
+
+def find_version(*file_paths):
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
 
 
 setup(
     name='metsrw',
-    version=__version__,
+    version=find_version('metsrw', '__init__.py'),
 
     description='Library for dealing with METS files.',
-    long_description=long_description,
+    long_description=README,
 
     url='https://github.com/artefactual-labs/mets-reader-writer/',
 

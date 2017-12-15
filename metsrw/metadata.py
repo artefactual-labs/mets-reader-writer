@@ -11,6 +11,7 @@ import six
 
 from . import exceptions
 from . import utils
+from .plugins.dcrw import DublinCoreXmlData
 
 LOGGER = logging.getLogger(__name__)
 
@@ -298,7 +299,10 @@ class MDWrap(object):
         include "PREMIS:OBJECT", "PREMIS:EVENT,", "DC" and "OTHER".
     :param str othermdtype: The OTHERMDTYPE of the XML document. Should be set if mdtype is "OTHER".
     """
-    def __init__(self, document, mdtype, othermdtype=None):
+
+    MDTYPE_CLASSES = {'DC': DublinCoreXmlData}
+
+    def __init__(self, document, mdtype, othermdtype=None, data=None):
         parser = etree.XMLParser(remove_blank_text=True)
         if isinstance(document, six.string_types):
             self.document = etree.fromstring(document, parser=parser)
@@ -306,6 +310,7 @@ class MDWrap(object):
             self.document = document
         self.mdtype = mdtype
         self.othermdtype = othermdtype
+        self.data = data
 
     @classmethod
     def parse(cls, root):
@@ -321,6 +326,12 @@ class MDWrap(object):
         mdtype = root.get('MDTYPE')
         if not mdtype:
             raise exceptions.ParseError('mdWrap must have a MDTYPE')
+        if mdtype in MDWrap.MDTYPE_CLASSES.keys():
+            mdtype_class = MDWrap.MDTYPE_CLASSES[mdtype]()
+            data = mdtype_class.parse(root.find('mets:xmlData', namespaces=utils.NAMESPACES)).__dict__
+        else:
+            data = None
+
         othermdtype = root.get('OTHERMDTYPE')
         document = root.xpath('mets:xmlData/*', namespaces=utils.NAMESPACES)
         if len(document) == 0:
@@ -329,7 +340,7 @@ class MDWrap(object):
                 ' one has none')
         elif len(document) == 1:
             document = document[0]
-        return cls(document, mdtype, othermdtype)
+        return cls(document, mdtype, othermdtype=othermdtype, data=data)
 
     def serialize(self):
         el = etree.Element(utils.lxmlns('mets') + 'mdWrap', MDTYPE=self.mdtype)
