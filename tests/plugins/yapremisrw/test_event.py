@@ -56,17 +56,6 @@ class TestPremisEvent(TestCase):
         assert premis_event.linking_object_identifiers[0]['roles'] is not None
         assert premis_event.linking_object_identifiers[0]['roles'][0] == 'Example Object Role'
 
-    def test_object_construction(self):
-        with pytest.raises(premisrw.ConstructError):
-            premisrw.Event(None, '72cb4af5-f1ce-478f-a7fc-0bcdd21267a3',
-                           'Creation', '2015-10-23T23:20:37', None, None, [], [])
-        with pytest.raises(premisrw.ConstructError):
-            premisrw.Event('UUID', None, 'Creation', '2015-10-23T23:20:37', None, None, [], [])
-        with pytest.raises(premisrw.ConstructError):
-            premisrw.Event('UUID', '72cb4af5-f1ce-478f-a7fc-0bcdd21267a3', None, '2015-10-23T23:20:37', None, None, [], [])
-        with pytest.raises(premisrw.ConstructError):
-            premisrw.Event('UUID', '72cb4af5-f1ce-478f-a7fc-0bcdd21267a3', 'Creation', None, None, None, [], [])
-
     def test_parse_wrong_element(self):
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse('fixtures/complete_mets_2.xml', parser=parser)

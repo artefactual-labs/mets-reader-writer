@@ -16,11 +16,13 @@ class DublinCoreXmlData(object):
 
     :raises ParseError: If the root element tag is not xmlData.
     """
-    DC_ELEMENTS = ['title', 'creator', 'subject', 'description', 'publisher', 'contributor', 'date', 'format', 'identifier', 'source', 'relation', 'language', 'coverage', 'rights']
+    DC_ELEMENTS = ['title', 'creator', 'subject', 'description', 'publisher',
+                   'contributor', 'date', 'format', 'identifier', 'source',
+                   'relation', 'language', 'coverage', 'rights']
 
-    def __init__(self, title=None, creator=None, subject=None, description=None, publisher=None, contributor=None, date=None, format=None, identifier=None, source=None, relation=None, language=None, coverage=None, rights=None):
+    def __init__(self, **kwargs):
         for element in self.DC_ELEMENTS:
-            setattr(self, element, locals()[element])
+            setattr(self, element, kwargs.get(element))
 
     @classmethod
     def parse(cls, root):
@@ -38,12 +40,12 @@ class DublinCoreXmlData(object):
         if dc_el is None or dc_el.tag != lxmlns('dcterms') + 'dublincore':
             raise ParseError('xmlData can only contain a dublincore element with the dcterms namespace.')
 
-        args = []
+        kwargs = {}
 
         for element in DublinCoreXmlData.DC_ELEMENTS:
-            args.append(dc_el.findtext("dc:" + element, namespaces=NAMESPACES))
+            kwargs[element] = dc_el.findtext("dc:" + element, namespaces=NAMESPACES)
 
-        return cls(*args)
+        return cls(**kwargs)
 
     fromtree = parse
 

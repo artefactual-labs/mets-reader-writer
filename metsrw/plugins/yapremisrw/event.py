@@ -22,7 +22,7 @@ from collections import OrderedDict
 from copy import deepcopy
 from lxml import etree
 
-from .exceptions import ConstructError, ParseError
+from .exceptions import ParseError
 from . import utils
 
 
@@ -45,19 +45,6 @@ class Event(object):
                  event_datetime, detail=None, outcomes=None,
                  linking_agent_identifiers=None,
                  linking_object_identifiers=None):
-
-        if identifier_type is None:
-            raise ConstructError('identifier_type argument is required.')
-
-        if identifier_value is None:
-            raise ConstructError('identifier_value argument is required.')
-
-        if event_type is None:
-            raise ConstructError('event_type argument is required.')
-
-        if event_datetime is None:
-            raise ConstructError('event_datetime argument is required.')
-
         self.identifier_type = identifier_type
         self.identifier_value = identifier_value
         self.event_type = event_type
@@ -173,18 +160,14 @@ class Event(object):
         root = self._document_root()
         root.append(self._serialize_identifier())
 
-        event_type_el = etree.Element(utils.lxmlns('premis') + 'eventType')
-        event_type_el.text = self.event_type
-        root.append(event_type_el)
-
-        event_datetime_el = etree.Element(utils.lxmlns('premis') + 'eventDateTime')
-        event_datetime_el.text = self.event_datetime
-        root.append(event_datetime_el)
+        etree.SubElement(
+            root, utils.lxmlns('premis') + 'eventType').text = self.event_type
+        etree.SubElement(root, utils.lxmlns('premis') + 'eventDateTime').text = \
+            self.event_datetime
 
         if self.detail is not None:
-            event_detail_el = etree.Element(utils.lxmlns('premis') + 'eventDetail')
-            event_detail_el.text = self.detail
-            root.append(event_detail_el)
+            etree.SubElement(
+                root, utils.lxmlns('premis') + 'eventDetail').text = self.detail
 
         for outcome_el in self._serialize_outcomes():
             root.append(outcome_el)
