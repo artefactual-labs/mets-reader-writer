@@ -8,7 +8,13 @@ from random import randint
 from lxml import etree
 import six
 
-from .di import is_class, has_methods, has_class_methods, Dependency
+from .di import (
+    is_class,
+    has_methods,
+    has_class_methods,
+    Dependency,
+    DependencyPossessor,
+)
 from . import exceptions
 from .metadata import MDWrap, MDRef, SubSection, AMDSec
 from . import utils
@@ -16,7 +22,7 @@ from . import utils
 LOGGER = logging.getLogger(__name__)
 
 
-class FSEntry(object):
+class FSEntry(DependencyPossessor):
     """A class representing a filesystem entry - either a file or a directory.
 
     When passed to a :class:`metsrw.mets.METSDocument` instance, the tree of
@@ -75,17 +81,14 @@ class FSEntry(object):
     # ``FSEntry`` instance must be able to call ``self.premis_object_class`` and
     # get a class with methods ``fromtree`` and ``serialize``.
     premis_object_class = Dependency(
-        'premis_object_class',
         has_methods('serialize'),
         has_class_methods('fromtree'),
         is_class)
     premis_event_class = Dependency(
-        'premis_event_class',
         has_methods('serialize'),
         has_class_methods('fromtree'),
         is_class)
     premis_agent_class = Dependency(
-        'premis_agent_class',
         has_methods('serialize'),
         has_class_methods('fromtree'),
         is_class)

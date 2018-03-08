@@ -19,6 +19,8 @@ with the same names, e.g.,::
 See http://code.activestate.com/recipes/413268/
 """
 
+from six import with_metaclass
+
 from .plugins import premisrw
 
 
@@ -81,15 +83,14 @@ class Dependency(object):
         >>> from .di import is_class, has_methods, Dependency
         >>> class FSEntry(object):
         ...     premis_object_class = Dependency(
-        ...         'premis_object_class',
         ...         has_methods('serialize'),
         ...         has_class_methods('fromtree'),
         ...         is_class)
 
     """
 
-    def __init__(self, dependency_name, *assertions):
-        self.dependency_name = dependency_name
+    def __init__(self, *assertions):
+        self.dependency_name = None
         self.assertions = assertions
 
     def __get__(self, instance, owner):
@@ -99,6 +100,27 @@ class Dependency(object):
                 'The value {!r} of {!r} does not match the specified'
                 ' criteria'.format(obj, self.dependency_name))
         return obj
+
+
+class DependencyPossessorMeta(type):
+    """Metaclass for ``DependencyPossessor``. Classes that can have
+    dependencies---i.e., classes that have class attributes whose values are
+    instances of ``Dependency`` above---must inherit from
+    ``DependencyPossessor``. This allows us to tell the ``Dependency`` instance
+    that its ``dependency_name`` value should be the same as the name of the
+    class attribute it was assigned to in the managed class. In short, it
+    allows us to write ``premis_object_class = Dependency()`` instead of
+    ``premis_object_class = Dependency('premis_object_class')``.
+    """
+    def __init__(cls, name, bases, attr_dict):
+        super(DependencyPossessorMeta, cls).__init__(name, bases, attr_dict)
+        for key, attr in attr_dict.items():
+            if isinstance(attr, Dependency):
+                attr.dependency_name = key
+
+
+class DependencyPossessor(with_metaclass(DependencyPossessorMeta, object)):
+    pass
 
 
 # ==============================================================================

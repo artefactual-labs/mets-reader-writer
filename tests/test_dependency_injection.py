@@ -142,7 +142,6 @@ class TestDependencyInjection(TestCase):
         with ``fromtree`` and ``serialize`` methods::
 
             >>> premis_object_class = Dependency(
-            ...     'premis_object_class',
             ...     has_methods('serialize'),
             ...     has_class_methods('fromtree'),
             ...     is_class)
