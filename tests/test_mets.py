@@ -586,3 +586,35 @@ class TestWholeMETS(TestCase):
 
     def assert_pointer_valid(self, mets_doc):
         self.assert_mets_valid(mets_doc, schematron=metsrw.AM_PNTR_SCT_PATH)
+
+    def test_read_method_and_sequence_behaviour(self):
+        mets_path = 'fixtures/complete_mets.xml'
+
+        # .read works with string, bytes, path and file descriptor.
+        mets_file = open(mets_path)
+        with open(mets_path) as fi:
+            mets_unicode = fi.read()
+            mets_bytes = mets_unicode.encode('utf8')
+        mets1 = metsrw.METSDocument.read(mets_path)
+        mets2 = metsrw.METSDocument.read(mets_file)
+        mets3 = metsrw.METSDocument.read(mets_unicode)
+        mets4 = metsrw.METSDocument.read(mets_bytes)
+
+        # iteration
+        for fse1, fse2, fse3, fse4 in zip(mets1, mets2, mets3, mets4):
+            assert fse1.path == fse2.path == fse3.path == fse4.path
+
+        # len
+        assert (len(mets1) == len(mets2) == len(mets3) == len(mets4))
+
+        # indexing
+        assert (mets1[1].path ==
+                mets2[1].path ==
+                mets3[1].path ==
+                mets4[1].path)
+
+        # slicing
+        assert ([fse.path for fse in mets1[:2]] ==
+                [fse.path for fse in mets2[:2]] ==
+                [fse.path for fse in mets3[:2]] ==
+                [fse.path for fse in mets4[:2]])

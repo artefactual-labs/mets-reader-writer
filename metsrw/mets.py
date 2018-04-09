@@ -1,9 +1,11 @@
 from __future__ import absolute_import
 
+from builtins import object
 from collections import OrderedDict, namedtuple
 from datetime import datetime
 import logging
 import os
+import six
 import sys
 
 from lxml import etree
@@ -23,6 +25,7 @@ FPtr = namedtuple(
 
 
 class METSDocument(object):
+
     def __init__(self):
         # Stores the ElementTree if this was parsed from an existing file
         self.tree = None
@@ -31,8 +34,23 @@ class METSDocument(object):
         self.createdate = None
         self._root_elements = []
         self._all_files = None
+        self._iter = None
         self.dmdsecs = []
         self.amdsecs = []
+
+    @classmethod
+    def read(cls, source):
+        """Read ``source`` into a ``METSDocument`` instance. This is an
+        instance constructor. The ``source`` may be a path to a METS file, a
+        file-like object, or a string of XML.
+        """
+        if hasattr(source, 'read'):
+            return cls.fromfile(source)
+        if os.path.exists(source):
+            return cls.fromfile(source)
+        if isinstance(source, six.string_types):
+            source = source.encode('utf8')
+        return cls.fromstring(source)
 
     # FSENTRYS
 
@@ -97,6 +115,8 @@ class METSDocument(object):
         # Reset file lists so they get regenerated with the new files(s)
         self._all_files = None
 
+    append = append_file
+
     def remove_entry(self, fs_entry):
         """Removes an FSEntry object from this METS document.
 
@@ -113,6 +133,30 @@ class METSDocument(object):
             fs_entry.parent.remove_child(fs_entry)
         # Reset file lists so they get regenerated without the removed file(s)
         self._all_files = None
+
+    remove = remove_entry
+
+    # The following methods allow us to iterate over the FSEntry instances of a
+    # METSDocument---``for fsentry in mets: ...``---, count
+    # them---``len(mets)``---, and fetch them by
+    # index---``my_fsentry = mets[21]``.
+
+    def __iter__(self):
+        return self
+
+    def __len__(self):
+        return len(self.all_files())
+
+    def _get_all_files_list(self):
+        return sorted(self.all_files(), key=lambda fsentry: fsentry.path or '')
+
+    def __getitem__(self, index):
+        return self._get_all_files_list()[index]
+
+    def __next__(self):      # Py3-style iterator interface
+        if self._iter is None:
+            self._iter = iter(self._get_all_files_list())
+        return next(self._iter)
 
     # SERIALIZE
 
@@ -256,8 +300,7 @@ class METSDocument(object):
         return etree.tostring(root, pretty_print=pretty_print, xml_declaration=True)
 
     def write(self, filepath, fully_qualified=True, pretty_print=False):
-        """
-        Serialize and write this METS document to `filepath`.
+        """Serialize and write this METS document to `filepath`.
 
         :param str filepath: Path to write the METS document to
         """
