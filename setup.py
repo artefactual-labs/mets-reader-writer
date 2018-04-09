@@ -5,24 +5,37 @@ https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
 
-# Always prefer setuptools over distutils
-from setuptools import setup, find_packages
-# To use a consistent encoding
-from codecs import open
+import codecs
 from os import path
+import re
 
-from metsrw import __version__
+from setuptools import setup, find_packages
 
 here = path.abspath(path.dirname(__file__))
 
+
+def read(*parts):
+    with codecs.open(path.join(here, *parts), 'r') as fp:
+        return fp.read()
+
+
+def find_version(*file_paths):
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
+
+
 # Get the long description from the relevant file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+with codecs.open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 
 setup(
     name='metsrw',
-    version=__version__,
+    version=find_version('metsrw', '__init__.py'),
 
     description='Library for dealing with METS files.',
     long_description=long_description,
@@ -48,7 +61,7 @@ setup(
 
     packages=find_packages(exclude=['docs', 'fixtures', 'requirements', 'tests*']),
 
-    install_requires=['lxml', 'six'],
+    install_requires=['future', 'lxml', 'six'],
 
     include_package_data=True
 )
