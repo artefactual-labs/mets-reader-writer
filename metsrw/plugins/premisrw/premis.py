@@ -182,13 +182,13 @@ class PREMISElement:
         return data_find(self._data, path)
 
     def findall(self, path):
-        return data_find_all(self._data, path)
+        return data_find_all(self._data, path, dyn_cls=True)
 
     def findtext(self, path):
         return data_find_text(self._data, path)
 
     def find_text_or_all(self, path):
-        return data_find_text_or_all(self._data, path)
+        return data_find_text_or_all(self._data, path, dyn_cls=True)
 
     @abc.abstractmethod
     def schema(self):
@@ -250,7 +250,7 @@ class PREMISObject(PREMISElement):
             'composition_level': '1',
             'format_registry_name': 'PRONOM',
             'date_created_by_application': now,
-            'relationships': lambda: [],
+            'relationship': lambda: [],
             'inhibitors': lambda: []
         }
 
@@ -618,25 +618,69 @@ def data_find(data, path):
         return sub_elm
 
 
-def data_find_all(data, path):
+def tuple_to_schema(tuple_):
+    """Convert a tuple representing an XML data structure into a schema tuple
+    that can be used in the ``.schema`` property of a sub-class of
+    PREMISElement.
+    """
+    schema = []
+    for element in tuple_:
+        if isinstance(element, (tuple, list)):
+            try:
+                if isinstance(element[1], six.string_types):
+                    schema.append((element[0],))
+                else:
+                    schema.append(tuple_to_schema(element))
+            except IndexError:
+                schema.append((element[0],))
+        else:
+            schema.append(element)
+    return tuple(schema)
+
+
+def generate_element_class(tuple_instance):
+    """Dynamically create a sub-class of PREMISElement given
+    ``tuple_instance``, which is a tuple representing an XML data structure.
+    """
+    schema = tuple_to_schema(tuple_instance)
+
+    def defaults(self):
+        return {}
+
+    def schema_getter(self):
+        return schema
+
+    new_class_name = 'PREMIS{}Element'.format(schema[0].capitalize())
+    return type(
+        new_class_name,
+        (PREMISElement,),
+        {'defaults': property(defaults), 'schema': property(schema_getter)})
+
+
+def data_find_all(data, path, dyn_cls=False):
     """Find and return all element-as-tuples in tuple ``data`` using simplified
     XPath ``path``.
     """
     path_parts = path.split('/')
     try:
-        sub_elms = [el for el in data if
-                    isinstance(el, (tuple, list)) and
-                    el[0] == path_parts[0]]
+        sub_elms = tuple(el for el in data if
+                         isinstance(el, (tuple, list)) and
+                         el[0] == path_parts[0])
     except IndexError:
         return None
+    if len(path_parts) > 1:
+        ret = []
+        for sub_elm in sub_elms:
+            for x in data_find_all(sub_elm, '/'.join(path_parts[1:])):
+                ret.append(x)
+        ret = tuple(ret)
     else:
-        if len(path_parts) > 1:
-            ret = []
-            for sub_elm in sub_elms:
-                for x in data_find_all(sub_elm, '/'.join(path_parts[1:])):
-                    ret.append(x)
-            return tuple(ret)
-        return sub_elms
+        ret = sub_elms
+    if ret and dyn_cls:
+        cls = generate_element_class(ret[0])
+        ret = tuple(cls(data=tuple_) for tuple_ in ret)
+        return ret
+    return ret
 
 
 def data_find_text(data, path):
@@ -652,11 +696,11 @@ def data_find_text(data, path):
     return None
 
 
-def data_find_text_or_all(data, path):
+def data_find_text_or_all(data, path, dyn_cls=False):
     text = data_find_text(data, path)
     if text:
         return text
-    return data_find_all(data, path)
+    return data_find_all(data, path, dyn_cls=dyn_cls)
 
 
 def get_event_type(data):

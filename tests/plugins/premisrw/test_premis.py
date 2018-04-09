@@ -243,7 +243,8 @@ class TestPREMIS(TestCase):
             creating_application_version=compression_program_version,
             date_created_by_application=c.EX_PTR_DATE_CREATED_BY_APPLICATION,
             relationship=c.EX_RELATIONSHIP_1)
-        assert old_premis_object.relationship == [c.EX_RELATIONSHIP_1]
+        assert old_premis_object.relationship == (c.EX_RELATIONSHIP_1,)
+
         new_composition_level = str(
             int(old_premis_object.composition_level) + 1)
 
@@ -259,9 +260,10 @@ class TestPREMIS(TestCase):
             creating_application_version=old_premis_object.creating_application_version,
             date_created_by_application=old_premis_object.date_created_by_application,
             # New attributes:
-            relationship=[old_premis_object.relationship[0], c.EX_RELATIONSHIP_2],
+            relationship=[old_premis_object.relationship[0].data, c.EX_RELATIONSHIP_2],
             inhibitors=INHIBITORS,
             composition_level=new_composition_level)
+
         for attr in ('xsi_type', 'identifier_value',
                      'message_digest_algorithm', 'message_digest', 'size',
                      'format_name', 'format_registry_key',
@@ -273,7 +275,8 @@ class TestPREMIS(TestCase):
         assert new_premis_object.inhibitors == INHIBITORS
         assert old_premis_object.composition_level == '1'
         assert new_premis_object.composition_level == new_composition_level
-        assert [old_premis_object.relationship[0], c.EX_RELATIONSHIP_2] == new_premis_object.relationship
+        assert (old_premis_object.relationship[0], c.EX_RELATIONSHIP_2) == (
+            new_premis_object.relationship)
 
         # Here are two ways to create a new PREMIS:OBJECT that's just like an
         # old one.
@@ -291,7 +294,8 @@ class TestPREMIS(TestCase):
             relationship=old_premis_object.find('relationship'))
         assert new_premis_object == old_premis_object
 
-        new_relationships = old_premis_object.findall('relationship')
+        new_relationships = [
+            r.data for r in old_premis_object.findall('relationship')]
         new_relationships.append(c.EX_RELATIONSHIP_2)
         new_premis_object = premisrw.PREMISObject(
             xsi_type=old_premis_object.xsi_type,
@@ -302,3 +306,45 @@ class TestPREMIS(TestCase):
         assert new_premis_object.object_characteristics == old_premis_object.object_characteristics
         assert new_premis_object.relationship != old_premis_object.relationship
         assert old_premis_object.find('relationship') in new_premis_object.findall('relationship')
+
+    def test_dynamic_class_generation(self):
+        """Tests that PREMISRW's dynamic class generation works. This
+        functionality dynamically creates a ``PREMISElement`` sub-class for the
+        tuples that would otherwise be returned for non-scalar return values of
+        attribute access on instances of ``PREMISObject``, etc. Makes the
+        following assertions true::
+
+            >>> relationship = premis_object.relationship[0]
+            >>> assert isinstance(relationship, premisrw.PREMISElement)
+            >>> assert not isinstance(relationship, tuple)
+            >>> print(relationship.related_event_identifier_value)
+            ab18d9db-716b-40e7-9929-7cd62f330d90
+
+        This test shows how you can get the preservation derivatives for a
+        given FSEntry in a METS document.
+        """
+        mets = metsrw.METSDocument.fromfile('fixtures/complete_mets.xml')
+        orig_to_pres_deriv = {
+            'objects/MARBLES.TGA':
+            'objects/MARBLES-daef6f16-a13a-4a7b-bf7a-343235f6e093.tif',
+            'objects/Landing_zone.jpg':
+            'objects/Landing_zone-fc33fc0e-40ef-4ad9-ba52-860368e8ce5a.tif'
+        }
+        for fsentry in mets.all_files():
+            for premis_object in fsentry.get_premis_objects():
+                assert premis_object.size
+                assert premis_object.message_digest
+                assert premis_object.message_digest_algorithm
+                for relationship in premis_object.relationship:
+                    assert isinstance(relationship, premisrw.PREMISElement)
+                    assert not isinstance(relationship, tuple)
+                    if relationship.sub_type != 'is source of':
+                        continue
+                    event = fsentry.get_premis_event(
+                        relationship.related_event_identifier_value)
+                    if (not event) or (event.type != 'normalization'):
+                        continue
+                    pres_deriv_uuid = relationship.related_object_identifier_value
+                    assert pres_deriv_uuid
+                    pres_deriv_fsentry = mets.get_file(file_uuid=pres_deriv_uuid)
+                    assert pres_deriv_fsentry.path == orig_to_pres_deriv[fsentry.path]
