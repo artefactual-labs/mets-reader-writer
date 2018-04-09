@@ -402,9 +402,12 @@ class FSEntry(DependencyPossessor):
         return el
 
     def get_subsections_of_type(self, mdtype, md_class):
-        return [md_class.fromtree(ss.contents.document)
-                for ss in self.amdsecs[0].subsections
-                if ss.contents.mdtype == mdtype]
+        try:
+            return [md_class.fromtree(ss.contents.document)
+                    for ss in self.amdsecs[0].subsections
+                    if ss.contents.mdtype == mdtype]
+        except IndexError:
+            return []
 
     def get_premis_objects(self):
         return self.get_subsections_of_type(
@@ -417,3 +420,10 @@ class FSEntry(DependencyPossessor):
     def get_premis_agents(self):
         return self.get_subsections_of_type(
             self.PREMIS_AGENT, self.premis_agent_class)
+
+    def get_premis_event(self, event_uuid):
+        try:
+            return [evt for evt in self.get_premis_events()
+                    if evt.identifier_value == event_uuid][0]
+        except IndexError:
+            return None
