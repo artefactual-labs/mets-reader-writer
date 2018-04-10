@@ -40,7 +40,7 @@ from . import plugins
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.addHandler(logging.NullHandler())
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 __all__ = ['MetsError', 'ParseError', 'FSEntry', 'AMDSec', 'SubSection',
            'MDRef', 'MDWrap', 'METSDocument', 'NAMESPACES', 'SCHEMA_LOCATIONS',
