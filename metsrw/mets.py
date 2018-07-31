@@ -445,10 +445,15 @@ class METSDocument(object):
             tree = self.tree
         # self._validate()
         # Check CREATEDATE < now
-        createdate = self.tree.find('mets:metsHdr', namespaces=utils.NAMESPACES).get('CREATEDATE')
+        try:
+            createdate = self.tree.find(
+                'mets:metsHdr', namespaces=utils.NAMESPACES).get('CREATEDATE')
+        except AttributeError:
+            createdate = None
         now = datetime.utcnow().isoformat('T')
         if createdate and createdate > now:
-            raise exceptions.ParseError('CREATEDATE more recent than now (%s)' % now)
+            raise exceptions.ParseError(
+                'CREATEDATE more recent than now (%s)' % now)
         self.createdate = createdate
 
         # Parse structMap
