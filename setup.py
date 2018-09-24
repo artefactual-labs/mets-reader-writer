@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """A setuptools based setup module.
 
 See:

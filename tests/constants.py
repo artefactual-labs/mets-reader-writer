@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import uuid
 import metsrw.plugins.premisrw as premisrw
 

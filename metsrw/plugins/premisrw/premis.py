@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """PREMIS-Reader-Writer: a small PREMIS library designed to work as a plugin
 for METS-reader-writer. Public functions and classes:
 

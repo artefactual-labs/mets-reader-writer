@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Tests that metsrw can create normative logical structMaps correctly.
 
 A normative logical structMap is a <mets:structMap> with TYPE="logical" and

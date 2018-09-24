@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from lxml import etree
 import pytest
 from unittest import TestCase

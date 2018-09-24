@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Dependency Injection logic for metsrw.
 
 Here a global singleton feature broker is instantiated. By providing features

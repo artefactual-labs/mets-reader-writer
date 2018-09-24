@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 import filecmp
 from lxml import etree
