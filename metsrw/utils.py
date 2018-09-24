@@ -1,5 +1,7 @@
-# LXML HELPERS
+from six.moves.urllib.parse import quote_plus, urlparse, urlunparse
 
+
+# LXML HELPERS
 NAMESPACES = {
     "xsi": "http://www.w3.org/2001/XMLSchema-instance",
     "mets": "http://www.loc.gov/METS/",
@@ -20,6 +22,17 @@ def lxmlns(arg):
 
 
 # CONSTANTS
-
 FILE_ID_PREFIX = 'file-'
 GROUP_ID_PREFIX = 'Group-'
+
+
+# URL helpers
+def urlencode(url):
+    """Replace unsafe ASCII characters using percent encoding as per RFC3986:
+    https://tools.ietf.org/html/rfc3986#section-2.1.
+    """
+    parsed = urlparse(url)
+    for attr in ('path', 'params', 'query', 'fragment'):
+        parsed = parsed._replace(
+            **{attr: quote_plus(getattr(parsed, attr), safe='/')})
+    return urlunparse(parsed)

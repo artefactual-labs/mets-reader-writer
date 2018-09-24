@@ -276,7 +276,8 @@ class MDRef(object):
         if self.label:
             el.attrib['LABEL'] = self.label
         if self.target:
-            el.attrib[utils.lxmlns('xlink') + 'href'] = self.target
+            el.attrib[utils.lxmlns('xlink') + 'href'] = \
+                utils.urlencode(self.target)
         el.attrib['MDTYPE'] = self.mdtype
         el.attrib['LOCTYPE'] = self.loctype
         if self.otherloctype:

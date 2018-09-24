@@ -336,7 +336,8 @@ class FSEntry(DependencyPossessor):
         if self.path:
             flocat = etree.SubElement(el, utils.lxmlns('mets') + 'FLocat')
             # Setting manually so order is correct
-            flocat.set(utils.lxmlns('xlink') + 'href', self.path)
+            flocat.set(
+                utils.lxmlns('xlink') + 'href', utils.urlencode(self.path))
             flocat.set('LOCTYPE', 'OTHER')
             flocat.set('OTHERLOCTYPE', 'SYSTEM')
         for transform_file in self.transform_files:

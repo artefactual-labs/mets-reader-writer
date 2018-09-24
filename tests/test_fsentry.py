@@ -10,24 +10,30 @@ class TestFSEntry(TestCase):
 
     def test_create_invalid_checksum_type(self):
         """ It should only accept METS valid checksum types. """
-        metsrw.FSEntry('file1.txt', checksumtype='Adler-32', checksum='dummy')
-        metsrw.FSEntry('file1.txt', checksumtype='CRC32', checksum='dummy')
-        metsrw.FSEntry('file1.txt', checksumtype='HAVAL', checksum='dummy')
-        metsrw.FSEntry('file1.txt', checksumtype='MD5', checksum='daa05c683a4913b268653f7a7e36a5b4')
-        metsrw.FSEntry('file1.txt', checksumtype='MNP', checksum='dummy')
-        metsrw.FSEntry('file1.txt', checksumtype='SHA-1', checksum='dummy')
-        metsrw.FSEntry('file1.txt', checksumtype='SHA-256', checksum='dummy')
-        metsrw.FSEntry('file1.txt', checksumtype='SHA-384', checksum='dummy')
-        metsrw.FSEntry('file1.txt', checksumtype='SHA-512', checksum='dummy')
-        metsrw.FSEntry('file1.txt', checksumtype='TIGER WHIRLPOOL', checksum='dummy')
+        metsrw.FSEntry(
+            'file[1].txt', checksumtype='Adler-32', checksum='dummy')
+        metsrw.FSEntry('file[1].txt', checksumtype='CRC32', checksum='dummy')
+        metsrw.FSEntry('file[1].txt', checksumtype='HAVAL', checksum='dummy')
+        metsrw.FSEntry(
+            'file[1].txt', checksumtype='MD5',
+            checksum='daa05c683a4913b268653f7a7e36a5b4')
+        metsrw.FSEntry('file[1].txt', checksumtype='MNP', checksum='dummy')
+        metsrw.FSEntry('file[1].txt', checksumtype='SHA-1', checksum='dummy')
+        metsrw.FSEntry('file[1].txt', checksumtype='SHA-256', checksum='dummy')
+        metsrw.FSEntry('file[1].txt', checksumtype='SHA-384', checksum='dummy')
+        metsrw.FSEntry('file[1].txt', checksumtype='SHA-512', checksum='dummy')
+        metsrw.FSEntry(
+            'file[1].txt', checksumtype='TIGER WHIRLPOOL',
+            checksum='dummy')
         with pytest.raises(ValueError):
-            metsrw.FSEntry('file1.txt', checksumtype='DNE', checksum='dummy')
+            metsrw.FSEntry('file[1].txt', checksumtype='DNE', checksum='dummy')
 
     def test_create_checksum_and_checksumtype(self):
         with pytest.raises(ValueError):
-            metsrw.FSEntry('file1.txt', checksum='daa05c683a4913b268653f7a7e36a5b4')
+            metsrw.FSEntry(
+                'file[1].txt', checksum='daa05c683a4913b268653f7a7e36a5b4')
         with pytest.raises(ValueError):
-            metsrw.FSEntry('file1.txt', checksumtype='MD5')
+            metsrw.FSEntry('file[1].txt', checksumtype='MD5')
 
     def test_file_id_directory(self):
         """ It should have no file ID. """
@@ -61,13 +67,14 @@ class TestFSEntry(TestCase):
         """ It should return the group ID for the derived from file. """
         file_uuid = str(uuid.uuid4())
         f = metsrw.FSEntry('level1.txt', file_uuid=file_uuid)
-        derived = metsrw.FSEntry('level3.txt', file_uuid=str(uuid.uuid4()), derived_from=f)
+        derived = metsrw.FSEntry(
+            'level3.txt', file_uuid=str(uuid.uuid4()), derived_from=f)
         assert derived.group_id() == 'Group-' + file_uuid
         assert derived.group_id() == f.group_id()
 
     def test_admids(self):
         """ It should return 0 or 1 amdSecs. """
-        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry('file[1].txt', file_uuid=str(uuid.uuid4()))
         assert len(f.admids) == 0
         f.add_premis_object('<premis>object</premis>')
         assert len(f.admids) == 1
@@ -77,20 +84,21 @@ class TestFSEntry(TestCase):
 
     def test_dmdids(self):
         """ It should return a DMDID for each dmdSec. """
-        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry('file[1].txt', file_uuid=str(uuid.uuid4()))
         assert len(f.dmdids) == 0
         f.add_dublin_core('<dc />')
         assert len(f.dmdids) == 1
 
     def test_add_metadata_to_fsentry(self):
-        f1 = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f1 = metsrw.FSEntry('file[1].txt', file_uuid=str(uuid.uuid4()))
         f1.add_dublin_core('<dc />')
         assert f1.dmdsecs
         assert len(f1.dmdsecs) == 1
         assert f1.dmdsecs[0].subsection == 'dmdSec'
         assert f1.dmdsecs[0].contents.mdtype == 'DC'
 
-        # Can only have 1 amdSec, so subsequent subsections are children of AMDSec
+        # Can only have 1 amdSec, so subsequent subsections are children of
+        # AMDSec
         f1.add_premis_object('<premis>object</premis>')
         assert f1.amdsecs
         assert f1.amdsecs[0].subsections
@@ -118,7 +126,7 @@ class TestFSEntry(TestCase):
         It should handle duplicates.
         """
         d = metsrw.FSEntry('dir', type='Directory')
-        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry('file[1].txt', file_uuid=str(uuid.uuid4()))
 
         d.add_child(f)
         assert f in d.children
@@ -139,7 +147,7 @@ class TestFSEntry(TestCase):
         It should remove the parent from the child's parent link.
         """
         d = metsrw.FSEntry('dir', type='Directory')
-        f1 = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f1 = metsrw.FSEntry('file[1].txt', file_uuid=str(uuid.uuid4()))
         f2 = metsrw.FSEntry('file2.txt', file_uuid=str(uuid.uuid4()))
         d.add_child(f1)
         d.add_child(f2)
@@ -161,7 +169,7 @@ class TestFSEntry(TestCase):
         It should have a child mets:FLocat element with the path.
         """
         f = metsrw.FSEntry(
-            'file1.txt',
+            'file[1].txt',
             file_uuid=str(uuid.uuid4()),
             checksumtype='MD5',
             checksum='daa05c683a4913b268653f7a7e36a5b4')
@@ -175,7 +183,8 @@ class TestFSEntry(TestCase):
         assert el[0].tag == '{http://www.loc.gov/METS/}FLocat'
         assert el[0].attrib['LOCTYPE'] == 'OTHER'
         assert el[0].attrib['OTHERLOCTYPE'] == 'SYSTEM'
-        assert el[0].attrib['{http://www.w3.org/1999/xlink}href'] == 'file1.txt'
+        assert el[0].attrib['{http://www.w3.org/1999/xlink}href'] == \
+            'file%5B1%5D.txt'
 
     def test_serialize_filesec_metadata(self):
         """
@@ -184,7 +193,7 @@ class TestFSEntry(TestCase):
         It should have one ADMID.
         It should have a child mets:FLocat element with the path.
         """
-        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry('file[1].txt', file_uuid=str(uuid.uuid4()))
         f.add_premis_object('<premis>object</premis>')
         el = f.serialize_filesec()
         assert el.tag == '{http://www.loc.gov/METS/}file'
@@ -194,13 +203,15 @@ class TestFSEntry(TestCase):
         assert el[0].tag == '{http://www.loc.gov/METS/}FLocat'
         assert el[0].attrib['LOCTYPE'] == 'OTHER'
         assert el[0].attrib['OTHERLOCTYPE'] == 'SYSTEM'
-        assert el[0].attrib['{http://www.w3.org/1999/xlink}href'] == 'file1.txt'
+        assert el[0].attrib['{http://www.w3.org/1999/xlink}href'] == \
+            'file%5B1%5D.txt'
 
     def test_serialize_filesec_not_item(self):
         """
         It should not produce a mets:file element.
         """
-        f = metsrw.FSEntry('file1.txt', type='Directory', file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry(
+            'file[1].txt', type='Directory', file_uuid=str(uuid.uuid4()))
         el = f.serialize_filesec()
         assert el is None
 
@@ -208,7 +219,8 @@ class TestFSEntry(TestCase):
         """
         It should not produce a mets:file element.
         """
-        f = metsrw.FSEntry('file1.txt', use=None, file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry(
+            'file[1].txt', use=None, file_uuid=str(uuid.uuid4()))
         el = f.serialize_filesec()
         assert el is None
 
@@ -232,12 +244,12 @@ class TestFSEntry(TestCase):
         It should have a TYPE and LABEL.
         It should have a child mets:fptr element with FILEID.
         """
-        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry('file[1].txt', file_uuid=str(uuid.uuid4()))
         f.add_dublin_core('<dc />')
         el = f.serialize_structmap(recurse=False)
         assert el.tag == '{http://www.loc.gov/METS/}div'
         assert el.attrib['TYPE'] == 'Item'
-        assert el.attrib['LABEL'] == 'file1.txt'
+        assert el.attrib['LABEL'] == 'file[1].txt'
         assert len(el.attrib['DMDID'].split()) == 1
         assert len(el) == 1
         assert el[0].tag == '{http://www.loc.gov/METS/}fptr'
@@ -250,7 +262,7 @@ class TestFSEntry(TestCase):
         It should not have children.
         """
         d = metsrw.FSEntry('dir', type='Directory')
-        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry('file[1].txt', file_uuid=str(uuid.uuid4()))
         d.add_child(f)
         el = d.serialize_structmap(recurse=False)
         assert el.tag == '{http://www.loc.gov/METS/}div'
@@ -265,7 +277,7 @@ class TestFSEntry(TestCase):
         It should have a child mets:div with the file.
         """
         d = metsrw.FSEntry('dir', type='Directory')
-        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry('file[1].txt', file_uuid=str(uuid.uuid4()))
         d.add_child(f)
         el = d.serialize_structmap(recurse=True)
         assert el.tag == '{http://www.loc.gov/METS/}div'
@@ -274,7 +286,7 @@ class TestFSEntry(TestCase):
         assert len(el) == 1
         assert el[0].tag == '{http://www.loc.gov/METS/}div'
         assert el[0].attrib['TYPE'] == 'Item'
-        assert el[0].attrib['LABEL'] == 'file1.txt'
+        assert el[0].attrib['LABEL'] == 'file[1].txt'
         assert len(el[0]) == 1
         assert el[0][0].tag == '{http://www.loc.gov/METS/}fptr'
         assert el[0][0].attrib['FILEID'].startswith('file-')
@@ -306,7 +318,7 @@ class TestFSEntry(TestCase):
         d1a = metsrw.FSEntry('dir', type='Directory')
         d2a = metsrw.FSEntry('dir', type='Directory')
         d2b = metsrw.FSEntry('dir', type='Directory')
-        f = metsrw.FSEntry('file1.txt', file_uuid=str(uuid.uuid4()))
+        f = metsrw.FSEntry('file[1].txt', file_uuid=str(uuid.uuid4()))
         r.add_child(d1)
         r.add_child(d2)
         d1.add_child(d1a)
