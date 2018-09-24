@@ -2,7 +2,10 @@
 from six.moves.urllib.parse import quote_plus, urlparse, urlunparse
 
 
-# LXML HELPERS
+####################################
+# LXML HELPER VALUES AND FUNCTIONS #
+####################################
+
 NAMESPACES = {
     "xsi": "http://www.w3.org/2001/XMLSchema-instance",
     "mets": "http://www.loc.gov/METS/",
@@ -22,12 +25,18 @@ def lxmlns(arg):
     return '{' + NAMESPACES[arg] + '}'
 
 
-# CONSTANTS
+####################
+# METSRW CONSTANTS #
+####################
+
 FILE_ID_PREFIX = 'file-'
 GROUP_ID_PREFIX = 'Group-'
 
 
-# URL helpers
+#################################
+# HELPERS FOR MANIPULATING URLS #
+#################################
+
 def urlencode(url):
     """Replace unsafe ASCII characters using percent encoding as per RFC3986:
     https://tools.ietf.org/html/rfc3986#section-2.1.
