@@ -149,6 +149,15 @@ class TestMETSDocument(TestCase):
         assert header.attrib['LASTMODDATE'] == new_date
         assert header.attrib['CREATEDATE'] < header.attrib['LASTMODDATE']
 
+    def test_fromfile_invalid_xlink_href(self):
+        """Test that ``fromfile`` raises ``ParseError`` if an xlink:href value
+        in the source METS contains an unparseable URL.
+        """
+        with pytest.raises(metsrw.exceptions.ParseError,
+                           match='is not a valid URL.'):
+            metsrw.METSDocument.fromfile(
+                'fixtures/mets_invalid_xlink_hrefs.xml')
+
 
 class TestWholeMETS(TestCase):
     """ Test integration between classes. """
@@ -619,3 +628,16 @@ class TestWholeMETS(TestCase):
                 [fse.path for fse in mets2[:2]] ==
                 [fse.path for fse in mets3[:2]] ==
                 [fse.path for fse in mets4[:2]])
+
+    def test_files_invalid_path(self):
+        """Test that if you try to set the path of a FSEntry to something that
+        urllib.urlparse cannot parse and then attempt to serialize the METS,
+        then you will trigger a MetsError.
+        """
+        f1 = metsrw.FSEntry('http://foo[bar.com/hello[1].pdf',
+                            file_uuid=str(uuid.uuid4()))
+        mw = metsrw.METSDocument()
+        mw.append_file(f1)
+        with pytest.raises(metsrw.exceptions.SerializeError,
+                           match='is not a valid URL.'):
+            mw.serialize()

@@ -251,6 +251,12 @@ class MDRef(object):
         target = root.get(utils.lxmlns('xlink') + 'href')
         if not target:
             raise exceptions.ParseError('mdRef must have an xlink:href.')
+        try:
+            target = utils.urldecode(target)
+        except ValueError:
+            raise exceptions.ParseError(
+                'Value "{}" (of attribute xlink:href) is not a valid'
+                ' URL.'.format(target))
         loctype = root.get('LOCTYPE')
         if not loctype:
             raise exceptions.ParseError('mdRef must have a LOCTYPE')
@@ -277,8 +283,13 @@ class MDRef(object):
         if self.label:
             el.attrib['LABEL'] = self.label
         if self.target:
-            el.attrib[utils.lxmlns('xlink') + 'href'] = \
-                utils.urlencode(self.target)
+            try:
+                el.attrib[utils.lxmlns('xlink') + 'href'] = \
+                    utils.urlencode(self.target)
+            except ValueError:
+                raise exceptions.SerializeError(
+                    'Value "{}" (for attribute xlink:href) is not a valid'
+                    ' URL.'.format(self.target))
         el.attrib['MDTYPE'] = self.mdtype
         el.attrib['LOCTYPE'] = self.loctype
         if self.otherloctype:

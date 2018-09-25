@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-from six.moves.urllib.parse import quote_plus, urlparse, urlunparse
+from six.moves.urllib.parse import (
+    quote_plus,
+    unquote_plus,
+    urlparse,
+    urlunparse,
+)
 
 
 ####################################
@@ -37,12 +42,29 @@ GROUP_ID_PREFIX = 'Group-'
 # HELPERS FOR MANIPULATING URLS #
 #################################
 
+URL_ENCODABLE_PARTS = ('path', 'params', 'query', 'fragment')
+
+
+def _urlendecode(url, func):
+    """Encode or decode ``url`` by applying ``func`` to all of its
+    URL-encodable parts.
+    """
+    parsed = urlparse(url)
+    for attr in URL_ENCODABLE_PARTS:
+        parsed = parsed._replace(
+            **{attr: func(getattr(parsed, attr))})
+    return urlunparse(parsed)
+
+
 def urlencode(url):
     """Replace unsafe ASCII characters using percent encoding as per RFC3986:
     https://tools.ietf.org/html/rfc3986#section-2.1.
     """
-    parsed = urlparse(url)
-    for attr in ('path', 'params', 'query', 'fragment'):
-        parsed = parsed._replace(
-            **{attr: quote_plus(getattr(parsed, attr), safe='/')})
-    return urlunparse(parsed)
+    return _urlendecode(url, lambda val: quote_plus(val, safe='/'))
+
+
+def urldecode(url):
+    """Decode percent encoding introduced per RFC3986
+    https://tools.ietf.org/html/rfc3986#section-2.1.
+    """
+    return _urlendecode(url, unquote_plus)

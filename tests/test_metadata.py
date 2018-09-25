@@ -279,6 +279,21 @@ class TestMDRef(TestCase):
             metsrw.MDRef.parse(bad)
             assert 'LOCTYPE' in e.value
 
+    def test_url_encoding(self):
+        """Good target values are URL-encoded when they show up in xlink:href
+        attributes; bad target values raise ``MetsError``.
+        """
+        mdref = metsrw.MDRef(
+            '30_CFLQ_271_13-3-13_1524[1].pdf', 'PREMIS:DUMMY', 'URL')
+        mdreffed = mdref.serialize()
+        assert mdreffed.get(metsrw.lxmlns('xlink') + 'href') == (
+            '30_CFLQ_271_13-3-13_1524%5B1%5D.pdf')
+        with pytest.raises(metsrw.exceptions.SerializeError,
+                           match='is not a valid URL.'):
+            mdref = metsrw.MDRef(
+                'http://foo[bar.com/hello[1].pdf', 'PREMIS:DUMMY', 'URL')
+            mdref.serialize()
+
 
 class TestMDWrap(TestCase):
     """ Test MDWrap class. """
@@ -356,3 +371,18 @@ class TestMDWrap(TestCase):
         assert elem[0].tag == '{http://www.loc.gov/METS/}xmlData'
         assert len(elem[0].attrib) == 0
         assert elem[0][0].tag == 'foo'
+
+    def test_url_decoding(self):
+        good = etree.Element(
+            '{http://www.loc.gov/METS/}mdRef', MDTYPE='dummy', LOCTYPE='URL')
+        good.set('{http://www.w3.org/1999/xlink}href',
+                 '30_CFLQ_271_13-3-13_1524%5B1%5D.pdf')
+        mdref = metsrw.MDRef.parse(good)
+        assert mdref.target == '30_CFLQ_271_13-3-13_1524[1].pdf'
+        with pytest.raises(metsrw.exceptions.ParseError,
+                           match='is not a valid URL'):
+            bad = etree.Element(
+                '{http://www.loc.gov/METS/}mdRef', MDTYPE='dummy', LOCTYPE='URL')
+            bad.set('{http://www.w3.org/1999/xlink}href',
+                    'http://foo[bar.com/hello[1].pdf')
+            metsrw.MDRef.parse(bad)

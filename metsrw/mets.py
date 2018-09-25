@@ -387,6 +387,12 @@ class METSDocument(object):
             path = file_elem.find(
                 'mets:FLocat', namespaces=utils.NAMESPACES).get(
                     utils.lxmlns('xlink') + 'href')
+            try:
+                path = utils.urldecode(path)
+            except ValueError:
+                raise exceptions.ParseError(
+                    'Value "{}" (of attribute xlink:href) is not a valid'
+                    ' URL.'.format(path))
             amdids = file_elem.get('ADMID')
             checksum = file_elem.get('CHECKSUM')
             checksumtype = file_elem.get('CHECKSUMTYPE')
