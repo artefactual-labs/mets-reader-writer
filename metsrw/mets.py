@@ -330,14 +330,27 @@ class METSDocument(object):
                 continue  # Only handle divs, not fptrs
             entry_type = elem.get('TYPE')
             label = elem.get('LABEL')
-            fptr = self._analyze_fptr(elem, tree, entry_type)
-            children = self._parse_tree_structmap(
-                tree, elem, normative_parent_elem=normative_elem)
-            fs_entry = fsentry.FSEntry(
-                path=fptr.path, label=label, use=fptr.use, type=entry_type,
-                children=children, file_uuid=fptr.file_uuid,
-                derived_from=fptr.derived_from, checksum=fptr.checksum,
-                checksumtype=fptr.checksumtype)
+            fptr_elems = elem.findall('mets:fptr', namespaces=utils.NAMESPACES)
+            # Directories are walked recursively. Additionally, they may
+            # contain direct fptrs.
+            if entry_type.lower() == "directory":
+                children = self._parse_tree_structmap(
+                    tree, elem, normative_parent_elem=normative_elem)
+                fs_entry = fsentry.FSEntry.dir(label, children)
+                self._add_dmdsecs_to_fs_entry(elem, fs_entry, tree)
+                siblings.append(fs_entry)
+                for fptr_elem in fptr_elems:
+                    fptr = self._analyze_fptr(fptr_elem, tree, entry_type)
+                    fs_entry = fsentry.FSEntry.from_fptr(
+                        label=None, type_=u"Item", fptr=fptr)
+                    self._add_amdsecs_to_fs_entry(fptr.amdids, fs_entry, tree)
+                    siblings.append(fs_entry)
+                continue
+            # Other types, e.g.: items, aips...
+            if not len(fptr_elems):
+                continue
+            fptr = self._analyze_fptr(fptr_elems[0], tree, entry_type)
+            fs_entry = fsentry.FSEntry.from_fptr(label, entry_type, fptr)
             self._add_dmdsecs_to_fs_entry(elem, fs_entry, tree)
             self._add_amdsecs_to_fs_entry(fptr.amdids, fs_entry, tree)
             siblings.append(fs_entry)
@@ -369,48 +382,49 @@ class METSDocument(object):
         return el_to_normative
 
     @staticmethod
-    def _analyze_fptr(elem, tree, entry_type):
-        fptr = elem.find('mets:fptr', namespaces=utils.NAMESPACES)
-        if fptr is None:
-            return FPtr(*[None] * 7)
-        else:
-            file_uuid = derived_from = use = path = amdids = checksum = \
-                checksumtype = None
-            file_id = fptr.get('FILEID')
-            file_elem = tree.find(
-                'mets:fileSec//mets:file[@ID="' + file_id + '"]',
-                namespaces=utils.NAMESPACES)
-            if file_elem is None:
-                raise exceptions.ParseError(
-                    '%s exists in structMap but not fileSec' % file_id)
-            use = file_elem.getparent().get('USE')
-            path = file_elem.find(
-                'mets:FLocat', namespaces=utils.NAMESPACES).get(
-                    utils.lxmlns('xlink') + 'href')
-            try:
-                path = utils.urldecode(path)
-            except ValueError:
-                raise exceptions.ParseError(
-                    'Value "{}" (of attribute xlink:href) is not a valid'
-                    ' URL.'.format(path))
-            amdids = file_elem.get('ADMID')
-            checksum = file_elem.get('CHECKSUM')
-            checksumtype = file_elem.get('CHECKSUMTYPE')
-            file_id_prefix = utils.FILE_ID_PREFIX
-            # If the file is an AIP, then its prefix is not "file-" but the
-            # name of the AIP. Therefore we need to get the extension-less
-            # basename of the AIP's path and remove its UUID suffix to ge
-            # the prefix to remove from the FILEID attribute value.
-            if entry_type.lower() == 'archival information package':
-                file_id_prefix = os.path.splitext(
-                    os.path.basename(path))[0][:-36]
-            file_uuid = file_id.replace(file_id_prefix, '', 1)
-            group_uuid = file_elem.get('GROUPID', '').replace(
-                utils.GROUP_ID_PREFIX, '', 1)
-            if group_uuid != file_uuid:
-                derived_from = group_uuid  # Use group_uuid as placeholder
-            return FPtr(file_uuid, derived_from, use, path, amdids,
-                        checksum, checksumtype)
+    def _analyze_fptr(fptr_elem, tree, entry_type):
+        file_uuid = derived_from = use = path = amdids = checksum = \
+            checksumtype = None
+        file_id = fptr_elem.get('FILEID')
+        file_elem = tree.find(
+            'mets:fileSec//mets:file[@ID="' + file_id + '"]',
+            namespaces=utils.NAMESPACES)
+        if file_elem is None:
+            raise exceptions.ParseError(
+                '%s exists in structMap but not fileSec' % file_id)
+        use = file_elem.getparent().get('USE')
+        path = file_elem.find(
+            'mets:FLocat', namespaces=utils.NAMESPACES).get(
+                utils.lxmlns('xlink') + 'href')
+        try:
+            path = utils.urldecode(path)
+        except ValueError:
+            raise exceptions.ParseError(
+                'Value "{}" (of attribute xlink:href) is not a valid'
+                ' URL.'.format(path))
+        amdids = file_elem.get('ADMID')
+        checksum = file_elem.get('CHECKSUM')
+        checksumtype = file_elem.get('CHECKSUMTYPE')
+        file_id_prefix = utils.FILE_ID_PREFIX
+        # If the file is an AIP, then its prefix is not "file-" but the
+        # name of the AIP. Therefore we need to get the extension-less
+        # basename of the AIP's path and remove its UUID suffix to ge
+        # the prefix to remove from the FILEID attribute value.
+        if entry_type.lower() == 'archival information package':
+            file_id_prefix = os.path.splitext(os.path.basename(path))[0][:-36]
+        # If the file is part of a directory (with no intermediate item), then
+        # its prefix *may not* be "file-" but the name of the file. This
+        # pattern is found in old Archivematica METS files, e.g. see
+        # ``fixtures/mets_dir_with_many_ptrs.xml``.
+        elif entry_type.lower() == 'directory' and file_id[:5] != "file-":
+            file_id_prefix = os.path.basename(path) + "-"
+        file_uuid = file_id.replace(file_id_prefix, '', 1)
+        group_uuid = file_elem.get('GROUPID', '').replace(
+            utils.GROUP_ID_PREFIX, '', 1)
+        if group_uuid != file_uuid:
+            derived_from = group_uuid  # Use group_uuid as placeholder
+        return FPtr(file_uuid, derived_from, use, path, amdids,
+                    checksum, checksumtype)
 
     @staticmethod
     def _add_dmdsecs_to_fs_entry(elem, fs_entry, tree):

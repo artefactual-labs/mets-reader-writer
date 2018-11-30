@@ -135,6 +135,20 @@ class FSEntry(DependencyPossessor):
         self.amdsecs = []
         self.dmdsecs = []
 
+    @classmethod
+    def dir(cls, label, children):
+        """Return ``FSEntry`` directory object."""
+        return FSEntry(
+            label=label, children=children, type=u"Directory", use=None)
+
+    @classmethod
+    def from_fptr(cls, label, type_, fptr):
+        """Return ``FSEntry`` object."""
+        return FSEntry(
+            label=label, type=type_, path=fptr.path, use=fptr.use,
+            file_uuid=fptr.file_uuid, derived_from=fptr.derived_from,
+            checksum=fptr.checksum, checksumtype=fptr.checksumtype)
+
     def __str__(self):
         return '{s.type}: {s.path}'.format(s=self)
 

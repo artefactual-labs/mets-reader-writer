@@ -4,6 +4,7 @@ import filecmp
 from lxml import etree
 from lxml.builder import ElementMaker
 import os
+import mock
 import pytest
 from unittest import TestCase
 import uuid
@@ -157,6 +158,46 @@ class TestMETSDocument(TestCase):
                            match='is not a valid URL.'):
             metsrw.METSDocument.fromfile(
                 'fixtures/mets_invalid_xlink_hrefs.xml')
+
+    def test_analyze_fptr(self):
+        parser = etree.XMLParser(remove_blank_text=True)
+        tree = etree.parse('fixtures/mets_dir_with_fptrs.xml', parser=parser)
+        mw = metsrw.METSDocument()
+
+        # Test that exception is raised when fileSec cannot be found.
+        fptr_elem = etree.fromstring('<fptr FILEID="12345"/>')
+        with pytest.raises(metsrw.exceptions.ParseError,
+                           match='12345 exists in structMap but not fileSec'):
+            metsrw.METSDocument._analyze_fptr(fptr_elem, tree, 'directory')
+
+        # Test that exception is raised when the path cannot be decoded.
+        fptr_elem = etree.fromstring(
+            '<fptr FILEID="AM68.csv-fc0e52ca-a688-41c0-a10b-c1d36e21e804"/>')
+        with mock.patch('metsrw.utils.urldecode') as urldecode:
+            urldecode.side_effect = ValueError()
+            with pytest.raises(metsrw.exceptions.ParseError,
+                               match='is not a valid URL'):
+                metsrw.METSDocument._analyze_fptr(fptr_elem, tree, 'directory')
+
+        # Test the integrity of the ``FPtr`` object returned.
+        fptr = mw._analyze_fptr(fptr_elem, tree, 'directory')
+        assert fptr == metsrw.mets.FPtr(
+            file_uuid='fc0e52ca-a688-41c0-a10b-c1d36e21e804',
+            derived_from=None, use='original', path='objects/AM68.csv',
+            amdids='amdSec_3', checksum=None, checksumtype=None)
+
+    def test_analyze_fptr_from_aip(self):
+        parser = etree.XMLParser(remove_blank_text=True)
+        tree = etree.parse(
+            'fixtures/production-pointer-file.xml', parser=parser)
+        mw = metsrw.METSDocument()
+
+        fptr_elem = tree.find(
+            '//mets:fptr[1]', namespaces=metsrw.utils.NAMESPACES)
+        fptr = mw._analyze_fptr(
+            fptr_elem, tree, 'Archival Information Package')
+        assert fptr.file_uuid == '7327b00f-d83a-4ae8-bb89-84fce994e827'
+        assert fptr.use == 'Archival Information Package'
 
 
 class TestWholeMETS(TestCase):
@@ -586,6 +627,18 @@ class TestWholeMETS(TestCase):
         mw = metsrw.METSDocument.fromfile(mets_path)
         aip_uuid = '7327b00f-d83a-4ae8-bb89-84fce994e827'
         assert mw.get_file(file_uuid=aip_uuid)
+
+    def test_parse_dir_with_fptrs(self):
+        mets_path = 'fixtures/mets_dir_with_fptrs.xml'
+        mw = metsrw.METSDocument.fromfile(mets_path)
+        assert len(mw.all_files()) == 5
+        assert mw.get_file(type='Directory', label='objects')
+        for item in (
+            ['3a6a182a-40a0-4c2b-9752-fc7e91ac1edf', 'objects/V00154.MPG'],
+            ['431913ba-4379-4373-8798-cc5f2b9dd769', 'objects/V00158.MPG'],
+            ['fc0e52ca-a688-41c0-a10b-c1d36e21e804', 'objects/AM68.csv'],
+        ):
+            assert mw.get_file(type='Item', file_uuid=item[0], path=item[1])
 
     # Helper methods
 
