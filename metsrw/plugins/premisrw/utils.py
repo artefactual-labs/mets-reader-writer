@@ -3,6 +3,21 @@
 
 XSI_NAMESPACE = 'http://www.w3.org/2001/XMLSchema-instance'
 
+# PREMIS v. 2.1
+PREMIS_2_1_VERSION = '2.1'
+PREMIS_2_1_NAMESPACE = 'info:lc/xmlns/premis-v1'
+PREMIS_2_1_XSD = 'http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd'
+PREMIS_2_1_SCHEMA_LOCATION = '{} {}'.format(
+    PREMIS_2_1_NAMESPACE, PREMIS_2_1_XSD)
+PREMIS_2_1_NAMESPACES = {
+    'premis': PREMIS_2_1_NAMESPACE,
+    'xsi': XSI_NAMESPACE
+}
+PREMIS_2_1_META = {
+    'xsi:schema_location': PREMIS_2_1_SCHEMA_LOCATION,
+    'version': PREMIS_2_1_VERSION
+}
+
 # PREMIS v. 2.2
 PREMIS_2_2_VERSION = '2.2'
 PREMIS_2_2_NAMESPACE = 'info:lc/xmlns/premis-v2'
@@ -34,6 +49,10 @@ PREMIS_3_0_META = {
 }
 
 PREMIS_VERSIONS_MAP = {
+    PREMIS_2_1_VERSION: {
+        'namespaces': PREMIS_2_2_NAMESPACES,
+        'meta': PREMIS_2_1_META
+    },
     PREMIS_2_2_VERSION: {
         'namespaces': PREMIS_2_2_NAMESPACES,
         'meta': PREMIS_2_2_META

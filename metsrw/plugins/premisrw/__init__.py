@@ -18,6 +18,12 @@ from .premis import (
 )
 from .utils import (
     XSI_NAMESPACE,
+    PREMIS_2_1_VERSION,
+    PREMIS_2_1_NAMESPACE,
+    PREMIS_2_1_XSD,
+    PREMIS_2_1_SCHEMA_LOCATION,
+    PREMIS_2_1_NAMESPACES,
+    PREMIS_2_1_META,
     PREMIS_2_2_VERSION,
     PREMIS_2_2_NAMESPACE,
     PREMIS_2_2_XSD,
@@ -48,6 +54,9 @@ LOGGER.addHandler(logging.NullHandler())
 __all__ = ['PREMISElement', 'PREMISObject', 'PREMISEvent', 'PREMISAgent',
            'data_to_premis', 'premis_to_data', 'data_find', 'data_find_all',
            'data_find_text', 'data_find_text_or_all', 'XSI_NAMESPACE',
+           'PREMIS_2_1_VERSION', 'PREMIS_2_1_NAMESPACE', 'PREMIS_2_1_XSD',
+           'PREMIS_2_1_SCHEMA_LOCATION', 'PREMIS_2_1_NAMESPACES',
+           'PREMIS_2_1_META',
            'PREMIS_2_2_VERSION', 'PREMIS_2_2_NAMESPACE', 'PREMIS_2_2_XSD',
            'PREMIS_2_2_SCHEMA_LOCATION', 'PREMIS_2_2_NAMESPACES',
            'PREMIS_2_2_META', 'PREMIS_3_0_VERSION', 'PREMIS_3_0_NAMESPACE',
