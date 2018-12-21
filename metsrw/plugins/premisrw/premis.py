@@ -488,8 +488,10 @@ def _data_to_lxml_el(data, ns, nsmap, element_maker=None, snake=True):
         elif isinstance(element, (tuple, list)):
             args.append(_data_to_lxml_el(
                 element, ns, nsmap, element_maker=element_maker, snake=snake))
+        elif isinstance(element, six.text_type):
+            args.append(element)
         else:
-            args.append(str(element))
+            args.append(six.binary_type(element))
     ret = func(*args)
     for attr, val in attributes.items():
         try:

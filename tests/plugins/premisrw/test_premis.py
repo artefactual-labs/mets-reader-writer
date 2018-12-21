@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from unittest import TestCase
 
 import pytest
@@ -18,6 +19,21 @@ class TestPREMIS(TestCase):
         lxml_el = premisrw.data_to_premis(c.EX_COMPR_EVT)
         data = premisrw.premis_to_data(lxml_el)
         assert data == c.EX_COMPR_EVT
+
+    def test_roundtrip_unicode(self):
+        """Test the roundtripping with unicode values."""
+        lxml_el = premisrw.data_to_premis((
+            'agent',
+            premisrw.PREMIS_META,
+            (
+                'agent_identifier',
+                ('agent_identifier_type', u'𝕡𝕣𝕖𝕤𝕖𝕣𝕧𝕒𝕥𝕚𝕠𝕟 𝕤𝕪𝕤𝕥𝕖𝕞'),
+                ('agent_identifier_value', u'𝓊𝓃𝒾𝒸𝑜𝒹𝑒'),
+            )
+        ))
+        data = premisrw.premis_to_data(lxml_el)
+        assert data[2][1][1] == u'𝕡𝕣𝕖𝕤𝕖𝕣𝕧𝕒𝕥𝕚𝕠𝕟 𝕤𝕪𝕤𝕥𝕖𝕞'
+        assert data[2][2][1] == u'𝓊𝓃𝒾𝒸𝑜𝒹𝑒'
 
     def test_premis_event_cls_data(self):
         """Tests that you can pass a Python tuple as the ``data`` argument to
