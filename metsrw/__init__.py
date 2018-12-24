@@ -43,7 +43,7 @@ from . import plugins
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.addHandler(logging.NullHandler())
-__version__ = '0.2.3'
+__version__ = '0.2.4'
 
 __all__ = [
     'AMDSec',
