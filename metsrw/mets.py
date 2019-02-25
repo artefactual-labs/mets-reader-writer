@@ -470,56 +470,42 @@ class METSDocument(object):
     def _validate(self):
         raise NotImplementedError()
 
-    def _fromfile(self, path):
+    @classmethod
+    def fromfile(cls, path):
         """
-        Accept a filepath pointing to a valid METS document and parses it.
+        Creates a METS by parsing a file.
 
         :param str path: Path to a METS document.
         """
         parser = etree.XMLParser(remove_blank_text=True)
-        self.tree = etree.parse(path, parser=parser)
-        self._parse_tree(self.tree)
+
+        return cls.fromtree(etree.parse(path, parser=parser))
 
     @classmethod
-    def fromfile(cls, path):
-        """ Creates a METS by parsing a file. """
-        i = cls()
-        i._fromfile(path)
-        return i
-
-    def _fromstring(self, string):
+    def fromstring(cls, string):
         """
-        Accept a string containing valid METS xml and parses it.
+        Create a METS by parsing a string.
 
         :param str string: String containing a METS document.
         """
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.fromstring(string, parser)
-        self.tree = root.getroottree()
-        self._parse_tree(self.tree)
+        tree = root.getroottree()
 
-    @classmethod
-    def fromstring(cls, string):
-        """ Create a METS by parsing a string. """
-        i = cls()
-        i._fromstring(string)
-        return i
-
-    def _fromtree(self, tree):
-        """
-        Accept an ElementTree or Element and parses it.
-
-        :param ElementTree tree: ElementTree to build a METS document from.
-        """
-        self.tree = tree
-        self._parse_tree(self.tree)
+        return cls.fromtree(tree)
 
     @classmethod
     def fromtree(cls, tree):
-        """ Create a METS from an ElementTree or Element. """
-        i = cls()
-        i._fromtree(tree)
-        return i
+        """
+        Create a METS from an ElementTree or Element.
+
+        :param ElementTree tree: ElementTree to build a METS document from.
+        """
+        mets = cls()
+        mets.tree = tree
+        mets._parse_tree(tree)
+
+        return mets
 
 
 if __name__ == '__main__':
