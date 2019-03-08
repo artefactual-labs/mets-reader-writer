@@ -1,13 +1,24 @@
 # -*- coding: utf-8 -*-
+
 import pytest
 from unittest import TestCase
 import uuid
+import six
 
 import metsrw
 
 
 class TestFSEntry(TestCase):
     """ Test FSEntry class. """
+
+    @pytest.mark.skipif(six.PY3, reason="metsrw still uses Unicode in python3")
+    def test_path_is_binary(self):
+        """It should store the ``path`` as a bytestring."""
+        sample = u'💜🎑💜'
+        assert isinstance(metsrw.FSEntry(
+            sample, type='Directory').path, six.binary_type)
+        assert isinstance(metsrw.FSEntry(
+            sample.encode('utf-8'), type='Directory').path, six.binary_type)
 
     def test_create_invalid_checksum_type(self):
         """ It should only accept METS valid checksum types. """
