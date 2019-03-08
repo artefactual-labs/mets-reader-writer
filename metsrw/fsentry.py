@@ -105,10 +105,16 @@ class FSEntry(DependencyPossessor):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
-        # TODO update this with six and bytes
-        if path:
-            path = str(path)
-        self.path = path
+        if six.PY2:
+            if isinstance(path, six.text_type):
+                self.path = path.encode('utf-8')
+            else:
+                self.path = path
+        else:  # TODO: Py3 is still using Unicode.
+            if isinstance(path, six.binary_type):
+                self.path = path.decode('utf-8', errors="strict")
+            else:
+                self.path = path
         if label is None and path is not None:
             label = os.path.basename(path)
         self.label = label
