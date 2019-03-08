@@ -690,12 +690,16 @@ def data_find_text(data, path):
     simplified XPath ``path``.
     """
     el = data_find(data, path)
-    if isinstance(el, (list, tuple)):
-        texts = [child for child in el[1:]
-                 if not isinstance(child, (tuple, list, dict))]
-        if texts:
-            return ' '.join([str(x) for x in texts])
-    return None
+    if not isinstance(el, (list, tuple)):
+        return None
+    texts = [child for child in el[1:]
+             if not isinstance(child, (tuple, list, dict))]
+    if not texts:
+        return None
+    if six.PY2:
+        return ' '.join(
+            [x.encode('utf-8', errors='ignore') for x in texts])
+    return ' '.join([str(x) for x in texts])
 
 
 def data_find_text_or_all(data, path, dyn_cls=False):
