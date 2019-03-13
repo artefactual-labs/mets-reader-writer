@@ -699,10 +699,13 @@ def data_find_text(data, path):
              if not isinstance(child, (tuple, list, dict))]
     if not texts:
         return None
-    if six.PY2:
-        return ' '.join(
-            [x.encode('utf-8', errors='ignore') for x in texts])
-    return ' '.join([str(x) for x in texts])
+    return ' '.join([
+        # How should we deal with decoding errors when `x` is binary?
+        # For now, we're using the ``strict`` mode. Other options here:
+        # https://docs.python.org/3/library/functions.html#open.
+        six.ensure_text(x, encoding='utf-8', errors='strict')
+        for x in texts
+    ])
 
 
 def data_find_text_or_all(data, path, dyn_cls=False):
