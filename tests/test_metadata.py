@@ -52,8 +52,8 @@ class TestSubSection(TestCase):
         techmd_old = metsrw.SubSection('techMD', self.STUB_MDWRAP)
         techmd_new = metsrw.SubSection('techMD', self.STUB_MDWRAP)
         techmd_old.replace_with(techmd_new)
-        assert techmd_old.get_status() is 'superseded'
-        assert techmd_new.get_status() is 'current'
+        assert techmd_old.get_status() == 'superseded'
+        assert techmd_new.get_status() == 'current'
 
     def test_replacement_sourcemd(self):
         """ It should have no special behaviour replacing sourceMDs. """
