@@ -3,6 +3,7 @@ from unittest import TestCase
 
 import pytest
 from lxml import etree
+import six
 
 import metsrw
 import metsrw.plugins.premisrw as premisrw
@@ -35,6 +36,38 @@ class TestPREMIS(TestCase):
         data = premisrw.premis_to_data(lxml_el)
         assert data[2][1][1] == u'𝕡𝕣𝕖𝕤𝕖𝕣𝕧𝕒𝕥𝕚𝕠𝕟 𝕤𝕪𝕤𝕥𝕖𝕞'
         assert data[2][2][1] == u'𝓊𝓃𝒾𝒸𝑜𝒹𝑒'
+
+    @pytest.mark.skipif(six.PY3, reason='lxml in py3 does not accept binary')
+    def test_roundtrip_unicode_from_binary(self):
+        """Test that premisrw returns unicode values in all cases."""
+        lxml_el = premisrw.data_to_premis((
+            'agent',
+            premisrw.PREMIS_META,
+            (
+                'agent_identifier',
+                ('agent_identifier_type', b'foo'),
+                ('agent_identifier_value', b'bar'),
+            )
+        ))
+        data = premisrw.premis_to_data(lxml_el)
+        assert data[2][1][1] == u'foo'
+        assert data[2][2][1] == u'bar'
+
+    @pytest.mark.skipif(six.PY3, reason='lxml in py3 does not accept binary')
+    def test_with_invalid_binary(self):
+        """Test lxml's ``ValueError`` with invalid byte sequences."""
+        invalid_sequence = b'\x78\x9a\xbc\xde\xf0'
+        data = ((
+            'agent',
+            premisrw.PREMIS_META,
+            (
+                'agent_identifier',
+                ('agent_identifier_type', b'type'),
+                ('agent_identifier_value', invalid_sequence),
+            )
+        ))
+        with pytest.raises(ValueError):
+            premisrw.data_to_premis(data)
 
     def test_premis_event_cls_data(self):
         """Tests that you can pass a Python tuple as the ``data`` argument to
