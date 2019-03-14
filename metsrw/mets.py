@@ -33,6 +33,7 @@ class METSDocument(object):
         # Only root-level elements are stored, since the rest
         # can be inferred via their #children attribute
         self.createdate = None
+        self.objid = None
         self._root_elements = []
         self._all_files = None
         self._iter = None
@@ -161,8 +162,7 @@ class METSDocument(object):
 
     # SERIALIZE
 
-    @staticmethod
-    def _document_root(fully_qualified=True):
+    def _document_root(self, fully_qualified=True):
         """
         Return the mets Element for the document root.
         """
@@ -178,6 +178,8 @@ class METSDocument(object):
             '{}schemaLocation'.format(utils.lxmlns('xsi')):
             utils.SCHEMA_LOCATIONS
         }
+        if self.objid:
+            attrib['OBJID'] = self.objid
         return etree.Element(utils.lxmlns('mets') + 'mets', nsmap=nsmap, attrib=attrib)
 
     def _mets_header(self, now):
@@ -469,6 +471,12 @@ class METSDocument(object):
             raise exceptions.ParseError(
                 'CREATEDATE more recent than now (%s)' % now)
         self.createdate = createdate
+
+        # Read root attributes
+        root = tree
+        if isinstance(tree, etree._ElementTree):
+            root = tree.getroot()
+        self.objid = root.get('OBJID', None)
 
         # Parse structMap
         structMap = tree.find('mets:structMap[@TYPE="physical"]',

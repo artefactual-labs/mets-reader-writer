@@ -132,6 +132,11 @@ class TestMETSDocument(TestCase):
         }
         assert root.nsmap == nsmap
 
+    def test_mets_root_attributes(self):
+        mw = metsrw.METSDocument().fromfile('fixtures/mets_without_groupid_in_file.xml')
+        assert mw.objid == "44db0a40-4c76-45b9-83f1-a8adba434b43"
+        assert mw._document_root().attrib["OBJID"] == "44db0a40-4c76-45b9-83f1-a8adba434b43"
+
     def test_mets_header(self):
         mw = metsrw.METSDocument()
         date = '2014-07-16T22:52:02.480108'
