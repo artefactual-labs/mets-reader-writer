@@ -11,8 +11,8 @@ install:
 
 matrix:
   include:
-    - python: 3.6
-      env: TOXENV=flake8
+    - python: 3.7
+      env: TOXENV=linting
     - python: 2.7
       env: TOXENV=py27
     - python: 3.4
