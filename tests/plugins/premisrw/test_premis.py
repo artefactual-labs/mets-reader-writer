@@ -2,6 +2,7 @@
 from unittest import TestCase
 
 import pytest
+from lxml import etree
 
 import metsrw
 import metsrw.plugins.premisrw as premisrw
@@ -364,3 +365,29 @@ class TestPREMIS(TestCase):
                     assert pres_deriv_uuid
                     pres_deriv_fsentry = mets.get_file(file_uuid=pres_deriv_uuid)
                     assert pres_deriv_fsentry.path == orig_to_pres_deriv[fsentry.path]
+
+    def test_object_characteristics_extension(self):
+        """
+        Test the object characteristics extension container element with embedded XML.
+        """
+        embedded_xml = etree.Element('arbitrary-xml')
+        child_element = etree.Element('a-child-element')
+        child_element.text = "Hello world"
+        embedded_xml.append(child_element)
+
+        premis_element = premisrw.data_to_premis((
+            'object',
+            premisrw.PREMIS_META,
+            (
+                'object_identifier',
+                ('object_identifier_type', 'UUID'),
+                ('object_identifier_value', '8bce611a-fabc-4161-8108-ba041fb8e7b4'),
+            ),
+            (
+                'object_characteristics',
+                ('object_characteristics_extension', embedded_xml)
+            )
+        ))
+
+        xpath_lookup = './/premis:objectCharacteristicsExtension/arbitrary-xml'
+        assert premis_element.xpath(xpath_lookup, namespaces=premis_element.nsmap)[0] == embedded_xml

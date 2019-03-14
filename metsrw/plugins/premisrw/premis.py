@@ -298,7 +298,8 @@ class PREMISObject(PREMISElement):
                     'inhibitors',
                     ('inhibitor_type',),
                     ('inhibitor_target',),
-                )
+                ),
+                ('object_characteristics_extension',)
             ),
             (
                 'relationship',
@@ -489,6 +490,8 @@ def _data_to_lxml_el(data, ns, nsmap, element_maker=None, snake=True):
             args.append(_data_to_lxml_el(
                 element, ns, nsmap, element_maker=element_maker, snake=snake))
         elif isinstance(element, six.text_type):
+            args.append(element)
+        elif isinstance(element, etree._Element):
             args.append(element)
         else:
             args.append(six.binary_type(element))
