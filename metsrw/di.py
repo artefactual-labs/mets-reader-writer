@@ -43,8 +43,9 @@ class FeatureBroker(object):
         provider if it is callable.
         """
         if not self.allow_replace:
-            assert feature_name not in self.providers, (
-                'Duplicate feature: {!r}'.format(feature_name))
+            assert feature_name not in self.providers, "Duplicate feature: {!r}".format(
+                feature_name
+            )
         if callable(provider) and not isinstance(provider, type):
             self.providers[feature_name] = lambda: provider(*args, **kwargs)
         else:
@@ -60,15 +61,15 @@ class FeatureBroker(object):
         try:
             provider = self.providers[feature_name]
         except KeyError:
-            raise KeyError('Unknown feature named {!r}'.format(feature_name))
+            raise KeyError("Unknown feature named {!r}".format(feature_name))
         return provider()
 
 
 def set_feature_broker_to_default_state(fb):
     fb.clear()
-    fb.provide('premis_object_class', premisrw.PREMISObject)
-    fb.provide('premis_event_class', premisrw.PREMISEvent)
-    fb.provide('premis_agent_class', premisrw.PREMISAgent)
+    fb.provide("premis_object_class", premisrw.PREMISObject)
+    fb.provide("premis_event_class", premisrw.PREMISEvent)
+    fb.provide("premis_agent_class", premisrw.PREMISAgent)
 
 
 feature_broker = FeatureBroker()  # global singleton feature broker
@@ -98,8 +99,9 @@ class Dependency(object):
         obj = feature_broker[self.dependency_name]
         for assertion in self.assertions:
             assert assertion(obj), (
-                'The value {!r} of {!r} does not match the specified'
-                ' criteria'.format(obj, self.dependency_name))
+                "The value {!r} of {!r} does not match the specified"
+                " criteria".format(obj, self.dependency_name)
+            )
         return obj
 
 
@@ -113,6 +115,7 @@ class DependencyPossessorMeta(type):
     allows us to write ``premis_object_class = Dependency()`` instead of
     ``premis_object_class = Dependency('premis_object_class')``.
     """
+
     def __init__(cls, name, bases, attr_dict):
         super(DependencyPossessorMeta, cls).__init__(name, bases, attr_dict)
         for key, attr in attr_dict.items():
@@ -128,12 +131,14 @@ class DependencyPossessor(with_metaclass(DependencyPossessorMeta, object)):
 #   Assertions for declaring dependencies using Dependency
 # ==============================================================================
 
+
 def has_class_methods(*class_method_names):
     """Return a test function that, when given a class, returns ``True`` if that
     class has all of the class methods in ``class_method_names``. If an object
     is passed to the test function, check for the class methods on its
     class.
     """
+
     def test(cls):
         if not isinstance(cls, type):
             cls = type(cls)
@@ -145,6 +150,7 @@ def has_class_methods(*class_method_names):
             except AttributeError:
                 return False
         return True
+
     return test
 
 
@@ -157,6 +163,7 @@ def has_methods(*method_names):
     incorrectly return ``True`` (false positives) for classmethods and
     staticmethods on a *class*.
     """
+
     def test(obj):
         for method_name in method_names:
             try:
@@ -175,6 +182,7 @@ def has_methods(*method_names):
                     except AttributeError:
                         return False
         return True
+
     return test
 
 

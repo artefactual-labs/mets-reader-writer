@@ -18,7 +18,7 @@ from .constants import (
     EX_PTR_PACKAGE_TYPE,
     EX_PTR_PATH,
     EX_PTR_SIZE,
-    EX_PTR_XSI_TYPE
+    EX_PTR_XSI_TYPE,
 )
 
 
@@ -58,7 +58,6 @@ class TestDependencyInjection(TestCase):
         """
 
         class C(object):
-
             @classmethod
             def cm(cls):
                 pass
@@ -77,15 +76,15 @@ class TestDependencyInjection(TestCase):
 
         x = X()
 
-        has_rm_method = metsrw.has_methods('rm')
-        has_cm_method = metsrw.has_methods('cm')
-        has_sm_method = metsrw.has_methods('sm')
-        has_xm_method = metsrw.has_methods('xm')
+        has_rm_method = metsrw.has_methods("rm")
+        has_cm_method = metsrw.has_methods("cm")
+        has_sm_method = metsrw.has_methods("sm")
+        has_xm_method = metsrw.has_methods("xm")
 
-        has_rm_class_method = metsrw.has_class_methods('rm')
-        has_cm_class_method = metsrw.has_class_methods('cm')
-        has_sm_class_method = metsrw.has_class_methods('sm')
-        has_xm_class_method = metsrw.has_class_methods('xm')
+        has_rm_class_method = metsrw.has_class_methods("rm")
+        has_cm_class_method = metsrw.has_class_methods("cm")
+        has_sm_class_method = metsrw.has_class_methods("sm")
+        has_xm_class_method = metsrw.has_class_methods("xm")
 
         # C should have classmethod 'cm' and regular method 'rm'
         assert has_rm_method(C) is True
@@ -155,18 +154,18 @@ class TestDependencyInjection(TestCase):
         assert len(feature_broker) == 3
         feature_broker.clear()
         assert not feature_broker
-        feature_broker.provide('premis_object_class', premisrw.PREMISObject)
-        feature_broker.provide('premis_event_class', premisrw.PREMISEvent)
-        feature_broker.provide('premis_agent_class', premisrw.PREMISAgent)
+        feature_broker.provide("premis_object_class", premisrw.PREMISObject)
+        feature_broker.provide("premis_event_class", premisrw.PREMISEvent)
+        feature_broker.provide("premis_agent_class", premisrw.PREMISAgent)
         assert len(feature_broker) == 3
 
         # Create premisrw instances.
         compression_premis_event = premisrw.PREMISEvent(data=EX_COMPR_EVT)
         premis_events = [compression_premis_event]
-        premis_agents = [premisrw.PREMISAgent(data=x)
-                         for x in [EX_AGT_1, EX_AGT_2]]
+        premis_agents = [premisrw.PREMISAgent(data=x) for x in [EX_AGT_1, EX_AGT_2]]
         _, compression_program_version, archive_tool = (
-            compression_premis_event.compression_details)
+            compression_premis_event.compression_details
+        )
         premis_object = premisrw.PREMISObject(
             xsi_type=EX_PTR_XSI_TYPE,
             identifier_value=EX_PTR_IDENTIFIER_VALUE,
@@ -177,7 +176,8 @@ class TestDependencyInjection(TestCase):
             format_registry_key=EX_PTR_FORMAT_REGISTRY_KEY,
             creating_application_name=archive_tool,
             creating_application_version=compression_program_version,
-            date_created_by_application=EX_PTR_DATE_CREATED_BY_APPLICATION)
+            date_created_by_application=EX_PTR_DATE_CREATED_BY_APPLICATION,
+        )
         transform_files = compression_premis_event.get_decompression_transform_files()
 
         # Create metsrw ``METSDocument`` and ``FSEntry`` instances.
@@ -188,7 +188,8 @@ class TestDependencyInjection(TestCase):
             use=EX_PTR_PACKAGE_TYPE,
             type=EX_PTR_PACKAGE_TYPE,
             transform_files=transform_files,
-            mets_div_type=EX_PTR_AIP_SUBTYPE)
+            mets_div_type=EX_PTR_AIP_SUBTYPE,
+        )
         mets_doc.append_file(fs_entry)
 
         # Use the ``add_premis_...`` methods to add the PREMIS metadata
@@ -226,16 +227,18 @@ class TestDependencyInjection(TestCase):
         # premis:objectIdentifierValue in the anticipated location in the
         # structure with the anticipated value.
         mets_doc_el = mets_doc.serialize()
-        xpath = ('mets:amdSec/mets:techMD/mets:mdWrap[@MDTYPE="PREMIS:OBJECT"]'
-                 '/mets:xmlData/premis:object/premis:objectIdentifier/'
-                 'premis:objectIdentifierValue')
+        xpath = (
+            'mets:amdSec/mets:techMD/mets:mdWrap[@MDTYPE="PREMIS:OBJECT"]'
+            "/mets:xmlData/premis:object/premis:objectIdentifier/"
+            "premis:objectIdentifierValue"
+        )
         a = mets_doc_el.find(xpath, namespaces=metsrw.NAMESPACES)
         assert a.text == EX_PTR_IDENTIFIER_VALUE
 
         # Now change the feature broker so that ``FSEntry``'s dependency on a
         # ``premis_object_class`` class attribute is being fulfilled by a new
         # class: ``BetterPREMISObject``.
-        feature_broker.provide('premis_object_class', BetterPREMISObject)
+        feature_broker.provide("premis_object_class", BetterPREMISObject)
 
         # Now create a new PREMIS object
         premis_object_tree = premis_object.serialize()
@@ -249,7 +252,8 @@ class TestDependencyInjection(TestCase):
             use=EX_PTR_PACKAGE_TYPE,
             type=EX_PTR_PACKAGE_TYPE,
             transform_files=transform_files,
-            mets_div_type=EX_PTR_AIP_SUBTYPE)
+            mets_div_type=EX_PTR_AIP_SUBTYPE,
+        )
         mets_doc.append_file(fs_entry)
 
         # Add the PREMIS metadata again, but this time use the instance of
@@ -268,8 +272,10 @@ class TestDependencyInjection(TestCase):
 
         # Make sure we can still find the PREMIS object id value.
         mets_doc_el = mets_doc.serialize()
-        assert (mets_doc_el.find(xpath, namespaces=metsrw.NAMESPACES).text ==
-                EX_PTR_IDENTIFIER_VALUE)
+        assert (
+            mets_doc_el.find(xpath, namespaces=metsrw.NAMESPACES).text
+            == EX_PTR_IDENTIFIER_VALUE
+        )
 
         # Reset the feature broker to its default state so subsequent tests
         # don't break.

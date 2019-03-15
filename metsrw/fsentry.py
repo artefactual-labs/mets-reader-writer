@@ -76,43 +76,61 @@ class FSEntry(DependencyPossessor):
     :raises ValueError: if checksumtype is not in :const:`FSEntry.ALLOWED_CHECKSUMS`
     """
 
-    ALLOWED_CHECKSUMS = ('Adler-32', 'CRC32', 'HAVAL', 'MD5', 'MNP', 'SHA-1', 'SHA-256', 'SHA-384', 'SHA-512', 'TIGER WHIRLPOOL')
+    ALLOWED_CHECKSUMS = (
+        "Adler-32",
+        "CRC32",
+        "HAVAL",
+        "MD5",
+        "MNP",
+        "SHA-1",
+        "SHA-256",
+        "SHA-384",
+        "SHA-512",
+        "TIGER WHIRLPOOL",
+    )
 
     # Dependencies that must be injected. This means that an
     # ``FSEntry`` instance must be able to call ``self.premis_object_class`` and
     # get a class with methods ``fromtree`` and ``serialize``.
     premis_object_class = Dependency(
-        has_methods('serialize'),
-        has_class_methods('fromtree'),
-        is_class)
+        has_methods("serialize"), has_class_methods("fromtree"), is_class
+    )
     premis_event_class = Dependency(
-        has_methods('serialize'),
-        has_class_methods('fromtree'),
-        is_class)
+        has_methods("serialize"), has_class_methods("fromtree"), is_class
+    )
     premis_agent_class = Dependency(
-        has_methods('serialize'),
-        has_class_methods('fromtree'),
-        is_class)
+        has_methods("serialize"), has_class_methods("fromtree"), is_class
+    )
 
-    PREMIS_OBJECT = 'PREMIS:OBJECT'
-    PREMIS_EVENT = 'PREMIS:EVENT'
-    PREMIS_AGENT = 'PREMIS:AGENT'
+    PREMIS_OBJECT = "PREMIS:OBJECT"
+    PREMIS_EVENT = "PREMIS:EVENT"
+    PREMIS_AGENT = "PREMIS:AGENT"
 
-    def __init__(self, path=None, label=None, use='original', type=u'Item',
-                 children=None, file_uuid=None, derived_from=None,
-                 checksum=None, checksumtype=None, transform_files=None,
-                 mets_div_type=None):
+    def __init__(
+        self,
+        path=None,
+        label=None,
+        use="original",
+        type=u"Item",
+        children=None,
+        file_uuid=None,
+        derived_from=None,
+        checksum=None,
+        checksumtype=None,
+        transform_files=None,
+        mets_div_type=None,
+    ):
         # path can validly be any encoding; if this value needs
         # to be spliced later on, it's better to treat it as a
         # bytestring than as actually being encoded text.
         if six.PY2:
             if isinstance(path, six.text_type):
-                self.path = path.encode('utf-8')
+                self.path = path.encode("utf-8")
             else:
                 self.path = path
         else:  # TODO: Py3 is still using Unicode.
             if isinstance(path, six.binary_type):
-                self.path = path.decode('utf-8', errors="strict")
+                self.path = path.decode("utf-8", errors="strict")
             else:
                 self.path = path
         if label is None and path is not None:
@@ -132,10 +150,14 @@ class FSEntry(DependencyPossessor):
         self.file_uuid = file_uuid
         self.derived_from = derived_from
         if bool(checksum) != bool(checksumtype):
-            raise ValueError("Must provide both checksum and checksumtype, or neither. Provided values: %s and %s" % (checksum, checksumtype))
+            raise ValueError(
+                "Must provide both checksum and checksumtype, or neither. Provided values: %s and %s"
+                % (checksum, checksumtype)
+            )
         if checksumtype and checksumtype not in self.ALLOWED_CHECKSUMS:
             raise ValueError(
-                '%s must be one of %s' % (checksumtype, self.ALLOWED_CHECKSUMS))
+                "%s must be one of %s" % (checksumtype, self.ALLOWED_CHECKSUMS)
+            )
         self.checksum = checksum
         self.checksumtype = checksumtype
         self.amdsecs = []
@@ -144,34 +166,43 @@ class FSEntry(DependencyPossessor):
     @classmethod
     def dir(cls, label, children):
         """Return ``FSEntry`` directory object."""
-        return FSEntry(
-            label=label, children=children, type=u"Directory", use=None)
+        return FSEntry(label=label, children=children, type=u"Directory", use=None)
 
     @classmethod
     def from_fptr(cls, label, type_, fptr):
         """Return ``FSEntry`` object."""
         return FSEntry(
-            label=label, type=type_, path=fptr.path, use=fptr.use,
-            file_uuid=fptr.file_uuid, derived_from=fptr.derived_from,
-            checksum=fptr.checksum, checksumtype=fptr.checksumtype)
+            label=label,
+            type=type_,
+            path=fptr.path,
+            use=fptr.use,
+            file_uuid=fptr.file_uuid,
+            derived_from=fptr.derived_from,
+            checksum=fptr.checksum,
+            checksumtype=fptr.checksumtype,
+        )
 
     def __str__(self):
-        return '{s.type}: {s.path}'.format(s=self)
+        return "{s.type}: {s.path}".format(s=self)
 
     def __repr__(self):
-        return 'FSEntry(type={s.type!r}, path={s.path!r}, use={s.use!r}, label={s.label!r}, file_uuid={s.file_uuid!r}, checksum={s.checksum!r}, checksumtype={s.checksumtype!r})'.format(s=self)
+        return "FSEntry(type={s.type!r}, path={s.path!r}, use={s.use!r}, label={s.label!r}, file_uuid={s.file_uuid!r}, checksum={s.checksum!r}, checksumtype={s.checksumtype!r})".format(
+            s=self
+        )
 
     # PROPERTIES
 
     def _create_id(self, prefix):
-        return prefix + '_' + str(randint(1, 999999))
+        return prefix + "_" + str(randint(1, 999999))
 
     def file_id(self):
         """ Returns the fptr @FILEID if this is not a Directory. """
-        if self.type.lower() == 'directory':
+        if self.type.lower() == "directory":
             return None
         if self.file_uuid is None:
-            raise exceptions.MetsError('No FILEID: File %s does not have file_uuid set' % self.path)
+            raise exceptions.MetsError(
+                "No FILEID: File %s does not have file_uuid set" % self.path
+            )
         if self.is_aip:
             return os.path.splitext(os.path.basename(self.path))[0]
         return utils.FILE_ID_PREFIX + self.file_uuid
@@ -205,11 +236,11 @@ class FSEntry(DependencyPossessor):
 
     @property
     def is_aip(self):
-        return self.type.lower() == 'archival information package'
+        return self.type.lower() == "archival information package"
 
     # ADD ATTRIBUTES
 
-    def _add_metadata_element(self, md, subsection, mdtype, mode='mdwrap', **kwargs):
+    def _add_metadata_element(self, md, subsection, mdtype, mode="mdwrap", **kwargs):
         """
         :param md: Value to pass to the MDWrap/MDRef
         :param str subsection: Metadata tag to create.  See :const:`SubSection.ALLOWED_SUBSECTIONS`
@@ -223,16 +254,16 @@ class FSEntry(DependencyPossessor):
         """
         # HELP how handle multiple amdSecs?
         # When adding *MD which amdSec to add to?
-        if mode.lower() == 'mdwrap':
-            othermdtype = kwargs.get('othermdtype')
+        if mode.lower() == "mdwrap":
+            othermdtype = kwargs.get("othermdtype")
             mdsec = MDWrap(md, mdtype, othermdtype)
-        elif mode.lower() == 'mdref':
-            loctype = kwargs.get('loctype')
-            label = kwargs.get('label')
-            otherloctype = kwargs.get('otherloctype')
+        elif mode.lower() == "mdref":
+            loctype = kwargs.get("loctype")
+            label = kwargs.get("label")
+            otherloctype = kwargs.get("otherloctype")
             mdsec = MDRef(md, mdtype, loctype, label, otherloctype)
         subsection = SubSection(subsection, mdsec)
-        if subsection.subsection == 'dmdSec':
+        if subsection.subsection == "dmdSec":
             self.dmdsecs.append(subsection)
         else:
             try:
@@ -243,17 +274,17 @@ class FSEntry(DependencyPossessor):
             amdsec.subsections.append(subsection)
         return subsection
 
-    def add_techmd(self, md, mdtype, mode='mdwrap', **kwargs):
-        return self._add_metadata_element(md, 'techMD', mdtype, mode, **kwargs)
+    def add_techmd(self, md, mdtype, mode="mdwrap", **kwargs):
+        return self._add_metadata_element(md, "techMD", mdtype, mode, **kwargs)
 
-    def add_digiprovmd(self, md, mdtype, mode='mdwrap', **kwargs):
-        return self._add_metadata_element(md, 'digiprovMD', mdtype, mode, **kwargs)
+    def add_digiprovmd(self, md, mdtype, mode="mdwrap", **kwargs):
+        return self._add_metadata_element(md, "digiprovMD", mdtype, mode, **kwargs)
 
-    def add_rightsmd(self, md, mdtype, mode='mdwrap', **kwargs):
-        return self._add_metadata_element(md, 'rightsMD', mdtype, mode, **kwargs)
+    def add_rightsmd(self, md, mdtype, mode="mdwrap", **kwargs):
+        return self._add_metadata_element(md, "rightsMD", mdtype, mode, **kwargs)
 
-    def add_dmdsec(self, md, mdtype, mode='mdwrap', **kwargs):
-        return self._add_metadata_element(md, 'dmdSec', mdtype, mode, **kwargs)
+    def add_dmdsec(self, md, mdtype, mode="mdwrap", **kwargs):
+        return self._add_metadata_element(md, "dmdSec", mdtype, mode, **kwargs)
 
     def serialize_md_inst(self, md_inst, md_class):
         """Serialize object ``md_inst`` by transforming it into an
@@ -262,40 +293,43 @@ class FSEntry(DependencyPossessor):
         ``seriaize()`` on it.
         """
         valid_insts = tuple(
-            chain((etree._ElementTree, etree._Element), six.string_types))
+            chain((etree._ElementTree, etree._Element), six.string_types)
+        )
         if isinstance(md_inst, valid_insts):
             return md_inst
         if not isinstance(md_inst, md_class):
             raise TypeError(
-                'Instance {!r} must be instance of {!r}'.format(
-                    md_inst, md_class))
+                "Instance {!r} must be instance of {!r}".format(md_inst, md_class)
+            )
         return md_inst.serialize()
 
-    def add_premis_object(self, md, mode='mdwrap'):
+    def add_premis_object(self, md, mode="mdwrap"):
         meth = self.add_techmd
         if self.is_empty_dir:
             meth = self.add_dmdsec
         return meth(
             self.serialize_md_inst(md, self.premis_object_class),
-            self.PREMIS_OBJECT, mode)
+            self.PREMIS_OBJECT,
+            mode,
+        )
 
-    def add_premis_event(self, md, mode='mdwrap'):
+    def add_premis_event(self, md, mode="mdwrap"):
         return self.add_digiprovmd(
-            self.serialize_md_inst(md, self.premis_event_class),
-            self.PREMIS_EVENT, mode)
+            self.serialize_md_inst(md, self.premis_event_class), self.PREMIS_EVENT, mode
+        )
 
-    def add_premis_agent(self, md, mode='mdwrap'):
+    def add_premis_agent(self, md, mode="mdwrap"):
         return self.add_digiprovmd(
-            self.serialize_md_inst(md, self.premis_agent_class),
-            self.PREMIS_AGENT, mode)
+            self.serialize_md_inst(md, self.premis_agent_class), self.PREMIS_AGENT, mode
+        )
 
-    def add_premis_rights(self, md, mode='mdwrap'):
+    def add_premis_rights(self, md, mode="mdwrap"):
         # TODO add extra args and create PREMIS object here
-        return self.add_rightsmd(md, 'PREMIS:RIGHTS', mode)
+        return self.add_rightsmd(md, "PREMIS:RIGHTS", mode)
 
-    def add_dublin_core(self, md, mode='mdwrap'):
+    def add_dublin_core(self, md, mode="mdwrap"):
         # TODO add extra args and create DC object here
-        return self.add_dmdsec(md, 'DC', mode)
+        return self.add_dmdsec(md, "DC", mode)
 
     def add_child(self, child):
         """Add a child FSEntry to this FSEntry.
@@ -310,10 +344,10 @@ class FSEntry(DependencyPossessor):
         :raises ValueError: If this FSEntry cannot have children.
         :raises ValueError: If the child and the parent are the same
         """
-        if self.type.lower() != 'directory':
+        if self.type.lower() != "directory":
             raise ValueError("Only directory objects can have children")
         if child is self:
-            raise ValueError('Cannot be a child of itself!')
+            raise ValueError("Cannot be a child of itself!")
         if child not in self._children:
             self._children.append(child)
         child.parent = self
@@ -344,33 +378,37 @@ class FSEntry(DependencyPossessor):
 
         :return: fileSec element for this FSEntry
         """
-        if self.type.lower() not in ('item', 'archival information package') or self.use is None:
+        if (
+            self.type.lower() not in ("item", "archival information package")
+            or self.use is None
+        ):
             return None
-        el = etree.Element(utils.lxmlns('mets') + 'file', ID=self.file_id())
+        el = etree.Element(utils.lxmlns("mets") + "file", ID=self.file_id())
         if self.group_id():
-            el.attrib['GROUPID'] = self.group_id()
+            el.attrib["GROUPID"] = self.group_id()
         if self.admids:
-            el.set('ADMID', ' '.join(self.admids))
+            el.set("ADMID", " ".join(self.admids))
         if self.checksum and self.checksumtype:
-            el.attrib['CHECKSUM'] = self.checksum
-            el.attrib['CHECKSUMTYPE'] = self.checksumtype
+            el.attrib["CHECKSUM"] = self.checksum
+            el.attrib["CHECKSUMTYPE"] = self.checksumtype
         if self.path:
-            flocat = etree.SubElement(el, utils.lxmlns('mets') + 'FLocat')
+            flocat = etree.SubElement(el, utils.lxmlns("mets") + "FLocat")
             # Setting manually so order is correct
             try:
-                flocat.set(
-                    utils.lxmlns('xlink') + 'href', utils.urlencode(self.path))
+                flocat.set(utils.lxmlns("xlink") + "href", utils.urlencode(self.path))
             except ValueError:
                 raise exceptions.SerializeError(
                     'Value "{}" (for attribute xlink:href) is not a valid'
-                    ' URL.'.format(self.path))
-            flocat.set('LOCTYPE', 'OTHER')
-            flocat.set('OTHERLOCTYPE', 'SYSTEM')
+                    " URL.".format(self.path)
+                )
+            flocat.set("LOCTYPE", "OTHER")
+            flocat.set("OTHERLOCTYPE", "SYSTEM")
         for transform_file in self.transform_files:
             transform_file_el = etree.SubElement(
-                el, utils.lxmlns('mets') + 'transformFile')
+                el, utils.lxmlns("mets") + "transformFile"
+            )
             for key, val in transform_file.items():
-                attribute = 'transform{}'.format(key).upper()
+                attribute = "transform{}".format(key).upper()
                 transform_file_el.attrib[attribute] = str(val)
         return el
 
@@ -379,7 +417,7 @@ class FSEntry(DependencyPossessor):
         """Returns ``True`` if this fs item is a directory with no children or
         a directory with only other empty directories as children.
         """
-        if self.mets_div_type == 'Directory':
+        if self.mets_div_type == "Directory":
             children = self._children
             if children:
                 if all(child.is_empty_dir for child in children):
@@ -411,46 +449,49 @@ class FSEntry(DependencyPossessor):
         # Empty directories are not included in the physical structmap.
         if self.is_empty_dir and not normative:
             return None
-        el = etree.Element(utils.lxmlns('mets') + 'div',
-                           TYPE=self.mets_div_type)
-        el.attrib['LABEL'] = self.label
+        el = etree.Element(utils.lxmlns("mets") + "div", TYPE=self.mets_div_type)
+        el.attrib["LABEL"] = self.label
         if (not normative) and self.file_id():
-            etree.SubElement(el, utils.lxmlns('mets') + 'fptr',
-                             FILEID=self.file_id())
+            etree.SubElement(el, utils.lxmlns("mets") + "fptr", FILEID=self.file_id())
         if self.dmdids:
             if (not normative) or (normative and self.is_empty_dir):
-                el.set('DMDID', ' '.join(self.dmdids))
+                el.set("DMDID", " ".join(self.dmdids))
         if recurse and self._children:
             for child in self._children:
                 child_el = child.serialize_structmap(
-                    recurse=recurse, normative=normative)
+                    recurse=recurse, normative=normative
+                )
                 if child_el is not None:
                     el.append(child_el)
         return el
 
     def get_subsections_of_type(self, mdtype, md_class):
         try:
-            return [md_class.fromtree(ss.contents.document)
-                    for ss in self.amdsecs[0].subsections
-                    if ss.contents.mdtype == mdtype]
+            return [
+                md_class.fromtree(ss.contents.document)
+                for ss in self.amdsecs[0].subsections
+                if ss.contents.mdtype == mdtype
+            ]
         except IndexError:
             return []
 
     def get_premis_objects(self):
         return self.get_subsections_of_type(
-            self.PREMIS_OBJECT, self.premis_object_class)
+            self.PREMIS_OBJECT, self.premis_object_class
+        )
 
     def get_premis_events(self):
-        return self.get_subsections_of_type(
-            self.PREMIS_EVENT, self.premis_event_class)
+        return self.get_subsections_of_type(self.PREMIS_EVENT, self.premis_event_class)
 
     def get_premis_agents(self):
-        return self.get_subsections_of_type(
-            self.PREMIS_AGENT, self.premis_agent_class)
+        return self.get_subsections_of_type(self.PREMIS_AGENT, self.premis_agent_class)
 
     def get_premis_event(self, event_uuid):
         try:
-            return [evt for evt in self.get_premis_events()
-                    if evt.identifier_value == event_uuid][0]
+            return [
+                evt
+                for evt in self.get_premis_events()
+                if evt.identifier_value == event_uuid
+            ][0]
         except IndexError:
             return None
