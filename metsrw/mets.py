@@ -20,13 +20,13 @@ from . import utils
 
 LOGGER = logging.getLogger(__name__)
 
-AIP_ENTRY_TYPE = 'archival information package'
+AIP_ENTRY_TYPE = "archival information package"
 FPtr = namedtuple(
-    'FPtr', 'file_uuid derived_from use path amdids checksum checksumtype')
+    "FPtr", "file_uuid derived_from use path amdids checksum checksumtype"
+)
 
 
 class METSDocument(object):
-
     def __init__(self):
         # Stores the ElementTree if this was parsed from an existing file
         self.tree = None
@@ -46,12 +46,12 @@ class METSDocument(object):
         instance constructor. The ``source`` may be a path to a METS file, a
         file-like object, or a string of XML.
         """
-        if hasattr(source, 'read'):
+        if hasattr(source, "read"):
             return cls.fromfile(source)
         if os.path.exists(source):
             return cls.fromfile(source)
         if isinstance(source, six.string_types):
-            source = source.encode('utf8')
+            source = source.encode("utf8")
         return cls.fromstring(source)
 
     # FSENTRYS
@@ -95,8 +95,7 @@ class METSDocument(object):
         # TODO handle multiple matches (with DB?)
         # TODO check that kwargs are actual attrs
         for entry in self.all_files():
-            if all(value == getattr(entry, key)
-                   for key, value in kwargs.items()):
+            if all(value == getattr(entry, key) for key, value in kwargs.items()):
                 return entry
         return None
 
@@ -150,12 +149,12 @@ class METSDocument(object):
         return len(self.all_files())
 
     def _get_all_files_list(self):
-        return sorted(self.all_files(), key=lambda fsentry: fsentry.path or '')
+        return sorted(self.all_files(), key=lambda fsentry: fsentry.path or "")
 
     def __getitem__(self, index):
         return self._get_all_files_list()[index]
 
-    def __next__(self):      # Py3-style iterator interface
+    def __next__(self):  # Py3-style iterator interface
         if self._iter is None:
             self._iter = iter(self._get_all_files_list())
         return next(self._iter)
@@ -166,31 +165,30 @@ class METSDocument(object):
         """
         Return the mets Element for the document root.
         """
-        nsmap = {
-            'xsi': utils.NAMESPACES['xsi'],
-            'xlink': utils.NAMESPACES['xlink']
-        }
+        nsmap = {"xsi": utils.NAMESPACES["xsi"], "xlink": utils.NAMESPACES["xlink"]}
         if fully_qualified:
-            nsmap['mets'] = utils.NAMESPACES['mets']
+            nsmap["mets"] = utils.NAMESPACES["mets"]
         else:
-            nsmap[None] = utils.NAMESPACES['mets']
+            nsmap[None] = utils.NAMESPACES["mets"]
         attrib = {
-            '{}schemaLocation'.format(utils.lxmlns('xsi')):
-            utils.SCHEMA_LOCATIONS
+            "{}schemaLocation".format(utils.lxmlns("xsi")): utils.SCHEMA_LOCATIONS
         }
         if self.objid:
-            attrib['OBJID'] = self.objid
-        return etree.Element(utils.lxmlns('mets') + 'mets', nsmap=nsmap, attrib=attrib)
+            attrib["OBJID"] = self.objid
+        return etree.Element(utils.lxmlns("mets") + "mets", nsmap=nsmap, attrib=attrib)
 
     def _mets_header(self, now):
         """
         Return the metsHdr Element.
         """
         if self.createdate is None:
-            e = etree.Element(utils.lxmlns('mets') + 'metsHdr', CREATEDATE=now)
+            e = etree.Element(utils.lxmlns("mets") + "metsHdr", CREATEDATE=now)
         else:
-            e = etree.Element(utils.lxmlns('mets') + 'metsHdr',
-                              CREATEDATE=self.createdate, LASTMODDATE=now)
+            e = etree.Element(
+                utils.lxmlns("mets") + "metsHdr",
+                CREATEDATE=self.createdate,
+                LASTMODDATE=now,
+            )
         return e
 
     @staticmethod
@@ -220,12 +218,14 @@ class METSDocument(object):
         """
         Returns structMap element for all files.
         """
-        structmap = etree.Element(utils.lxmlns('mets') + 'structMap',
-                                  TYPE='physical',
-                                  # TODO Add ability for multiple structMaps
-                                  ID='structMap_1',
-                                  # TODO don't hardcode this
-                                  LABEL='Archivematica default')
+        structmap = etree.Element(
+            utils.lxmlns("mets") + "structMap",
+            TYPE="physical",
+            # TODO Add ability for multiple structMaps
+            ID="structMap_1",
+            # TODO don't hardcode this
+            LABEL="Archivematica default",
+        )
         for item in self._root_elements:
             child = item.serialize_structmap(recurse=True)
             if child is not None:
@@ -237,10 +237,12 @@ class METSDocument(object):
         """Returns the normative structMap element for all files. This is a
         logical structMap that includes empty directories.
         """
-        structmap = etree.Element(utils.lxmlns('mets') + 'structMap',
-                                  TYPE='logical',
-                                  ID='structMap_2',
-                                  LABEL='Normative Directory Structure')
+        structmap = etree.Element(
+            utils.lxmlns("mets") + "structMap",
+            TYPE="logical",
+            ID="structMap_2",
+            LABEL="Normative Directory Structure",
+        )
         for item in self._root_elements:
             child = item.serialize_structmap(recurse=True, normative=True)
             if child is not None:
@@ -255,16 +257,17 @@ class METSDocument(object):
         if files is None:
             files = self.all_files()
 
-        filesec = etree.Element(utils.lxmlns('mets') + 'fileSec')
+        filesec = etree.Element(utils.lxmlns("mets") + "fileSec")
         filegrps = {}
         for file_ in files:
-            if file_.type.lower() not in ('item', AIP_ENTRY_TYPE):
+            if file_.type.lower() not in ("item", AIP_ENTRY_TYPE):
                 continue
             # Get fileGrp, or create if not exist
             filegrp = filegrps.get(file_.use)
             if filegrp is None:
                 filegrp = etree.SubElement(
-                    filesec, utils.lxmlns('mets') + 'fileGrp', USE=file_.use)
+                    filesec, utils.lxmlns("mets") + "fileGrp", USE=file_.use
+                )
                 filegrps[file_.use] = filegrp
 
             file_el = file_.serialize_filesec()
@@ -279,7 +282,7 @@ class METSDocument(object):
 
         :return: Element for this document
         """
-        now = datetime.utcnow().replace(microsecond=0).isoformat('T')
+        now = datetime.utcnow().replace(microsecond=0).isoformat("T")
         files = self.all_files()
         mdsecs = self._collect_mdsec_elements(files)
         root = self._document_root(fully_qualified=fully_qualified)
@@ -313,8 +316,7 @@ class METSDocument(object):
 
     # PARSE HELPERS
 
-    def _parse_tree_structmap(self, tree, parent_elem,
-                              normative_parent_elem=None):
+    def _parse_tree_structmap(self, tree, parent_elem, normative_parent_elem=None):
         """Recursively parse all the children of parent_elem, including amdSecs
         and dmdSecs.
         :param lxml._ElementTree tree: encodes the entire METS file.
@@ -325,26 +327,27 @@ class METSDocument(object):
             labelled "Normative Directory Structure".
         """
         siblings = []
-        el_to_normative = self._get_el_to_normative(
-            parent_elem, normative_parent_elem)
+        el_to_normative = self._get_el_to_normative(parent_elem, normative_parent_elem)
         for elem, normative_elem in el_to_normative.items():
-            if elem.tag != utils.lxmlns('mets') + 'div':
+            if elem.tag != utils.lxmlns("mets") + "div":
                 continue  # Only handle divs, not fptrs
-            entry_type = elem.get('TYPE')
-            label = elem.get('LABEL')
-            fptr_elems = elem.findall('mets:fptr', namespaces=utils.NAMESPACES)
+            entry_type = elem.get("TYPE")
+            label = elem.get("LABEL")
+            fptr_elems = elem.findall("mets:fptr", namespaces=utils.NAMESPACES)
             # Directories are walked recursively. Additionally, they may
             # contain direct fptrs.
             if entry_type.lower() == "directory":
                 children = self._parse_tree_structmap(
-                    tree, elem, normative_parent_elem=normative_elem)
+                    tree, elem, normative_parent_elem=normative_elem
+                )
                 fs_entry = fsentry.FSEntry.dir(label, children)
                 self._add_dmdsecs_to_fs_entry(elem, fs_entry, tree)
                 siblings.append(fs_entry)
                 for fptr_elem in fptr_elems:
                     fptr = self._analyze_fptr(fptr_elem, tree, entry_type)
                     fs_entry = fsentry.FSEntry.from_fptr(
-                        label=None, type_=u"Item", fptr=fptr)
+                        label=None, type_=u"Item", fptr=fptr
+                    )
                     self._add_amdsecs_to_fs_entry(fptr.amdids, fs_entry, tree)
                     siblings.append(fs_entry)
                 continue
@@ -374,9 +377,12 @@ class METSDocument(object):
                 el_to_normative[el] = None
         else:
             for norm_el in normative_parent_elem:
-                matches = [el for el in parent_elem
-                           if el.get('TYPE') == norm_el.get('TYPE') and
-                           el.get('LABEL') == norm_el.get('LABEL')]
+                matches = [
+                    el
+                    for el in parent_elem
+                    if el.get("TYPE") == norm_el.get("TYPE")
+                    and el.get("LABEL") == norm_el.get("LABEL")
+                ]
                 if matches:
                     el_to_normative[matches[0]] = norm_el
                 else:
@@ -385,64 +391,64 @@ class METSDocument(object):
 
     @staticmethod
     def _analyze_fptr(fptr_elem, tree, entry_type):
-        file_uuid = derived_from = use = path = amdids = checksum = \
-            checksumtype = None
-        file_id = fptr_elem.get('FILEID')
+        file_uuid = derived_from = use = path = amdids = checksum = checksumtype = None
+        file_id = fptr_elem.get("FILEID")
         file_elem = tree.find(
             'mets:fileSec//mets:file[@ID="' + file_id + '"]',
-            namespaces=utils.NAMESPACES)
+            namespaces=utils.NAMESPACES,
+        )
         if file_elem is None:
             raise exceptions.ParseError(
-                '%s exists in structMap but not fileSec' % file_id)
-        use = file_elem.getparent().get('USE')
-        path = file_elem.find(
-            'mets:FLocat', namespaces=utils.NAMESPACES).get(
-                utils.lxmlns('xlink') + 'href')
+                "%s exists in structMap but not fileSec" % file_id
+            )
+        use = file_elem.getparent().get("USE")
+        path = file_elem.find("mets:FLocat", namespaces=utils.NAMESPACES).get(
+            utils.lxmlns("xlink") + "href"
+        )
         try:
             path = utils.urldecode(path)
         except ValueError:
             raise exceptions.ParseError(
                 'Value "{}" (of attribute xlink:href) is not a valid'
-                ' URL.'.format(path))
-        amdids = file_elem.get('ADMID')
-        checksum = file_elem.get('CHECKSUM')
-        checksumtype = file_elem.get('CHECKSUMTYPE')
+                " URL.".format(path)
+            )
+        amdids = file_elem.get("ADMID")
+        checksum = file_elem.get("CHECKSUM")
+        checksumtype = file_elem.get("CHECKSUMTYPE")
         file_id_prefix = utils.FILE_ID_PREFIX
         # If the file is an AIP, then its prefix is not "file-" but the
         # name of the AIP. Therefore we need to get the extension-less
         # basename of the AIP's path and remove its UUID suffix to ge
         # the prefix to remove from the FILEID attribute value.
-        if entry_type.lower() == 'archival information package':
+        if entry_type.lower() == "archival information package":
             file_id_prefix = os.path.splitext(os.path.basename(path))[0][:-36]
         # If the file is part of a directory (with no intermediate item), then
         # its prefix *may not* be "file-" but the name of the file. This
         # pattern is found in old Archivematica METS files, e.g. see
         # ``fixtures/mets_dir_with_many_ptrs.xml``.
-        elif entry_type.lower() == 'directory' and file_id[:5] != "file-":
+        elif entry_type.lower() == "directory" and file_id[:5] != "file-":
             file_id_prefix = os.path.basename(path) + "-"
-        file_uuid = file_id.replace(file_id_prefix, '', 1)
-        group_uuid = file_elem.get('GROUPID', '').replace(
-            utils.GROUP_ID_PREFIX, '', 1)
+        file_uuid = file_id.replace(file_id_prefix, "", 1)
+        group_uuid = file_elem.get("GROUPID", "").replace(utils.GROUP_ID_PREFIX, "", 1)
         if group_uuid != file_uuid:
             derived_from = group_uuid  # Use group_uuid as placeholder
-        return FPtr(file_uuid, derived_from, use, path, amdids,
-                    checksum, checksumtype)
+        return FPtr(file_uuid, derived_from, use, path, amdids, checksum, checksumtype)
 
     @staticmethod
     def _add_dmdsecs_to_fs_entry(elem, fs_entry, tree):
-        dmdids = elem.get('DMDID')
+        dmdids = elem.get("DMDID")
         if dmdids:
             dmdids = dmdids.split()
             for dmdid in dmdids:
-                dmdsec_elem = tree.find('mets:dmdSec[@ID="' + dmdid + '"]',
-                                        namespaces=utils.NAMESPACES)
+                dmdsec_elem = tree.find(
+                    'mets:dmdSec[@ID="' + dmdid + '"]', namespaces=utils.NAMESPACES
+                )
                 dmdsec = metadata.SubSection.parse(dmdsec_elem)
                 fs_entry.dmdsecs.append(dmdsec)
             # Create older/newer relationships
             fs_entry.dmdsecs.sort(key=lambda x: x.created)
-            for prev_dmdsec, dmdsec in zip(
-                    fs_entry.dmdsecs, fs_entry.dmdsecs[1:]):
-                if dmdsec.status == 'updated':
+            for prev_dmdsec, dmdsec in zip(fs_entry.dmdsecs, fs_entry.dmdsecs[1:]):
+                if dmdsec.status == "updated":
                     prev_dmdsec.replace_with(dmdsec)
 
     @staticmethod
@@ -451,8 +457,8 @@ class METSDocument(object):
             amdids = amdids.split()
             for amdid in amdids:
                 amdsec_elem = tree.find(
-                    'mets:amdSec[@ID="' + amdid + '"]',
-                    namespaces=utils.NAMESPACES)
+                    'mets:amdSec[@ID="' + amdid + '"]', namespaces=utils.NAMESPACES
+                )
                 amdsec = metadata.AMDSec.parse(amdsec_elem)
                 fs_entry.amdsecs.append(amdsec)
 
@@ -463,36 +469,41 @@ class METSDocument(object):
         # Check CREATEDATE < now
         try:
             createdate = self.tree.find(
-                'mets:metsHdr', namespaces=utils.NAMESPACES).get('CREATEDATE')
+                "mets:metsHdr", namespaces=utils.NAMESPACES
+            ).get("CREATEDATE")
         except AttributeError:
             createdate = None
-        now = datetime.utcnow().isoformat('T')
+        now = datetime.utcnow().isoformat("T")
         if createdate and createdate > now:
-            raise exceptions.ParseError(
-                'CREATEDATE more recent than now (%s)' % now)
+            raise exceptions.ParseError("CREATEDATE more recent than now (%s)" % now)
         self.createdate = createdate
 
         # Read root attributes
         root = tree
         if isinstance(tree, etree._ElementTree):
             root = tree.getroot()
-        self.objid = root.get('OBJID', None)
+        self.objid = root.get("OBJID", None)
 
         # Parse structMap
-        structMap = tree.find('mets:structMap[@TYPE="physical"]',
-                              namespaces=utils.NAMESPACES)
+        structMap = tree.find(
+            'mets:structMap[@TYPE="physical"]', namespaces=utils.NAMESPACES
+        )
         if structMap is None:
-            raise exceptions.ParseError('No physical structMap found.')
+            raise exceptions.ParseError("No physical structMap found.")
         normative_struct_map = tree.find(
             'mets:structMap[@TYPE="logical"]'
             '[@LABEL="Normative Directory Structure"]',
-            namespaces=utils.NAMESPACES)
+            namespaces=utils.NAMESPACES,
+        )
         self._root_elements = self._parse_tree_structmap(
-            tree, structMap, normative_parent_elem=normative_struct_map)
+            tree, structMap, normative_parent_elem=normative_struct_map
+        )
 
         # Associated derived files
         for entry in self.all_files():
-            entry.derived_from = self.get_file(file_uuid=entry.derived_from, type='Item')
+            entry.derived_from = self.get_file(
+                file_uuid=entry.derived_from, type="Item"
+            )
 
     def _validate(self):
         raise NotImplementedError()
@@ -535,7 +546,7 @@ class METSDocument(object):
         return mets
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     mw = METSDocument()
     mw.fromfile(sys.argv[1])
     mw.write(sys.argv[2], fully_qualified=True, pretty_print=True)

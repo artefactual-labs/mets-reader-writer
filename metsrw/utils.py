@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-from six.moves.urllib.parse import (
-    quote_plus,
-    unquote_plus,
-    urlparse,
-    urlunparse,
-)
+from six.moves.urllib.parse import quote_plus, unquote_plus, urlparse, urlunparse
 
 
 ####################################
@@ -18,31 +13,33 @@ NAMESPACES = {
     "dcterms": "http://purl.org/dc/terms/",
     "fits": "http://hul.harvard.edu/ois/xml/ns/fits/fits_output",
     "xlink": "http://www.w3.org/1999/xlink",
-    "dc": "http://purl.org/dc/elements/1.1/"
+    "dc": "http://purl.org/dc/elements/1.1/",
 }
 
-SCHEMA_LOCATIONS = "http://www.loc.gov/METS/ " + \
-                   "http://www.loc.gov/standards/mets/version111/mets.xsd"
+SCHEMA_LOCATIONS = (
+    "http://www.loc.gov/METS/ "
+    + "http://www.loc.gov/standards/mets/version111/mets.xsd"
+)
 
 
 def lxmlns(arg):
     """ Return XPath-usable namespace. """
-    return '{' + NAMESPACES[arg] + '}'
+    return "{" + NAMESPACES[arg] + "}"
 
 
 ####################
 # METSRW CONSTANTS #
 ####################
 
-FILE_ID_PREFIX = 'file-'
-GROUP_ID_PREFIX = 'Group-'
+FILE_ID_PREFIX = "file-"
+GROUP_ID_PREFIX = "Group-"
 
 
 #################################
 # HELPERS FOR MANIPULATING URLS #
 #################################
 
-URL_ENCODABLE_PARTS = ('path', 'params', 'query', 'fragment')
+URL_ENCODABLE_PARTS = ("path", "params", "query", "fragment")
 
 
 def _urlendecode(url, func):
@@ -51,8 +48,7 @@ def _urlendecode(url, func):
     """
     parsed = urlparse(url)
     for attr in URL_ENCODABLE_PARTS:
-        parsed = parsed._replace(
-            **{attr: func(getattr(parsed, attr))})
+        parsed = parsed._replace(**{attr: func(getattr(parsed, attr))})
     return urlunparse(parsed)
 
 
@@ -60,7 +56,7 @@ def urlencode(url):
     """Replace unsafe ASCII characters using percent encoding as per RFC3986:
     https://tools.ietf.org/html/rfc3986#section-2.1.
     """
-    return _urlendecode(url, lambda val: quote_plus(val, safe='/'))
+    return _urlendecode(url, lambda val: quote_plus(val, safe="/"))
 
 
 def urldecode(url):

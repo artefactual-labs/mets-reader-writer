@@ -6,24 +6,22 @@ import six
 
 from .utils import NAMESPACES
 
-METS_XSD_PATH = 'resources/mets.xsd'
+METS_XSD_PATH = "resources/mets.xsd"
 
 # Right now there are two different schematron files for validating
 # Archivematica-generated METS files vs Archivematica-generated METS pointer
 # files. These could be consolidated to one.
-AM_SCT_PATH = 'resources/archivematica_mets_schematron.xml'
-AM_PNTR_SCT_PATH = 'resources/archivematica_mets_pointer_file_schematron.xml'
+AM_SCT_PATH = "resources/archivematica_mets_schematron.xml"
+AM_PNTR_SCT_PATH = "resources/archivematica_mets_pointer_file_schematron.xml"
 
 
 def _get_file_path(path):
     if not os.path.isfile(path):
-        path_2 = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            path)
+        path_2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
         if not os.path.isfile(path_2):
             raise ValueError(
-                'There is no (schema) file at either {} or {}'.format(
-                    path, path_2))
+                "There is no (schema) file at either {} or {}".format(path, path_2)
+            )
         return path_2
     return path
 
@@ -44,16 +42,15 @@ def validate(mets_doc, xmlschema=METS_XSD_PATH, schematron=AM_SCT_PATH):
     constraints on what a METS file can look like.
     """
     is_xsd_valid, xsd_error_log = xsd_validate(mets_doc, xmlschema=xmlschema)
-    is_sct_valid, sct_report = schematron_validate(
-        mets_doc, schematron=schematron)
+    is_sct_valid, sct_report = schematron_validate(mets_doc, schematron=schematron)
     valid = is_xsd_valid and is_sct_valid
     report = {
-        'is_xsd_valid': is_xsd_valid,
-        'is_sct_valid': is_sct_valid,
-        'xsd_error_log': xsd_error_log,
-        'sct_report': sct_report
+        "is_xsd_valid": is_xsd_valid,
+        "is_sct_valid": is_sct_valid,
+        "xsd_error_log": xsd_error_log,
+        "sct_report": sct_report,
     }
-    report['report'] = report_string(report)
+    report["report"] = report_string(report)
     return valid, report
 
 
@@ -77,16 +74,16 @@ def get_xmlschema(xmlschema, mets_doc):
     xsd_path = _get_file_path(xmlschema)
     xmlschema = etree.parse(xsd_path)
     schema_locations = set(
-        mets_doc.xpath('//*/@xsi:schemaLocation', namespaces=NAMESPACES))
+        mets_doc.xpath("//*/@xsi:schemaLocation", namespaces=NAMESPACES)
+    )
     for schema_location in schema_locations:
         namespaces_locations = schema_location.strip().split()
         for namespace, location in zip(*[iter(namespaces_locations)] * 2):
-            if namespace == NAMESPACES['mets']:
+            if namespace == NAMESPACES["mets"]:
                 continue
-            xs_import = etree.Element(
-                '{http://www.w3.org/2001/XMLSchema}import')
-            xs_import.attrib['namespace'] = namespace
-            xs_import.attrib['schemaLocation'] = location
+            xs_import = etree.Element("{http://www.w3.org/2001/XMLSchema}import")
+            xs_import.attrib["namespace"] = namespace
+            xs_import.attrib["schemaLocation"] = location
             xmlschema.getroot().insert(0, xs_import)
     return etree.XMLSchema(xmlschema)
 
@@ -114,16 +111,20 @@ def sct_report_string(report):
     returned by lxml's schematron validator.
     """
     ret = []
-    namespaces = {'svrl': 'http://purl.oclc.org/dsdl/svrl'}
-    for index, failed_assert_el in enumerate(report.findall(
-            'svrl:failed-assert', namespaces=namespaces)):
-        ret.append('{}. {}'.format(
-            index + 1,
-            failed_assert_el.find('svrl:text', namespaces=namespaces).text))
-        ret.append('   test: {}'.format(failed_assert_el.attrib['test']))
-        ret.append('   location: {}'.format(failed_assert_el.attrib['location']))
-        ret.append('\n')
-    return '\n'.join(ret)
+    namespaces = {"svrl": "http://purl.oclc.org/dsdl/svrl"}
+    for index, failed_assert_el in enumerate(
+        report.findall("svrl:failed-assert", namespaces=namespaces)
+    ):
+        ret.append(
+            "{}. {}".format(
+                index + 1,
+                failed_assert_el.find("svrl:text", namespaces=namespaces).text,
+            )
+        )
+        ret.append("   test: {}".format(failed_assert_el.attrib["test"]))
+        ret.append("   location: {}".format(failed_assert_el.attrib["location"]))
+        ret.append("\n")
+    return "\n".join(ret)
 
 
 def xsd_error_log_string(xsd_error_log):
@@ -132,9 +133,10 @@ def xsd_error_log_string(xsd_error_log):
     """
     ret = []
     for error in xsd_error_log:
-        ret.append('ERROR ON LINE {}: {}'.format(
-            error.line, error.message.encode('utf-8')))
-    return '\n'.join(ret)
+        ret.append(
+            "ERROR ON LINE {}: {}".format(error.line, error.message.encode("utf-8"))
+        )
+    return "\n".join(ret)
 
 
 def report_string(report):
@@ -142,7 +144,8 @@ def report_string(report):
     errors.
     """
     return (
-        'Schematron Error(s):\n' +
-        sct_report_string(report['sct_report']) +
-        '\n\nXMLSchema (xsd) Error(s):\n' +
-        xsd_error_log_string(report['xsd_error_log']))
+        "Schematron Error(s):\n"
+        + sct_report_string(report["sct_report"])
+        + "\n\nXMLSchema (xsd) Error(s):\n"
+        + xsd_error_log_string(report["xsd_error_log"])
+    )
