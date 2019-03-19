@@ -85,6 +85,107 @@ class AMDSec(object):
         return el
 
 
+class Agent(object):
+    """
+    An object representing an agent with a relationship to the METS record.
+
+    This is ordinarily created by :class:`metsrw.mets.METSDocument` instances and does not
+    have to be instantiated directly.
+
+    :param str role: Agent role, e.g. 'CREATOR'.
+    :param str id: Optional unique identifer for an agent.
+    :param str type: Optional agent type, e.g. 'ORGANIZATION'.
+    :param str name: Optional agent name, e.g. '9461beb-22eb-4942-88af-848cfc3462b2'.
+    :param List[str] notes: Optional agent notes, e.g. 'Archivematica dashboard UUID'.
+    """
+
+    ROLES = (
+        "CREATOR",
+        "EDITOR",
+        "ARCHIVIST",
+        "PRESERVATION",
+        "DISSEMINATOR",
+        "CUSTODIAN",
+        "IPOWNER",
+    )
+    TYPES = ("INDIVIDUAL", "ORGANIZATION")
+    AGENT_TAG = etree.QName(utils.NAMESPACES[u"mets"], u"agent")
+    NAME_TAG = etree.QName(utils.NAMESPACES[u"mets"], u"name")
+    NOTE_TAG = etree.QName(utils.NAMESPACES[u"mets"], u"note")
+
+    def __init__(self, role, **kwargs):
+        self.role = role
+
+        # We use kwargs here to avoid shadowing builtins (id and type).
+        self.id = kwargs.get(u"id", None)
+        self.type = kwargs.get(u"type", None)
+        self.name = kwargs.get(u"name", None)
+        self.notes = kwargs.get(u"notes", [])
+
+    @classmethod
+    def parse(cls, element):
+        """
+        Create a new Agent by parsing root.
+
+        :param element: Element to be parsed into an Agent.
+        :raises exceptions.ParseError: If element is not a valid agent.
+        """
+        if element.tag != cls.AGENT_TAG:
+            raise exceptions.ParseError(
+                u"Agent got unexpected tag {}; expected {}".format(
+                    element.tag, cls.AGENT_TAG
+                )
+            )
+
+        role = element.get(u"ROLE")
+        if not role:
+            raise exceptions.ParseError(u"Agent must have a ROLE attribute.")
+        if role == u"OTHER":
+            role = element.get(u"OTHERROLE") or role
+        agent_type = element.get(u"TYPE")
+        if agent_type == u"OTHER":
+            agent_type = element.get(u"OTHERTYPE") or agent_type
+        agent_id = element.get(u"ID")
+        try:
+            name = element.find(cls.NAME_TAG).text
+        except AttributeError:
+            name = None
+        notes = [note.text for note in element.findall(cls.NOTE_TAG)]
+
+        return cls(role, id=agent_id, type=agent_type, name=name, notes=notes)
+
+    def serialize(self):
+        attrs = {}
+
+        if self.id:
+            attrs[u"ID"] = self.id
+
+        if self.role in self.ROLES:
+            attrs[u"ROLE"] = self.role
+        else:
+            attrs[u"ROLE"] = u"OTHER"
+            attrs[u"OTHERROLE"] = self.role
+
+        if self.type and self.type in self.TYPES:
+            attrs[u"TYPE"] = self.type
+        elif self.type:
+            attrs[u"TYPE"] = u"OTHER"
+            attrs[u"OTHERTYPE"] = self.type
+
+        element = etree.Element(self.AGENT_TAG, **attrs)
+        if self.name:
+            name_element = etree.Element(self.NAME_TAG)
+            name_element.text = self.name
+            element.append(name_element)
+
+        for note in self.notes:
+            note_element = etree.Element(self.NOTE_TAG)
+            note_element.text = note
+            element.append(note_element)
+
+        return element
+
+
 class SubSection(object):
     """
     An object representing a metadata subsection in a document.

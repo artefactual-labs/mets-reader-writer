@@ -6,6 +6,72 @@ from unittest import TestCase
 import metsrw
 
 
+class TestAgent(TestCase):
+    def test_parse_exception_on_wrong_tag(self):
+        element = etree.Element("test")
+        with pytest.raises(metsrw.ParseError):
+            metsrw.Agent.parse(element)
+
+    def test_parse_exception_on_missing_role(self):
+        element = etree.Element(metsrw.Agent.AGENT_TAG)
+        with pytest.raises(metsrw.ParseError):
+            metsrw.Agent.parse(element)
+
+    def test_parse_with_role_set(self):
+        element = etree.Element(metsrw.Agent.AGENT_TAG, ROLE="CREATOR")
+        agent = metsrw.Agent.parse(element)
+
+        assert agent.role == element.get("ROLE")
+
+    def test_parse_with_other_role_set(self):
+        element = etree.Element(
+            metsrw.Agent.AGENT_TAG, ROLE="OTHER", OTHERROLE="DEVELOPER"
+        )
+        agent = metsrw.Agent.parse(element)
+
+        assert agent.role == element.get("OTHERROLE")
+
+    def test_parse_with_type_set(self):
+        element = etree.Element(
+            metsrw.Agent.AGENT_TAG, ROLE="CREATOR", TYPE="INDIVIDUAL"
+        )
+        agent = metsrw.Agent.parse(element)
+
+        assert agent.type == element.get("TYPE")
+
+    def test_parse_with_other_type_set(self):
+        element = etree.Element(
+            metsrw.Agent.AGENT_TAG, ROLE="CREATOR", TYPE="OTHER", OTHERTYPE="SOFTWARE"
+        )
+        agent = metsrw.Agent.parse(element)
+
+        assert agent.type == element.get("OTHERTYPE")
+
+    def test_serialize(self):
+        agent = metsrw.Agent(
+            "CREATOR",
+            id="1",
+            type="INDIVIDUAL",
+            name="An agent",
+            notes=["A Note", "Another Note"],
+        )
+        element = agent.serialize()
+
+        assert element.get("ID") == agent.id
+        assert element.get("ROLE") == agent.role
+        assert element.get("TYPE") == agent.type
+
+        assert element[0].text == agent.name
+        assert element[1].text == agent.notes[0]
+        assert element[2].text == agent.notes[1]
+
+    def test_serialize_with_other_role(self):
+        agent = metsrw.Agent("PROGRAMMER")
+        element = agent.serialize()
+
+        assert element.get("OTHERROLE") == agent.role
+
+
 class TestAMDSec(TestCase):
     """ Test AMDSec class. """
 
