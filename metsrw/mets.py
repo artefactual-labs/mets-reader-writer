@@ -39,6 +39,7 @@ class METSDocument(object):
         self._iter = None
         self.dmdsecs = []
         self.amdsecs = []
+        self.agents = []
 
     @classmethod
     def read(cls, source):
@@ -181,15 +182,22 @@ class METSDocument(object):
         """
         Return the metsHdr Element.
         """
+        header_tag = etree.QName(utils.NAMESPACES[u"mets"], u"metsHdr")
+        header_attrs = {}
+
         if self.createdate is None:
-            e = etree.Element(utils.lxmlns("mets") + "metsHdr", CREATEDATE=now)
+            header_attrs[u"CREATEDATE"] = now
         else:
-            e = etree.Element(
-                utils.lxmlns("mets") + "metsHdr",
-                CREATEDATE=self.createdate,
-                LASTMODDATE=now,
-            )
-        return e
+            header_attrs[u"CREATEDATE"] = self.createdate
+            header_attrs[u"LASTMODDATE"] = now
+
+        header_element = etree.Element(header_tag, **header_attrs)
+
+        for agent in self.agents:
+            agent_element = agent.serialize()
+            header_element.append(agent_element)
+
+        return header_element
 
     @staticmethod
     def _collect_mdsec_elements(files):
@@ -466,17 +474,8 @@ class METSDocument(object):
         if tree is None:
             tree = self.tree
         # self._validate()
-        # Check CREATEDATE < now
-        try:
-            createdate = self.tree.find(
-                "mets:metsHdr", namespaces=utils.NAMESPACES
-            ).get("CREATEDATE")
-        except AttributeError:
-            createdate = None
-        now = datetime.utcnow().isoformat("T")
-        if createdate and createdate > now:
-            raise exceptions.ParseError("CREATEDATE more recent than now (%s)" % now)
-        self.createdate = createdate
+
+        self._parse_header(tree)
 
         # Read root attributes
         root = tree
@@ -504,6 +503,26 @@ class METSDocument(object):
             entry.derived_from = self.get_file(
                 file_uuid=entry.derived_from, type="Item"
             )
+
+    def _parse_header(self, tree):
+        header = self.tree.find(u"mets:metsHdr", namespaces=utils.NAMESPACES)
+        # Check CREATEDATE < now
+        if header is not None:
+            createdate = header.get(u"CREATEDATE")
+        else:
+            createdate = None
+        now = datetime.utcnow().isoformat("T")
+        if createdate and createdate > now:
+            raise exceptions.ParseError(
+                u"CREATEDATE more recent than now ({})".format(now)
+            )
+        self.createdate = createdate
+
+        if header is not None:
+            agent_elements = header.findall(u"mets:agent", namespaces=utils.NAMESPACES)
+            for agent_element in agent_elements:
+                agent = metadata.Agent.parse(agent_element)
+                self.agents.append(agent)
 
     def _validate(self):
         raise NotImplementedError()

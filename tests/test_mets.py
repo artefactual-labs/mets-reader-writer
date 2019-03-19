@@ -182,6 +182,47 @@ class TestMETSDocument(TestCase):
         assert header.attrib["LASTMODDATE"] == new_date
         assert header.attrib["CREATEDATE"] < header.attrib["LASTMODDATE"]
 
+    def test_mets_header_with_agent(self):
+        mets = metsrw.METSDocument()
+        agent = metsrw.Agent(
+            role="CREATOR",
+            type="SOFTWARE",
+            name="39461beb-22eb-4942-88af-848cfc3462b2",
+            notes=["Archivematica dashboard UUID"],
+        )
+        mets.agents.append(agent)
+
+        header_element = mets._mets_header("2014-07-16T22:52:02.480108")
+        agent_element = header_element.find("{http://www.loc.gov/METS/}agent")
+
+        assert agent_element.get("ROLE") == agent.role
+        assert agent_element.get("TYPE") == "OTHER"
+        assert agent_element.get("OTHERTYPE") == agent.type
+        assert agent_element.find("{http://www.loc.gov/METS/}name").text == agent.name
+        assert (
+            agent_element.find("{http://www.loc.gov/METS/}note").text == agent.notes[0]
+        )
+
+    def test_parse_header_with_agent(self):
+        mets = metsrw.METSDocument.fromstring(
+            b"""<?xml version='1.0' encoding='ASCII'?>
+<mets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.loc.gov/METS/" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version18/mets.xsd">
+    <metsHdr CREATEDATE="2015-12-16T22:38:48">
+        <agent OTHERTYPE="SOFTWARE" ROLE="CREATOR" TYPE="OTHER">
+            <name>39461beb-22eb-4942-88af-848cfc3462b2</name>
+            <note>Archivematica dashboard UUID</note>
+        </agent>
+    </metsHdr>
+    <structMap ID="structMap_1" LABEL="Archivematica default" TYPE="physical"/>
+</mets>"""
+        )
+
+        assert len(mets.agents) == 1
+        assert mets.agents[0].role == u"CREATOR"
+        assert mets.agents[0].type == u"SOFTWARE"
+        assert mets.agents[0].name == u"39461beb-22eb-4942-88af-848cfc3462b2"
+        assert mets.agents[0].notes[0] == u"Archivematica dashboard UUID"
+
     def test_fromfile_invalid_xlink_href(self):
         """Test that ``fromfile`` raises ``ParseError`` if an xlink:href value
         in the source METS contains an unparseable URL.
