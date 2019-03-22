@@ -276,7 +276,6 @@ class TestMETSDocument(TestCase):
         assert fptr.file_uuid == "7327b00f-d83a-4ae8-bb89-84fce994e827"
         assert fptr.use == "Archival Information Package"
 
-    @pytest.mark.xfail(raises=metsrw.ParseError)
     @mock.patch("metsrw.fsentry.randint", return_value=1)
     @mock.patch("metsrw.metadata.randint", return_value=1)
     def test_duplicate_ids(self, mock_md_randint, mock_fs_randint):
@@ -289,7 +288,7 @@ class TestMETSDocument(TestCase):
         document.append_file(fsentry2)
 
         reloaded_document = metsrw.METSDocument.fromtree(document.serialize())
-        # Third time's the charm
+        # Third time's the charm - previously this failed
         metsrw.METSDocument.fromtree(reloaded_document.serialize())
 
 
