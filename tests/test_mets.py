@@ -276,6 +276,22 @@ class TestMETSDocument(TestCase):
         assert fptr.file_uuid == "7327b00f-d83a-4ae8-bb89-84fce994e827"
         assert fptr.use == "Archival Information Package"
 
+    @pytest.mark.xfail(raises=metsrw.ParseError)
+    @mock.patch("metsrw.fsentry.randint", return_value=1)
+    @mock.patch("metsrw.metadata.randint", return_value=1)
+    def test_duplicate_ids(self, mock_md_randint, mock_fs_randint):
+        document = metsrw.METSDocument()
+        fsentry1 = metsrw.FSEntry("file[1].txt", file_uuid=str(uuid.uuid4()))
+        fsentry1.add_premis_object("<premis>object</premis>")
+        fsentry2 = metsrw.FSEntry("file[2].txt", file_uuid=str(uuid.uuid4()))
+        fsentry2.add_premis_object("<premis>object</premis>")
+        document.append_file(fsentry1)
+        document.append_file(fsentry2)
+
+        reloaded_document = metsrw.METSDocument.fromtree(document.serialize())
+        # Third time's the charm
+        metsrw.METSDocument.fromtree(reloaded_document.serialize())
+
 
 class TestWholeMETS(TestCase):
     """ Test integration between classes. """
