@@ -4,7 +4,6 @@ from __future__ import absolute_import
 from itertools import chain
 import logging
 import os
-from random import randint
 
 from lxml import etree
 import six
@@ -191,9 +190,6 @@ class FSEntry(DependencyPossessor):
         )
 
     # PROPERTIES
-
-    def _create_id(self, prefix):
-        return prefix + "_" + str(randint(1, 999999))
 
     def file_id(self):
         """ Returns the fptr @FILEID if this is not a Directory. """

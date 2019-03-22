@@ -4,17 +4,29 @@ Classes for metadata sections of the METS. Include amdSec, dmdSec, techMD, right
 """
 from __future__ import absolute_import
 
+import collections
 import copy
 import logging
 from lxml import etree
-from random import randint
 
 import six
 
 from . import exceptions
 from . import utils
 
+
 LOGGER = logging.getLogger(__name__)
+_id_counter = collections.Counter()
+
+
+def _generate_id(prefix):
+    """
+    Generate a counter based id for the prefix given.
+    """
+    count = _id_counter[prefix]
+    _id_counter.update([prefix])
+
+    return "{}_{}".format(prefix, count)
 
 
 class AMDSec(object):
@@ -49,7 +61,7 @@ class AMDSec(object):
         """
         # e.g., amdSec_1
         if force_generate or not self._id:
-            self._id = self.tag + "_" + str(randint(1, 999999))
+            self._id = _generate_id(self.tag)
         return self._id
 
     @classmethod
@@ -230,7 +242,7 @@ class SubSection(object):
         :param bool force_generate: If True, will generate a new ID from the subsection tag and a random number.
         """
         if force_generate or not self._id:
-            self._id = self.subsection + "_" + str(randint(1, 999999))
+            self._id = _generate_id(self.subsection)
         return self._id
 
     def get_status(self):
