@@ -420,11 +420,11 @@ class TestMDWrap(TestCase):
             "{http://www.loc.gov/METS/}mdWrap", MDTYPE="OTHER", OTHERMDTYPE="SYSTEM"
         )
         xmldata = etree.SubElement(good, "{http://www.loc.gov/METS/}xmlData")
-        document = etree.SubElement(xmldata, "foo")
+        etree.SubElement(xmldata, "foo")
         mdwrap = metsrw.MDWrap.parse(good)
         assert mdwrap.mdtype == "OTHER"
         assert mdwrap.othermdtype == "SYSTEM"
-        assert mdwrap.document == document
+        assert etree.tostring(mdwrap.document) == etree.tostring(etree.Element("foo"))
 
     def test_serialize_defaults(self):
         mdwrap = metsrw.MDWrap("<foo/>", "PREMIS:DUMMY")

@@ -4,6 +4,7 @@ Classes for metadata sections of the METS. Include amdSec, dmdSec, techMD, right
 """
 from __future__ import absolute_import
 
+import copy
 import logging
 from lxml import etree
 from random import randint
@@ -469,6 +470,10 @@ class MDWrap(object):
             )
         elif len(document) == 1:
             document = document[0]
+
+        # Create a copy, so that the element is not moved by duplicate references.
+        document = copy.deepcopy(document)
+
         return cls(document, mdtype, othermdtype)
 
     def serialize(self):
