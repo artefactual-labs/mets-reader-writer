@@ -276,9 +276,8 @@ class TestMETSDocument(TestCase):
         assert fptr.file_uuid == "7327b00f-d83a-4ae8-bb89-84fce994e827"
         assert fptr.use == "Archival Information Package"
 
-    @mock.patch("metsrw.fsentry.randint", return_value=1)
-    @mock.patch("metsrw.metadata.randint", return_value=1)
-    def test_duplicate_ids(self, mock_md_randint, mock_fs_randint):
+    @mock.patch("metsrw.metadata._generate_id", return_value="id_1")
+    def test_duplicate_ids(self, mock_generate_id):
         document = metsrw.METSDocument()
         fsentry1 = metsrw.FSEntry("file[1].txt", file_uuid=str(uuid.uuid4()))
         fsentry1.add_premis_object("<premis>object</premis>")

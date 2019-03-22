@@ -75,10 +75,19 @@ class TestAgent(TestCase):
 class TestAMDSec(TestCase):
     """ Test AMDSec class. """
 
+    def setUp(self):
+        # Reset the id generation counter per test
+        metsrw.metadata._id_counter.clear()
+
     def test_identifier(self):
-        # should be in the format 'amdSec_1'
-        amdsec = metsrw.AMDSec()
-        assert amdsec.id_string()
+        amdsec_ids = [metsrw.AMDSec().id_string() for _ in range(10)]
+        # Generate a SubSection in between to make sure our count
+        # doesn't jump
+        metsrw.SubSection("techMD", []).id_string()
+        amdsec_ids.append(metsrw.AMDSec().id_string())
+
+        for index, amdsec_id in enumerate(amdsec_ids):
+            assert amdsec_id == "amdSec_{}".format(index)
 
     def test_tree_no_id(self):
         with pytest.raises(ValueError) as excinfo:
@@ -95,6 +104,20 @@ class TestSubSection(TestCase):
     """ Test SubSection class. """
 
     STUB_MDWRAP = metsrw.MDWrap("<foo/>", "PREMIS:DUMMY")
+
+    def setUp(self):
+        # Reset the id generation counter per test
+        metsrw.metadata._id_counter.clear()
+
+    def test_identifier(self):
+        tech_md_ids = [metsrw.SubSection("techMD", []).id_string() for _ in range(10)]
+        dmdsec_ids = [metsrw.SubSection("dmdSec", []).id_string() for _ in range(10)]
+
+        for index, tech_md_id in enumerate(tech_md_ids):
+            assert tech_md_id == "techMD_{}".format(index)
+
+        for index, dmdsec_id in enumerate(dmdsec_ids):
+            assert dmdsec_id == "dmdSec_{}".format(index)
 
     def test_allowed_tags(self):
         """ It should only allow certain subsection tags. """
