@@ -100,10 +100,14 @@ class FSEntry(DependencyPossessor):
     premis_agent_class = Dependency(
         has_methods("serialize"), has_class_methods("fromtree"), is_class
     )
+    premis_rights_class = Dependency(
+        has_methods("serialize"), has_class_methods("fromtree"), is_class
+    )
 
     PREMIS_OBJECT = "PREMIS:OBJECT"
     PREMIS_EVENT = "PREMIS:EVENT"
     PREMIS_AGENT = "PREMIS:AGENT"
+    PREMIS_RIGHTS = "PREMIS:RIGHTS"
 
     def __init__(
         self,
@@ -320,8 +324,11 @@ class FSEntry(DependencyPossessor):
         )
 
     def add_premis_rights(self, md, mode="mdwrap"):
-        # TODO add extra args and create PREMIS object here
-        return self.add_rightsmd(md, "PREMIS:RIGHTS", mode)
+        return self.add_rightsmd(
+            self.serialize_md_inst(md, self.premis_rights_class),
+            self.PREMIS_RIGHTS,
+            mode,
+        )
 
     def add_dublin_core(self, md, mode="mdwrap"):
         # TODO add extra args and create DC object here
@@ -476,18 +483,25 @@ class FSEntry(DependencyPossessor):
             self.PREMIS_OBJECT, self.premis_object_class
         )
 
-    def get_premis_events(self):
-        return self.get_subsections_of_type(self.PREMIS_EVENT, self.premis_event_class)
-
     def get_premis_agents(self):
         return self.get_subsections_of_type(self.PREMIS_AGENT, self.premis_agent_class)
 
+    def get_premis_events(self):
+        return self.get_subsections_of_type(self.PREMIS_EVENT, self.premis_event_class)
+
     def get_premis_event(self, event_uuid):
-        try:
-            return [
-                evt
-                for evt in self.get_premis_events()
-                if evt.identifier_value == event_uuid
-            ][0]
-        except IndexError:
-            return None
+        for evt in self.get_premis_events():
+            if evt.identifier_value == event_uuid:
+                return evt
+        return None
+
+    def get_premis_rights(self):
+        return self.get_subsections_of_type(
+            self.PREMIS_RIGHTS, self.premis_rights_class
+        )
+
+    def get_premis_rights_statement(self, rights_statement_uuid):
+        for rights in self.get_premis_rights():
+            if rights.rights_statement_identifier_value == rights_statement_uuid:
+                return rights
+        return None

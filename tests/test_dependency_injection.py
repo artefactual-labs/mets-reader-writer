@@ -151,13 +151,14 @@ class TestDependencyInjection(TestCase):
         # Clear the feature broker and then register/provide the premisrw
         # plugin classes (services) with the feature broker.
         feature_broker = metsrw.feature_broker
-        assert len(feature_broker) == 3
+        assert len(feature_broker) == 4
         feature_broker.clear()
         assert not feature_broker
         feature_broker.provide("premis_object_class", premisrw.PREMISObject)
         feature_broker.provide("premis_event_class", premisrw.PREMISEvent)
         feature_broker.provide("premis_agent_class", premisrw.PREMISAgent)
-        assert len(feature_broker) == 3
+        feature_broker.provide("premis_rights_class", premisrw.PREMISRights)
+        assert len(feature_broker) == 4
 
         # Create premisrw instances.
         compression_premis_event = premisrw.PREMISEvent(data=EX_COMPR_EVT)

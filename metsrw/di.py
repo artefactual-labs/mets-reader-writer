@@ -70,6 +70,7 @@ def set_feature_broker_to_default_state(fb):
     fb.provide("premis_object_class", premisrw.PREMISObject)
     fb.provide("premis_event_class", premisrw.PREMISEvent)
     fb.provide("premis_agent_class", premisrw.PREMISAgent)
+    fb.provide("premis_rights_class", premisrw.PREMISRights)
 
 
 feature_broker = FeatureBroker()  # global singleton feature broker

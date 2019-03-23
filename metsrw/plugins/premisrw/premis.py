@@ -7,6 +7,7 @@ for METS-reader-writer. Public functions and classes:
 - PREMISObject
 - PREMISEvent
 - PREMISAgent
+- PREMISRights
 
 """
 __metaclass__ = type
@@ -461,6 +462,90 @@ class PREMISAgent(PREMISElement):
             ),
             ("agent_name",),
             ("agent_type",),
+        )
+
+
+class PREMISRights(PREMISElement):
+    @property
+    def defaults(self):
+        return {}
+
+    @property
+    def schema(self):
+        return (
+            "rights_statement",
+            (
+                "rights_statement_identifier",
+                ("rights_statement_identifier_type",),
+                ("rights_statement_identifier_value",),
+            ),
+            ("rights_basis",),
+            (
+                "copyright_information",
+                ("copyright_status",),
+                ("copyright_jurisdiction",),
+                ("copyright_status_determination_date",),
+                ("copyright_note",),
+                (
+                    "copyright_documentation_identifier",
+                    ("copyright_documentation_identifier_type",),
+                    ("copyright_documentation_identifier_value",),
+                ),
+                ("copyright_applicable_dates", ("start_date",), ("end_date",)),
+            ),
+            (
+                "license_information",
+                (
+                    "license_documentation_identifier",
+                    ("license_documentation_identifier_type",),
+                    ("license_documentation_identifier_value",),
+                ),
+                ("license_terms",),
+                ("license_note",),
+                ("license_applicable_dates", ("start_date",), ("end_date",)),
+            ),
+            (
+                "statute_information",
+                ("statute_jurisdiction",),
+                ("statute_citation",),
+                ("statute_information_determination_date",),
+                ("statute_note",),
+                (
+                    "statute_documentation_identifier",
+                    ("statute_documentation_identifier_type",),
+                    ("statute_documentation_identifier_value",),
+                ),
+                ("statute_applicable_dates", ("start_date",), ("end_date",)),
+            ),
+            (
+                "other_rights_information",
+                (
+                    "other_rights_documentation_identifier",
+                    ("other_rights_documentation_identifier_type",),
+                    ("other_rights_documentation_identifier_value",),
+                ),
+                ("other_rights_basis",),
+                ("other_rights_applicable_dates", ("start_date",), ("end_date",)),
+                ("other_rights_note",),
+            ),
+            (
+                "rights_granted",
+                ("act",),
+                ("restriction",),
+                ("term_of_grant", ("start_date",), ("end_date",)),
+                ("term_of_restriction", ("start_date",), ("end_date",)),
+                ("rights_granted_note",),
+            ),
+            (
+                "linking_object_identifier",
+                ("linking_object_identifier_type",),
+                ("linking_object_identifier_value",),
+            ),
+            (
+                "linking_agent_identifier",
+                ("linking_agent_identifier_type",),
+                ("linking_agent_identifier_value",),
+            ),
         )
 
 

@@ -764,6 +764,22 @@ class TestWholeMETS(TestCase):
         ):
             assert mw.get_file(type="Item", file_uuid=item[0], path=item[1])
 
+    def test_mets_file_with_rights(self):
+        mets_path = "fixtures/mets_all_rights.xml"
+        mw = metsrw.METSDocument.fromfile(mets_path)
+        assert len(mw.all_files()) == 9
+        fsentry = mw.get_file(type="Item", label="evelyn_s_photo.jpg")
+        rights_statements = fsentry.get_premis_rights()
+        assert len(rights_statements) == 5
+        assert not fsentry.get_premis_rights_statement("<unknown>")
+        rights_statement = fsentry.get_premis_rights_statement(
+            "3a9838ac-ebe9-4ecb-ba46-c31ee1d6e7c2"
+        )
+        assert rights_statement.rights_basis == "Copyright"
+        assert len(rights_statement.rights_granted) == 2
+        assert rights_statement.rights_granted[0].act == "Disseminate"
+        assert rights_statement.rights_granted[1].act == "Access"
+
     # Helper methods
 
     def assert_mets_valid(self, mets_doc, schematron=metsrw.AM_SCT_PATH):
