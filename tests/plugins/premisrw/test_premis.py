@@ -471,3 +471,55 @@ class TestPREMIS(TestCase):
             premis_element.xpath(xpath_lookup, namespaces=premis_element.nsmap)[0]
             == embedded_xml
         )
+
+    def test_premis_rights(self):
+        """Test PREMISRights."""
+        premis_element = premisrw.data_to_premis(c.EX_RGTS_1)
+        assert (
+            premis_element.findtext(
+                ".//premis:rightsBasis", namespaces=premis_element.nsmap
+            )
+            == "Copyright"
+        )
+
+        data = premisrw.premis_to_data(premis_element)
+        assert data[2][1][1] == "UUID"
+        assert data[2][2][1] == "3a9838ac-ebe9-4ecb-ba46-c31ee1d6e7c2"
+        assert data == c.EX_RGTS_1
+
+        pr = premisrw.PREMISRights(data=c.EX_RGTS_1)
+        assert pr.premis_version == "2.2"
+        assert pr.rights_statement_identifier_type == "UUID"
+        assert (
+            pr.rights_statement_identifier_value
+            == "3a9838ac-ebe9-4ecb-ba46-c31ee1d6e7c2"
+        )
+        assert pr.rights_basis == "Copyright"
+        assert pr.linking_object_identifier_type == "UUID"
+        assert (
+            pr.linking_object_identifier_value == "c09903c4-bc29-4db4-92da-47355eec752f"
+        )
+        assert pr.license_information == ()
+        assert pr.statute_information == ()
+        assert pr.other_rights_information == ()
+        assert pr.rights_granted == ()
+        assert pr.linking_agent_identifier == ()
+        with pytest.raises(AttributeError):
+            assert pr.unknown_attribute == ()
+
+        pr = premisrw.PREMISRights(
+            rights_statement_identifier_type="UUID",
+            rights_statement_identifier_value="3a9838ac-ebe9-4ecb-ba46-c31ee1d6e7c2",
+            rights_basis="Copyright",
+            linking_object_identifier_type="UUID",
+            linking_object_identifier_value="c09903c4-bc29-4db4-92da-47355eec752f",
+        )
+        assert (
+            pr.linking_object_identifier_value == "c09903c4-bc29-4db4-92da-47355eec752f"
+        )
+        assert (
+            pr.serialize().findtext(
+                ".//premis:rightsBasis", namespaces=premis_element.nsmap
+            )
+            == "Copyright"
+        )
