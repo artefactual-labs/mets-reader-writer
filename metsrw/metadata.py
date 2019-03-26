@@ -98,6 +98,58 @@ class AMDSec(object):
         return el
 
 
+class AltRecordID(object):
+    """
+    An object representing an alternative record identifier in the METS document
+    (alternatives to the OBJID).
+
+    This is ordinarily created by :class:`metsrw.mets.METSDocument` instances and
+    does not have to be instantiated directly.
+
+    :param str id: Optional unique identifer for the identifier.
+    :param str type: Optional identifer type, e.g. 'Accession number'.
+    """
+
+    ALT_RECORD_ID_TAG = etree.QName(utils.NAMESPACES[u"mets"], u"altRecordID")
+
+    def __init__(self, alt_record_id, **kwargs):
+        self.text = alt_record_id
+        # We use kwargs here to avoid shadowing builtins (id and type).
+        self.id = kwargs.get("id", None)
+        self.type = kwargs.get("type", None)
+
+    @classmethod
+    def parse(cls, element):
+        """
+        Create a new AltRecordID by parsing root.
+
+        :param element: Element to be parsed into an AltRecordID.
+        :raises exceptions.ParseError: If element is not a valid altRecordID.
+        """
+        if element.tag != cls.ALT_RECORD_ID_TAG:
+            raise exceptions.ParseError(
+                u"AltRecordID got unexpected tag {}; expected {}".format(
+                    element.tag, cls.ALT_RECORD_ID_TAG
+                )
+            )
+
+        return cls(element.text, id=element.get(u"ID"), type=element.get(u"TYPE"))
+
+    def serialize(self):
+        attrs = {}
+
+        if self.id:
+            attrs[u"ID"] = self.id
+
+        if self.type:
+            attrs[u"TYPE"] = self.type
+
+        element = etree.Element(self.ALT_RECORD_ID_TAG, **attrs)
+        element.text = self.text
+
+        return element
+
+
 class Agent(object):
     """
     An object representing an agent with a relationship to the METS record.
