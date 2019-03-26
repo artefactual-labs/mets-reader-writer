@@ -223,6 +223,36 @@ class TestMETSDocument(TestCase):
         assert mets.agents[0].name == u"39461beb-22eb-4942-88af-848cfc3462b2"
         assert mets.agents[0].notes[0] == u"Archivematica dashboard UUID"
 
+    def test_mets_header_with_alt_record_id(self):
+        mets = metsrw.METSDocument()
+        alt_record_id = metsrw.AltRecordID(
+            "39461beb-22eb-4942-88af-848cfc3462b2", type="Accession ID"
+        )
+        mets.alternate_ids.append(alt_record_id)
+
+        header_element = mets._mets_header("2014-07-16T22:52:02.480108")
+        alt_record_id_element = header_element.find(
+            "{http://www.loc.gov/METS/}altRecordID"
+        )
+
+        assert alt_record_id_element.get("TYPE") == alt_record_id.type
+        assert alt_record_id_element.text == alt_record_id.text
+
+    def test_parse_header_with_alt_record_id(self):
+        mets = metsrw.METSDocument.fromstring(
+            b"""<?xml version='1.0' encoding='ASCII'?>
+<mets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.loc.gov/METS/" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version18/mets.xsd">
+    <metsHdr CREATEDATE="2015-12-16T22:38:48">
+        <altRecordID TYPE="Accession Id">39461beb-22eb-4942-88af-848cfc3462b2</altRecordID>
+    </metsHdr>
+    <structMap ID="structMap_1" LABEL="Archivematica default" TYPE="physical"/>
+</mets>"""
+        )
+
+        assert len(mets.alternate_ids) == 1
+        assert mets.alternate_ids[0].type == u"Accession Id"
+        assert mets.alternate_ids[0].text == u"39461beb-22eb-4942-88af-848cfc3462b2"
+
     def test_fromfile_invalid_xlink_href(self):
         """Test that ``fromfile`` raises ``ParseError`` if an xlink:href value
         in the source METS contains an unparseable URL.

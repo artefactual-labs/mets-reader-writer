@@ -34,6 +34,7 @@ class METSDocument(object):
         # can be inferred via their #children attribute
         self.createdate = None
         self.objid = None
+        self.alternate_ids = []
         self._root_elements = []
         self._all_files = None
         self._iter = None
@@ -192,10 +193,10 @@ class METSDocument(object):
             header_attrs[u"LASTMODDATE"] = now
 
         header_element = etree.Element(header_tag, **header_attrs)
-
         for agent in self.agents:
-            agent_element = agent.serialize()
-            header_element.append(agent_element)
+            header_element.append(agent.serialize())
+        for alternate_id in self.alternate_ids:
+            header_element.append(alternate_id.serialize())
 
         return header_element
 
@@ -519,10 +520,19 @@ class METSDocument(object):
         self.createdate = createdate
 
         if header is not None:
-            agent_elements = header.findall(u"mets:agent", namespaces=utils.NAMESPACES)
+            agent_elements = header.findall(
+                metadata.Agent.AGENT_TAG, namespaces=utils.NAMESPACES
+            )
             for agent_element in agent_elements:
                 agent = metadata.Agent.parse(agent_element)
                 self.agents.append(agent)
+
+            alternate_ids = header.findall(
+                metadata.AltRecordID.ALT_RECORD_ID_TAG, namespaces=utils.NAMESPACES
+            )
+            for alternate_id_element in alternate_ids:
+                alternate_id = metadata.AltRecordID.parse(alternate_id_element)
+                self.alternate_ids.append(alternate_id)
 
     def _validate(self):
         raise NotImplementedError()

@@ -6,7 +6,7 @@ import logging
 
 from .exceptions import MetsError, ParseError
 from .fsentry import FSEntry
-from .metadata import Agent, AMDSec, SubSection, MDRef, MDWrap
+from .metadata import Agent, AltRecordID, AMDSec, SubSection, MDRef, MDWrap
 from .mets import METSDocument
 from .utils import (
     NAMESPACES,
@@ -47,6 +47,7 @@ __version__ = "0.3.4"
 
 __all__ = [
     "Agent",
+    "AltRecordID",
     "AMDSec",
     "AM_PNTR_SCT_PATH",
     "AM_SCT_PATH",

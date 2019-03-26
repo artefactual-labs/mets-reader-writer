@@ -72,6 +72,33 @@ class TestAgent(TestCase):
         assert element.get("OTHERROLE") == agent.role
 
 
+class TestAltRecordId(TestCase):
+    def test_parse_exception_on_wrong_tag(self):
+        element = etree.Element("test")
+        with pytest.raises(metsrw.ParseError):
+            metsrw.AltRecordID.parse(element)
+
+    def test_parse(self):
+        element = etree.Element(
+            metsrw.AltRecordID.ALT_RECORD_ID_TAG, ID="543", TYPE="Test"
+        )
+        element.text = "a-unique-id"
+        alt_record_id = metsrw.AltRecordID.parse(element)
+
+        assert alt_record_id.text == element.text
+        assert alt_record_id.id == element.get("ID")
+        assert alt_record_id.type == element.get("TYPE")
+
+    def test_serialize(self):
+        alt_record_id = metsrw.AltRecordID("12345", id="1", type="Accession Id")
+        element = alt_record_id.serialize()
+
+        assert element.get("ID") == alt_record_id.id
+        assert element.get("TYPE") == alt_record_id.type
+
+        assert element.text == alt_record_id.text
+
+
 class TestAMDSec(TestCase):
     """ Test AMDSec class. """
 
