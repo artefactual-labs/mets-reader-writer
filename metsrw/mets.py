@@ -303,25 +303,39 @@ class METSDocument(object):
         root.append(self._normative_structmap())
         return root
 
-    def tostring(self, fully_qualified=True, pretty_print=True):
+    def tostring(self, fully_qualified=True, pretty_print=True, encoding="UTF-8"):
         """
         Serialize and return a string of this METS document.
 
-        To write to file, see :meth:`write`
+        To write to file, see :meth:`write`.
+
+        The default encoding is ``UTF-8``. This method will return a unicode
+        string when ``encoding`` is set to ``unicode``.
 
         :return: String of this document
         """
         root = self.serialize(fully_qualified=fully_qualified)
-        return etree.tostring(root, pretty_print=pretty_print, xml_declaration=True)
+        kwargs = {"pretty_print": pretty_print, "encoding": encoding}
+        if encoding != "unicode":
+            kwargs["xml_declaration"] = True
+        return etree.tostring(root, **kwargs)
 
-    def write(self, filepath, fully_qualified=True, pretty_print=False):
+    def write(
+        self, filepath, fully_qualified=True, pretty_print=False, encoding="UTF-8"
+    ):
         """Serialize and write this METS document to `filepath`.
+
+        The default encoding is ``UTF-8``. This method will return a unicode
+        string when ``encoding`` is set to ``unicode``.
 
         :param str filepath: Path to write the METS document to
         """
         root = self.serialize(fully_qualified=fully_qualified)
         tree = root.getroottree()
-        tree.write(filepath, xml_declaration=True, pretty_print=pretty_print)
+        kwargs = {"pretty_print": pretty_print, "encoding": encoding}
+        if encoding != "unicode":
+            kwargs["xml_declaration"] = True
+        tree.write(filepath, **kwargs)
 
     # PARSE HELPERS
 
