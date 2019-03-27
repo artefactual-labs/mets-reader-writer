@@ -6,10 +6,13 @@ from lxml.builder import ElementMaker
 import os
 import mock
 import pytest
+import tempfile
 from unittest import TestCase
 import uuid
 
 import metsrw
+
+import six
 
 
 class TestMETSDocument(TestCase):
@@ -113,7 +116,7 @@ class TestMETSDocument(TestCase):
 
     def test_parse_tree_no_createdate(self):
         mw = metsrw.METSDocument()
-        mets_string = b"""<?xml version='1.0' encoding='ASCII'?>
+        mets_string = b"""<?xml version='1.0' encoding='UTF-8'?>
 <mets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.loc.gov/METS/" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version18/mets.xsd">
   <metsHdr/><structMap TYPE="physical"></structMap>
 </mets>
@@ -134,11 +137,44 @@ class TestMETSDocument(TestCase):
         parser = etree.XMLParser(remove_blank_text=True)
         root = etree.parse("fixtures/complete_mets.xml", parser=parser).getroot()
         mw.serialize = lambda fully_qualified=True: root
-        mw.write("test_write.xml", pretty_print=True)
+        mw.write("test_write.xml", pretty_print=True, encoding="ASCII")
         assert filecmp.cmp(
             "fixtures/complete_mets.xml", "test_write.xml", shallow=False
         )
         os.remove("test_write.xml")
+
+    def test_write_encoding(self):
+        """Test serialisation encodings using the ``write`` method."""
+        mw = metsrw.METSDocument()
+        mw.append_file(metsrw.FSEntry("path", file_uuid=str(uuid.uuid4())))
+        fd, mets_path = tempfile.mkstemp()
+
+        try:
+            mw.write(mets_path)
+            with open(mets_path, "rb") as file_obj:
+                tree = etree.parse(file_obj)
+            assert tree.docinfo.encoding == "UTF-8"
+        finally:
+            os.close(fd)
+            os.remove(mets_path)
+
+    def test_tostring_encoding(self):
+        """Test serialisation encodings using the ``tostring`` method."""
+        mw = metsrw.METSDocument()
+        mw.append_file(metsrw.FSEntry("path", file_uuid=str(uuid.uuid4())))
+
+        xml = mw.tostring()
+        assert isinstance(xml, six.binary_type)
+        tree = etree.parse(six.BytesIO(xml))
+        assert tree.docinfo.encoding == "UTF-8"
+
+        xml = mw.tostring(encoding="ASCII")
+        assert isinstance(xml, six.binary_type)
+        tree = etree.parse(six.BytesIO(xml))
+        assert tree.docinfo.encoding == "ASCII"
+
+        xml = mw.tostring(encoding="unicode")
+        assert isinstance(xml, six.text_type)
 
     def test_mets_root(self):
         mw = metsrw.METSDocument()
@@ -205,7 +241,7 @@ class TestMETSDocument(TestCase):
 
     def test_parse_header_with_agent(self):
         mets = metsrw.METSDocument.fromstring(
-            b"""<?xml version='1.0' encoding='ASCII'?>
+            b"""<?xml version='1.0' encoding='UTF-8'?>
 <mets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.loc.gov/METS/" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version18/mets.xsd">
     <metsHdr CREATEDATE="2015-12-16T22:38:48">
         <agent OTHERTYPE="SOFTWARE" ROLE="CREATOR" TYPE="OTHER">

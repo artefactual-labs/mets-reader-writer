@@ -133,8 +133,10 @@ class PREMISElement:
     def serialize(self):
         return data_to_premis(self._data, self.premis_version)
 
-    def tostring(self, pretty_print=True):
-        return etree.tostring(self.serialize(), pretty_print=pretty_print)
+    def tostring(self, pretty_print=True, encoding="UTF-8"):
+        return etree.tostring(
+            self.serialize(), pretty_print=pretty_print, encoding=encoding
+        )
 
     def __repr__(self):
         return repr(self._data)
