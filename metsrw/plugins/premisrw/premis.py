@@ -328,6 +328,14 @@ class PREMISEvent(PREMISElement):
 
     @property
     def schema(self):
+        if self.premis_version == utils.PREMIS_3_0_VERSION:
+            event_detail = (
+                "event_detail_information",
+                ("event_detail",),
+                ("event_detail_extension",),
+            )
+        else:
+            event_detail = ("event_detail",)
         return (
             "event",
             (
@@ -337,7 +345,7 @@ class PREMISEvent(PREMISElement):
             ),
             ("event_type",),
             ("event_date_time",),
-            ("event_detail",),
+            event_detail,
             (
                 "event_outcome_information",
                 ("event_outcome",),
@@ -360,10 +368,15 @@ class PREMISEvent(PREMISElement):
 
             {'algorithm': 'bzip2', 'version': '9.20', 'program': '7z'}
         """
+        attr = (
+            "event_detail_information__event_detail"
+            if self.premis_version == utils.PREMIS_3_0_VERSION
+            else "event_detail"
+        )
         return dict(
             [
                 tuple([x.strip(' "') for x in kv.strip().split("=", 1)])
-                for kv in self.event_detail.split(";")
+                for kv in getattr(self, attr).split(";")
             ]
         )
 
