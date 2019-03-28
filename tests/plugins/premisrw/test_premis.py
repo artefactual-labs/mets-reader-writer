@@ -523,3 +523,37 @@ class TestPREMIS(TestCase):
             )
             == "Copyright"
         )
+
+    def test_event_detail_premis_versions(self):
+        """Test ``eventDetail`` in PREMIS 2 vs 3.
+
+        The ``eventDetail`` element was renamed as ``eventDetailInformation``
+        and it's now structured. This test confirms that ``PREMISEvent`` is
+        compatible with both maintaining the same API.
+        """
+
+        # Test with PREMIS 2.
+        mw = metsrw.METSDocument.fromfile("fixtures/complete_mets.xml")
+        fsentry = mw.get_file(path="objects/MARBLES.TGA")
+        digest_event = fsentry.get_premis_event("c4d1827a-c689-4314-952b-bb2d053acd36")
+
+        assert (
+            digest_event.event_detail == u'program="python"; module="hashlib.sha256()"'
+        )
+        assert digest_event.parsed_event_detail["program"] == "python"
+        assert digest_event.parsed_event_detail["module"] == "hashlib.sha256()"
+
+        # Test with PREMIS 3.
+        mw = metsrw.METSDocument.fromfile("fixtures/transfer_mets.xml")
+        fsentry = mw.get_file(path="objects/bird.mp3")
+        digest_event = fsentry.get_premis_event("a1a75b48-15bf-481c-9885-fb7d914f03bd")
+
+        assert (
+            digest_event.event_detail == u'program="python"; module="hashlib.sha256()"'
+        )
+        assert (
+            digest_event.event_detail_information__event_detail
+            == u'program="python"; module="hashlib.sha256()"'
+        )
+        assert digest_event.parsed_event_detail["program"] == "python"
+        assert digest_event.parsed_event_detail["module"] == "hashlib.sha256()"

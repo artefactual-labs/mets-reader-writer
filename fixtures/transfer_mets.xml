@@ -1,0 +1,2405 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OBJID="5a2a39cf-042a-4cbd-8252-784673f3871d" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version111/mets.xsd">
+  <mets:metsHdr CREATEDATE="2019-03-28T18:34:57" LASTMODDATE="2019-03-28T18:35:00">
+    <mets:agent OTHERTYPE="SOFTWARE" ROLE="CREATOR" TYPE="OTHER">
+      <mets:name>b1c33f06-061f-4c49-b38a-60513b8bd2ef</mets:name>
+      <mets:note>Archivematica dashboard UUID</mets:note>
+    </mets:agent>
+  </mets:metsHdr>
+  <mets:amdSec ID="amdSec_0">
+    <mets:techMD ID="techMD_0" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+        <mets:xmlData>
+          <premis:object xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" xsi:type="premis:file" version="3.0">
+            <premis:objectIdentifier>
+              <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+              <premis:objectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:objectIdentifierValue>
+            </premis:objectIdentifier>
+            <premis:objectCharacteristics>
+              <premis:compositionLevel>0</premis:compositionLevel>
+              <premis:fixity>
+                <premis:messageDigestAlgorithm>SHA-256</premis:messageDigestAlgorithm>
+                <premis:messageDigest>a0e06bbffd72c579083289e7787151280508138b06cdf8841bd1f732fc3f4e18</premis:messageDigest>
+              </premis:fixity>
+              <premis:size>12446432</premis:size>
+              <premis:format>
+                <premis:formatDesignation>
+                  <premis:formatName>Tagged Image File Format</premis:formatName>
+                  <premis:formatVersion/>
+                </premis:formatDesignation>
+                <premis:formatRegistry>
+                  <premis:formatRegistryName>PRONOM</premis:formatRegistryName>
+                  <premis:formatRegistryKey>fmt/353</premis:formatRegistryKey>
+                </premis:formatRegistry>
+              </premis:format>
+              <premis:creatingApplication>
+                <premis:dateCreatedByApplication>2019-03-15</premis:dateCreatedByApplication>
+              </premis:creatingApplication>
+              <premis:objectCharacteristicsExtension>
+                <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                  <rdf:Description xmlns:et="http://ns.exiftool.ca/1.0/" xmlns:ExifTool="http://ns.exiftool.ca/ExifTool/1.0/" xmlns:System="http://ns.exiftool.ca/File/System/1.0/" xmlns:File="http://ns.exiftool.ca/File/1.0/" xmlns:IFD0="http://ns.exiftool.ca/EXIF/IFD0/1.0/" xmlns:Composite="http://ns.exiftool.ca/Composite/1.0/" rdf:about="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/beihai.tif" et:toolkit="Image::ExifTool 10.80">
+                    <ExifTool:ExifToolVersion>10.80</ExifTool:ExifToolVersion>
+                    <System:FileName>beihai.tif</System:FileName>
+                    <System:Directory>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects</System:Directory>
+                    <System:FileSize>12 MB</System:FileSize>
+                    <System:FileModifyDate>2019:03:15 20:42:06+00:00</System:FileModifyDate>
+                    <System:FileAccessDate>2019:03:28 18:34:42+00:00</System:FileAccessDate>
+                    <System:FileInodeChangeDate>2019:03:28 18:34:39+00:00</System:FileInodeChangeDate>
+                    <System:FilePermissions>rw-r-----</System:FilePermissions>
+                    <File:FileType>TIFF</File:FileType>
+                    <File:FileTypeExtension>tif</File:FileTypeExtension>
+                    <File:MIMEType>image/tiff</File:MIMEType>
+                    <File:ExifByteOrder>Little-endian (Intel, II)</File:ExifByteOrder>
+                    <IFD0:ImageWidth>1800</IFD0:ImageWidth>
+                    <IFD0:ImageHeight>2304</IFD0:ImageHeight>
+                    <IFD0:BitsPerSample>8 8 8</IFD0:BitsPerSample>
+                    <IFD0:Compression>Uncompressed</IFD0:Compression>
+                    <IFD0:PhotometricInterpretation>RGB</IFD0:PhotometricInterpretation>
+                    <IFD0:FillOrder>Normal</IFD0:FillOrder>
+                    <IFD0:DocumentName>Standard Input</IFD0:DocumentName>
+                    <IFD0:ImageDescription>converted PNM file</IFD0:ImageDescription>
+                    <IFD0:StripOffsets>(Binary data 4664 bytes, use -b option to extract)</IFD0:StripOffsets>
+                    <IFD0:SamplesPerPixel>3</IFD0:SamplesPerPixel>
+                    <IFD0:RowsPerStrip>4</IFD0:RowsPerStrip>
+                    <IFD0:StripByteCounts>(Binary data 3455 bytes, use -b option to extract)</IFD0:StripByteCounts>
+                    <IFD0:PlanarConfiguration>Chunky</IFD0:PlanarConfiguration>
+                    <IFD0:ResolutionUnit>inches</IFD0:ResolutionUnit>
+                    <Composite:ImageSize>1800x2304</Composite:ImageSize>
+                    <Composite:Megapixels>4.1</Composite:Megapixels>
+                  </rdf:Description>
+                </rdf:RDF>
+              </premis:objectCharacteristicsExtension>
+              <premis:objectCharacteristicsExtension>
+                <MediaInfo xmlns="https://mediaarea.net/mediainfo" xsi:schemaLocation="https://mediaarea.net/mediainfo https://mediaarea.net/mediainfo/mediainfo_2_0.xsd" version="2.0">
+                  <creatingLibrary version="18.05" url="https://mediaarea.net/MediaInfo">MediaInfoLib</creatingLibrary>
+                  <media ref="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/beihai.tif">
+                    <track type="General">
+                      <ImageCount>1</ImageCount>
+                      <FileExtension>tif</FileExtension>
+                      <Format>TIFF</Format>
+                      <FileSize>12446432</FileSize>
+                      <File_Modified_Date>UTC 2019-03-15 20:42:06</File_Modified_Date>
+                      <File_Modified_Date_Local>2019-03-15 20:42:06</File_Modified_Date_Local>
+                    </track>
+                    <track type="Image">
+                      <Title>converted PNM file</Title>
+                      <Format>Raw</Format>
+                      <Format_Settings_Endianness>Little</Format_Settings_Endianness>
+                      <Width>1800</Width>
+                      <Height>2304</Height>
+                      <ColorSpace>RGB</ColorSpace>
+                      <BitDepth>8</BitDepth>
+                      <Compression_Mode>Lossless</Compression_Mode>
+                      <extra>
+                        <Density_Unit>dpi</Density_Unit>
+                      </extra>
+                    </track>
+                  </media>
+                </MediaInfo>
+              </premis:objectCharacteristicsExtension>
+            </premis:objectCharacteristics>
+            <premis:originalName>%transferDirectory%objects/beihai.tif</premis:originalName>
+          </premis:object>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="rightsMD_0" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
+        <mets:xmlData>
+          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatementIdentifier>
+              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+              <premis:rightsStatementIdentifierValue>d54c712c-d501-4c2f-94b0-e6a0be418751</premis:rightsStatementIdentifierValue>
+            </premis:rightsStatementIdentifier>
+            <premis:rightsBasis>Copyright</premis:rightsBasis>
+            <premis:copyrightInformation>
+              <premis:copyrightStatus>copyright status</premis:copyrightStatus>
+              <premis:copyrightJurisdiction>CA</premis:copyrightJurisdiction>
+              <premis:copyrightStatusDeterminationDate>2001-01-01</premis:copyrightStatusDeterminationDate>
+              <premis:copyrightNote>Note 1</premis:copyrightNote>
+              <premis:copyrightApplicableDates>
+                <premis:startDate>2002-02-02</premis:startDate>
+                <premis:endDate>2003-03-03</premis:endDate>
+              </premis:copyrightApplicableDates>
+            </premis:copyrightInformation>
+            <premis:rightsGranted>
+              <premis:act>Act 1</premis:act>
+              <premis:restriction>Allow</premis:restriction>
+              <premis:termOfGrant>
+                <premis:startDate>2004-04-04</premis:startDate>
+                <premis:endDate>2005-05-05</premis:endDate>
+              </premis:termOfGrant>
+              <premis:rightsGrantedNote>Grant note 1</premis:rightsGrantedNote>
+            </premis:rightsGranted>
+            <premis:linkingObjectIdentifier>
+              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+            </premis:linkingObjectIdentifier>
+          </premis:rightsStatement>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:rightsMD ID="rightsMD_1" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
+        <mets:xmlData>
+          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatementIdentifier>
+              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+              <premis:rightsStatementIdentifierValue>c217afa3-3c2a-44fb-91cd-3795c07f521a</premis:rightsStatementIdentifierValue>
+            </premis:rightsStatementIdentifier>
+            <premis:rightsBasis>Copyright</premis:rightsBasis>
+            <premis:copyrightInformation>
+              <premis:copyrightStatus>copyright status</premis:copyrightStatus>
+              <premis:copyrightJurisdiction>CA</premis:copyrightJurisdiction>
+              <premis:copyrightStatusDeterminationDate>2002-02-02</premis:copyrightStatusDeterminationDate>
+              <premis:copyrightNote>Note 2</premis:copyrightNote>
+              <premis:copyrightApplicableDates>
+                <premis:startDate>1992-01-01</premis:startDate>
+                <premis:endDate>2091-12-31</premis:endDate>
+              </premis:copyrightApplicableDates>
+            </premis:copyrightInformation>
+            <premis:rightsGranted>
+              <premis:act>Act 2</premis:act>
+              <premis:restriction>Disallow</premis:restriction>
+              <premis:termOfRestriction>
+                <premis:startDate/>
+                <premis:endDate/>
+              </premis:termOfRestriction>
+              <premis:rightsGrantedNote>Grant note 2</premis:rightsGrantedNote>
+            </premis:rightsGranted>
+            <premis:linkingObjectIdentifier>
+              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+            </premis:linkingObjectIdentifier>
+          </premis:rightsStatement>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:rightsMD ID="rightsMD_2" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
+        <mets:xmlData>
+          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatementIdentifier>
+              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+              <premis:rightsStatementIdentifierValue>db5787a6-a3fa-4872-a339-5fec8838bb17</premis:rightsStatementIdentifierValue>
+            </premis:rightsStatementIdentifier>
+            <premis:rightsBasis>Copyright</premis:rightsBasis>
+            <premis:copyrightInformation>
+              <premis:copyrightStatus>copyright status</premis:copyrightStatus>
+              <premis:copyrightJurisdiction>CA</premis:copyrightJurisdiction>
+              <premis:copyrightStatusDeterminationDate>2001-01-01</premis:copyrightStatusDeterminationDate>
+              <premis:copyrightNote>Note 3</premis:copyrightNote>
+              <premis:copyrightApplicableDates>
+                <premis:startDate>2002-02-02</premis:startDate>
+                <premis:endDate>2003-03-03</premis:endDate>
+              </premis:copyrightApplicableDates>
+            </premis:copyrightInformation>
+            <premis:rightsGranted>
+              <premis:act>Act 3</premis:act>
+              <premis:restriction>Allow</premis:restriction>
+              <premis:termOfGrant>
+                <premis:startDate>2004-04-04</premis:startDate>
+                <premis:endDate>2005-05-05</premis:endDate>
+              </premis:termOfGrant>
+              <premis:rightsGrantedNote>Grant note 3</premis:rightsGrantedNote>
+            </premis:rightsGranted>
+            <premis:linkingObjectIdentifier>
+              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+            </premis:linkingObjectIdentifier>
+          </premis:rightsStatement>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:rightsMD ID="rightsMD_3" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
+        <mets:xmlData>
+          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatementIdentifier>
+              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+              <premis:rightsStatementIdentifierValue>cae8116b-5f64-4353-a060-b6569c69bb56</premis:rightsStatementIdentifierValue>
+            </premis:rightsStatementIdentifier>
+            <premis:rightsBasis>License</premis:rightsBasis>
+            <premis:licenseInformation>
+              <premis:licenseTerms>License terms</premis:licenseTerms>
+              <premis:licenseNote>Note license</premis:licenseNote>
+              <premis:licenseApplicableDates>
+                <premis:startDate>1982-01-01</premis:startDate>
+                <premis:endDate>1983-02-02</premis:endDate>
+              </premis:licenseApplicableDates>
+            </premis:licenseInformation>
+            <premis:rightsGranted>
+              <premis:act>Act license</premis:act>
+              <premis:restriction>Allow</premis:restriction>
+              <premis:termOfGrant>
+                <premis:startDate/>
+                <premis:endDate/>
+              </premis:termOfGrant>
+            </premis:rightsGranted>
+            <premis:linkingObjectIdentifier>
+              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+            </premis:linkingObjectIdentifier>
+          </premis:rightsStatement>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:rightsMD ID="rightsMD_4" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
+        <mets:xmlData>
+          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatementIdentifier>
+              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+              <premis:rightsStatementIdentifierValue>e15138bf-e94c-4c46-a5d6-a874d6efa6e4</premis:rightsStatementIdentifierValue>
+            </premis:rightsStatementIdentifier>
+            <premis:rightsBasis>Statute</premis:rightsBasis>
+            <premis:statuteInformation>
+              <premis:statuteJurisdiction>Canada</premis:statuteJurisdiction>
+              <premis:statuteCitation>Citation</premis:statuteCitation>
+              <premis:statuteInformationDeterminationDate>1972-02-02</premis:statuteInformationDeterminationDate>
+              <premis:statuteNote>Note statute</premis:statuteNote>
+              <premis:statuteApplicableDates>
+                <premis:startDate>1966-01-01</premis:startDate>
+                <premis:endDate>OPEN</premis:endDate>
+              </premis:statuteApplicableDates>
+            </premis:statuteInformation>
+            <premis:rightsGranted>
+              <premis:act>Act statute</premis:act>
+              <premis:restriction>Allow</premis:restriction>
+              <premis:termOfGrant>
+                <premis:startDate/>
+                <premis:endDate/>
+              </premis:termOfGrant>
+            </premis:rightsGranted>
+            <premis:linkingObjectIdentifier>
+              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+            </premis:linkingObjectIdentifier>
+          </premis:rightsStatement>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:rightsMD ID="rightsMD_5" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
+        <mets:xmlData>
+          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatementIdentifier>
+              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+              <premis:rightsStatementIdentifierValue>919b8a79-edb8-4a23-9636-4f5d9edd1957</premis:rightsStatementIdentifierValue>
+            </premis:rightsStatementIdentifier>
+            <premis:rightsBasis>Other</premis:rightsBasis>
+            <premis:otherRightsInformation>
+              <premis:otherRightsBasis>Other</premis:otherRightsBasis>
+              <premis:otherRightsApplicableDates>
+                <premis:startDate>1945-01-01</premis:startDate>
+                <premis:endDate>1950-05-05</premis:endDate>
+              </premis:otherRightsApplicableDates>
+              <premis:otherRightsNote>Note other</premis:otherRightsNote>
+            </premis:otherRightsInformation>
+            <premis:rightsGranted>
+              <premis:act>Act other</premis:act>
+              <premis:restriction>Allow</premis:restriction>
+              <premis:termOfGrant>
+                <premis:startDate>1920-01-01</premis:startDate>
+                <premis:endDate>1921-01-01</premis:endDate>
+              </premis:termOfGrant>
+              <premis:rightsGrantedNote>Grant note other</premis:rightsGrantedNote>
+            </premis:rightsGranted>
+            <premis:linkingObjectIdentifier>
+              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+            </premis:linkingObjectIdentifier>
+          </premis:rightsStatement>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:digiprovMD ID="digiprovMD_0" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>adb06d5d-90b3-438f-abf9-be7d4c9ead7a</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>ingestion</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:42.338964+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation/>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_1" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>2780f1d8-e371-4610-8051-c699d170ac55</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>message digest calculation</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:42.759213+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>a0e06bbffd72c579083289e7787151280508138b06cdf8841bd1f732fc3f4e18</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_2" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>32e56294-cf8d-42a4-b1e8-97deb15bca99</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:43.887631+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 md5deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_3" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>d8abd505-db02-4ef8-87f3-81401eaffa37</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:44.326871+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 sha1deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_4" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>479a1a26-758c-411d-ba51-b4ca62650b06</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:44.822749+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 sha256deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_5" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>3872d1be-06ec-4561-b480-7dda9580f5fe</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>virus check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:47.021173+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="ClamAV (clamd)"; version="ClamAV 0.99.2"; virusDefinitions="25402/Thu Mar 28 07:54:39 2019"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_6" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>441a2e17-f6bd-40bd-be8e-bb9a892bdcb1</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>format identification</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:50.808033+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="Siegfried"; version="1.7.10"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Positive</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>fmt/353</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_7" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>74b6e5a9-582b-47d5-81cc-124241f72752</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>validation</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:56.679607+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="JHOVE"; version="1.6"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>format="TIFF"; version="4.0"; result="Well-Formed and valid"</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_37" CREATED="2019-03-28T18:35:00">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>ba5a7831-d5fa-4e8a-907d-573d14911851</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>placement in backlog</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:35:00.424206+00:00</premis:eventDateTime>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="amdSec_1">
+    <mets:techMD ID="techMD_1" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+        <mets:xmlData>
+          <premis:object xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" xsi:type="premis:file" version="3.0">
+            <premis:objectIdentifier>
+              <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+              <premis:objectIdentifierValue>f18c6aa8-6b68-440f-97ba-42f9dd14678e</premis:objectIdentifierValue>
+            </premis:objectIdentifier>
+            <premis:objectCharacteristics>
+              <premis:compositionLevel>0</premis:compositionLevel>
+              <premis:fixity>
+                <premis:messageDigestAlgorithm>SHA-256</premis:messageDigestAlgorithm>
+                <premis:messageDigest>e74dd40d8818c57f061dc3066ed3fd0ee02ae3348a53a15a887c7f9d9b25e2b8</premis:messageDigest>
+              </premis:fixity>
+              <premis:size>277</premis:size>
+              <premis:format>
+                <premis:formatDesignation>
+                  <premis:formatName>Plain Text</premis:formatName>
+                  <premis:formatVersion/>
+                </premis:formatDesignation>
+                <premis:formatRegistry>
+                  <premis:formatRegistryName>PRONOM</premis:formatRegistryName>
+                  <premis:formatRegistryKey>x-fmt/111</premis:formatRegistryKey>
+                </premis:formatRegistry>
+              </premis:format>
+              <premis:creatingApplication>
+                <premis:dateCreatedByApplication>2019-03-15</premis:dateCreatedByApplication>
+              </premis:creatingApplication>
+              <premis:objectCharacteristicsExtension>
+                <fits xmlns="http://hul.harvard.edu/ois/xml/ns/fits/fits_output" xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd" version="0.8.4" timestamp="3/28/19 6:34 PM">
+                  <identification status="SINGLE_RESULT">
+                    <identity format="Plain text" mimetype="text/plain" toolname="FITS" toolversion="0.8.4">
+                      <tool toolname="file utility" toolversion="5.14"/>
+                    </identity>
+                  </identification>
+                  <fileinfo>
+                    <filepath toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/piiTestDataCreditCardNumbers.txt</filepath>
+                    <filename toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">piiTestDataCreditCardNumbers.txt</filename>
+                    <size toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">277</size>
+                    <fslastmodified toolname="OIS File Information" toolversion="0.2" status="SINGLE_RESULT">1552682526000</fslastmodified>
+                  </fileinfo>
+                  <filestatus/>
+                  <metadata>
+                    <text>
+                      <charset toolname="file utility" toolversion="5.14" status="SINGLE_RESULT">US-ASCII</charset>
+                    </text>
+                  </metadata>
+                  <toolOutput>
+                    <tool name="file utility" version="5.14">
+                      <fileUtilityOutput xmlns="">
+                        <rawOutput>ASCII text
+text/plain; charset=us-ascii</rawOutput>
+                        <mimetype>text/plain</mimetype>
+                        <format>Plain text</format>
+                        <charset>US-ASCII</charset>
+                      </fileUtilityOutput>
+                    </tool>
+                    <tool name="NLNZ Metadata Extractor" version="3.4GA">
+                      <DEFAULT xmlns="">
+                        <METADATA>
+                          <FILENAME>piiTestDataCreditCardNumbers.txt</FILENAME>
+                          <SEPARATOR>/</SEPARATOR>
+                          <PARENT>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects</PARENT>
+                          <CANONICALPATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/piiTestDataCreditCardNumbers.txt</CANONICALPATH>
+                          <ABSOLUTEPATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/piiTestDataCreditCardNumbers.txt</ABSOLUTEPATH>
+                          <PATH>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/piiTestDataCreditCardNumbers.txt</PATH>
+                          <FILE>true</FILE>
+                          <DIRECTORY>false</DIRECTORY>
+                          <FILELENGTH>277</FILELENGTH>
+                          <HIDDEN>false</HIDDEN>
+                          <ABSOLUTE>true</ABSOLUTE>
+                          <URL>file:/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/piiTestDataCreditCardNumbers.txt</URL>
+                          <URI>file:/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/piiTestDataCreditCardNumbers.txt</URI>
+                          <READ>true</READ>
+                          <WRITE>true</WRITE>
+                          <EXTENSION>txt</EXTENSION>
+                          <MODIFIED>2019-03-15 20:42:06</MODIFIED>
+                          <DATE>20190315</DATE>
+                          <DATEPATTERN>yyyyMMdd</DATEPATTERN>
+                          <TIME>204206000</TIME>
+                          <TIMEPATTERN>HHmmssSSS</TIMEPATTERN>
+                          <TYPE>text/plain</TYPE>
+                          <PID>null</PID>
+                          <OID>null</OID>
+                          <FID>null</FID>
+                          <PROCESSOR>unknown</PROCESSOR>
+                        </METADATA>
+                      </DEFAULT>
+                    </tool>
+                    <tool name="OIS File Information" version="0.2">
+                      <fits xsi:schemaLocation="http://hul.harvard.edu/ois/xml/ns/fits/fits_output http://hul.harvard.edu/ois/xml/xsd/fits/fits_output.xsd">
+                        <fileinfo>
+                          <filepath>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/piiTestDataCreditCardNumbers.txt</filepath>
+                          <filename>piiTestDataCreditCardNumbers.txt</filename>
+                          <size>277</size>
+                          <fslastmodified>1552682526000</fslastmodified>
+                        </fileinfo>
+                      </fits>
+                    </tool>
+                    <tool name="ffident" version="0.2">
+                      <ffidentOutput xmlns="">
+                        <shortName/>
+                        <longName>Unknown Binary</longName>
+                        <group/>
+                        <mimetypes>
+                          <mimetype>application/octet-stream</mimetype>
+                        </mimetypes>
+                        <fileExtensions/>
+                      </ffidentOutput>
+                    </tool>
+                    <tool name="Tika" version="1.3">
+                      <metadata xmlns="">
+                        <field name="Content-Encoding">
+                          <value>ISO-8859-1</value>
+                        </field>
+                        <field name="Content-Type">
+                          <value>text/plain; charset=ISO-8859-1</value>
+                        </field>
+                      </metadata>
+                    </tool>
+                  </toolOutput>
+                </fits>
+              </premis:objectCharacteristicsExtension>
+            </premis:objectCharacteristics>
+            <premis:originalName>%transferDirectory%objects/piiTestDataCreditCardNumbers.txt</premis:originalName>
+          </premis:object>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:digiprovMD ID="digiprovMD_8" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>58921261-18de-4fa3-96e2-4bd855930737</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>ingestion</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:42.326259+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation/>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_9" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>e69de0fe-9952-4d2e-b4bf-e8265592381c</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>message digest calculation</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:42.721082+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>e74dd40d8818c57f061dc3066ed3fd0ee02ae3348a53a15a887c7f9d9b25e2b8</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_10" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>bdc7c0f9-002c-46b7-bc9f-7c3fce771f5d</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:43.898438+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 md5deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_11" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>f867b377-c153-4a7f-ace9-9c209e7481a2</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:44.337554+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 sha1deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_12" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>5f182a54-281c-4d78-b882-52aa084c8e75</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:44.833423+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 sha256deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_13" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>8728f027-5be5-4ec0-a5aa-af692f896a36</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>virus check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:46.920681+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="ClamAV (clamd)"; version="ClamAV 0.99.2"; virusDefinitions="25402/Thu Mar 28 07:54:39 2019"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_14" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>51376170-d213-4558-93ae-916fc4ed9a52</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>format identification</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:50.472819+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="Siegfried"; version="1.7.10"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Positive</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>x-fmt/111</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_38" CREATED="2019-03-28T18:35:00">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>981fe2da-cd07-42ec-9461-b47ccad74d06</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>placement in backlog</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:35:00.424206+00:00</premis:eventDateTime>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="amdSec_2">
+    <mets:techMD ID="techMD_2" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+        <mets:xmlData>
+          <premis:object xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" xsi:type="premis:file" version="3.0">
+            <premis:objectIdentifier>
+              <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+              <premis:objectIdentifierValue>a47b1a34-6b74-4e09-9232-a4cb45891b4e</premis:objectIdentifierValue>
+            </premis:objectIdentifier>
+            <premis:objectCharacteristics>
+              <premis:compositionLevel>0</premis:compositionLevel>
+              <premis:fixity>
+                <premis:messageDigestAlgorithm>SHA-256</premis:messageDigestAlgorithm>
+                <premis:messageDigest>a28bc7a1c7bb1dd09528c52c99561c472b3dcb139049a5c67fb301807bfef8ba</premis:messageDigest>
+              </premis:fixity>
+              <premis:size>5992608</premis:size>
+              <premis:format>
+                <premis:formatDesignation>
+                  <premis:formatName>MPEG 1/2 Audio Layer 3</premis:formatName>
+                  <premis:formatVersion/>
+                </premis:formatDesignation>
+                <premis:formatRegistry>
+                  <premis:formatRegistryName>PRONOM</premis:formatRegistryName>
+                  <premis:formatRegistryKey>fmt/134</premis:formatRegistryKey>
+                </premis:formatRegistry>
+              </premis:format>
+              <premis:creatingApplication>
+                <premis:dateCreatedByApplication>2019-03-15</premis:dateCreatedByApplication>
+              </premis:creatingApplication>
+              <premis:objectCharacteristicsExtension>
+                <ffprobe>
+                  <program_version version="3.4.4-0ubuntu0.18.04.1" copyright="Copyright (c) 2007-2018 the FFmpeg developers" compiler_ident="gcc 7 (Ubuntu 7.3.0-16ubuntu3)" configuration="--prefix=/usr --extra-version=0ubuntu0.18.04.1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --enable-gpl --disable-stripping --enable-avresample --enable-avisynth --enable-gnutls --enable-ladspa --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librubberband --enable-librsvg --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzmq --enable-libzvbi --enable-omx --enable-openal --enable-opengl --enable-sdl2 --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-libopencv --enable-libx264 --enable-shared"/>
+                  <library_versions>
+                    <library_version name="libavutil" major="55" minor="78" micro="100" version="3624548" ident="Lavu55.78.100"/>
+                    <library_version name="libavcodec" major="57" minor="107" micro="100" version="3763044" ident="Lavc57.107.100"/>
+                    <library_version name="libavformat" major="57" minor="83" micro="100" version="3756900" ident="Lavf57.83.100"/>
+                    <library_version name="libavdevice" major="57" minor="10" micro="100" version="3738212" ident="Lavd57.10.100"/>
+                    <library_version name="libavfilter" major="6" minor="107" micro="100" version="420708" ident="Lavfi6.107.100"/>
+                    <library_version name="libswscale" major="4" minor="8" micro="100" version="264292" ident="SwS4.8.100"/>
+                    <library_version name="libswresample" major="2" minor="9" micro="100" version="133476" ident="SwR2.9.100"/>
+                    <library_version name="libpostproc" major="54" minor="7" micro="100" version="3540836" ident="postproc54.7.100"/>
+                  </library_versions>
+                  <streams>
+                    <stream index="0" codec_name="mp3" codec_long_name="MP3 (MPEG audio layer 3)" codec_type="audio" codec_time_base="1/44100" codec_tag_string="[0][0][0][0]" codec_tag="0x0000" sample_fmt="s16p" sample_rate="44100" channels="2" channel_layout="stereo" bits_per_sample="0" r_frame_rate="0/0" avg_frame_rate="0/0" time_base="1/14112000" start_pts="0" start_time="0.000000" duration_ts="2112747034" duration="149.712800" bit_rate="320000" extradata=" ">
+                      <disposition default="0" dub="0" original="0" comment="0" lyrics="0" karaoke="0" forced="0" hearing_impaired="0" visual_impaired="0" clean_effects="0" attached_pic="0" timed_thumbnails="0"/>
+                    </stream>
+                  </streams>
+                  <chapters>
+    </chapters>
+                  <format filename="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/bird.mp3" nb_streams="1" nb_programs="0" format_name="mp3" format_long_name="MP2/3 (MPEG audio layer 2/3)" start_time="0.000000" duration="149.712800" size="5992608" bit_rate="320218" probe_score="51">
+                    <tag key="title" value="Bird in my garden / 14000 Caen, France"/>
+                    <tag key="artist" value="Nicolas Germain"/>
+                    <tag key="album" value="radio aporee"/>
+                    <tag key="track" value="1/1"/>
+                    <tag key="genre" value="Other"/>
+                    <tag key="comment" value="2017-05-27 11:30:00 39 Rue du Milieu, 14000 Caen, France 49.172659538193/-0.35865023732185"/>
+                    <tag key="date" value="2017"/>
+                  </format>
+                </ffprobe>
+              </premis:objectCharacteristicsExtension>
+              <premis:objectCharacteristicsExtension>
+                <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                  <rdf:Description xmlns:et="http://ns.exiftool.ca/1.0/" xmlns:ExifTool="http://ns.exiftool.ca/ExifTool/1.0/" xmlns:System="http://ns.exiftool.ca/File/System/1.0/" xmlns:File="http://ns.exiftool.ca/File/1.0/" xmlns:MPEG="http://ns.exiftool.ca/MPEG/MPEG/1.0/" xmlns:ID3v2_3="http://ns.exiftool.ca/ID3/ID3v2_3/1.0/" xmlns:ID3v1="http://ns.exiftool.ca/ID3/ID3v1/1.0/" xmlns:Composite="http://ns.exiftool.ca/Composite/1.0/" rdf:about="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/bird.mp3" et:toolkit="Image::ExifTool 10.80">
+                    <ExifTool:ExifToolVersion>10.80</ExifTool:ExifToolVersion>
+                    <System:FileName>bird.mp3</System:FileName>
+                    <System:Directory>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects</System:Directory>
+                    <System:FileSize>5.7 MB</System:FileSize>
+                    <System:FileModifyDate>2019:03:15 20:42:06+00:00</System:FileModifyDate>
+                    <System:FileAccessDate>2019:03:28 18:34:42+00:00</System:FileAccessDate>
+                    <System:FileInodeChangeDate>2019:03:28 18:34:39+00:00</System:FileInodeChangeDate>
+                    <System:FilePermissions>rw-r-----</System:FilePermissions>
+                    <File:FileType>MP3</File:FileType>
+                    <File:FileTypeExtension>mp3</File:FileTypeExtension>
+                    <File:MIMEType>audio/mpeg</File:MIMEType>
+                    <File:ID3Size>4224</File:ID3Size>
+                    <MPEG:MPEGAudioVersion>1</MPEG:MPEGAudioVersion>
+                    <MPEG:AudioLayer>3</MPEG:AudioLayer>
+                    <MPEG:AudioBitrate>320 kbps</MPEG:AudioBitrate>
+                    <MPEG:SampleRate>44100</MPEG:SampleRate>
+                    <MPEG:ChannelMode>Joint Stereo</MPEG:ChannelMode>
+                    <MPEG:MSStereo>Off</MPEG:MSStereo>
+                    <MPEG:IntensityStereo>Off</MPEG:IntensityStereo>
+                    <MPEG:CopyrightFlag>False</MPEG:CopyrightFlag>
+                    <MPEG:OriginalMedia>False</MPEG:OriginalMedia>
+                    <MPEG:Emphasis>None</MPEG:Emphasis>
+                    <ID3v2_3:Title>Bird in my garden / 14000 Caen, France</ID3v2_3:Title>
+                    <ID3v2_3:Artist>Nicolas Germain</ID3v2_3:Artist>
+                    <ID3v2_3:Album>radio aporee</ID3v2_3:Album>
+                    <ID3v2_3:Year>2017</ID3v2_3:Year>
+                    <ID3v2_3:Genre>Other</ID3v2_3:Genre>
+                    <ID3v2_3:Comment>2017-05-27 11:30:00 39 Rue du Milieu, 14000 Caen, France 49.172659538193/-0.35865023732185</ID3v2_3:Comment>
+                    <ID3v2_3:Track>1/1</ID3v2_3:Track>
+                    <ID3v1:Title>Bird in my garden / 14000 Caen</ID3v1:Title>
+                    <ID3v1:Artist>Nicolas Germain</ID3v1:Artist>
+                    <ID3v1:Album>radio aporee</ID3v1:Album>
+                    <ID3v1:Year>2017</ID3v1:Year>
+                    <ID3v1:Comment>2017-05-27 11:30:00 39 Rue d</ID3v1:Comment>
+                    <ID3v1:Track>1</ID3v1:Track>
+                    <ID3v1:Genre>Other</ID3v1:Genre>
+                    <Composite:DateTimeOriginal>2017</Composite:DateTimeOriginal>
+                    <Composite:Duration>0:02:29 (approx)</Composite:Duration>
+                  </rdf:Description>
+                </rdf:RDF>
+              </premis:objectCharacteristicsExtension>
+              <premis:objectCharacteristicsExtension>
+                <MediaInfo xmlns="https://mediaarea.net/mediainfo" xsi:schemaLocation="https://mediaarea.net/mediainfo https://mediaarea.net/mediainfo/mediainfo_2_0.xsd" version="2.0">
+                  <creatingLibrary version="18.05" url="https://mediaarea.net/MediaInfo">MediaInfoLib</creatingLibrary>
+                  <media ref="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/bird.mp3">
+                    <track type="General">
+                      <AudioCount>1</AudioCount>
+                      <FileExtension>mp3</FileExtension>
+                      <Format>MPEG Audio</Format>
+                      <FileSize>5992608</FileSize>
+                      <Duration>149.709</Duration>
+                      <OverallBitRate_Mode>CBR</OverallBitRate_Mode>
+                      <OverallBitRate>320000</OverallBitRate>
+                      <StreamSize>4224</StreamSize>
+                      <Title>Bird in my garden / 14000 Caen, France</Title>
+                      <Album>radio aporee</Album>
+                      <Track>Bird in my garden / 14000 Caen, France</Track>
+                      <Track_Position>1</Track_Position>
+                      <Track_Position_Total>1</Track_Position_Total>
+                      <Performer>Nicolas Germain</Performer>
+                      <Genre>Other</Genre>
+                      <Recorded_Date>2017</Recorded_Date>
+                      <File_Modified_Date>UTC 2019-03-15 20:42:06</File_Modified_Date>
+                      <File_Modified_Date_Local>2019-03-15 20:42:06</File_Modified_Date_Local>
+                      <Comment>2017-05-27 11:30:00 39 Rue du Milieu, 14000 Caen, France 49.172659538193/-0.35865023732185</Comment>
+                    </track>
+                    <track type="Audio">
+                      <Format>MPEG Audio</Format>
+                      <Format_Version>1</Format_Version>
+                      <Format_Profile>Layer 3</Format_Profile>
+                      <Format_Settings_Mode>Joint stereo</Format_Settings_Mode>
+                      <Duration>149.707</Duration>
+                      <BitRate_Mode>CBR</BitRate_Mode>
+                      <BitRate>320000</BitRate>
+                      <Channels>2</Channels>
+                      <SamplesPerFrame>1152</SamplesPerFrame>
+                      <SamplingRate>44100</SamplingRate>
+                      <SamplingCount>6602112</SamplingCount>
+                      <FrameRate>38.281</FrameRate>
+                      <FrameCount>5731</FrameCount>
+                      <Compression_Mode>Lossy</Compression_Mode>
+                      <StreamSize>5988384</StreamSize>
+                      <StreamSize_Proportion>0.99930</StreamSize_Proportion>
+                    </track>
+                  </media>
+                </MediaInfo>
+              </premis:objectCharacteristicsExtension>
+            </premis:objectCharacteristics>
+            <premis:originalName>%transferDirectory%objects/bird.mp3</premis:originalName>
+          </premis:object>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="rightsMD_6" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
+        <mets:xmlData>
+          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatementIdentifier>
+              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+              <premis:rightsStatementIdentifierValue>86f63d9a-aea4-4640-807b-f0c4fa33ae88</premis:rightsStatementIdentifierValue>
+            </premis:rightsStatementIdentifier>
+            <premis:rightsBasis>Other</premis:rightsBasis>
+            <premis:otherRightsInformation>
+              <premis:otherRightsBasis>Donor</premis:otherRightsBasis>
+              <premis:otherRightsApplicableDates>
+                <premis:startDate>2010-01-01</premis:startDate>
+                <premis:endDate>OPEN</premis:endDate>
+              </premis:otherRightsApplicableDates>
+            </premis:otherRightsInformation>
+            <premis:rightsGranted>
+              <premis:act>Act donor</premis:act>
+            </premis:rightsGranted>
+            <premis:linkingObjectIdentifier>
+              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+              <premis:linkingObjectIdentifierValue>a47b1a34-6b74-4e09-9232-a4cb45891b4e</premis:linkingObjectIdentifierValue>
+            </premis:linkingObjectIdentifier>
+          </premis:rightsStatement>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:rightsMD ID="rightsMD_7" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
+        <mets:xmlData>
+          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatementIdentifier>
+              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+              <premis:rightsStatementIdentifierValue>0b62600d-0498-486c-99d9-e2bf60968d0d</premis:rightsStatementIdentifierValue>
+            </premis:rightsStatementIdentifier>
+            <premis:rightsBasis>Other</premis:rightsBasis>
+            <premis:otherRightsInformation>
+              <premis:otherRightsBasis>Policy</premis:otherRightsBasis>
+              <premis:otherRightsApplicableDates>
+                <premis:startDate>1999-01-01</premis:startDate>
+                <premis:endDate>OPEN</premis:endDate>
+              </premis:otherRightsApplicableDates>
+            </premis:otherRightsInformation>
+            <premis:rightsGranted>
+              <premis:act>Act policy</premis:act>
+            </premis:rightsGranted>
+            <premis:linkingObjectIdentifier>
+              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+              <premis:linkingObjectIdentifierValue>a47b1a34-6b74-4e09-9232-a4cb45891b4e</premis:linkingObjectIdentifierValue>
+            </premis:linkingObjectIdentifier>
+          </premis:rightsStatement>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:digiprovMD ID="digiprovMD_15" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>69ef569b-3519-4b3f-8eea-c7d742b57e51</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>ingestion</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:42.350291+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation/>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_16" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>a1a75b48-15bf-481c-9885-fb7d914f03bd</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>message digest calculation</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:42.796911+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>a28bc7a1c7bb1dd09528c52c99561c472b3dcb139049a5c67fb301807bfef8ba</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_17" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>69965ede-6bb6-4a48-8a75-ec6876c70756</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:43.882821+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 md5deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_18" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>4175809a-d129-41df-a777-88007c4d9dad</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:44.321925+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 sha1deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_19" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>860afcfb-ab5c-4c9e-9841-6e7af96c4a15</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:44.817826+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 sha256deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_20" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>35beb7a9-dd07-416e-b02d-0f2e1dcca047</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>virus check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:46.700822+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="ClamAV (clamd)"; version="ClamAV 0.99.2"; virusDefinitions="25402/Thu Mar 28 07:54:39 2019"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_21" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>98e1dc8c-173d-44b7-bdb3-3b0a0eb8ed41</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>format identification</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:50.606827+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="Siegfried"; version="1.7.10"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Positive</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>fmt/134</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_39" CREATED="2019-03-28T18:35:00">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>f6bc49b1-30ba-4802-887f-8bb2a40a7838</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>placement in backlog</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:35:00.424206+00:00</premis:eventDateTime>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="amdSec_3">
+    <mets:techMD ID="techMD_3" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+        <mets:xmlData>
+          <premis:object xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" xsi:type="premis:file" version="3.0">
+            <premis:objectIdentifier>
+              <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+              <premis:objectIdentifierValue>ce5dbde8-e869-467e-89fe-d33d5f94224a</premis:objectIdentifierValue>
+            </premis:objectIdentifier>
+            <premis:objectCharacteristics>
+              <premis:compositionLevel>0</premis:compositionLevel>
+              <premis:fixity>
+                <premis:messageDigestAlgorithm>SHA-256</premis:messageDigestAlgorithm>
+                <premis:messageDigest>383d349019ace0e235443c6cb8c5fa3174f00d562281947d36f5fd12aa263687</premis:messageDigest>
+              </premis:fixity>
+              <premis:size>6271469</premis:size>
+              <premis:format>
+                <premis:formatDesignation>
+                  <premis:formatName>Raw JPEG Stream</premis:formatName>
+                  <premis:formatVersion/>
+                </premis:formatDesignation>
+                <premis:formatRegistry>
+                  <premis:formatRegistryName>PRONOM</premis:formatRegistryName>
+                  <premis:formatRegistryKey>fmt/41</premis:formatRegistryKey>
+                </premis:formatRegistry>
+              </premis:format>
+              <premis:creatingApplication>
+                <premis:dateCreatedByApplication>2019-03-15</premis:dateCreatedByApplication>
+              </premis:creatingApplication>
+              <premis:objectCharacteristicsExtension>
+                <ffprobe>
+                  <program_version version="3.4.4-0ubuntu0.18.04.1" copyright="Copyright (c) 2007-2018 the FFmpeg developers" compiler_ident="gcc 7 (Ubuntu 7.3.0-16ubuntu3)" configuration="--prefix=/usr --extra-version=0ubuntu0.18.04.1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --enable-gpl --disable-stripping --enable-avresample --enable-avisynth --enable-gnutls --enable-ladspa --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librubberband --enable-librsvg --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzmq --enable-libzvbi --enable-omx --enable-openal --enable-opengl --enable-sdl2 --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-libopencv --enable-libx264 --enable-shared"/>
+                  <library_versions>
+                    <library_version name="libavutil" major="55" minor="78" micro="100" version="3624548" ident="Lavu55.78.100"/>
+                    <library_version name="libavcodec" major="57" minor="107" micro="100" version="3763044" ident="Lavc57.107.100"/>
+                    <library_version name="libavformat" major="57" minor="83" micro="100" version="3756900" ident="Lavf57.83.100"/>
+                    <library_version name="libavdevice" major="57" minor="10" micro="100" version="3738212" ident="Lavd57.10.100"/>
+                    <library_version name="libavfilter" major="6" minor="107" micro="100" version="420708" ident="Lavfi6.107.100"/>
+                    <library_version name="libswscale" major="4" minor="8" micro="100" version="264292" ident="SwS4.8.100"/>
+                    <library_version name="libswresample" major="2" minor="9" micro="100" version="133476" ident="SwR2.9.100"/>
+                    <library_version name="libpostproc" major="54" minor="7" micro="100" version="3540836" ident="postproc54.7.100"/>
+                  </library_versions>
+                  <streams>
+                    <stream index="0" codec_name="mjpeg" codec_long_name="Motion JPEG" codec_type="video" codec_time_base="0/1" codec_tag_string="[0][0][0][0]" codec_tag="0x0000" width="4896" height="3264" coded_width="4896" coded_height="3264" has_b_frames="0" sample_aspect_ratio="0:1" display_aspect_ratio="0:1" pix_fmt="yuvj422p" level="-99" color_range="pc" color_space="bt470bg" chroma_location="center" refs="1" r_frame_rate="25/1" avg_frame_rate="0/0" time_base="1/25" start_pts="0" start_time="0.000000" duration_ts="1" duration="0.040000" bits_per_raw_sample="8" extradata=" ">
+                      <disposition default="0" dub="0" original="0" comment="0" lyrics="0" karaoke="0" forced="0" hearing_impaired="0" visual_impaired="0" clean_effects="0" attached_pic="0" timed_thumbnails="0"/>
+                    </stream>
+                  </streams>
+                  <chapters>
+    </chapters>
+                  <format filename="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/View_from_lookout_over_Queenstown_towards_the_Remarkables_in_spring.jpg" nb_streams="1" nb_programs="0" format_name="image2" format_long_name="image2 sequence" start_time="0.000000" duration="0.040000" size="6271469" bit_rate="1254293800" probe_score="50"/>
+                </ffprobe>
+              </premis:objectCharacteristicsExtension>
+              <premis:objectCharacteristicsExtension>
+                <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                  <rdf:Description xmlns:et="http://ns.exiftool.ca/1.0/" xmlns:ExifTool="http://ns.exiftool.ca/ExifTool/1.0/" xmlns:System="http://ns.exiftool.ca/File/System/1.0/" xmlns:File="http://ns.exiftool.ca/File/1.0/" xmlns:IFD0="http://ns.exiftool.ca/EXIF/IFD0/1.0/" xmlns:ExifIFD="http://ns.exiftool.ca/EXIF/ExifIFD/1.0/" xmlns:FujiFilm="http://ns.exiftool.ca/MakerNotes/FujiFilm/1.0/" xmlns:InteropIFD="http://ns.exiftool.ca/EXIF/InteropIFD/1.0/" xmlns:PrintIM="http://ns.exiftool.ca/PrintIM/PrintIM/1.0/" xmlns:IFD1="http://ns.exiftool.ca/EXIF/IFD1/1.0/" xmlns:FlashPix="http://ns.exiftool.ca/FlashPix/FlashPix/1.0/" xmlns:Composite="http://ns.exiftool.ca/Composite/1.0/" rdf:about="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/View_from_lookout_over_Queenstown_towards_the_Remarkables_in_spring.jpg" et:toolkit="Image::ExifTool 10.80">
+                    <ExifTool:ExifToolVersion>10.80</ExifTool:ExifToolVersion>
+                    <System:FileName>View_from_lookout_over_Queenstown_towards_the_Remarkables_in_spring.jpg</System:FileName>
+                    <System:Directory>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects</System:Directory>
+                    <System:FileSize>6.0 MB</System:FileSize>
+                    <System:FileModifyDate>2019:03:15 20:42:06+00:00</System:FileModifyDate>
+                    <System:FileAccessDate>2019:03:28 18:34:42+00:00</System:FileAccessDate>
+                    <System:FileInodeChangeDate>2019:03:28 18:34:39+00:00</System:FileInodeChangeDate>
+                    <System:FilePermissions>rw-r-----</System:FilePermissions>
+                    <File:FileType>JPEG</File:FileType>
+                    <File:FileTypeExtension>jpg</File:FileTypeExtension>
+                    <File:MIMEType>image/jpeg</File:MIMEType>
+                    <File:ExifByteOrder>Little-endian (Intel, II)</File:ExifByteOrder>
+                    <File:ImageWidth>4896</File:ImageWidth>
+                    <File:ImageHeight>3264</File:ImageHeight>
+                    <File:EncodingProcess>Baseline DCT, Huffman coding</File:EncodingProcess>
+                    <File:BitsPerSample>8</File:BitsPerSample>
+                    <File:ColorComponents>3</File:ColorComponents>
+                    <File:YCbCrSubSampling>YCbCr4:2:2 (2 1)</File:YCbCrSubSampling>
+                    <IFD0:Make>FUJIFILM</IFD0:Make>
+                    <IFD0:Model>X-Pro1</IFD0:Model>
+                    <IFD0:Orientation>Horizontal (normal)</IFD0:Orientation>
+                    <IFD0:XResolution>72</IFD0:XResolution>
+                    <IFD0:YResolution>72</IFD0:YResolution>
+                    <IFD0:ResolutionUnit>inches</IFD0:ResolutionUnit>
+                    <IFD0:Software>Digital Camera X-Pro1 Ver3.10</IFD0:Software>
+                    <IFD0:ModifyDate>2014:10:30 18:56:27</IFD0:ModifyDate>
+                    <IFD0:YCbCrPositioning>Co-sited</IFD0:YCbCrPositioning>
+                    <IFD0:Copyright/>
+                    <ExifIFD:ExposureTime>1/950</ExifIFD:ExposureTime>
+                    <ExifIFD:FNumber>8.0</ExifIFD:FNumber>
+                    <ExifIFD:ExposureProgram>Aperture-priority AE</ExifIFD:ExposureProgram>
+                    <ExifIFD:ISO>800</ExifIFD:ISO>
+                    <ExifIFD:SensitivityType>Standard Output Sensitivity</ExifIFD:SensitivityType>
+                    <ExifIFD:ExifVersion>0230</ExifIFD:ExifVersion>
+                    <ExifIFD:DateTimeOriginal>2014:10:07 09:51:45</ExifIFD:DateTimeOriginal>
+                    <ExifIFD:CreateDate>2014:10:07 09:51:45</ExifIFD:CreateDate>
+                    <ExifIFD:ComponentsConfiguration>Y, Cb, Cr, -</ExifIFD:ComponentsConfiguration>
+                    <ExifIFD:CompressedBitsPerPixel>3.2</ExifIFD:CompressedBitsPerPixel>
+                    <ExifIFD:ShutterSpeedValue>1/982</ExifIFD:ShutterSpeedValue>
+                    <ExifIFD:ApertureValue>8.0</ExifIFD:ApertureValue>
+                    <ExifIFD:BrightnessValue>7.74</ExifIFD:BrightnessValue>
+                    <ExifIFD:ExposureCompensation>0</ExifIFD:ExposureCompensation>
+                    <ExifIFD:MaxApertureValue>2.4</ExifIFD:MaxApertureValue>
+                    <ExifIFD:MeteringMode>Multi-segment</ExifIFD:MeteringMode>
+                    <ExifIFD:LightSource>Unknown</ExifIFD:LightSource>
+                    <ExifIFD:Flash>Off, Did not fire</ExifIFD:Flash>
+                    <ExifIFD:FocalLength>18.0 mm</ExifIFD:FocalLength>
+                    <ExifIFD:FlashpixVersion>0100</ExifIFD:FlashpixVersion>
+                    <ExifIFD:ColorSpace>sRGB</ExifIFD:ColorSpace>
+                    <ExifIFD:ExifImageWidth>4896</ExifIFD:ExifImageWidth>
+                    <ExifIFD:ExifImageHeight>3264</ExifIFD:ExifImageHeight>
+                    <ExifIFD:FocalPlaneXResolution>2092</ExifIFD:FocalPlaneXResolution>
+                    <ExifIFD:FocalPlaneYResolution>2092</ExifIFD:FocalPlaneYResolution>
+                    <ExifIFD:FocalPlaneResolutionUnit>cm</ExifIFD:FocalPlaneResolutionUnit>
+                    <ExifIFD:SensingMethod>One-chip color area</ExifIFD:SensingMethod>
+                    <ExifIFD:FileSource>Digital Camera</ExifIFD:FileSource>
+                    <ExifIFD:SceneType>Directly photographed</ExifIFD:SceneType>
+                    <ExifIFD:CustomRendered>Normal</ExifIFD:CustomRendered>
+                    <ExifIFD:ExposureMode>Auto</ExifIFD:ExposureMode>
+                    <ExifIFD:WhiteBalance>Auto</ExifIFD:WhiteBalance>
+                    <ExifIFD:FocalLengthIn35mmFormat>27 mm</ExifIFD:FocalLengthIn35mmFormat>
+                    <ExifIFD:SceneCaptureType>Standard</ExifIFD:SceneCaptureType>
+                    <ExifIFD:Sharpness>Hard</ExifIFD:Sharpness>
+                    <ExifIFD:SubjectDistanceRange>Unknown</ExifIFD:SubjectDistanceRange>
+                    <ExifIFD:LensInfo>18-55mm f/2.8-4</ExifIFD:LensInfo>
+                    <ExifIFD:LensMake>FUJIFILM</ExifIFD:LensMake>
+                    <ExifIFD:LensModel>XF18-55mmF2.8-4 R LM OIS</ExifIFD:LensModel>
+                    <ExifIFD:LensSerialNumber>24A10167</ExifIFD:LensSerialNumber>
+                    <FujiFilm:Version>0130</FujiFilm:Version>
+                    <FujiFilm:InternalSerialNumber>FPX 21132130     593130323434 2012:02:11 FDA0302116FC</FujiFilm:InternalSerialNumber>
+                    <FujiFilm:Quality>FINE   </FujiFilm:Quality>
+                    <FujiFilm:Sharpness>+2 (hard)</FujiFilm:Sharpness>
+                    <FujiFilm:WhiteBalance>Auto</FujiFilm:WhiteBalance>
+                    <FujiFilm:Saturation>+2 (high)</FujiFilm:Saturation>
+                    <FujiFilm:WhiteBalanceFineTune>Red +0, Blue +0</FujiFilm:WhiteBalanceFineTune>
+                    <FujiFilm:NoiseReduction>n/a</FujiFilm:NoiseReduction>
+                    <FujiFilm:HighISONoiseReduction>-1 (medium weak)</FujiFilm:HighISONoiseReduction>
+                    <FujiFilm:FujiFlashMode>Off</FujiFilm:FujiFlashMode>
+                    <FujiFilm:FlashExposureComp>0</FujiFilm:FlashExposureComp>
+                    <FujiFilm:Macro>Off</FujiFilm:Macro>
+                    <FujiFilm:FocusMode>Auto</FujiFilm:FocusMode>
+                    <FujiFilm:AFMode>Single Point</FujiFilm:AFMode>
+                    <FujiFilm:FocusPixel>3015 1254</FujiFilm:FocusPixel>
+                    <FujiFilm:SlowSync>Off</FujiFilm:SlowSync>
+                    <FujiFilm:PictureMode>Aperture-priority AE</FujiFilm:PictureMode>
+                    <FujiFilm:ExposureCount>1</FujiFilm:ExposureCount>
+                    <FujiFilm:ShadowTone>0 (normal)</FujiFilm:ShadowTone>
+                    <FujiFilm:HighlightTone>-1 (medium soft)</FujiFilm:HighlightTone>
+                    <FujiFilm:AutoBracketing>Off</FujiFilm:AutoBracketing>
+                    <FujiFilm:SequenceNumber>0</FujiFilm:SequenceNumber>
+                    <FujiFilm:BlurWarning>None</FujiFilm:BlurWarning>
+                    <FujiFilm:FocusWarning>Good</FujiFilm:FocusWarning>
+                    <FujiFilm:ExposureWarning>Good</FujiFilm:ExposureWarning>
+                    <FujiFilm:DynamicRange>Standard</FujiFilm:DynamicRange>
+                    <FujiFilm:FilmMode>F0/Standard (Provia)</FujiFilm:FilmMode>
+                    <FujiFilm:DynamicRangeSetting>Manual</FujiFilm:DynamicRangeSetting>
+                    <FujiFilm:DevelopmentDynamicRange>400</FujiFilm:DevelopmentDynamicRange>
+                    <FujiFilm:MinFocalLength>18</FujiFilm:MinFocalLength>
+                    <FujiFilm:MaxFocalLength>55</FujiFilm:MaxFocalLength>
+                    <FujiFilm:MaxApertureAtMinFocal>2.8</FujiFilm:MaxApertureAtMinFocal>
+                    <FujiFilm:MaxApertureAtMaxFocal>4</FujiFilm:MaxApertureAtMaxFocal>
+                    <FujiFilm:ImageStabilization>Optical; On (mode 1, continuous); 0</FujiFilm:ImageStabilization>
+                    <FujiFilm:Rating>0</FujiFilm:Rating>
+                    <FujiFilm:ImageGeneration>Re-developed from RAW</FujiFilm:ImageGeneration>
+                    <FujiFilm:FacesDetected>0</FujiFilm:FacesDetected>
+                    <FujiFilm:NumFaceElements>0</FujiFilm:NumFaceElements>
+                    <InteropIFD:InteropIndex>R98 - DCF basic file (sRGB)</InteropIFD:InteropIndex>
+                    <InteropIFD:InteropVersion>0100</InteropIFD:InteropVersion>
+                    <PrintIM:PrintIMVersion>0250</PrintIM:PrintIMVersion>
+                    <IFD1:Compression>JPEG (old-style)</IFD1:Compression>
+                    <IFD1:Orientation>Horizontal (normal)</IFD1:Orientation>
+                    <IFD1:XResolution>72</IFD1:XResolution>
+                    <IFD1:YResolution>72</IFD1:YResolution>
+                    <IFD1:ResolutionUnit>inches</IFD1:ResolutionUnit>
+                    <IFD1:ThumbnailOffset>2112</IFD1:ThumbnailOffset>
+                    <IFD1:ThumbnailLength>9270</IFD1:ThumbnailLength>
+                    <IFD1:YCbCrPositioning>Co-sited</IFD1:YCbCrPositioning>
+                    <IFD1:ThumbnailImage>(Binary data 9270 bytes, use -b option to extract)</IFD1:ThumbnailImage>
+                    <FlashPix:PreviewImageWidth>320</FlashPix:PreviewImageWidth>
+                    <FlashPix:PreviewImageHeight>240</FlashPix:PreviewImageHeight>
+                    <FlashPix:PreviewImage>(Binary data 21570 bytes, use -b option to extract)</FlashPix:PreviewImage>
+                    <Composite:Aperture>8.0</Composite:Aperture>
+                    <Composite:ImageSize>4896x3264</Composite:ImageSize>
+                    <Composite:Megapixels>16.0</Composite:Megapixels>
+                    <Composite:PreviewImageSize>320x240</Composite:PreviewImageSize>
+                    <Composite:ScaleFactor35efl>1.5</Composite:ScaleFactor35efl>
+                    <Composite:ShutterSpeed>1/950</Composite:ShutterSpeed>
+                    <Composite:CircleOfConfusion>0.020 mm</Composite:CircleOfConfusion>
+                    <Composite:FOV>67.4 deg</Composite:FOV>
+                    <Composite:FocalLength35efl>18.0 mm (35 mm equivalent: 27.0 mm)</Composite:FocalLength35efl>
+                    <Composite:HyperfocalDistance>2.02 m</Composite:HyperfocalDistance>
+                    <Composite:LightValue>12.9</Composite:LightValue>
+                  </rdf:Description>
+                </rdf:RDF>
+              </premis:objectCharacteristicsExtension>
+              <premis:objectCharacteristicsExtension>
+                <MediaInfo xmlns="https://mediaarea.net/mediainfo" xsi:schemaLocation="https://mediaarea.net/mediainfo https://mediaarea.net/mediainfo/mediainfo_2_0.xsd" version="2.0">
+                  <creatingLibrary version="18.05" url="https://mediaarea.net/MediaInfo">MediaInfoLib</creatingLibrary>
+                  <media ref="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/View_from_lookout_over_Queenstown_towards_the_Remarkables_in_spring.jpg">
+                    <track type="General">
+                      <ImageCount>1</ImageCount>
+                      <FileExtension>jpg</FileExtension>
+                      <Format>JPEG</Format>
+                      <FileSize>6271469</FileSize>
+                      <StreamSize>0</StreamSize>
+                      <File_Modified_Date>UTC 2019-03-15 20:42:06</File_Modified_Date>
+                      <File_Modified_Date_Local>2019-03-15 20:42:06</File_Modified_Date_Local>
+                    </track>
+                    <track type="Image">
+                      <Format>JPEG</Format>
+                      <Width>4896</Width>
+                      <Height>3264</Height>
+                      <ColorSpace>YUV</ColorSpace>
+                      <ChromaSubsampling>4:2:2</ChromaSubsampling>
+                      <BitDepth>8</BitDepth>
+                      <Compression_Mode>Lossy</Compression_Mode>
+                      <StreamSize>6271469</StreamSize>
+                    </track>
+                  </media>
+                </MediaInfo>
+              </premis:objectCharacteristicsExtension>
+            </premis:objectCharacteristics>
+            <premis:originalName>%transferDirectory%objects/View_from_lookout_over_Queenstown_towards_the_Remarkables_in_spring.jpg</premis:originalName>
+          </premis:object>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:digiprovMD ID="digiprovMD_22" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>194e61a0-bc77-4dc4-9192-2f3c36c6687e</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>ingestion</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:42.365312+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation/>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_23" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>47fa43c2-5213-41b8-ade1-2c67283b4475</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>message digest calculation</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:42.778390+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>383d349019ace0e235443c6cb8c5fa3174f00d562281947d36f5fd12aa263687</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_24" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>1c8f8f4d-d675-4906-8518-23b29ad27da1</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:43.891303+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 md5deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_25" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>8c15465d-a904-4a68-8c26-4eea87993bcd</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:44.330482+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 sha1deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_26" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>3bf8cbeb-0f02-41f0-9b38-bf32398c9da0</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:44.826333+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 sha256deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_27" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>4280235c-0570-441c-8dde-738f8ea227ff</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>virus check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:46.925717+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="ClamAV (clamd)"; version="ClamAV 0.99.2"; virusDefinitions="25402/Thu Mar 28 07:54:39 2019"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_28" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>60a4dd5e-46fb-4cae-a385-6dfa33446ef6</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>format identification</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:50.949641+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="Siegfried"; version="1.7.10"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Positive</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>fmt/41</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_29" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>4d0c2cbd-40bc-437c-befb-5bda182e6658</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>validation</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:56.438127+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="JHOVE"; version="1.6"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>format="JPEG"; result="Well-Formed and valid"</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_40" CREATED="2019-03-28T18:35:00">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>ccaabf4a-7599-43c1-83e7-bf85e8e47450</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>placement in backlog</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:35:00.424206+00:00</premis:eventDateTime>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="amdSec_4">
+    <mets:techMD ID="techMD_4" CREATED="2019-03-28T18:34:57" STATUS="current">
+      <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+        <mets:xmlData>
+          <premis:object xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" xsi:type="premis:file" version="3.0">
+            <premis:objectIdentifier>
+              <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+              <premis:objectIdentifierValue>d0fbcf4c-4b1a-4822-9844-d24e248bc4af</premis:objectIdentifierValue>
+            </premis:objectIdentifier>
+            <premis:objectCharacteristics>
+              <premis:compositionLevel>0</premis:compositionLevel>
+              <premis:fixity>
+                <premis:messageDigestAlgorithm>SHA-256</premis:messageDigestAlgorithm>
+                <premis:messageDigest>e233f7f661e1296c9ad98e23f8679a2a69ce0d3becb8a9aafb679fd5e6a45bd8</premis:messageDigest>
+              </premis:fixity>
+              <premis:size>14644</premis:size>
+              <premis:format>
+                <premis:formatDesignation>
+                  <premis:formatName>Portable Network Graphics</premis:formatName>
+                  <premis:formatVersion>1.0</premis:formatVersion>
+                </premis:formatDesignation>
+                <premis:formatRegistry>
+                  <premis:formatRegistryName>PRONOM</premis:formatRegistryName>
+                  <premis:formatRegistryKey>fmt/11</premis:formatRegistryKey>
+                </premis:formatRegistry>
+              </premis:format>
+              <premis:creatingApplication>
+                <premis:dateCreatedByApplication>2019-03-15</premis:dateCreatedByApplication>
+              </premis:creatingApplication>
+              <premis:objectCharacteristicsExtension>
+                <ffprobe>
+                  <program_version version="3.4.4-0ubuntu0.18.04.1" copyright="Copyright (c) 2007-2018 the FFmpeg developers" compiler_ident="gcc 7 (Ubuntu 7.3.0-16ubuntu3)" configuration="--prefix=/usr --extra-version=0ubuntu0.18.04.1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --enable-gpl --disable-stripping --enable-avresample --enable-avisynth --enable-gnutls --enable-ladspa --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librubberband --enable-librsvg --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzmq --enable-libzvbi --enable-omx --enable-openal --enable-opengl --enable-sdl2 --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-libopencv --enable-libx264 --enable-shared"/>
+                  <library_versions>
+                    <library_version name="libavutil" major="55" minor="78" micro="100" version="3624548" ident="Lavu55.78.100"/>
+                    <library_version name="libavcodec" major="57" minor="107" micro="100" version="3763044" ident="Lavc57.107.100"/>
+                    <library_version name="libavformat" major="57" minor="83" micro="100" version="3756900" ident="Lavf57.83.100"/>
+                    <library_version name="libavdevice" major="57" minor="10" micro="100" version="3738212" ident="Lavd57.10.100"/>
+                    <library_version name="libavfilter" major="6" minor="107" micro="100" version="420708" ident="Lavfi6.107.100"/>
+                    <library_version name="libswscale" major="4" minor="8" micro="100" version="264292" ident="SwS4.8.100"/>
+                    <library_version name="libswresample" major="2" minor="9" micro="100" version="133476" ident="SwR2.9.100"/>
+                    <library_version name="libpostproc" major="54" minor="7" micro="100" version="3540836" ident="postproc54.7.100"/>
+                  </library_versions>
+                  <streams>
+                    <stream index="0" codec_name="png" codec_long_name="PNG (Portable Network Graphics) image" codec_type="video" codec_time_base="0/1" codec_tag_string="[0][0][0][0]" codec_tag="0x0000" width="1024" height="800" coded_width="1024" coded_height="800" has_b_frames="0" sample_aspect_ratio="1:1" display_aspect_ratio="32:25" pix_fmt="pal8" level="-99" color_range="pc" refs="1" r_frame_rate="25/1" avg_frame_rate="0/0" time_base="1/25" extradata=" ">
+                      <disposition default="0" dub="0" original="0" comment="0" lyrics="0" karaoke="0" forced="0" hearing_impaired="0" visual_impaired="0" clean_effects="0" attached_pic="0" timed_thumbnails="0"/>
+                    </stream>
+                  </streams>
+                  <chapters>
+    </chapters>
+                  <format filename="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/ocr-image.png" nb_streams="1" nb_programs="0" format_name="png_pipe" format_long_name="piped png sequence" size="14644" probe_score="99"/>
+                </ffprobe>
+              </premis:objectCharacteristicsExtension>
+              <premis:objectCharacteristicsExtension>
+                <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+                  <rdf:Description xmlns:et="http://ns.exiftool.ca/1.0/" xmlns:ExifTool="http://ns.exiftool.ca/ExifTool/1.0/" xmlns:System="http://ns.exiftool.ca/File/System/1.0/" xmlns:File="http://ns.exiftool.ca/File/1.0/" xmlns:PNG="http://ns.exiftool.ca/PNG/PNG/1.0/" xmlns:PNG-pHYs="http://ns.exiftool.ca/PNG/PNG-pHYs/1.0/" xmlns:Composite="http://ns.exiftool.ca/Composite/1.0/" rdf:about="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/ocr-image.png" et:toolkit="Image::ExifTool 10.80">
+                    <ExifTool:ExifToolVersion>10.80</ExifTool:ExifToolVersion>
+                    <System:FileName>ocr-image.png</System:FileName>
+                    <System:Directory>/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects</System:Directory>
+                    <System:FileSize>14 kB</System:FileSize>
+                    <System:FileModifyDate>2019:03:15 20:42:06+00:00</System:FileModifyDate>
+                    <System:FileAccessDate>2019:03:28 18:34:42+00:00</System:FileAccessDate>
+                    <System:FileInodeChangeDate>2019:03:28 18:34:39+00:00</System:FileInodeChangeDate>
+                    <System:FilePermissions>rw-r-----</System:FilePermissions>
+                    <File:FileType>PNG</File:FileType>
+                    <File:FileTypeExtension>png</File:FileTypeExtension>
+                    <File:MIMEType>image/png</File:MIMEType>
+                    <PNG:ImageWidth>1024</PNG:ImageWidth>
+                    <PNG:ImageHeight>800</PNG:ImageHeight>
+                    <PNG:BitDepth>1</PNG:BitDepth>
+                    <PNG:ColorType>Palette</PNG:ColorType>
+                    <PNG:Compression>Deflate/Inflate</PNG:Compression>
+                    <PNG:Filter>Adaptive</PNG:Filter>
+                    <PNG:Interlace>Noninterlaced</PNG:Interlace>
+                    <PNG:Palette>(Binary data 6 bytes, use -b option to extract)</PNG:Palette>
+                    <PNG:ModifyDate>2014:04:30 13:00:32</PNG:ModifyDate>
+                    <PNG-pHYs:PixelsPerUnitX>11811</PNG-pHYs:PixelsPerUnitX>
+                    <PNG-pHYs:PixelsPerUnitY>11811</PNG-pHYs:PixelsPerUnitY>
+                    <PNG-pHYs:PixelUnits>meters</PNG-pHYs:PixelUnits>
+                    <Composite:ImageSize>1024x800</Composite:ImageSize>
+                    <Composite:Megapixels>0.819</Composite:Megapixels>
+                  </rdf:Description>
+                </rdf:RDF>
+              </premis:objectCharacteristicsExtension>
+              <premis:objectCharacteristicsExtension>
+                <MediaInfo xmlns="https://mediaarea.net/mediainfo" xsi:schemaLocation="https://mediaarea.net/mediainfo https://mediaarea.net/mediainfo/mediainfo_2_0.xsd" version="2.0">
+                  <creatingLibrary version="18.05" url="https://mediaarea.net/MediaInfo">MediaInfoLib</creatingLibrary>
+                  <media ref="/var/archivematica/sharedDirectory/watchedDirectories/workFlowDecisions/extractPackagesChoice/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/objects/ocr-image.png">
+                    <track type="General">
+                      <ImageCount>1</ImageCount>
+                      <FileExtension>png</FileExtension>
+                      <Format>PNG</Format>
+                      <FileSize>14644</FileSize>
+                      <StreamSize>0</StreamSize>
+                      <File_Modified_Date>UTC 2019-03-15 20:42:06</File_Modified_Date>
+                      <File_Modified_Date_Local>2019-03-15 20:42:06</File_Modified_Date_Local>
+                    </track>
+                    <track type="Image">
+                      <Format>PNG</Format>
+                      <Format_Compression>LZ77</Format_Compression>
+                      <Width>1024</Width>
+                      <Height>800</Height>
+                      <BitDepth>1</BitDepth>
+                      <Compression_Mode>Lossless</Compression_Mode>
+                      <StreamSize>14644</StreamSize>
+                    </track>
+                  </media>
+                </MediaInfo>
+              </premis:objectCharacteristicsExtension>
+            </premis:objectCharacteristics>
+            <premis:originalName>%transferDirectory%objects/ocr-image.png</premis:originalName>
+          </premis:object>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:digiprovMD ID="digiprovMD_30" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>26fc6425-bb7c-47fc-b7a7-0ee930ee397c</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>ingestion</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:42.358573+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation/>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_31" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>438ed212-7f13-44d3-a2f9-294828944cd6</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>message digest calculation</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:42.727124+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="python"; module="hashlib.sha256()"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome/>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>e233f7f661e1296c9ad98e23f8679a2a69ce0d3becb8a9aafb679fd5e6a45bd8</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_32" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>6715f463-f60a-423d-92fc-46670c9b8669</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:43.894840+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 md5deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_33" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>eb4690e9-faf8-46ab-abd6-3fc4fe17317d</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:44.334016+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 sha1deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_34" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>bee05c6e-3182-4c58-b3df-16405353ea81</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>fixity check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:44.829916+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>4.4 sha256deep /var/archivematica/sharedDirectory/currentlyProcessing/20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d/</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_35" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>aeffaa32-3e74-4729-b29c-0f915919d950</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>virus check</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:46.705914+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="ClamAV (clamd)"; version="ClamAV 0.99.2"; virusDefinitions="25402/Thu Mar 28 07:54:39 2019"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Pass</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote/>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_36" CREATED="2019-03-28T18:34:57">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>4ee073d9-a6ac-419c-b1c9-eccbd5c3008f</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>format identification</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:34:50.391500+00:00</premis:eventDateTime>
+            <premis:eventDetailInformation><premis:eventDetail>program="Siegfried"; version="1.7.10"</premis:eventDetail></premis:eventDetailInformation>
+            <premis:eventOutcomeInformation>
+              <premis:eventOutcome>Positive</premis:eventOutcome>
+              <premis:eventOutcomeDetail>
+                <premis:eventOutcomeDetailNote>fmt/11</premis:eventOutcomeDetailNote>
+              </premis:eventOutcomeDetail>
+            </premis:eventOutcomeInformation>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+    <mets:digiprovMD ID="digiprovMD_41" CREATED="2019-03-28T18:35:00">
+      <mets:mdWrap MDTYPE="PREMIS:EVENT">
+        <mets:xmlData>
+          <premis:event xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:eventIdentifier>
+              <premis:eventIdentifierType>UUID</premis:eventIdentifierType>
+              <premis:eventIdentifierValue>bc56dbc9-95a3-45d0-a844-bbc9fa727dad</premis:eventIdentifierValue>
+            </premis:eventIdentifier>
+            <premis:eventType>placement in backlog</premis:eventType>
+            <premis:eventDateTime>2019-03-28 18:35:00.424206+00:00</premis:eventDateTime>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>preservation system</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>Archivematica-1.10</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>repository code</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>test</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+            <premis:linkingAgentIdentifier>
+              <premis:linkingAgentIdentifierType>Archivematica user pk</premis:linkingAgentIdentifierType>
+              <premis:linkingAgentIdentifierValue>1</premis:linkingAgentIdentifierValue>
+            </premis:linkingAgentIdentifier>
+          </premis:event>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:fileSec>
+    <mets:fileGrp USE="original">
+      <mets:file ID="file-ae765ac3-3689-4e14-9689-7911fb3b2384" GROUPID="Group-ae765ac3-3689-4e14-9689-7911fb3b2384" ADMID="amdSec_0" CHECKSUM="a0e06bbffd72c579083289e7787151280508138b06cdf8841bd1f732fc3f4e18" CHECKSUMTYPE="SHA-256">
+        <mets:FLocat xlink:href="objects/beihai.tif" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+      <mets:file ID="file-a47b1a34-6b74-4e09-9232-a4cb45891b4e" GROUPID="Group-a47b1a34-6b74-4e09-9232-a4cb45891b4e" ADMID="amdSec_2" CHECKSUM="a28bc7a1c7bb1dd09528c52c99561c472b3dcb139049a5c67fb301807bfef8ba" CHECKSUMTYPE="SHA-256">
+        <mets:FLocat xlink:href="objects/bird.mp3" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+      <mets:file ID="file-ce5dbde8-e869-467e-89fe-d33d5f94224a" GROUPID="Group-ce5dbde8-e869-467e-89fe-d33d5f94224a" ADMID="amdSec_3" CHECKSUM="383d349019ace0e235443c6cb8c5fa3174f00d562281947d36f5fd12aa263687" CHECKSUMTYPE="SHA-256">
+        <mets:FLocat xlink:href="objects/View_from_lookout_over_Queenstown_towards_the_Remarkables_in_spring.jpg" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+      <mets:file ID="file-d0fbcf4c-4b1a-4822-9844-d24e248bc4af" GROUPID="Group-d0fbcf4c-4b1a-4822-9844-d24e248bc4af" ADMID="amdSec_4" CHECKSUM="e233f7f661e1296c9ad98e23f8679a2a69ce0d3becb8a9aafb679fd5e6a45bd8" CHECKSUMTYPE="SHA-256">
+        <mets:FLocat xlink:href="objects/ocr-image.png" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+      <mets:file ID="file-f18c6aa8-6b68-440f-97ba-42f9dd14678e" GROUPID="Group-f18c6aa8-6b68-440f-97ba-42f9dd14678e" ADMID="amdSec_1" CHECKSUM="e74dd40d8818c57f061dc3066ed3fd0ee02ae3348a53a15a887c7f9d9b25e2b8" CHECKSUMTYPE="SHA-256">
+        <mets:FLocat xlink:href="objects/piiTestDataCreditCardNumbers.txt" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap ID="structMap_1" LABEL="Archivematica default" TYPE="physical">
+    <mets:div TYPE="Directory" LABEL="20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d">
+      <mets:div TYPE="Directory" LABEL="objects">
+        <mets:div TYPE="Item" LABEL="View_from_lookout_over_Queenstown_towards_the_Remarkables_in_spring.jpg">
+          <mets:fptr FILEID="file-ce5dbde8-e869-467e-89fe-d33d5f94224a"/>
+        </mets:div>
+        <mets:div TYPE="Item" LABEL="beihai.tif">
+          <mets:fptr FILEID="file-ae765ac3-3689-4e14-9689-7911fb3b2384"/>
+        </mets:div>
+        <mets:div TYPE="Item" LABEL="bird.mp3">
+          <mets:fptr FILEID="file-a47b1a34-6b74-4e09-9232-a4cb45891b4e"/>
+        </mets:div>
+        <mets:div TYPE="Item" LABEL="ocr-image.png">
+          <mets:fptr FILEID="file-d0fbcf4c-4b1a-4822-9844-d24e248bc4af"/>
+        </mets:div>
+        <mets:div TYPE="Item" LABEL="piiTestDataCreditCardNumbers.txt">
+          <mets:fptr FILEID="file-f18c6aa8-6b68-440f-97ba-42f9dd14678e"/>
+        </mets:div>
+      </mets:div>
+    </mets:div>
+  </mets:structMap>
+  <mets:structMap ID="structMap_2" LABEL="Normative Directory Structure" TYPE="logical">
+    <mets:div TYPE="Directory" LABEL="20190328113431-5a2a39cf-042a-4cbd-8252-784673f3871d">
+      <mets:div TYPE="Directory" LABEL="logs">
+        <mets:div TYPE="Directory" LABEL="fileMeta"/>
+      </mets:div>
+      <mets:div TYPE="Directory" LABEL="metadata">
+        <mets:div TYPE="Directory" LABEL="submissionDocumentation"/>
+      </mets:div>
+      <mets:div TYPE="Directory" LABEL="objects">
+        <mets:div TYPE="Item" LABEL="View_from_lookout_over_Queenstown_towards_the_Remarkables_in_spring.jpg"/>
+        <mets:div TYPE="Item" LABEL="beihai.tif"/>
+        <mets:div TYPE="Item" LABEL="bird.mp3"/>
+        <mets:div TYPE="Item" LABEL="ocr-image.png"/>
+        <mets:div TYPE="Item" LABEL="piiTestDataCreditCardNumbers.txt"/>
+      </mets:div>
+    </mets:div>
+  </mets:structMap>
+</mets:mets>
