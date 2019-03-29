@@ -16,6 +16,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   reading-mets
+   writing-mets
    metsrw
    metsrw.plugins.premisrw
 
