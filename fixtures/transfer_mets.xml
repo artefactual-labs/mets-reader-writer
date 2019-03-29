@@ -106,210 +106,222 @@
     <mets:rightsMD ID="rightsMD_0" CREATED="2019-03-28T18:34:57" STATUS="current">
       <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
         <mets:xmlData>
-          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
-            <premis:rightsStatementIdentifier>
-              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
-              <premis:rightsStatementIdentifierValue>d54c712c-d501-4c2f-94b0-e6a0be418751</premis:rightsStatementIdentifierValue>
-            </premis:rightsStatementIdentifier>
-            <premis:rightsBasis>Copyright</premis:rightsBasis>
-            <premis:copyrightInformation>
-              <premis:copyrightStatus>copyright status</premis:copyrightStatus>
-              <premis:copyrightJurisdiction>CA</premis:copyrightJurisdiction>
-              <premis:copyrightStatusDeterminationDate>2001-01-01</premis:copyrightStatusDeterminationDate>
-              <premis:copyrightNote>Note 1</premis:copyrightNote>
-              <premis:copyrightApplicableDates>
-                <premis:startDate>2002-02-02</premis:startDate>
-                <premis:endDate>2003-03-03</premis:endDate>
-              </premis:copyrightApplicableDates>
-            </premis:copyrightInformation>
-            <premis:rightsGranted>
-              <premis:act>Act 1</premis:act>
-              <premis:restriction>Allow</premis:restriction>
-              <premis:termOfGrant>
-                <premis:startDate>2004-04-04</premis:startDate>
-                <premis:endDate>2005-05-05</premis:endDate>
-              </premis:termOfGrant>
-              <premis:rightsGrantedNote>Grant note 1</premis:rightsGrantedNote>
-            </premis:rightsGranted>
-            <premis:linkingObjectIdentifier>
-              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
-              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
-            </premis:linkingObjectIdentifier>
-          </premis:rightsStatement>
+          <premis:rights xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatement>
+              <premis:rightsStatementIdentifier>
+                <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+                <premis:rightsStatementIdentifierValue>d54c712c-d501-4c2f-94b0-e6a0be418751</premis:rightsStatementIdentifierValue>
+              </premis:rightsStatementIdentifier>
+              <premis:rightsBasis>Copyright</premis:rightsBasis>
+              <premis:copyrightInformation>
+                <premis:copyrightStatus>copyright status</premis:copyrightStatus>
+                <premis:copyrightJurisdiction>CA</premis:copyrightJurisdiction>
+                <premis:copyrightStatusDeterminationDate>2001-01-01</premis:copyrightStatusDeterminationDate>
+                <premis:copyrightNote>Note 1</premis:copyrightNote>
+                <premis:copyrightApplicableDates>
+                  <premis:startDate>2002-02-02</premis:startDate>
+                  <premis:endDate>2003-03-03</premis:endDate>
+                </premis:copyrightApplicableDates>
+              </premis:copyrightInformation>
+              <premis:rightsGranted>
+                <premis:act>Act 1</premis:act>
+                <premis:restriction>Allow</premis:restriction>
+                <premis:termOfGrant>
+                  <premis:startDate>2004-04-04</premis:startDate>
+                  <premis:endDate>2005-05-05</premis:endDate>
+                </premis:termOfGrant>
+                <premis:rightsGrantedNote>Grant note 1</premis:rightsGrantedNote>
+              </premis:rightsGranted>
+              <premis:linkingObjectIdentifier>
+                <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+                <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+              </premis:linkingObjectIdentifier>
+            </premis:rightsStatement>
+          </premis:rights>
         </mets:xmlData>
       </mets:mdWrap>
     </mets:rightsMD>
     <mets:rightsMD ID="rightsMD_1" CREATED="2019-03-28T18:34:57" STATUS="current">
       <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
         <mets:xmlData>
-          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
-            <premis:rightsStatementIdentifier>
-              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
-              <premis:rightsStatementIdentifierValue>c217afa3-3c2a-44fb-91cd-3795c07f521a</premis:rightsStatementIdentifierValue>
-            </premis:rightsStatementIdentifier>
-            <premis:rightsBasis>Copyright</premis:rightsBasis>
-            <premis:copyrightInformation>
-              <premis:copyrightStatus>copyright status</premis:copyrightStatus>
-              <premis:copyrightJurisdiction>CA</premis:copyrightJurisdiction>
-              <premis:copyrightStatusDeterminationDate>2002-02-02</premis:copyrightStatusDeterminationDate>
-              <premis:copyrightNote>Note 2</premis:copyrightNote>
-              <premis:copyrightApplicableDates>
-                <premis:startDate>1992-01-01</premis:startDate>
-                <premis:endDate>2091-12-31</premis:endDate>
-              </premis:copyrightApplicableDates>
-            </premis:copyrightInformation>
-            <premis:rightsGranted>
-              <premis:act>Act 2</premis:act>
-              <premis:restriction>Disallow</premis:restriction>
-              <premis:termOfRestriction>
-                <premis:startDate/>
-                <premis:endDate/>
-              </premis:termOfRestriction>
-              <premis:rightsGrantedNote>Grant note 2</premis:rightsGrantedNote>
-            </premis:rightsGranted>
-            <premis:linkingObjectIdentifier>
-              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
-              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
-            </premis:linkingObjectIdentifier>
-          </premis:rightsStatement>
+          <premis:rights xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatement>
+              <premis:rightsStatementIdentifier>
+                <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+                <premis:rightsStatementIdentifierValue>c217afa3-3c2a-44fb-91cd-3795c07f521a</premis:rightsStatementIdentifierValue>
+              </premis:rightsStatementIdentifier>
+              <premis:rightsBasis>Copyright</premis:rightsBasis>
+              <premis:copyrightInformation>
+                <premis:copyrightStatus>copyright status</premis:copyrightStatus>
+                <premis:copyrightJurisdiction>CA</premis:copyrightJurisdiction>
+                <premis:copyrightStatusDeterminationDate>2002-02-02</premis:copyrightStatusDeterminationDate>
+                <premis:copyrightNote>Note 2</premis:copyrightNote>
+                <premis:copyrightApplicableDates>
+                  <premis:startDate>1992-01-01</premis:startDate>
+                  <premis:endDate>2091-12-31</premis:endDate>
+                </premis:copyrightApplicableDates>
+              </premis:copyrightInformation>
+              <premis:rightsGranted>
+                <premis:act>Act 2</premis:act>
+                <premis:restriction>Disallow</premis:restriction>
+                <premis:termOfRestriction>
+                  <premis:startDate/>
+                  <premis:endDate/>
+                </premis:termOfRestriction>
+                <premis:rightsGrantedNote>Grant note 2</premis:rightsGrantedNote>
+              </premis:rightsGranted>
+              <premis:linkingObjectIdentifier>
+                <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+                <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+              </premis:linkingObjectIdentifier>
+            </premis:rightsStatement>
+          </premis:rights>
         </mets:xmlData>
       </mets:mdWrap>
     </mets:rightsMD>
     <mets:rightsMD ID="rightsMD_2" CREATED="2019-03-28T18:34:57" STATUS="current">
       <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
         <mets:xmlData>
-          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
-            <premis:rightsStatementIdentifier>
-              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
-              <premis:rightsStatementIdentifierValue>db5787a6-a3fa-4872-a339-5fec8838bb17</premis:rightsStatementIdentifierValue>
-            </premis:rightsStatementIdentifier>
-            <premis:rightsBasis>Copyright</premis:rightsBasis>
-            <premis:copyrightInformation>
-              <premis:copyrightStatus>copyright status</premis:copyrightStatus>
-              <premis:copyrightJurisdiction>CA</premis:copyrightJurisdiction>
-              <premis:copyrightStatusDeterminationDate>2001-01-01</premis:copyrightStatusDeterminationDate>
-              <premis:copyrightNote>Note 3</premis:copyrightNote>
-              <premis:copyrightApplicableDates>
-                <premis:startDate>2002-02-02</premis:startDate>
-                <premis:endDate>2003-03-03</premis:endDate>
-              </premis:copyrightApplicableDates>
-            </premis:copyrightInformation>
-            <premis:rightsGranted>
-              <premis:act>Act 3</premis:act>
-              <premis:restriction>Allow</premis:restriction>
-              <premis:termOfGrant>
-                <premis:startDate>2004-04-04</premis:startDate>
-                <premis:endDate>2005-05-05</premis:endDate>
-              </premis:termOfGrant>
-              <premis:rightsGrantedNote>Grant note 3</premis:rightsGrantedNote>
-            </premis:rightsGranted>
-            <premis:linkingObjectIdentifier>
-              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
-              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
-            </premis:linkingObjectIdentifier>
-          </premis:rightsStatement>
+          <premis:rights xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatement>
+              <premis:rightsStatementIdentifier>
+                <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+                <premis:rightsStatementIdentifierValue>db5787a6-a3fa-4872-a339-5fec8838bb17</premis:rightsStatementIdentifierValue>
+              </premis:rightsStatementIdentifier>
+              <premis:rightsBasis>Copyright</premis:rightsBasis>
+              <premis:copyrightInformation>
+                <premis:copyrightStatus>copyright status</premis:copyrightStatus>
+                <premis:copyrightJurisdiction>CA</premis:copyrightJurisdiction>
+                <premis:copyrightStatusDeterminationDate>2001-01-01</premis:copyrightStatusDeterminationDate>
+                <premis:copyrightNote>Note 3</premis:copyrightNote>
+                <premis:copyrightApplicableDates>
+                  <premis:startDate>2002-02-02</premis:startDate>
+                  <premis:endDate>2003-03-03</premis:endDate>
+                </premis:copyrightApplicableDates>
+              </premis:copyrightInformation>
+              <premis:rightsGranted>
+                <premis:act>Act 3</premis:act>
+                <premis:restriction>Allow</premis:restriction>
+                <premis:termOfGrant>
+                  <premis:startDate>2004-04-04</premis:startDate>
+                  <premis:endDate>2005-05-05</premis:endDate>
+                </premis:termOfGrant>
+                <premis:rightsGrantedNote>Grant note 3</premis:rightsGrantedNote>
+              </premis:rightsGranted>
+              <premis:linkingObjectIdentifier>
+                <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+                <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+              </premis:linkingObjectIdentifier>
+            </premis:rightsStatement>
+          </premis:rights>
         </mets:xmlData>
       </mets:mdWrap>
     </mets:rightsMD>
     <mets:rightsMD ID="rightsMD_3" CREATED="2019-03-28T18:34:57" STATUS="current">
       <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
         <mets:xmlData>
-          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
-            <premis:rightsStatementIdentifier>
-              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
-              <premis:rightsStatementIdentifierValue>cae8116b-5f64-4353-a060-b6569c69bb56</premis:rightsStatementIdentifierValue>
-            </premis:rightsStatementIdentifier>
-            <premis:rightsBasis>License</premis:rightsBasis>
-            <premis:licenseInformation>
-              <premis:licenseTerms>License terms</premis:licenseTerms>
-              <premis:licenseNote>Note license</premis:licenseNote>
-              <premis:licenseApplicableDates>
-                <premis:startDate>1982-01-01</premis:startDate>
-                <premis:endDate>1983-02-02</premis:endDate>
-              </premis:licenseApplicableDates>
-            </premis:licenseInformation>
-            <premis:rightsGranted>
-              <premis:act>Act license</premis:act>
-              <premis:restriction>Allow</premis:restriction>
-              <premis:termOfGrant>
-                <premis:startDate/>
-                <premis:endDate/>
-              </premis:termOfGrant>
-            </premis:rightsGranted>
-            <premis:linkingObjectIdentifier>
-              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
-              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
-            </premis:linkingObjectIdentifier>
-          </premis:rightsStatement>
+          <premis:rights xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatement>
+              <premis:rightsStatementIdentifier>
+                <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+                <premis:rightsStatementIdentifierValue>cae8116b-5f64-4353-a060-b6569c69bb56</premis:rightsStatementIdentifierValue>
+              </premis:rightsStatementIdentifier>
+              <premis:rightsBasis>License</premis:rightsBasis>
+              <premis:licenseInformation>
+                <premis:licenseTerms>License terms</premis:licenseTerms>
+                <premis:licenseNote>Note license</premis:licenseNote>
+                <premis:licenseApplicableDates>
+                  <premis:startDate>1982-01-01</premis:startDate>
+                  <premis:endDate>1983-02-02</premis:endDate>
+                </premis:licenseApplicableDates>
+              </premis:licenseInformation>
+              <premis:rightsGranted>
+                <premis:act>Act license</premis:act>
+                <premis:restriction>Allow</premis:restriction>
+                <premis:termOfGrant>
+                  <premis:startDate/>
+                  <premis:endDate/>
+                </premis:termOfGrant>
+              </premis:rightsGranted>
+              <premis:linkingObjectIdentifier>
+                <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+                <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+              </premis:linkingObjectIdentifier>
+            </premis:rightsStatement>
+          </premis:rights>
         </mets:xmlData>
       </mets:mdWrap>
     </mets:rightsMD>
     <mets:rightsMD ID="rightsMD_4" CREATED="2019-03-28T18:34:57" STATUS="current">
       <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
         <mets:xmlData>
-          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
-            <premis:rightsStatementIdentifier>
-              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
-              <premis:rightsStatementIdentifierValue>e15138bf-e94c-4c46-a5d6-a874d6efa6e4</premis:rightsStatementIdentifierValue>
-            </premis:rightsStatementIdentifier>
-            <premis:rightsBasis>Statute</premis:rightsBasis>
-            <premis:statuteInformation>
-              <premis:statuteJurisdiction>Canada</premis:statuteJurisdiction>
-              <premis:statuteCitation>Citation</premis:statuteCitation>
-              <premis:statuteInformationDeterminationDate>1972-02-02</premis:statuteInformationDeterminationDate>
-              <premis:statuteNote>Note statute</premis:statuteNote>
-              <premis:statuteApplicableDates>
-                <premis:startDate>1966-01-01</premis:startDate>
-                <premis:endDate>OPEN</premis:endDate>
-              </premis:statuteApplicableDates>
-            </premis:statuteInformation>
-            <premis:rightsGranted>
-              <premis:act>Act statute</premis:act>
-              <premis:restriction>Allow</premis:restriction>
-              <premis:termOfGrant>
-                <premis:startDate/>
-                <premis:endDate/>
-              </premis:termOfGrant>
-            </premis:rightsGranted>
-            <premis:linkingObjectIdentifier>
-              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
-              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
-            </premis:linkingObjectIdentifier>
-          </premis:rightsStatement>
+          <premis:rights xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatement>
+              <premis:rightsStatementIdentifier>
+                <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+                <premis:rightsStatementIdentifierValue>e15138bf-e94c-4c46-a5d6-a874d6efa6e4</premis:rightsStatementIdentifierValue>
+              </premis:rightsStatementIdentifier>
+              <premis:rightsBasis>Statute</premis:rightsBasis>
+              <premis:statuteInformation>
+                <premis:statuteJurisdiction>Canada</premis:statuteJurisdiction>
+                <premis:statuteCitation>Citation</premis:statuteCitation>
+                <premis:statuteInformationDeterminationDate>1972-02-02</premis:statuteInformationDeterminationDate>
+                <premis:statuteNote>Note statute</premis:statuteNote>
+                <premis:statuteApplicableDates>
+                  <premis:startDate>1966-01-01</premis:startDate>
+                  <premis:endDate>OPEN</premis:endDate>
+                </premis:statuteApplicableDates>
+              </premis:statuteInformation>
+              <premis:rightsGranted>
+                <premis:act>Act statute</premis:act>
+                <premis:restriction>Allow</premis:restriction>
+                <premis:termOfGrant>
+                  <premis:startDate/>
+                  <premis:endDate/>
+                </premis:termOfGrant>
+              </premis:rightsGranted>
+              <premis:linkingObjectIdentifier>
+                <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+                <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+              </premis:linkingObjectIdentifier>
+            </premis:rightsStatement>
+          </premis:rights>
         </mets:xmlData>
       </mets:mdWrap>
     </mets:rightsMD>
     <mets:rightsMD ID="rightsMD_5" CREATED="2019-03-28T18:34:57" STATUS="current">
       <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
         <mets:xmlData>
-          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
-            <premis:rightsStatementIdentifier>
-              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
-              <premis:rightsStatementIdentifierValue>919b8a79-edb8-4a23-9636-4f5d9edd1957</premis:rightsStatementIdentifierValue>
-            </premis:rightsStatementIdentifier>
-            <premis:rightsBasis>Other</premis:rightsBasis>
-            <premis:otherRightsInformation>
-              <premis:otherRightsBasis>Other</premis:otherRightsBasis>
-              <premis:otherRightsApplicableDates>
-                <premis:startDate>1945-01-01</premis:startDate>
-                <premis:endDate>1950-05-05</premis:endDate>
-              </premis:otherRightsApplicableDates>
-              <premis:otherRightsNote>Note other</premis:otherRightsNote>
-            </premis:otherRightsInformation>
-            <premis:rightsGranted>
-              <premis:act>Act other</premis:act>
-              <premis:restriction>Allow</premis:restriction>
-              <premis:termOfGrant>
-                <premis:startDate>1920-01-01</premis:startDate>
-                <premis:endDate>1921-01-01</premis:endDate>
-              </premis:termOfGrant>
-              <premis:rightsGrantedNote>Grant note other</premis:rightsGrantedNote>
-            </premis:rightsGranted>
-            <premis:linkingObjectIdentifier>
-              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
-              <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
-            </premis:linkingObjectIdentifier>
-          </premis:rightsStatement>
+          <premis:rights xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatement>
+              <premis:rightsStatementIdentifier>
+                <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+                <premis:rightsStatementIdentifierValue>919b8a79-edb8-4a23-9636-4f5d9edd1957</premis:rightsStatementIdentifierValue>
+              </premis:rightsStatementIdentifier>
+              <premis:rightsBasis>Other</premis:rightsBasis>
+              <premis:otherRightsInformation>
+                <premis:otherRightsBasis>Other</premis:otherRightsBasis>
+                <premis:otherRightsApplicableDates>
+                  <premis:startDate>1945-01-01</premis:startDate>
+                  <premis:endDate>1950-05-05</premis:endDate>
+                </premis:otherRightsApplicableDates>
+                <premis:otherRightsNote>Note other</premis:otherRightsNote>
+              </premis:otherRightsInformation>
+              <premis:rightsGranted>
+                <premis:act>Act other</premis:act>
+                <premis:restriction>Allow</premis:restriction>
+                <premis:termOfGrant>
+                  <premis:startDate>1920-01-01</premis:startDate>
+                  <premis:endDate>1921-01-01</premis:endDate>
+                </premis:termOfGrant>
+                <premis:rightsGrantedNote>Grant note other</premis:rightsGrantedNote>
+              </premis:rightsGranted>
+              <premis:linkingObjectIdentifier>
+                <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+                <premis:linkingObjectIdentifierValue>ae765ac3-3689-4e14-9689-7911fb3b2384</premis:linkingObjectIdentifierValue>
+              </premis:linkingObjectIdentifier>
+            </premis:rightsStatement>
+          </premis:rights>
         </mets:xmlData>
       </mets:mdWrap>
     </mets:rightsMD>
@@ -1151,54 +1163,58 @@ text/plain; charset=us-ascii</rawOutput>
     <mets:rightsMD ID="rightsMD_6" CREATED="2019-03-28T18:34:57" STATUS="current">
       <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
         <mets:xmlData>
-          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
-            <premis:rightsStatementIdentifier>
-              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
-              <premis:rightsStatementIdentifierValue>86f63d9a-aea4-4640-807b-f0c4fa33ae88</premis:rightsStatementIdentifierValue>
-            </premis:rightsStatementIdentifier>
-            <premis:rightsBasis>Other</premis:rightsBasis>
-            <premis:otherRightsInformation>
-              <premis:otherRightsBasis>Donor</premis:otherRightsBasis>
-              <premis:otherRightsApplicableDates>
-                <premis:startDate>2010-01-01</premis:startDate>
-                <premis:endDate>OPEN</premis:endDate>
-              </premis:otherRightsApplicableDates>
-            </premis:otherRightsInformation>
-            <premis:rightsGranted>
-              <premis:act>Act donor</premis:act>
-            </premis:rightsGranted>
-            <premis:linkingObjectIdentifier>
-              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
-              <premis:linkingObjectIdentifierValue>a47b1a34-6b74-4e09-9232-a4cb45891b4e</premis:linkingObjectIdentifierValue>
-            </premis:linkingObjectIdentifier>
-          </premis:rightsStatement>
+          <premis:rights xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatement>
+              <premis:rightsStatementIdentifier>
+                <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+                <premis:rightsStatementIdentifierValue>86f63d9a-aea4-4640-807b-f0c4fa33ae88</premis:rightsStatementIdentifierValue>
+              </premis:rightsStatementIdentifier>
+              <premis:rightsBasis>Other</premis:rightsBasis>
+              <premis:otherRightsInformation>
+                <premis:otherRightsBasis>Donor</premis:otherRightsBasis>
+                <premis:otherRightsApplicableDates>
+                  <premis:startDate>2010-01-01</premis:startDate>
+                  <premis:endDate>OPEN</premis:endDate>
+                </premis:otherRightsApplicableDates>
+              </premis:otherRightsInformation>
+              <premis:rightsGranted>
+                <premis:act>Act donor</premis:act>
+              </premis:rightsGranted>
+              <premis:linkingObjectIdentifier>
+                <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+                <premis:linkingObjectIdentifierValue>a47b1a34-6b74-4e09-9232-a4cb45891b4e</premis:linkingObjectIdentifierValue>
+              </premis:linkingObjectIdentifier>
+            </premis:rightsStatement>
+          </premis:rights>
         </mets:xmlData>
       </mets:mdWrap>
     </mets:rightsMD>
     <mets:rightsMD ID="rightsMD_7" CREATED="2019-03-28T18:34:57" STATUS="current">
       <mets:mdWrap MDTYPE="PREMIS:RIGHTS">
         <mets:xmlData>
-          <premis:rightsStatement xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
-            <premis:rightsStatementIdentifier>
-              <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
-              <premis:rightsStatementIdentifierValue>0b62600d-0498-486c-99d9-e2bf60968d0d</premis:rightsStatementIdentifierValue>
-            </premis:rightsStatementIdentifier>
-            <premis:rightsBasis>Other</premis:rightsBasis>
-            <premis:otherRightsInformation>
-              <premis:otherRightsBasis>Policy</premis:otherRightsBasis>
-              <premis:otherRightsApplicableDates>
-                <premis:startDate>1999-01-01</premis:startDate>
-                <premis:endDate>OPEN</premis:endDate>
-              </premis:otherRightsApplicableDates>
-            </premis:otherRightsInformation>
-            <premis:rightsGranted>
-              <premis:act>Act policy</premis:act>
-            </premis:rightsGranted>
-            <premis:linkingObjectIdentifier>
-              <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
-              <premis:linkingObjectIdentifierValue>a47b1a34-6b74-4e09-9232-a4cb45891b4e</premis:linkingObjectIdentifierValue>
-            </premis:linkingObjectIdentifier>
-          </premis:rightsStatement>
+          <premis:rights xmlns:premis="http://www.loc.gov/premis/v3" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+            <premis:rightsStatement>
+              <premis:rightsStatementIdentifier>
+                <premis:rightsStatementIdentifierType>UUID</premis:rightsStatementIdentifierType>
+                <premis:rightsStatementIdentifierValue>0b62600d-0498-486c-99d9-e2bf60968d0d</premis:rightsStatementIdentifierValue>
+              </premis:rightsStatementIdentifier>
+              <premis:rightsBasis>Other</premis:rightsBasis>
+              <premis:otherRightsInformation>
+                <premis:otherRightsBasis>Policy</premis:otherRightsBasis>
+                <premis:otherRightsApplicableDates>
+                  <premis:startDate>1999-01-01</premis:startDate>
+                  <premis:endDate>OPEN</premis:endDate>
+                </premis:otherRightsApplicableDates>
+              </premis:otherRightsInformation>
+              <premis:rightsGranted>
+                <premis:act>Act policy</premis:act>
+              </premis:rightsGranted>
+              <premis:linkingObjectIdentifier>
+                <premis:linkingObjectIdentifierType>UUID</premis:linkingObjectIdentifierType>
+                <premis:linkingObjectIdentifierValue>a47b1a34-6b74-4e09-9232-a4cb45891b4e</premis:linkingObjectIdentifierValue>
+              </premis:linkingObjectIdentifier>
+            </premis:rightsStatement>
+          </premis:rights>
         </mets:xmlData>
       </mets:mdWrap>
     </mets:rightsMD>

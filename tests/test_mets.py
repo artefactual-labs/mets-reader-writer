@@ -831,20 +831,22 @@ class TestWholeMETS(TestCase):
             assert mw.get_file(type="Item", file_uuid=item[0], path=item[1])
 
     def test_mets_file_with_rights(self):
-        mets_path = "fixtures/mets_all_rights.xml"
+        mets_path = "fixtures/transfer_mets.xml"
         mw = metsrw.METSDocument.fromfile(mets_path)
-        assert len(mw.all_files()) == 9
-        fsentry = mw.get_file(type="Item", label="evelyn_s_photo.jpg")
-        rights_statements = fsentry.get_premis_rights()
-        assert len(rights_statements) == 5
+
+        fsentry = mw.get_file(type="Item", label="bird.mp3")
+        assert len(mw.all_files()) == 11
+
+        rights = fsentry.get_premis_rights()
+        assert len(rights) == 2
         assert not fsentry.get_premis_rights_statement("<unknown>")
+
         rights_statement = fsentry.get_premis_rights_statement(
-            "3a9838ac-ebe9-4ecb-ba46-c31ee1d6e7c2"
+            "86f63d9a-aea4-4640-807b-f0c4fa33ae88"
         )
-        assert rights_statement.rights_basis == "Copyright"
-        assert len(rights_statement.rights_granted) == 2
-        assert rights_statement.rights_granted[0].act == "Disseminate"
-        assert rights_statement.rights_granted[1].act == "Access"
+        assert rights_statement.rights_basis == "Other"
+        assert len(rights_statement.rights_granted) == 1
+        assert rights_statement.act == "Act donor"
 
     # Helper methods
 

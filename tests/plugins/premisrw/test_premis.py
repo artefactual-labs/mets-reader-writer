@@ -483,8 +483,8 @@ class TestPREMIS(TestCase):
         )
 
         data = premisrw.premis_to_data(premis_element)
-        assert data[2][1][1] == "UUID"
-        assert data[2][2][1] == "3a9838ac-ebe9-4ecb-ba46-c31ee1d6e7c2"
+        assert data[2][1][1][1] == "UUID"
+        assert data[2][1][2][1] == "3a9838ac-ebe9-4ecb-ba46-c31ee1d6e7c2"
         assert data == c.EX_RGTS_1
 
         pr = premisrw.PREMISRights(data=c.EX_RGTS_1)
