@@ -181,17 +181,23 @@ EX_RELATIONSHIP_2 = (
 
 
 EX_RGTS_1 = (
-    "rights_statement",
+    "rights",
     premisrw.PREMIS_META,
     (
-        "rights_statement_identifier",
-        ("rights_statement_identifier_type", "UUID"),
-        ("rights_statement_identifier_value", "3a9838ac-ebe9-4ecb-ba46-c31ee1d6e7c2"),
-    ),
-    ("rights_basis", "Copyright"),
-    (
-        "linking_object_identifier",
-        ("linking_object_identifier_type", "UUID"),
-        ("linking_object_identifier_value", "c09903c4-bc29-4db4-92da-47355eec752f"),
+        "rights_statement",
+        (
+            "rights_statement_identifier",
+            ("rights_statement_identifier_type", "UUID"),
+            (
+                "rights_statement_identifier_value",
+                "3a9838ac-ebe9-4ecb-ba46-c31ee1d6e7c2",
+            ),
+        ),
+        ("rights_basis", "Copyright"),
+        (
+            "linking_object_identifier",
+            ("linking_object_identifier_type", "UUID"),
+            ("linking_object_identifier_value", "c09903c4-bc29-4db4-92da-47355eec752f"),
+        ),
     ),
 )

@@ -502,6 +502,7 @@ class FSEntry(DependencyPossessor):
 
     def get_premis_rights_statement(self, rights_statement_uuid):
         for rights in self.get_premis_rights():
-            if rights.rights_statement_identifier_value == rights_statement_uuid:
-                return rights
+            for statement in rights.rights_statement:
+                if statement.rights_statement_identifier_value == rights_statement_uuid:
+                    return statement
         return None
