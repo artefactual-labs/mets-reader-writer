@@ -557,3 +557,154 @@ class TestPREMIS(TestCase):
         )
         assert digest_event.parsed_event_detail["program"] == "python"
         assert digest_event.parsed_event_detail["module"] == "hashlib.sha256()"
+
+    def test_get_attrs_to_paths_with_duplicated_attrs(self):
+        """Test that ``get_attrs_to_paths`` avoids attribute clashes."""
+        ret = premisrw.premis.get_attrs_to_paths(
+            (
+                "person",
+                ("age",),
+                ("progenitor_x", ("age", "")),
+                ("progenitor_y", ("age", "")),
+            )
+        )
+        assert ret == {
+            "age": "age",
+            "progenitor_x__age": "progenitor_x/age",
+            "progenitor_y__age": "progenitor_y/age",
+        }
+
+    def test_schema_with_clashing_tags(self):
+        """Test that ``PREMISElement`` lets user access to all attributes.
+
+        Including attributes that could be potentially shadowed by other
+        attributes with the same name, e.g. in this test we're making sure that
+        ``start_date`` and ``end_data`` are accessible when multiple nested
+        elements use the same tags (seen in ``PREMISRights``).
+        """
+        rights = premisrw.PREMISRights(
+            data=(
+                "rights",
+                premisrw.PREMIS_META,
+                (
+                    "rights_statement",
+                    (
+                        "rights_granted",
+                        ("act", "act"),
+                        ("restriction", "restriction"),
+                        (
+                            "term_of_grant",
+                            ("start_date", "2049-01-01"),
+                            ("end_date", "2049-02-02"),
+                        ),
+                        (
+                            "term_of_restriction",
+                            ("start_date", "2050-01-01"),
+                            ("end_date", "2050-02-02"),
+                        ),
+                        ("rights_granted_note", "note"),
+                    ),
+                ),
+            )
+        )
+
+        # When there is an attribute clash, the magic accessor is taken by the
+        # first match in the schema.
+        assert rights.rights_statement[0].start_date == "2049-01-01"
+        assert rights.rights_statement[0].end_date == "2049-02-02"
+
+        # Test the most specific accessors.
+        assert (
+            rights.rights_statement[0].rights_granted[0].term_of_grant[0].start_date
+            == "2049-01-01"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted[0].term_of_grant[0].end_date
+            == "2049-02-02"
+        )
+        assert (
+            rights.rights_statement[0]
+            .rights_granted[0]
+            .term_of_restriction[0]
+            .start_date
+            == "2050-01-01"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted[0].term_of_restriction[0].end_date
+            == "2050-02-02"
+        )
+
+        # Test double-underscore accessors with term_of_grant => start_date
+        assert (
+            rights.rights_statement__rights_granted__term_of_grant__start_date
+            == "2049-01-01"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted__term_of_grant__start_date
+            == "2049-01-01"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted[0].term_of_grant__start_date
+            == "2049-01-01"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted[0].term_of_grant[0].start_date
+            == "2049-01-01"
+        )
+
+        # Test double-underscore accessors with term_of_grant => end_date
+        assert (
+            rights.rights_statement__rights_granted__term_of_grant__end_date
+            == "2049-02-02"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted__term_of_grant__end_date
+            == "2049-02-02"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted[0].term_of_grant__end_date
+            == "2049-02-02"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted[0].term_of_grant[0].end_date
+            == "2049-02-02"
+        )
+
+        # Test double-underscore accessors with term_of_grant => start_date
+        assert (
+            rights.rights_statement__rights_granted__term_of_restriction__start_date
+            == "2050-01-01"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted__term_of_restriction__start_date
+            == "2050-01-01"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted[0].term_of_restriction__start_date
+            == "2050-01-01"
+        )
+        assert (
+            rights.rights_statement[0]
+            .rights_granted[0]
+            .term_of_restriction[0]
+            .start_date
+            == "2050-01-01"
+        )
+
+        # Test double-underscore accessors with term_of_grant => end_date
+        assert (
+            rights.rights_statement__rights_granted__term_of_restriction__end_date
+            == "2050-02-02"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted__term_of_restriction__end_date
+            == "2050-02-02"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted[0].term_of_restriction__end_date
+            == "2050-02-02"
+        )
+        assert (
+            rights.rights_statement[0].rights_granted[0].term_of_restriction[0].end_date
+            == "2050-02-02"
+        )
