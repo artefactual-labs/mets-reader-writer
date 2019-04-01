@@ -910,6 +910,13 @@ def el_is_empty(el):
     return all(subels_are_empty)
 
 
+def _insert_attr_path(attrs_to_paths, tentative_tag, path):
+    tag = tentative_tag
+    if tag in attrs_to_paths:
+        tag = path.replace("/", "__")
+    attrs_to_paths[tag] = path
+
+
 def get_attrs_to_paths(schema, attrs_to_paths=None, path=None):
     """Analyze PREMIS-element-as-tuple ``schema`` and return a dict that maps
     attribute names to the simplified XPaths needed to retrieve them, e.g.,::
@@ -922,7 +929,7 @@ def get_attrs_to_paths(schema, attrs_to_paths=None, path=None):
     attrs_to_paths = attrs_to_paths or {}
     tag = schema[0]
     if len(schema) == 1:
-        attrs_to_paths[tag] = "/".join(path + [tag])
+        _insert_attr_path(attrs_to_paths, tag, "/".join(path + [tag]))
     else:
         for elem in schema[1:]:
             if isinstance(elem, dict):
@@ -935,7 +942,7 @@ def get_attrs_to_paths(schema, attrs_to_paths=None, path=None):
                     )
                 )
             else:
-                attrs_to_paths[tag] = "/".join(new_path)
+                _insert_attr_path(attrs_to_paths, tag, "/".join(new_path))
     return attrs_to_paths
 
 
