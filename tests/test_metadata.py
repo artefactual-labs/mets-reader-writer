@@ -104,16 +104,16 @@ class TestAMDSec(TestCase):
 
     def setUp(self):
         # Reset the id generation counter per test
-        metsrw.metadata._id_counter.clear()
+        metsrw.metadata.AMDSec._id_generator.clear()
 
     def test_identifier(self):
-        amdsec_ids = [metsrw.AMDSec().id_string() for _ in range(10)]
+        amdsec_ids = [metsrw.AMDSec().id_string for _ in range(10)]
         # Generate a SubSection in between to make sure our count
         # doesn't jump
-        metsrw.SubSection("techMD", []).id_string()
-        amdsec_ids.append(metsrw.AMDSec().id_string())
+        metsrw.SubSection("techMD", []).id_string
+        amdsec_ids.append(metsrw.AMDSec().id_string)
 
-        for index, amdsec_id in enumerate(amdsec_ids):
+        for index, amdsec_id in enumerate(amdsec_ids, 1):
             assert amdsec_id == "amdSec_{}".format(index)
 
     def test_tree_no_id(self):
@@ -126,6 +126,18 @@ class TestAMDSec(TestCase):
         amdsec = metsrw.AMDSec(tree=elem, section_id="id1")
         assert amdsec.serialize() == elem
 
+    def test_generate_id_skips_existing_id(self):
+        element = etree.Element("amdSec")
+        amdsec1 = metsrw.AMDSec(tree=element, section_id="amdSec_1")
+        amdsec2 = metsrw.AMDSec()
+        amdsec3 = metsrw.AMDSec()
+
+        assert amdsec1.id_string != amdsec2.id_string
+        assert amdsec1.id_string != amdsec3.id_string
+        assert amdsec2.id_string != amdsec3.id_string
+
+        assert metsrw.AMDSec.get_current_id_count() == 3
+
 
 class TestSubSection(TestCase):
     """ Test SubSection class. """
@@ -133,17 +145,18 @@ class TestSubSection(TestCase):
     STUB_MDWRAP = metsrw.MDWrap("<foo/>", "PREMIS:DUMMY")
 
     def setUp(self):
-        # Reset the id generation counter per test
-        metsrw.metadata._id_counter.clear()
+        # Reset the id generation counters per test
+        for counter in metsrw.metadata.SubSection._id_generators.values():
+            counter.clear()
 
     def test_identifier(self):
-        tech_md_ids = [metsrw.SubSection("techMD", []).id_string() for _ in range(10)]
-        dmdsec_ids = [metsrw.SubSection("dmdSec", []).id_string() for _ in range(10)]
+        tech_md_ids = [metsrw.SubSection("techMD", []).id_string for _ in range(10)]
+        dmdsec_ids = [metsrw.SubSection("dmdSec", []).id_string for _ in range(10)]
 
-        for index, tech_md_id in enumerate(tech_md_ids):
+        for index, tech_md_id in enumerate(tech_md_ids, 1):
             assert tech_md_id == "techMD_{}".format(index)
 
-        for index, dmdsec_id in enumerate(dmdsec_ids):
+        for index, dmdsec_id in enumerate(dmdsec_ids, 1):
             assert dmdsec_id == "dmdSec_{}".format(index)
 
     def test_allowed_tags(self):
@@ -282,7 +295,7 @@ class TestSubSection(TestCase):
         assert obj.subsection == "techMD"
         assert obj.status == "original"
         assert obj.created == "2016-01-02T03:04:05"
-        assert obj.id_string() == "techMD_42"
+        assert obj.id_string == "techMD_42"
         assert obj.newer is obj.older is None
         assert isinstance(obj.contents, metsrw.MDRef)
 
@@ -339,6 +352,17 @@ class TestSubSection(TestCase):
         assert new.tag == "{http://www.loc.gov/METS/}techMD"
         assert new.attrib["ID"] == "techMD_42"
         assert len(new.attrib) == 1
+
+    def test_generate_id_skips_existing_id(self):
+        techmd1 = metsrw.SubSection("techMD", [], section_id="techMD_1")
+        techmd2 = metsrw.SubSection("techMD", [])
+        techmd3 = metsrw.SubSection("techMD", [])
+
+        assert techmd1.id_string != techmd2.id_string
+        assert techmd1.id_string != techmd3.id_string
+        assert techmd2.id_string != techmd3.id_string
+
+        assert metsrw.SubSection.get_current_id_count("techMD") == 3
 
 
 class TestMDRef(TestCase):
