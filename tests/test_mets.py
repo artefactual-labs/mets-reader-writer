@@ -342,19 +342,30 @@ class TestMETSDocument(TestCase):
         assert fptr.file_uuid == "7327b00f-d83a-4ae8-bb89-84fce994e827"
         assert fptr.use == "Archival Information Package"
 
-    @mock.patch("metsrw.metadata._generate_id", return_value="id_1")
-    def test_duplicate_ids(self, mock_generate_id):
+    def test_duplicate_ids(self):
+        """
+        We don't want duplicate ids to be generated, but if specified, they shouldn't break
+        serialization.
+        """
         document = metsrw.METSDocument()
         fsentry1 = metsrw.FSEntry("file[1].txt", file_uuid=str(uuid.uuid4()))
         fsentry1.add_premis_object("<premis>object</premis>")
+        fsentry1.amdsecs[0].id_string = "id_1"
         fsentry2 = metsrw.FSEntry("file[2].txt", file_uuid=str(uuid.uuid4()))
         fsentry2.add_premis_object("<premis>object</premis>")
+        fsentry2.amdsecs[0].id_string = "id_1"
+
         document.append_file(fsentry1)
         document.append_file(fsentry2)
 
         reloaded_document = metsrw.METSDocument.fromtree(document.serialize())
         # Third time's the charm - previously this failed
-        metsrw.METSDocument.fromtree(reloaded_document.serialize())
+        reloaded_document = metsrw.METSDocument.fromtree(reloaded_document.serialize())
+        amdsecs = reloaded_document.tree.findall("{http://www.loc.gov/METS/}amdSec")
+
+        assert len(amdsecs) == 2
+        assert amdsecs[0].get("ID") == "id_1"
+        assert amdsecs[1].get("ID") == "id_1"
 
 
 class TestWholeMETS(TestCase):

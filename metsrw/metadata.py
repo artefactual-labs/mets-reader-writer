@@ -4,7 +4,6 @@ Classes for metadata sections of the METS. Include amdSec, dmdSec, techMD, right
 """
 from __future__ import absolute_import
 
-import collections
 import copy
 import logging
 from lxml import etree
@@ -16,17 +15,35 @@ from . import utils
 
 
 LOGGER = logging.getLogger(__name__)
-_id_counter = collections.Counter()
 
 
-def _generate_id(prefix):
+class IdGenerator(six.Iterator):
+    """Helper class to generate unique, sequential ids.
     """
-    Generate a counter based id for the prefix given.
-    """
-    count = _id_counter[prefix]
-    _id_counter.update([prefix])
 
-    return "{}_{}".format(prefix, count)
+    def __init__(self, prefix):
+        self.counter = 0
+        self.prefix = prefix
+
+    def __next__(self):
+        self.counter += 1
+        return u"{}_{}".format(self.prefix, self.counter)
+
+    def clear(self):
+        self.counter = 0
+
+    def register_id(self, id_string):
+        """Register a manually assigned id as used, to avoid collisions.
+        """
+        try:
+            prefix, count = id_string.rsplit("_", 1)
+            count = int(count)
+        except ValueError:
+            # We don't need to worry about ids that don't match our pattern
+            pass
+        else:
+            if prefix == self.prefix:
+                self.counter = max(count, self.counter)
 
 
 class AMDSec(object):
@@ -43,26 +60,29 @@ class AMDSec(object):
     """
 
     tag = "amdSec"
+    _id_generator = IdGenerator(tag)
 
     def __init__(self, section_id=None, subsections=None, tree=None):
         if subsections is None:
             subsections = []
         self.subsections = subsections
-        self._id = section_id
         self._tree = tree
         if tree is not None and not section_id:
             raise ValueError("If tree is provided, section_id must also be provided")
 
-    def id_string(self, force_generate=False):
-        """
-        Returns the ID string for the amdSec.
+        if section_id is None:
+            self.id_string = next(self._id_generator)
+        else:
+            self._id_generator.register_id(section_id)
+            self.id_string = section_id
 
-        :param bool force_generate: If True, will generate a new ID from 'amdSec' and a random number.
+    @classmethod
+    def get_current_id_count(cls):
         """
-        # e.g., amdSec_1
-        if force_generate or not self._id:
-            self._id = _generate_id(self.tag)
-        return self._id
+        Returns the current count of AMDSec objects, for id generation
+        purposes.
+        """
+        return cls._id_generator.counter
 
     @classmethod
     def parse(cls, root):
@@ -91,7 +111,7 @@ class AMDSec(object):
         """
         if self._tree is not None:
             return self._tree
-        el = etree.Element(utils.lxmlns("mets") + self.tag, ID=self.id_string())
+        el = etree.Element(utils.lxmlns("mets") + self.tag, ID=self.id_string)
         self.subsections.sort()
         for child in self.subsections:
             el.append(child.serialize(now))
@@ -266,6 +286,10 @@ class SubSection(object):
     """
 
     ALLOWED_SUBSECTIONS = ("techMD", "rightsMD", "sourceMD", "digiprovMD", "dmdSec")
+    _id_generators = {
+        subsection_type: IdGenerator(subsection_type)
+        for subsection_type in ALLOWED_SUBSECTIONS
+    }
 
     def __init__(self, subsection, contents, section_id=None):
         if subsection not in self.ALLOWED_SUBSECTIONS:
@@ -274,11 +298,16 @@ class SubSection(object):
             )
         self.subsection = subsection
         self.contents = contents
-        self._id = section_id
         self.status = None
         self.older = None
         self.newer = None
         self.created = None
+
+        if section_id is None:
+            self.id_string = next(self._id_generators[self.subsection])
+        else:
+            self.id_string = section_id
+            self._id_generators[self.subsection].register_id(section_id)
 
     def __lt__(self, other):
         # Sort based on the subsection's order in ALLOWED_SUBSECTIONS
@@ -287,15 +316,13 @@ class SubSection(object):
             self.subsection
         ) < self.ALLOWED_SUBSECTIONS.index(other.subsection)
 
-    def id_string(self, force_generate=False):
+    @classmethod
+    def get_current_id_count(cls, subsection_type):
         """
-        Returns the ID string for this SubSection.
-
-        :param bool force_generate: If True, will generate a new ID from the subsection tag and a random number.
+        Returns the current count of SubSection objects of the type provided,
+        for id generation purposes.
         """
-        if force_generate or not self._id:
-            self._id = _generate_id(self.subsection)
-        return self._id
+        return cls._id_generators[subsection_type].counter
 
     def get_status(self):
         """
@@ -380,7 +407,7 @@ class SubSection(object):
         :return: dmdSec/techMD/rightsMD/sourceMD/digiprovMD Element with all children
         """
         created = self.created if self.created is not None else now
-        el = etree.Element(utils.lxmlns("mets") + self.subsection, ID=self.id_string())
+        el = etree.Element(utils.lxmlns("mets") + self.subsection, ID=self.id_string)
         if created:  # Don't add CREATED if none was parsed
             el.set("CREATED", created)
         status = self.get_status()

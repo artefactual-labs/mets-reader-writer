@@ -222,12 +222,12 @@ class FSEntry(DependencyPossessor):
     @property
     def admids(self):
         """ Returns a list of ADMIDs for this entry. """
-        return [a.id_string() for a in self.amdsecs]
+        return [a.id_string for a in self.amdsecs]
 
     @property
     def dmdids(self):
         """ Returns a list of DMDIDs for this entry. """
-        return [d.id_string() for d in self.dmdsecs]
+        return [d.id_string for d in self.dmdsecs]
 
     @property
     def children(self):
