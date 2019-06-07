@@ -52,6 +52,12 @@ class FSEntry(DependencyPossessor):
         populate FLocat @xlink:href
     :param str label: Label in the structMap. If not provided, will be populated
         with the basename of path
+    :param str fileid: Provides a mechanism to assign a FILEID to an FSENTRY
+        when a pointer file is being created, so when a METS file is being
+        written for an package-file-type, i.e. an AIP. The FILE ID is an XML
+        NC (Non-colonized) name and so callers must understand the restricted
+        character-set of that type to use it properly. There is currently no
+        validation on this attribute on generation.
     :param str use: Use for the fileGrp.  Items with identical uses will be
         grouped together.
     :param str type: Type of FSEntry this is. This will appear in the structMap.
@@ -112,6 +118,7 @@ class FSEntry(DependencyPossessor):
     def __init__(
         self,
         path=None,
+        fileid=None,
         label=None,
         use="original",
         type=u"Item",
@@ -138,6 +145,7 @@ class FSEntry(DependencyPossessor):
                 self.path = path
         if label is None and path is not None:
             label = os.path.basename(path)
+        self._fileid = fileid
         self.label = label
         self.use = use
         self.type = six.text_type(type)
@@ -204,6 +212,8 @@ class FSEntry(DependencyPossessor):
                 "No FILEID: File %s does not have file_uuid set" % self.path
             )
         if self.is_aip:
+            if self._fileid:
+                return self._fileid
             return os.path.splitext(os.path.basename(self.path))[0]
         return utils.FILE_ID_PREFIX + self.file_uuid
 
