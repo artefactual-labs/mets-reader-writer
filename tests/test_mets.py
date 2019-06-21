@@ -323,6 +323,7 @@ class TestMETSDocument(TestCase):
         # Test the integrity of the ``FPtr`` object returned.
         fptr = mw._analyze_fptr(fptr_elem, tree, "directory")
         assert fptr == metsrw.mets.FPtr(
+            fileid="AM68.csv-fc0e52ca-a688-41c0-a10b-c1d36e21e804",
             file_uuid="fc0e52ca-a688-41c0-a10b-c1d36e21e804",
             derived_from=None,
             use="original",

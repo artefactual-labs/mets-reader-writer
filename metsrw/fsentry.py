@@ -183,6 +183,7 @@ class FSEntry(DependencyPossessor):
     def from_fptr(cls, label, type_, fptr):
         """Return ``FSEntry`` object."""
         return FSEntry(
+            fileid=fptr.fileid,
             label=label,
             type=type_,
             path=fptr.path,
@@ -197,7 +198,7 @@ class FSEntry(DependencyPossessor):
         return "{s.type}: {s.path}".format(s=self)
 
     def __repr__(self):
-        return "FSEntry(type={s.type!r}, path={s.path!r}, use={s.use!r}, label={s.label!r}, file_uuid={s.file_uuid!r}, checksum={s.checksum!r}, checksumtype={s.checksumtype!r})".format(
+        return "FSEntry(type={s.type!r}, path={s.path!r}, use={s.use!r}, label={s.label!r}, file_uuid={s.file_uuid!r}, checksum={s.checksum!r}, checksumtype={s.checksumtype!r}, fileid={s._fileid!r})".format(
             s=self
         )
 

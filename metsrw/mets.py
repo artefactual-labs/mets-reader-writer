@@ -22,7 +22,7 @@ LOGGER = logging.getLogger(__name__)
 
 AIP_ENTRY_TYPE = "archival information package"
 FPtr = namedtuple(
-    "FPtr", "file_uuid derived_from use path amdids checksum checksumtype"
+    "FPtr", "file_uuid derived_from use path amdids checksum checksumtype fileid"
 )
 
 
@@ -455,7 +455,9 @@ class METSDocument(object):
         group_uuid = file_elem.get("GROUPID", "").replace(utils.GROUP_ID_PREFIX, "", 1)
         if group_uuid != file_uuid:
             derived_from = group_uuid  # Use group_uuid as placeholder
-        return FPtr(file_uuid, derived_from, use, path, amdids, checksum, checksumtype)
+        return FPtr(
+            file_uuid, derived_from, use, path, amdids, checksum, checksumtype, file_id
+        )
 
     @staticmethod
     def _add_dmdsecs_to_fs_entry(elem, fs_entry, tree):
