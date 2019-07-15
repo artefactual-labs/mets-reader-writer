@@ -439,12 +439,16 @@ class METSDocument(object):
         checksum = file_elem.get("CHECKSUM")
         checksumtype = file_elem.get("CHECKSUMTYPE")
         file_id_prefix = utils.FILE_ID_PREFIX
-        # If the file is an AIP, then its prefix is not "file-" but the
-        # name of the AIP. Therefore we need to get the extension-less
+        # If the file is an AIP, then its prefix is the name of the AIP,
+        # plus `file-` on 1.10+. Therefore we need to get the extension-less
         # basename of the AIP's path and remove its UUID suffix to ge
         # the prefix to remove from the FILEID attribute value.
         if entry_type.lower() == "archival information package":
-            file_id_prefix = os.path.splitext(os.path.basename(path))[0][:-36]
+            aip_name = os.path.splitext(os.path.basename(path))[0][:-36]
+            if file_id.startswith(file_id_prefix):
+                file_id_prefix = file_id_prefix + aip_name
+            else:
+                file_id_prefix = aip_name
         # If the file is part of a directory (with no intermediate item), then
         # its prefix *may not* be "file-" but the name of the file. This
         # pattern is found in old Archivematica METS files, e.g. see
