@@ -348,7 +348,7 @@ class TestMETSDocument(TestCase):
         Test that AIP FILEIDs with a leading `file-` are parsed properly.
         """
         tree = etree.fromstring(
-            """<?xml version='1.0' encoding='utf-8'?>
+            b"""<?xml version='1.0' encoding='utf-8'?>
 <mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version111/mets.xsd">
   <mets:fileSec>
     <mets:fileGrp USE="Archival Information Package">
