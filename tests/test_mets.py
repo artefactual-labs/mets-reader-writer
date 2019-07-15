@@ -343,6 +343,35 @@ class TestMETSDocument(TestCase):
         assert fptr.file_uuid == "7327b00f-d83a-4ae8-bb89-84fce994e827"
         assert fptr.use == "Archival Information Package"
 
+    def test_analyze_fptr_sets_uuid_from_aip_with_file_id_prefix(self):
+        """
+        Test that AIP FILEIDs with a leading `file-` are parsed properly.
+        """
+        tree = etree.fromstring(
+            """<?xml version='1.0' encoding='utf-8'?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version111/mets.xsd">
+  <mets:fileSec>
+    <mets:fileGrp USE="Archival Information Package">
+      <mets:file ID="file-example-1-9b9f129c-8062-471b-a009-9ee0ad655f08">
+        <mets:FLocat OTHERLOCTYPE="SYSTEM" LOCTYPE="OTHER" xlink:href="/tmp/example-1-9b9f129c-8062-471b-a009-9ee0ad655f08.7z"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap TYPE="physical">
+    <mets:div ADMID="amdSec_1" TYPE="Archival Information Package">
+      <mets:fptr FILEID="file-example-1-9b9f129c-8062-471b-a009-9ee0ad655f08"/>
+    </mets:div>
+  </mets:structMap>
+</mets:mets>
+        """
+        )
+        fptr_elem = tree.find(".//mets:fptr[1]", namespaces=metsrw.utils.NAMESPACES)
+        fptr = metsrw.METSDocument()._analyze_fptr(
+            fptr_elem, tree, "Archival Information Package"
+        )
+
+        assert fptr.file_uuid == "9b9f129c-8062-471b-a009-9ee0ad655f08"
+
     def test_duplicate_ids(self):
         """
         We don't want duplicate ids to be generated, but if specified, they shouldn't break

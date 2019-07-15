@@ -65,6 +65,16 @@ class TestFSEntry(TestCase):
         f = metsrw.FSEntry("level1.txt", file_uuid=file_uuid)
         assert f.file_id() == "file-" + file_uuid
 
+    def test_aip_file_id(self):
+        fsentry = metsrw.FSEntry(
+            file_uuid="9b9f129c-8062-471b-a009-9ee0ad655f08",
+            type="Archival Information Package",
+            path="/tmp/example-1-9b9f129c-8062-471b-a009-9ee0ad655f08.7z",
+        )
+        assert (
+            fsentry.file_id() == "file-example-1-9b9f129c-8062-471b-a009-9ee0ad655f08"
+        )
+
     def test_group_id_no_uuid(self):
         """ It should return no group ID. """
         f = metsrw.FSEntry("level1.txt")

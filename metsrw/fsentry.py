@@ -215,7 +215,9 @@ class FSEntry(DependencyPossessor):
         if self.is_aip:
             if self._fileid:
                 return self._fileid
-            return os.path.splitext(os.path.basename(self.path))[0]
+            return (
+                utils.FILE_ID_PREFIX + os.path.splitext(os.path.basename(self.path))[0]
+            )
         return utils.FILE_ID_PREFIX + self.file_uuid
 
     def group_id(self):
