@@ -38,6 +38,7 @@ setup(
     version=find_version("metsrw", "__init__.py"),
     description="Library for dealing with METS files.",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/artefactual-labs/mets-reader-writer/",
     author="Artefactual",
     author_email="info@artefactual.com",

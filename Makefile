@@ -9,7 +9,10 @@ package-source:
 package-wheel: package-deps
 	python setup.py bdist_wheel --universal
 
-package-upload: package-deps package-source package-wheel
+package-check: package-source package-wheel     ## Check the distribution is valid
+	twine check dist/*
+
+package-upload: package-deps package-check
 	twine upload dist/* --repository-url https://upload.pypi.org/legacy/
 
 package: package-upload
