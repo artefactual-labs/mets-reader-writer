@@ -21,9 +21,9 @@ METSRW can be installed with pip.
 METSRW has been tested with:
 
 * Python 2.7
-* Python 3.4
+* Python 3.5
 * Python 3.6
-
+* Python 3.7
 
 ## Basic Usage
 
