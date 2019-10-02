@@ -472,6 +472,8 @@ class FSEntry(DependencyPossessor):
         if self.dmdids:
             if (not normative) or (normative and self.is_empty_dir):
                 el.set("DMDID", " ".join(self.dmdids))
+        if self.mets_div_type.lower() == "directory" and self.admids:
+            el.set("ADMID", " ".join(self.admids))
         if recurse and self._children:
             for child in self._children:
                 child_el = child.serialize_structmap(

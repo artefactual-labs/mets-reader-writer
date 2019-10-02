@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Manually reduced for testing purposes (still validates) -->
+<mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version111/mets.xsd">
+  <mets:metsHdr CREATEDATE="2019-10-03T16:02:05"/>
+  <mets:dmdSec ID="dmdSec_1">
+    <mets:mdWrap MDTYPE="PREMIS:OBJECT">
+      <mets:xmlData>
+        <premis:object xmlns:premis="http://www.loc.gov/premis/v3" xsi:type="premis:intellectualEntity" xsi:schemaLocation="http://www.loc.gov/premis/v3 http://www.loc.gov/standards/premis/v3/premis.xsd" version="3.0">
+          <premis:objectIdentifier>
+            <premis:objectIdentifierType>UUID</premis:objectIdentifierType>
+            <premis:objectIdentifierValue>b77f0746-ea7f-4b3e-b99f-03a8bf407762</premis:objectIdentifierValue>
+          </premis:objectIdentifier>
+          <premis:originalName>test-b77f0746-ea7f-4b3e-b99f-03a8bf407762</premis:originalName>
+        </premis:object>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:amdSec ID="amdSec_1"></mets:amdSec>
+  <mets:amdSec ID="amdSec_2">
+    <mets:sourceMD ID="sourceMD_1">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="BagIt">
+        <mets:xmlData>
+          <transfer_metadata>
+            <Payload-Oxum>63140.2</Payload-Oxum>
+            <FIELD_SOURCE_ORGANIZATION>Artefactual Systems</FIELD_SOURCE_ORGANIZATION>
+            <Bag-Size>62.2 KB</Bag-Size>
+            <FIELD_BAGGING_DATE>2019-08-06</FIELD_BAGGING_DATE>
+            <FIELD_BAG_SIZE>63.1 KB</FIELD_BAG_SIZE>
+            <FIELD_ORGANIZATION_ADDRESS>Suite 201 - 301 6th Street   New Westminster, BC
+   Canada</FIELD_ORGANIZATION_ADDRESS>
+            <FIELD_CONTACT_NAME>A. R. Chivist</FIELD_CONTACT_NAME>
+            <Bagging-Date>2019-08-06</Bagging-Date>
+            <FIELD_CONTACT_EMAIL>archivist@example.com</FIELD_CONTACT_EMAIL>
+            <FIELD_EXTERNAL_DESCRIPTION>These images of carnivorous plants are used to test   the unzipped and zipped bag functionality in Archivematica.</FIELD_EXTERNAL_DESCRIPTION>
+          </transfer_metadata>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+  </mets:amdSec>
+  <mets:fileSec>
+    <mets:fileGrp USE="original">
+      <mets:file GROUPID="Group-c40c08e3-5041-422b-b823-26ab04112dea" ID="file-c40c08e3-5041-422b-b823-26ab04112dea" ADMID="amdSec_1">
+        <mets:FLocat xlink:href="objects/forkleaf-sundew.jpg" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap ID="structMap_1" LABEL="Archivematica default" TYPE="physical">
+    <mets:div LABEL="test-b77f0746-ea7f-4b3e-b99f-03a8bf407762" TYPE="Directory" DMDID="dmdSec_1">
+      <mets:div LABEL="objects" TYPE="Directory" ADMID="amdSec_2">
+        <mets:div LABEL="forkleaf-sundew.jpg" TYPE="Item">
+          <mets:fptr FILEID="file-c40c08e3-5041-422b-b823-26ab04112dea"/>
+        </mets:div>
+      </mets:div>
+    </mets:div>
+  </mets:structMap>
+</mets:mets>

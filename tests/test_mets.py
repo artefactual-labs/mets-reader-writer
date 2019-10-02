@@ -397,6 +397,12 @@ class TestMETSDocument(TestCase):
         assert amdsecs[0].get("ID") == "id_1"
         assert amdsecs[1].get("ID") == "id_1"
 
+    def test_directory_amd_section_read(self):
+        """It should populate directory AMD sections."""
+        mw = metsrw.METSDocument.fromfile("fixtures/mets_directory_amd.xml")
+        objects_dir = next(_ for _ in mw.all_files() if _.label == "objects")
+        assert len(objects_dir.admids) == 1
+
 
 class TestWholeMETS(TestCase):
     """ Test integration between classes. """

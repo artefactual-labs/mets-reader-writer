@@ -365,6 +365,7 @@ class METSDocument(object):
                 )
                 fs_entry = fsentry.FSEntry.dir(label, children)
                 self._add_dmdsecs_to_fs_entry(elem, fs_entry, tree)
+                self._add_amdsecs_to_fs_entry(elem.get("ADMID"), fs_entry, tree)
                 siblings.append(fs_entry)
                 for fptr_elem in fptr_elems:
                     fptr = self._analyze_fptr(fptr_elem, tree, entry_type)

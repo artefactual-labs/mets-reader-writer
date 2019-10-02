@@ -330,6 +330,15 @@ class TestFSEntry(TestCase):
         assert len(el.attrib) == 2
         assert len(el) == 0
 
+    def test_serialize_structmap_directory_admid(self):
+        """It should add the ADMID attribute to directories with amdsecs."""
+        d = metsrw.FSEntry("objects", type="Directory")
+        f = metsrw.FSEntry("file.txt", file_uuid=str(uuid.uuid4()))
+        d.add_child(f)
+        d.add_premis_object("<premis>object</premis>")
+        el = d.serialize_structmap()
+        assert el.attrib.get("ADMID") is not None
+
     def test_is_empty_dir(self):
         """It should be able to determine whether it is an empty directory."""
 
