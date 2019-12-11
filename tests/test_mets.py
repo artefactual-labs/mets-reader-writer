@@ -181,7 +181,7 @@ class TestMETSDocument(TestCase):
         root = mw._document_root()
         location = (
             "http://www.loc.gov/METS/ "
-            + "http://www.loc.gov/standards/mets/version111/mets.xsd"
+            + "http://www.loc.gov/standards/mets/version1121/mets.xsd"
         )
         assert root.tag == "{http://www.loc.gov/METS/}mets"
         assert root.attrib[metsrw.lxmlns("xsi") + "schemaLocation"] == location
@@ -349,7 +349,7 @@ class TestMETSDocument(TestCase):
         """
         tree = etree.fromstring(
             b"""<?xml version='1.0' encoding='utf-8'?>
-<mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version111/mets.xsd">
+<mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version1121/mets.xsd">
   <mets:fileSec>
     <mets:fileGrp USE="Archival Information Package">
       <mets:file ID="file-example-1-9b9f129c-8062-471b-a009-9ee0ad655f08">
