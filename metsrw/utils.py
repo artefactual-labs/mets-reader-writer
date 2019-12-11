@@ -18,7 +18,7 @@ NAMESPACES = {
 
 SCHEMA_LOCATIONS = (
     "http://www.loc.gov/METS/ "
-    + "http://www.loc.gov/standards/mets/version111/mets.xsd"
+    + "http://www.loc.gov/standards/mets/version1121/mets.xsd"
 )
 
 
