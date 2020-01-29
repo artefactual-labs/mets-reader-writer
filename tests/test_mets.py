@@ -344,11 +344,7 @@ class TestMETSDocument(TestCase):
         assert fptr.file_uuid == "7327b00f-d83a-4ae8-bb89-84fce994e827"
         assert fptr.use == "Archival Information Package"
         assert fptr.transform_files == [
-            {
-                "ALGORITHM": "bzip2",
-                "ORDER": "1",
-                "TYPE": "decompression",
-            }
+            {"ALGORITHM": "bzip2", "ORDER": "1", "TYPE": "decompression"}
         ]
 
     def test_analyze_fptr_sets_uuid_from_aip_with_file_id_prefix(self):
