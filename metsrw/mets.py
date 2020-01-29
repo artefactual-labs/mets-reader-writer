@@ -4,7 +4,6 @@ from __future__ import absolute_import
 from builtins import object
 from collections import OrderedDict, namedtuple
 from datetime import datetime
-import copy
 import logging
 import os
 import six
@@ -26,6 +25,8 @@ FPtr = namedtuple(
     "FPtr",
     "file_uuid derived_from use path amdids checksum checksumtype fileid transform_files",
 )
+TRANSFORM_PREFIX = "TRANSFORM"
+TRANSFORM_PREFIX_LEN = len(TRANSFORM_PREFIX)
 
 
 class METSDocument(object):
@@ -466,7 +467,14 @@ class METSDocument(object):
         for transform_file in file_elem.findall(
             "mets:transformFile", namespaces=utils.NAMESPACES
         ):
-            transform_files.append(copy.deepcopy(transform_file.attrib))
+            transform_file_attributes = {}
+            for attrib, value in transform_file.attrib.items():
+                # FSEntry.__init__ will make this uppercase anyway
+                key = attrib.upper()
+                if key.startswith(TRANSFORM_PREFIX):
+                    key = key[TRANSFORM_PREFIX_LEN:]
+                transform_file_attributes[key] = value
+            transform_files.append(transform_file_attributes)
         return FPtr(
             file_uuid,
             derived_from,

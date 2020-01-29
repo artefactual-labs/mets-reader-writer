@@ -345,9 +345,9 @@ class TestMETSDocument(TestCase):
         assert fptr.use == "Archival Information Package"
         assert fptr.transform_files == [
             {
-                "TRANSFORMALGORITHM": "bzip2",
-                "TRANSFORMORDER": "1",
-                "TRANSFORMTYPE": "decompression",
+                "ALGORITHM": "bzip2",
+                "ORDER": "1",
+                "TYPE": "decompression",
             }
         ]
 
