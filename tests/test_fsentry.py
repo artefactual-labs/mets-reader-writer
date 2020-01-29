@@ -245,6 +245,27 @@ class TestFSEntry(TestCase):
         el = f.serialize_filesec()
         assert el is None
 
+    def test_serialize_filesec_transform_files(self):
+        """
+        It should produce a mets:file element.
+        It should have a child mets:FLocat element.
+        It should have a child mets:transformFile element.
+        """
+        transform_files = [
+            {"type": "decryption", "order": 1, "algorithm": "GPG", "key": "somekey"}
+        ]
+        f = metsrw.FSEntry(
+            "file[1].txt", file_uuid=str(uuid.uuid4()), transform_files=transform_files
+        )
+        el = f.serialize_filesec()
+        assert el.tag == "{http://www.loc.gov/METS/}file"
+        assert el[0].tag == "{http://www.loc.gov/METS/}FLocat"
+        assert el[1].tag == "{http://www.loc.gov/METS/}transformFile"
+        assert el[1].attrib["TRANSFORMTYPE"] == "decryption"
+        assert el[1].attrib["TRANSFORMORDER"] == "1"
+        assert el[1].attrib["TRANSFORMALGORITHM"] == "GPG"
+        assert el[1].attrib["TRANSFORMKEY"] == "somekey"
+
     def test_serialize_filesec_no_path(self):
         """
         It should produce a mets:file element.

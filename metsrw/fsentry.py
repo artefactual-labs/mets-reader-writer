@@ -192,6 +192,7 @@ class FSEntry(DependencyPossessor):
             derived_from=fptr.derived_from,
             checksum=fptr.checksum,
             checksumtype=fptr.checksumtype,
+            transform_files=fptr.transform_files,
         )
 
     def __str__(self):

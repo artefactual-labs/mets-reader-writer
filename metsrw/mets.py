@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from builtins import object
 from collections import OrderedDict, namedtuple
 from datetime import datetime
+import copy
 import logging
 import os
 import six
@@ -22,7 +23,8 @@ LOGGER = logging.getLogger(__name__)
 
 AIP_ENTRY_TYPE = "archival information package"
 FPtr = namedtuple(
-    "FPtr", "file_uuid derived_from use path amdids checksum checksumtype fileid"
+    "FPtr",
+    "file_uuid derived_from use path amdids checksum checksumtype fileid transform_files",
 )
 
 
@@ -460,8 +462,21 @@ class METSDocument(object):
         group_uuid = file_elem.get("GROUPID", "").replace(utils.GROUP_ID_PREFIX, "", 1)
         if group_uuid != file_uuid:
             derived_from = group_uuid  # Use group_uuid as placeholder
+        transform_files = []
+        for transform_file in file_elem.findall(
+            "mets:transformFile", namespaces=utils.NAMESPACES
+        ):
+            transform_files.append(copy.deepcopy(transform_file.attrib))
         return FPtr(
-            file_uuid, derived_from, use, path, amdids, checksum, checksumtype, file_id
+            file_uuid,
+            derived_from,
+            use,
+            path,
+            amdids,
+            checksum,
+            checksumtype,
+            file_id,
+            transform_files,
         )
 
     @staticmethod
