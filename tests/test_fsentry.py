@@ -257,14 +257,14 @@ class TestFSEntry(TestCase):
         f = metsrw.FSEntry(
             "file[1].txt", file_uuid=str(uuid.uuid4()), transform_files=transform_files
         )
-        el = f.serialize_filesec()
-        assert el.tag == "{http://www.loc.gov/METS/}file"
-        assert el[0].tag == "{http://www.loc.gov/METS/}FLocat"
-        assert el[1].tag == "{http://www.loc.gov/METS/}transformFile"
-        assert el[1].attrib["TRANSFORMTYPE"] == "decryption"
-        assert el[1].attrib["TRANSFORMORDER"] == "1"
-        assert el[1].attrib["TRANSFORMALGORITHM"] == "GPG"
-        assert el[1].attrib["TRANSFORMKEY"] == "somekey"
+        file_element = f.serialize_filesec()
+        assert file_element.tag == "{http://www.loc.gov/METS/}file"
+        assert file_element[0].tag == "{http://www.loc.gov/METS/}FLocat"
+        assert file_element[1].tag == "{http://www.loc.gov/METS/}transformFile"
+        assert file_element[1].attrib["TRANSFORMTYPE"] == "decryption"
+        assert file_element[1].attrib["TRANSFORMORDER"] == "1"
+        assert file_element[1].attrib["TRANSFORMALGORITHM"] == "GPG"
+        assert file_element[1].attrib["TRANSFORMKEY"] == "somekey"
 
     def test_serialize_filesec_no_path(self):
         """
