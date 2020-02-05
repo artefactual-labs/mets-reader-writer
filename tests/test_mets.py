@@ -331,6 +331,7 @@ class TestMETSDocument(TestCase):
             amdids="amdSec_3",
             checksum=None,
             checksumtype=None,
+            transform_files=[],
         )
 
     def test_analyze_fptr_from_aip(self):
@@ -342,6 +343,9 @@ class TestMETSDocument(TestCase):
         fptr = mw._analyze_fptr(fptr_elem, tree, "Archival Information Package")
         assert fptr.file_uuid == "7327b00f-d83a-4ae8-bb89-84fce994e827"
         assert fptr.use == "Archival Information Package"
+        assert fptr.transform_files == [
+            {"ALGORITHM": "bzip2", "ORDER": "1", "TYPE": "decompression"}
+        ]
 
     def test_analyze_fptr_sets_uuid_from_aip_with_file_id_prefix(self):
         """
@@ -821,25 +825,6 @@ class TestWholeMETS(TestCase):
                 "{" + nsmap["xsi"] + "}schemaLocation"
             ] = premis_schema_location
             aip_fs_entry.add_premis_agent(agent_el)
-
-        # TODO: we need metsrw to be able to set transformFile elements.
-        # compression - 7z or tar.bz2
-        """
-        if extension == '.7z':
-            etree.SubElement(file_, namespaces.metsBNS + "transformFile",
-                            TRANSFORMORDER='1',
-                            TRANSFORMTYPE='decompression',
-                            TRANSFORMALGORITHM=algorithm)
-        elif extension == '.bz2':
-            etree.SubElement(file_, namespaces.metsBNS + "transformFile",
-                            TRANSFORMORDER='1',
-                            TRANSFORMTYPE='decompression',
-                            TRANSFORMALGORITHM='bzip2')
-            etree.SubElement(file_, namespaces.metsBNS + "transformFile",
-                            TRANSFORMORDER='2',
-                            TRANSFORMTYPE='decompression',
-                            TRANSFORMALGORITHM='tar')
-        """
 
         mw.append_file(aip_fs_entry)
         self.assert_pointer_valid(mw.serialize())
