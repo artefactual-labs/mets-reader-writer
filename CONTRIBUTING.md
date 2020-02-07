@@ -22,10 +22,11 @@ There are many ways to contribute: providing feedback on the [design & API](http
 ## Submitting bugs
 
 If you find a security vulnerability, do NOT open an issue.
-Email info@artefactual.com instead.
+Email security@artefactual.com instead.
 
-Issues can be filed using GitHub Issues in this repository or any of the supporting Github repositories in the Artefactual organization.
-You can also post in our [technical](https://groups.google.com/forum/#!forum/archivematica-tech) or [user](https://groups.google.com/forum/#!forum/archivematica) mailing lists.
+All issues about Archivematica or related libraries should be filed in the [Archivematica Issues repository](https://github.com/archivematica/Issues/issues).
+
+You can also post to the [Archivematica user forum](https://groups.google.com/forum/#!forum/archivematica).
 A post to the mailing list is always welcome, especially if you're unsure if it's a bug or a local problem!
 
 Useful questions to answer if you're having problems include:
