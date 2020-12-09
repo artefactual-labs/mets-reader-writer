@@ -49,28 +49,29 @@ jobs:
           TOXENV: ${{ matrix.toxenv }}
         run: |
           tox
-      - name: "Install coveralls"
+      - name: "Save coverage reports for the master branch"
         if: github.ref == 'refs/heads/master' && github.repository == 'artefactual-labs/mets-reader-writer'
         run: |
           pip install coveralls
-      - name: "Save coverage reports for the master branch"
-        if: github.ref == 'refs/heads/master' && github.repository == 'artefactual-labs/mets-reader-writer'
-        uses: "coverallsapp/github-action@master"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: ${{ matrix.toxenv }}
-          parallel: true
+          coveralls
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+          COVERALLS_FLAG_NAME: ${{ matrix.toxenv }}
+          COVERALLS_PARALLEL: true
   coveralls:
     name: "Coveralls"
     if: github.ref == 'refs/heads/master' && github.repository == 'artefactual-labs/mets-reader-writer'
     needs: "test"
-    runs-on: "ubuntu-18.04"
+    runs-on: "ubuntu-latest"
+    container: python:3-slim
     steps:
       - name: "Post coverage reports"
-        uses: "coverallsapp/github-action@master"
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
+        run: |
+          pip3 install --upgrade coveralls
+          coveralls --finish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   lint:
     name: "Lint"
     runs-on: "ubuntu-18.04"
