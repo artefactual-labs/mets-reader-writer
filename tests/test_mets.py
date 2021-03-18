@@ -376,6 +376,39 @@ class TestMETSDocument(TestCase):
 
         assert fptr.file_uuid == "9b9f129c-8062-471b-a009-9ee0ad655f08"
 
+    def test_analyze_fptr_sets_uuid_from_aic_with_file_id_prefix(self):
+        """
+        Test that AIC FILEIDs with a leading `file-` are parsed properly.
+        """
+        tree = etree.fromstring(
+            b"""<?xml version='1.0' encoding='utf-8'?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version1121/mets.xsd">
+  <mets:fileSec>
+    <mets:fileGrp USE="Archival Information Package">
+      <mets:file ID="file-aictest_replica_aic-258f73d1-08fe-4ade-9770-1d8812cde545" GROUPID="Group-258f73d1-08fe-4ade-9770-1d8812cde545" ADMID="amdSec_10">
+        <mets:FLocat xlink:href="/var/archivematica/sharedDirectory/www/AIPsStore/258f/73d1/08fe/4ade/9770/1d88/12cd/e545/aictest_replica_aic-258f73d1-08fe-4ade-9770-1d8812cde545.7z" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+        <mets:transformFile TRANSFORMTYPE="decompression" TRANSFORMORDER="1" TRANSFORMALGORITHM="bzip2"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap ID="structMap_1" LABEL="Archivematica default" TYPE="physical">
+    <mets:div TYPE="Archival Information Collection" LABEL="aictest_replica_aic-258f73d1-08fe-4ade-9770-1d8812cde545.7z">
+      <mets:fptr FILEID="file-aictest_replica_aic-258f73d1-08fe-4ade-9770-1d8812cde545"/>
+    </mets:div>
+  </mets:structMap>
+  <mets:structMap ID="structMap_2" LABEL="Normative Directory Structure" TYPE="logical">
+    <mets:div TYPE="Archival Information Collection" LABEL="aictest_replica_aic-258f73d1-08fe-4ade-9770-1d8812cde545.7z"/>
+  </mets:structMap>
+</mets:mets>
+        """
+        )
+        fptr_elem = tree.find(".//mets:fptr[1]", namespaces=metsrw.utils.NAMESPACES)
+        fptr = metsrw.METSDocument()._analyze_fptr(
+            fptr_elem, tree, "Archival Information Collection"
+        )
+
+        assert fptr.file_uuid == "258f73d1-08fe-4ade-9770-1d8812cde545"
+
     def test_duplicate_ids(self):
         """
         We don't want duplicate ids to be generated, but if specified, they shouldn't break

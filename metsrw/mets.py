@@ -447,7 +447,10 @@ class METSDocument(object):
         # plus `file-` on 1.10+. Therefore we need to get the extension-less
         # basename of the AIP's path and remove its UUID suffix to ge
         # the prefix to remove from the FILEID attribute value.
-        if entry_type.lower() == "archival information package":
+        if entry_type.lower() in (
+            "archival information package",
+            "archival information collection",
+        ):
             aip_name = os.path.splitext(os.path.basename(path))[0][:-36]
             if file_id.startswith(file_id_prefix):
                 file_id_prefix = file_id_prefix + aip_name
