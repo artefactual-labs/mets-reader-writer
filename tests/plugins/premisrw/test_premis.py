@@ -211,6 +211,14 @@ class TestPREMIS(TestCase):
         assert premis_agent_1 == c.EX_AGT_1
         assert c.EX_AGT_1 in [premis_agent_1, premis_agent_1_copy]
 
+    def test_premis_element_hashability(self):
+        premis_agent_1 = premisrw.PREMISAgent(data=c.EX_AGT_1)
+        premis_agent_1_copy = premisrw.PREMISAgent(data=c.EX_AGT_1)
+        premis_agent_2 = premisrw.PREMISAgent(data=c.EX_AGT_2)
+        assert c.EX_AGT_1 != c.EX_AGT_2
+        assert hash(premis_agent_1) != hash(premis_agent_2)
+        assert hash(premis_agent_1) == hash(premis_agent_1_copy)
+
     def test_dynamic_attrs(self):
         """Tests that dynamic attribute accession works correctly on
         PREMISElement subclasses. This allows us to use the output of the
