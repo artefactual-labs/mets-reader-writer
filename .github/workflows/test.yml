@@ -48,30 +48,16 @@ jobs:
         env:
           TOXENV: ${{ matrix.toxenv }}
         run: |
-          tox
-      - name: "Save coverage reports for the master branch"
-        if: github.ref == 'refs/heads/master' && github.repository == 'artefactual-labs/mets-reader-writer'
-        run: |
-          pip install coveralls
-          coveralls
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-          COVERALLS_FLAG_NAME: ${{ matrix.toxenv }}
-          COVERALLS_PARALLEL: true
-  coveralls:
-    name: "Coveralls"
-    if: github.ref == 'refs/heads/master' && github.repository == 'artefactual-labs/mets-reader-writer'
-    needs: "test"
-    runs-on: "ubuntu-latest"
-    container: python:3-slim
-    steps:
-      - name: "Post coverage reports"
-        run: |
-          pip3 install --upgrade coveralls
-          coveralls --finish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tox -- --cov-report xml:coverage.xml
+      - name: "Upload coverage report"
+        if: github.repository == 'artefactual-labs/mets-reader-writer'
+        uses: "codecov/codecov-action@v1"
+        with:
+          files: ./coverage.xml
+          fail_ci_if_error: true
+          verbose: true
+          name: ${{ matrix.toxenv }}
+          flags: ${{ matrix.toxenv }}
   lint:
     name: "Lint"
     runs-on: "ubuntu-18.04"
