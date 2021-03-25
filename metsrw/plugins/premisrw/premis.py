@@ -14,6 +14,7 @@ __metaclass__ = type
 
 import abc
 from datetime import datetime
+import json
 import pprint
 from uuid import uuid4
 
@@ -153,6 +154,9 @@ class PREMISElement:
         if isinstance(other, PREMISElement):
             return self.data == other.data
         return self.data == other
+
+    def __hash__(self):
+        return hash(json.dumps(self.data, sort_keys=True))
 
     def __getattr__(self, attr_name):
         """Dynamically retrieve and return the value of an attribute which is
