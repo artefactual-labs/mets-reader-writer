@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from unittest import TestCase
 
 import pytest
@@ -81,6 +82,35 @@ class TestPREMIS(TestCase):
         lxml_el = premis_obj.serialize()
         data = premisrw.premis_to_data(lxml_el)
         assert data == c.EX_COMPR_EVT
+
+    def test_premis_event_cls_datetime(self):
+        """Tests that ``datetime`` is an accepted value and is converted into
+        text using ``isoformat()``.
+        """
+        event_date_time = datetime(2015, 1, 1, 12, 30, 59)
+        premis_obj = premisrw.PREMISEvent(
+            data=(
+                "event",
+                premisrw.PREMIS_META,
+                (
+                    "event_identifier",
+                    ("event_identifier_type", "UUID"),
+                    ("event_identifier_value", "647aef15-dba7-4114-8ff0-d0b04af0c604"),
+                ),
+                ("event_type", "encription"),
+                ("event_date_time", event_date_time),
+                ("event_detail", "event detail"),
+            )
+        )
+
+        lxml_el = premis_obj.serialize()
+
+        assert (
+            lxml_el.find(
+                ".//premis:eventDateTime", namespaces=metsrw.utils.NAMESPACES
+            ).text
+            == event_date_time.isoformat()
+        )
 
     def test_premis_event_cls_kwargs(self):
         """You should be able to pass sanely-named kwargs to ``PREMISEvent`` on
