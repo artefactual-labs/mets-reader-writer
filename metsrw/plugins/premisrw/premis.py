@@ -613,7 +613,7 @@ def _data_to_lxml_el(data, ns, nsmap, element_maker=None, snake=True):
         elif isinstance(element, etree._Element):
             args.append(element)
         elif isinstance(element, datetime):
-            args.append(element.isoformat())
+            args.append(element.isoformat(sep=" "))
         else:
             args.append(six.binary_type(element))
     ret = func(*args)
