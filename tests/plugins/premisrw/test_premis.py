@@ -130,9 +130,11 @@ class TestPREMIS(TestCase):
         # 1. Get the PREMIS events and object as premisrw class instances.
         compression_event = premisrw.PREMISEvent(data=c.EX_COMPR_EVT)
         events = [compression_event]
-        _, compression_program_version, archive_tool = (
-            compression_event.compression_details
-        )
+        (
+            _,
+            compression_program_version,
+            archive_tool,
+        ) = compression_event.compression_details
         premis_object = premisrw.PREMISObject(
             xsi_type=c.EX_PTR_XSI_TYPE,
             identifier_value=c.EX_PTR_IDENTIFIER_VALUE,
@@ -257,9 +259,11 @@ class TestPREMIS(TestCase):
         attributes.
         """
         compression_event = premisrw.PREMISEvent(data=c.EX_COMPR_EVT)
-        _, compression_program_version, archive_tool = (
-            compression_event.compression_details
-        )
+        (
+            _,
+            compression_program_version,
+            archive_tool,
+        ) = compression_event.compression_details
         inhibitors1 = (
             "inhibitors",
             ("inhibitorType", "GPG"),
@@ -329,9 +333,11 @@ class TestPREMIS(TestCase):
 
     def test_attr_get_set(self):
         compression_event = premisrw.PREMISEvent(data=c.EX_COMPR_EVT)
-        _, compression_program_version, archive_tool = (
-            compression_event.compression_details
-        )
+        (
+            _,
+            compression_program_version,
+            archive_tool,
+        ) = compression_event.compression_details
         INHIBITORS = (
             (
                 "inhibitors",

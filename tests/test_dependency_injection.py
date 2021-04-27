@@ -164,9 +164,11 @@ class TestDependencyInjection(TestCase):
         compression_premis_event = premisrw.PREMISEvent(data=EX_COMPR_EVT)
         premis_events = [compression_premis_event]
         premis_agents = [premisrw.PREMISAgent(data=x) for x in [EX_AGT_1, EX_AGT_2]]
-        _, compression_program_version, archive_tool = (
-            compression_premis_event.compression_details
-        )
+        (
+            _,
+            compression_program_version,
+            archive_tool,
+        ) = compression_premis_event.compression_details
         premis_object = premisrw.PREMISObject(
             xsi_type=EX_PTR_XSI_TYPE,
             identifier_value=EX_PTR_IDENTIFIER_VALUE,

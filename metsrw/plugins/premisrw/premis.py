@@ -269,9 +269,10 @@ class PREMISObject(PREMISElement):
 
     @property
     def schema(self):
-        related_object_identifier, related_event_identifier = _get_relationship_tag_names(
-            self.premis_version
-        )
+        (
+            related_object_identifier,
+            related_event_identifier,
+        ) = _get_relationship_tag_names(self.premis_version)
         return (
             "object",
             (
