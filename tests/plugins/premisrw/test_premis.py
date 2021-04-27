@@ -105,12 +105,9 @@ class TestPREMIS(TestCase):
 
         lxml_el = premis_obj.serialize()
 
-        assert (
-            lxml_el.find(
-                ".//premis:eventDateTime", namespaces=metsrw.utils.NAMESPACES
-            ).text
-            == event_date_time.isoformat()
-        )
+        assert lxml_el.find(
+            ".//premis:eventDateTime", namespaces=metsrw.utils.NAMESPACES
+        ).text == event_date_time.isoformat(sep=" ")
 
     def test_premis_event_cls_kwargs(self):
         """You should be able to pass sanely-named kwargs to ``PREMISEvent`` on
