@@ -55,8 +55,7 @@ class TestNormativeStructMap(TestCase):
         assert normative_structmap.find(exists_in_both, metsrw.NAMESPACES) is not None
 
     def test_write_normative_structmap(self):
-        """It should be able to write a normative logical structural map.
-        """
+        """It should be able to write a normative logical structural map."""
 
         # Create the empty directory as an FSEntry and give it a simple PREMIS
         # object.

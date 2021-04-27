@@ -18,8 +18,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class IdGenerator(six.Iterator):
-    """Helper class to generate unique, sequential ids.
-    """
+    """Helper class to generate unique, sequential ids."""
 
     def __init__(self, prefix):
         self.counter = 0
@@ -33,8 +32,7 @@ class IdGenerator(six.Iterator):
         self.counter = 0
 
     def register_id(self, id_string):
-        """Register a manually assigned id as used, to avoid collisions.
-        """
+        """Register a manually assigned id as used, to avoid collisions."""
         try:
             prefix, count = id_string.rsplit("_", 1)
             count = int(count)
