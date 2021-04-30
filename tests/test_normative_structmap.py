@@ -13,6 +13,8 @@ import uuid
 import metsrw
 from metsrw.plugins.premisrw import PREMISObject, PREMIS_3_0_NAMESPACES, lxmlns
 
+from lxml import etree
+
 
 class TestNormativeStructMap(TestCase):
     """Test normative logical structmap class."""
@@ -71,6 +73,7 @@ class TestNormativeStructMap(TestCase):
         # Create the parent directory of the empty directory and give it a
         # simple PREMIS object also.
         f3 = metsrw.FSEntry("level3.txt", file_uuid=str(uuid.uuid4()))
+        f3.add_dmdsec(etree.Element("data"), "OTHER")
         d2 = metsrw.FSEntry("dir2", type="Directory", children=[f3, d_empty])
         d2_id = str(uuid.uuid4())
         d2_premis_object = PREMISObject(identifier_value=d2_id)
@@ -157,3 +160,14 @@ class TestNormativeStructMap(TestCase):
             "{}type".format(lxmlns("xsi", premis_version="3.0"))
         )
         assert xsi_type == "premis:intellectualEntity"
+
+        # Expect that the file in the normative logical structmap includes the
+        # DMDID attribute.
+        dmdid = normative_structmap_el.find(exists_in_both_path, metsrw.NAMESPACES).get(
+            "DMDID"
+        )
+        assert dmdid.startswith("dmdSec_")
+        file_3_dmd_sec = doc.find(
+            'mets:dmdSec[@ID="{}"]'.format(dmdid), metsrw.NAMESPACES
+        )
+        assert file_3_dmd_sec is not None

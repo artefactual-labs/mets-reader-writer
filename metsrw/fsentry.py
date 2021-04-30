@@ -471,8 +471,7 @@ class FSEntry(DependencyPossessor):
         if (not normative) and self.file_id():
             etree.SubElement(el, utils.lxmlns("mets") + "fptr", FILEID=self.file_id())
         if self.dmdids:
-            if (not normative) or (normative and self.is_empty_dir):
-                el.set("DMDID", " ".join(self.dmdids))
+            el.set("DMDID", " ".join(self.dmdids))
         if self.mets_div_type.lower() == "directory" and self.admids:
             el.set("ADMID", " ".join(self.admids))
         if recurse and self._children:
