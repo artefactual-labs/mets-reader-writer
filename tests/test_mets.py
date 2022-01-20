@@ -16,7 +16,7 @@ import six
 
 
 class TestMETSDocument(TestCase):
-    """ Test METSDocument class. """
+    """Test METSDocument class."""
 
     def test_fromfile(self):
         parser = etree.XMLParser(remove_blank_text=True)
@@ -127,7 +127,7 @@ class TestMETSDocument(TestCase):
         assert mw.createdate is None
 
     def test_parse_no_groupid(self):
-        """ It should handle files with no GROUPID. """
+        """It should handle files with no GROUPID."""
         mw = metsrw.METSDocument().fromfile("fixtures/mets_without_groupid_in_file.xml")
         assert mw.get_file(file_uuid="db653873-d0ab-4bc1-9edb-2b6d2d84ab5a") is not None
 
@@ -442,7 +442,7 @@ class TestMETSDocument(TestCase):
 
 
 class TestWholeMETS(TestCase):
-    """ Test integration between classes. """
+    """Test integration between classes."""
 
     def test_files(self):
         # Test collects several children deep
@@ -538,7 +538,7 @@ class TestWholeMETS(TestCase):
         assert mw.get_file(path="file4.txt") == f4
 
     def test_remove_file(self):
-        """ It should """
+        """It should"""
         # Setup
         f3_uuid = str(uuid.uuid4())
         f3 = metsrw.FSEntry("dir1/dir2/level3.txt", file_uuid=f3_uuid)
@@ -968,3 +968,14 @@ class TestWholeMETS(TestCase):
             metsrw.exceptions.SerializeError, match="is not a valid URL."
         ):
             mw.serialize()
+
+    def test_serialize_normative_structmap(self):
+        """Test METS serialization with and without a normative structmap."""
+        mw = metsrw.METSDocument.fromfile("fixtures/mets_empty_dirs.xml")
+        xpath = (
+            'mets:structMap[@LABEL="Normative Directory Structure"][@TYPE="logical"]'
+        )
+        tree = mw.serialize()
+        assert tree.find(xpath, namespaces=metsrw.NAMESPACES) is not None
+        tree = mw.serialize(normative_structmap=False)
+        assert tree.find(xpath, namespaces=metsrw.NAMESPACES) is None

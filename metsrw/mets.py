@@ -288,7 +288,7 @@ class METSDocument(object):
 
         return filesec
 
-    def serialize(self, fully_qualified=True):
+    def serialize(self, fully_qualified=True, normative_structmap=True):
         """
         Returns this document serialized to an xml Element.
 
@@ -303,7 +303,8 @@ class METSDocument(object):
             root.append(section.serialize(now=now))
         root.append(self._filesec(files))
         root.append(self._structmap())
-        root.append(self._normative_structmap())
+        if normative_structmap:
+            root.append(self._normative_structmap())
         return root
 
     def tostring(self, fully_qualified=True, pretty_print=True, encoding="UTF-8"):
