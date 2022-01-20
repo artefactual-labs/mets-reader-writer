@@ -300,6 +300,7 @@ class SubSection(object):
         self.older = None
         self.newer = None
         self.created = None
+        self.group_id = None
 
         if section_id is None:
             self.id_string = next(self._id_generators[self.subsection])
@@ -380,8 +381,6 @@ class SubSection(object):
                 % (cls.ALLOWED_SUBSECTIONS,)
             )
         section_id = root.get("ID")
-        created = root.get("CREATED", "")
-        status = root.get("STATUS", "")
         child = root[0]
         if child.tag == utils.lxmlns("mets") + "mdWrap":
             mdwrap = MDWrap.parse(child)
@@ -393,8 +392,9 @@ class SubSection(object):
             raise exceptions.ParseError(
                 "Child of %s must be mdWrap or mdRef" % subsection
             )
-        obj.created = created
-        obj.status = status
+        obj.created = root.get("CREATED", "")
+        obj.status = root.get("STATUS", "")
+        obj.group_id = root.get("GROUPID", "")
         return obj
 
     def serialize(self, now=None):
@@ -411,6 +411,8 @@ class SubSection(object):
         status = self.get_status()
         if status:
             el.set("STATUS", status)
+        if self.group_id:
+            el.set("GROUPID", self.group_id)
         if self.contents:
             el.append(self.contents.serialize())
         return el

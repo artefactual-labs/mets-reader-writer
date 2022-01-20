@@ -353,6 +353,21 @@ class TestSubSection(TestCase):
         assert new.attrib["ID"] == "techMD_42"
         assert len(new.attrib) == 1
 
+    def test_roundtrip_group_id(self):
+        """ It should be able to maintain the GROUPID attribute. """
+        elem = etree.Element(
+            "{http://www.loc.gov/METS/}dmdSec",
+            ID="dmd_1",
+            GROUPID="ab3ba63f-3e50-4477-964f-9c5ef2d33dc0",
+        )
+        mdr = etree.SubElement(
+            elem, "{http://www.loc.gov/METS/}mdRef", MDTYPE="dummy", LOCTYPE="URL"
+        )
+        mdr.set("{http://www.w3.org/1999/xlink}href", "url")
+        obj = metsrw.SubSection.parse(elem)
+        new = obj.serialize()
+        assert new.attrib["GROUPID"] == "ab3ba63f-3e50-4477-964f-9c5ef2d33dc0"
+
     def test_generate_id_skips_existing_id(self):
         techmd1 = metsrw.SubSection("techMD", [], section_id="techMD_1")
         techmd2 = metsrw.SubSection("techMD", [])
