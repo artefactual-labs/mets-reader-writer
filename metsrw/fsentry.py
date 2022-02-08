@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from itertools import chain
 import logging
 import os
+from uuid import uuid4
 
 from lxml import etree
 import six
@@ -173,6 +174,7 @@ class FSEntry(DependencyPossessor):
         self.checksumtype = checksumtype
         self.amdsecs = []
         self.dmdsecs = []
+        self.dmdsecs_mapping = {}
 
     @classmethod
     def dir(cls, label, children):
@@ -298,7 +300,43 @@ class FSEntry(DependencyPossessor):
         return self._add_metadata_element(md, "rightsMD", mdtype, mode, **kwargs)
 
     def add_dmdsec(self, md, mdtype, mode="mdwrap", **kwargs):
-        return self._add_metadata_element(md, "dmdSec", mdtype, mode, **kwargs)
+        """Add dmdsec.
+
+        Extension of _add_metadata_element that adds a dmdSec and updates the
+        previous dmdSecs of the same mdtype_othermdtype, marking them as
+        "superseded" and using the same group_id for all of them.
+        """
+        dmdsec = self._add_metadata_element(md, "dmdSec", mdtype, mode, **kwargs)
+        dmdsec.status = kwargs.get("status") or "original"
+        mapping_key = mdtype + "_" + kwargs.get("othermdtype", "")
+        if mapping_key in self.dmdsecs_mapping:
+            group_id = getattr(self.dmdsecs_mapping[mapping_key][0], "group_id")
+            if not group_id:
+                group_id = str(uuid4())
+            dmdsec.group_id = group_id
+            for previous_dmdsec in self.dmdsecs_mapping[mapping_key]:
+                previous_dmdsec.group_id = group_id
+                if not previous_dmdsec.status:
+                    previous_dmdsec.status = "original"
+                if not previous_dmdsec.status.endswith("-superseded"):
+                    previous_dmdsec.status += "-superseded"
+        self.dmdsecs_mapping.setdefault(mapping_key, []).append(dmdsec)
+        return dmdsec
+
+    def delete_dmdsec(self, mdtype, othermdtype=""):
+        """Mark latest dmdsec of mdtype_othermdtype as deleted.
+
+        It doesn't delete the dmdsec from the METS. It only sets its status
+        attribute to "deleted".
+        """
+        mapping_key = mdtype + "_" + othermdtype
+        if mapping_key in self.dmdsecs_mapping:
+            self.dmdsecs_mapping[mapping_key][-1].status = "deleted"
+
+    def has_dmdsec(self, mdtype, othermdtype=""):
+        """Check if a dmdsec of mdtype_othermdtype exists for this entry."""
+        mapping_key = mdtype + "_" + othermdtype
+        return mapping_key in self.dmdsecs_mapping
 
     def serialize_md_inst(self, md_inst, md_class):
         """Serialize object ``md_inst`` by transforming it into an
@@ -344,9 +382,9 @@ class FSEntry(DependencyPossessor):
             mode,
         )
 
-    def add_dublin_core(self, md, mode="mdwrap"):
-        # TODO add extra args and create DC object here
-        return self.add_dmdsec(md, "DC", mode)
+    def add_dublin_core(self, md, mode="mdwrap", **kwargs):
+        # TODO create DC object here
+        return self.add_dmdsec(md, "DC", mode, **kwargs)
 
     def add_child(self, child):
         """Add a child FSEntry to this FSEntry.
@@ -521,3 +559,15 @@ class FSEntry(DependencyPossessor):
                 if statement.rights_statement_identifier_value == rights_statement_uuid:
                     return statement
         return None
+
+    def get_path(self):
+        """Return the relative path to this FSEntry.
+
+        If the path is not set, it's generated from the ancestor labels.
+        """
+        if self.path:
+            return self.path
+        if self.parent and self.parent.parent:
+            return self.parent.get_path() + os.sep + self.label
+        else:
+            return self.label

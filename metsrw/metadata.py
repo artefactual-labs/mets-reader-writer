@@ -334,10 +334,7 @@ class SubSection(object):
         if self.status is not None:
             return self.status
         if self.subsection == "dmdSec":
-            if self.older is None:
-                return "original"
-            else:
-                return "updated"
+            return "original"
         if self.subsection in ("techMD", "rightsMD"):
             # TODO how to handle ones where newer has been deleted?
             if self.newer is None:
