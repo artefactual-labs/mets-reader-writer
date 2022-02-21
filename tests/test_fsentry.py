@@ -362,7 +362,6 @@ class TestFSEntry(TestCase):
 
     def test_is_empty_dir(self):
         """It should be able to determine whether it is an empty directory."""
-
         r = metsrw.FSEntry("dir", type="Directory")
         d1 = metsrw.FSEntry("dir", type="Directory")
         d2 = metsrw.FSEntry("dir", type="Directory")
@@ -388,3 +387,21 @@ class TestFSEntry(TestCase):
         # empty directories.
         assert d2.is_empty_dir
         assert len(d2.children) == 2
+
+    def test_get_path(self):
+        """It should be able to get or generate a relative path."""
+        sip = metsrw.FSEntry(label="sip", type="Directory")
+        objects = metsrw.FSEntry(label="objects", type="Directory")
+        directory = metsrw.FSEntry(label="directory", type="Directory")
+        file = metsrw.FSEntry("objects/directory/file.txt")
+        sip.add_child(objects).add_child(directory).add_child(file)
+
+        assert sip.get_path() is None
+        assert objects.get_path() == "objects"
+        assert directory.get_path() == "objects/directory"
+        assert file.get_path() == "objects/directory/file.txt"
+
+    def test_get_path_error(self):
+        """It should raise AttributeError is an entry doesn't have path nor label."""
+        with pytest.raises(AttributeError):
+            metsrw.FSEntry().get_path()

@@ -521,3 +521,19 @@ class FSEntry(DependencyPossessor):
                 if statement.rights_statement_identifier_value == rights_statement_uuid:
                     return statement
         return None
+
+    def get_path(self):
+        """Return the relative path to this FSEntry.
+
+        If the path is not set, it's generated from the ancestor labels. Raises an
+        AttributeError if the path cannot be generated. Returns None for the top
+        level FSEntry.
+        """
+        if self.path:
+            return self.path
+        if not self.label:
+            raise AttributeError("The path cannot be generated")
+        if self.parent:
+            if self.parent.parent:
+                return self.parent.get_path() + os.sep + self.label
+            return self.label
