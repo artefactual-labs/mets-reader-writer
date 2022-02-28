@@ -107,6 +107,28 @@ class TestMETSDocument(TestCase):
             is not None
         )
 
+    def test_parse_dmdsecs(self):
+        """It should create FSEntry's ordered dmdsecs and mapping by type."""
+        mw = metsrw.METSDocument()
+        parser = etree.XMLParser(remove_blank_text=True)
+        root = etree.parse("fixtures/dmdsecs_mets.xml", parser=parser)
+        mw.tree = root
+        mw._parse_tree()
+        objects = mw.get_file(type="Directory", label="objects")
+        assert len(objects.dmdsecs) == 4
+        assert objects.dmdsecs[0].id_string == "dmdSec_1"
+        assert objects.dmdsecs[-1].id_string == "dmdSec_4"
+        assert len(objects.dmdsecs_by_mdtype["DC"]) == 1
+        assert len(objects.dmdsecs_by_mdtype["OTHER_CUSTOM"]) == 1
+        assert len(objects.dmdsecs_by_mdtype["OTHER_MD_A"]) == 1
+        assert len(objects.dmdsecs_by_mdtype["OTHER_MD_B"]) == 1
+        file = mw.get_file(type="Item", label="Landing_zone.jpg")
+        assert len(file.dmdsecs) == 5
+        assert file.dmdsecs[0].id_string == "dmdSec_5"
+        assert file.dmdsecs[-1].id_string == "dmdSec_9"
+        assert len(file.dmdsecs_by_mdtype["DC"]) == 2
+        assert len(file.dmdsecs_by_mdtype["OTHER_CUSTOM"]) == 3
+
     def test_parse_tree_createdate_too_new(self):
         mw = metsrw.METSDocument()
         root = etree.parse("fixtures/createdate_too_new.xml")

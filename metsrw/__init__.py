@@ -16,6 +16,7 @@ from .utils import (
     GROUP_ID_PREFIX,
     urlencode,
     urldecode,
+    generate_mdtype_key,
 )
 from .validate import (
     METS_XSD_PATH,
@@ -67,6 +68,7 @@ __all__ = [
     "SubSection",
     "__version__",
     "feature_broker",
+    "generate_mdtype_key",
     "get_schematron",
     "get_xmlschema",
     "has_class_methods",

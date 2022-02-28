@@ -64,3 +64,11 @@ def urldecode(url):
     https://tools.ietf.org/html/rfc3986#section-2.1.
     """
     return _urlendecode(url, unquote_plus)
+
+
+def generate_mdtype_key(mdtype, othermdtype=""):
+    """Used to generate the keys of the FSEntry's dmdsecs_by_mdtype dict."""
+    mdtype_key = mdtype
+    if othermdtype:
+        mdtype_key += "_" + othermdtype
+    return mdtype_key

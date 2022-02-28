@@ -24,3 +24,8 @@ def test_url_encoding():
     for url in BAD_URLS:
         with pytest.raises(ValueError):
             metsrw.urlencode(url)
+
+
+def test_generate_mdtype_key():
+    assert metsrw.generate_mdtype_key("MDTYPE") == "MDTYPE"
+    assert metsrw.generate_mdtype_key("MDTYPE", "OTHERMDTYPE") == "MDTYPE_OTHERMDTYPE"

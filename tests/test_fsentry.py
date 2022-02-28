@@ -143,6 +143,62 @@ class TestFSEntry(TestCase):
 
         assert len(f1.amdsecs[0].subsections) == 4
 
+    def test_dmdsec_management(self):
+        """Test addition, check and deletion of dmdSecs."""
+        file = metsrw.FSEntry("file[1].txt", file_uuid=str(uuid.uuid4()))
+        assert file.dmdsecs == []
+        assert file.dmdsecs_by_mdtype == {}
+        assert file.has_dmdsec("DC") is False
+        assert file.has_dmdsec("OTHER_CUSTOM") is False
+        file.add_dmdsec("<dc/>", "DC")
+        assert len(file.dmdsecs) == 1
+        assert len(file.dmdsecs_by_mdtype["DC"]) == 1
+        assert file.has_dmdsec("DC") is True
+        assert file.dmdsecs[0].status == "original"
+        file.add_dmdsec("<dc/>", "DC", status="update")
+        assert len(file.dmdsecs) == 2
+        assert len(file.dmdsecs_by_mdtype["DC"]) == 2
+        assert file.dmdsecs[0].status == "original-superseded"
+        assert file.dmdsecs[1].status == "update"
+        assert file.dmdsecs[0].group_id == file.dmdsecs[1].group_id
+        file.add_dmdsec("<dc/>", "DC", status="update")
+        assert len(file.dmdsecs) == 3
+        assert len(file.dmdsecs_by_mdtype["DC"]) == 3
+        assert file.dmdsecs[1].status == "update-superseded"
+        assert file.dmdsecs[2].status == "update"
+        assert file.dmdsecs[0].group_id == file.dmdsecs[1].group_id
+        assert file.dmdsecs[0].group_id == file.dmdsecs[2].group_id
+        file.delete_dmdsec("DC")
+        assert len(file.dmdsecs) == 3
+        assert len(file.dmdsecs_by_mdtype["DC"]) == 3
+        assert file.dmdsecs[2].status == "deleted"
+        file.add_dmdsec("<custom/>", "OTHER", othermdtype="CUSTOM")
+        assert len(file.dmdsecs) == 4
+        assert len(file.dmdsecs_by_mdtype["DC"]) == 3
+        assert len(file.dmdsecs_by_mdtype["OTHER_CUSTOM"]) == 1
+        assert file.has_dmdsec("OTHER", othermdtype="CUSTOM") is True
+        assert file.dmdsecs[3].status == "original"
+        file.add_dmdsec("<custom/>", "OTHER", othermdtype="CUSTOM", status="update")
+        assert len(file.dmdsecs) == 5
+        assert len(file.dmdsecs_by_mdtype["DC"]) == 3
+        assert len(file.dmdsecs_by_mdtype["OTHER_CUSTOM"]) == 2
+        assert file.dmdsecs[3].status == "original-superseded"
+        assert file.dmdsecs[4].status == "update"
+        assert file.dmdsecs[3].group_id == file.dmdsecs[4].group_id
+        file.add_dmdsec("<custom/>", "OTHER", othermdtype="CUSTOM", status="update")
+        assert len(file.dmdsecs) == 6
+        assert len(file.dmdsecs_by_mdtype["DC"]) == 3
+        assert len(file.dmdsecs_by_mdtype["OTHER_CUSTOM"]) == 3
+        assert file.dmdsecs[4].status == "update-superseded"
+        assert file.dmdsecs[5].status == "update"
+        assert file.dmdsecs[3].group_id == file.dmdsecs[4].group_id
+        assert file.dmdsecs[3].group_id == file.dmdsecs[5].group_id
+        file.delete_dmdsec("OTHER", othermdtype="CUSTOM")
+        assert len(file.dmdsecs) == 6
+        assert len(file.dmdsecs_by_mdtype["DC"]) == 3
+        assert len(file.dmdsecs_by_mdtype["OTHER_CUSTOM"]) == 3
+        assert file.dmdsecs[5].status == "deleted"
+
     def test_add_child(self):
         """
         It should add a new entry to the children list.

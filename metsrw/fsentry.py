@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from itertools import chain
 import logging
 import os
+from uuid import uuid4
 
 from lxml import etree
 import six
@@ -173,6 +174,7 @@ class FSEntry(DependencyPossessor):
         self.checksumtype = checksumtype
         self.amdsecs = []
         self.dmdsecs = []
+        self.dmdsecs_by_mdtype = {}
 
     @classmethod
     def dir(cls, label, children):
@@ -298,7 +300,43 @@ class FSEntry(DependencyPossessor):
         return self._add_metadata_element(md, "rightsMD", mdtype, mode, **kwargs)
 
     def add_dmdsec(self, md, mdtype, mode="mdwrap", **kwargs):
-        return self._add_metadata_element(md, "dmdSec", mdtype, mode, **kwargs)
+        """Add dmdsec.
+
+        Extension of _add_metadata_element that adds a dmdSec and updates the
+        previous dmdSecs with the same MDTYPE and OTHERMDTYPE attribute values,
+        marking them as "superseded" and using the same group_id for all of them.
+        """
+        dmdsec = self._add_metadata_element(md, "dmdSec", mdtype, mode, **kwargs)
+        dmdsec.status = kwargs.get("status") or "original"
+        mdtype_key = utils.generate_mdtype_key(mdtype, kwargs.get("othermdtype", ""))
+        if mdtype_key in self.dmdsecs_by_mdtype:
+            group_id = getattr(self.dmdsecs_by_mdtype[mdtype_key][0], "group_id")
+            if not group_id:
+                group_id = str(uuid4())
+            dmdsec.group_id = group_id
+            for previous_dmdsec in self.dmdsecs_by_mdtype[mdtype_key]:
+                previous_dmdsec.group_id = group_id
+                if not previous_dmdsec.status:
+                    previous_dmdsec.status = "original"
+                if not previous_dmdsec.status.endswith("-superseded"):
+                    previous_dmdsec.status += "-superseded"
+        self.dmdsecs_by_mdtype.setdefault(mdtype_key, []).append(dmdsec)
+        return dmdsec
+
+    def delete_dmdsec(self, mdtype, othermdtype=""):
+        """Mark latest dmdsec of mdtype_othermdtype as deleted.
+
+        It doesn't delete the dmdsec from the METS. It only sets its status
+        attribute to "deleted".
+        """
+        mdtype_key = utils.generate_mdtype_key(mdtype, othermdtype)
+        if mdtype_key in self.dmdsecs_by_mdtype:
+            self.dmdsecs_by_mdtype[mdtype_key][-1].status = "deleted"
+
+    def has_dmdsec(self, mdtype, othermdtype=""):
+        """Check if a dmdsec of mdtype_othermdtype exists for this entry."""
+        mdtype_key = utils.generate_mdtype_key(mdtype, othermdtype)
+        return mdtype_key in self.dmdsecs_by_mdtype
 
     def serialize_md_inst(self, md_inst, md_class):
         """Serialize object ``md_inst`` by transforming it into an
@@ -344,9 +382,9 @@ class FSEntry(DependencyPossessor):
             mode,
         )
 
-    def add_dublin_core(self, md, mode="mdwrap"):
-        # TODO add extra args and create DC object here
-        return self.add_dmdsec(md, "DC", mode)
+    def add_dublin_core(self, md, mode="mdwrap", **kwargs):
+        # TODO create DC object here
+        return self.add_dmdsec(md, "DC", mode, **kwargs)
 
     def add_child(self, child):
         """Add a child FSEntry to this FSEntry.

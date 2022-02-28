@@ -518,20 +518,19 @@ class METSDocument(object):
 
     @staticmethod
     def _add_dmdsecs_to_fs_entry(elem, fs_entry, tree):
-        dmdids = elem.get("DMDID")
-        if dmdids:
-            dmdids = dmdids.split()
-            for dmdid in dmdids:
-                dmdsec_elem = tree.find(
-                    'mets:dmdSec[@ID="' + dmdid + '"]', namespaces=utils.NAMESPACES
-                )
-                dmdsec = metadata.SubSection.parse(dmdsec_elem)
-                fs_entry.dmdsecs.append(dmdsec)
-            # Create older/newer relationships
-            fs_entry.dmdsecs.sort(key=lambda x: x.created)
-            for prev_dmdsec, dmdsec in zip(fs_entry.dmdsecs, fs_entry.dmdsecs[1:]):
-                if dmdsec.status == "updated":
-                    prev_dmdsec.replace_with(dmdsec)
+        for dmdid in elem.get("DMDID", "").split():
+            dmdsec_elem = tree.find(
+                'mets:dmdSec[@ID="' + dmdid + '"]', namespaces=utils.NAMESPACES
+            )
+            dmdsec = metadata.SubSection.parse(dmdsec_elem)
+            fs_entry.dmdsecs.append(dmdsec)
+        # Order by creation date and generate mapping by mdtype_othermdtype
+        fs_entry.dmdsecs.sort(key=lambda x: x.created)
+        for dmdsec in fs_entry.dmdsecs:
+            mdtype_key = utils.generate_mdtype_key(
+                dmdsec.contents.mdtype, getattr(dmdsec.contents, "othermdtype", "")
+            )
+            fs_entry.dmdsecs_by_mdtype.setdefault(mdtype_key, []).append(dmdsec)
 
     @staticmethod
     def _add_amdsecs_to_fs_entry(amdids, fs_entry, tree):

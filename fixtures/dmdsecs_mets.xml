@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mets:mets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:mets="http://www.loc.gov/METS/" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version1121/mets.xsd">
+  <mets:metsHdr CREATEDATE="2022-02-08T12:48:16"/>
+  <mets:dmdSec ID="dmdSec_1">
+    <mets:mdWrap MDTYPE="DC">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_2" CREATED="2022-02-08T12:48:16" STATUS="original">
+    <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="CUSTOM">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_3" CREATED="2022-02-08T12:48:16" STATUS="original">
+    <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="MD_A">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_4" CREATED="2022-02-08T12:48:17" STATUS="original">
+    <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="MD_B">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_5" CREATED="2022-02-08T12:48:16" STATUS="original-superseded">
+    <mets:mdWrap MDTYPE="DC">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_6" CREATED="2022-02-08T12:48:16" STATUS="original-superseded">
+    <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="CUSTOM">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_7" CREATED="2022-02-08T13:50:23" STATUS="update">
+    <mets:mdWrap MDTYPE="DC">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_8" CREATED="2022-02-08T13:50:23" STATUS="update-superseded">
+    <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="CUSTOM">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_9" CREATED="2022-02-08T14:20:34" STATUS="deleted">
+    <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="CUSTOM">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:amdSec ID="amdSec_1"/>
+  <mets:amdSec ID="amdSec_2"/>
+  <mets:fileSec>
+    <mets:fileGrp USE="original">
+      <mets:file ID="file-7ac3a28c-3bff-4db6-b370-14ed08d911c4" GROUPID="Group-7ac3a28c-3bff-4db6-b370-14ed08d911c4" ADMID="amdSec_2">
+        <mets:FLocat xlink:href="objects/Landing_zone.jpg" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap TYPE="physical" ID="structMap_1" LABEL="Archivematica default">
+    <mets:div TYPE="Directory" LABEL="small_5-a8d845ec-7501-4847-8737-1ae60ed4c689">
+      <mets:div TYPE="Directory" LABEL="objects" DMDID="dmdSec_1 dmdSec_2 dmdSec_3 dmdSec_4" ADMID="amdSec_1">
+        <mets:div TYPE="Item" LABEL="Landing_zone.jpg" DMDID="dmdSec_5 dmdSec_6 dmdSec_7 dmdSec_8 dmdSec_9">
+          <mets:fptr FILEID="file-7ac3a28c-3bff-4db6-b370-14ed08d911c4"/>
+        </mets:div>
+      </mets:div>
+    </mets:div>
+  </mets:structMap>
+</mets:mets>

@@ -226,13 +226,13 @@ class TestSubSection(TestCase):
         assert dmdsec_old.get_status() == "original"
         dmdsec_new = metsrw.SubSection("dmdSec", self.STUB_MDWRAP)
         dmdsec_old.replace_with(dmdsec_new)
-        assert dmdsec_old.get_status() == "original"
-        assert dmdsec_new.get_status() == "updated"
+        assert dmdsec_old.get_status() == "original-superseded"
+        assert dmdsec_new.get_status() == "update"
         dmdsec_newer = metsrw.SubSection("dmdSec", self.STUB_MDWRAP)
         dmdsec_new.replace_with(dmdsec_newer)
-        assert dmdsec_old.get_status() == "original"
-        assert dmdsec_new.get_status() == "updated"
-        assert dmdsec_newer.get_status() == "updated"
+        assert dmdsec_old.get_status() == "original-superseded"
+        assert dmdsec_new.get_status() == "update-superseded"
+        assert dmdsec_newer.get_status() == "update"
 
     def test_subsection_serialize(self):
         content = metsrw.MDWrap("<foo/>", None)
