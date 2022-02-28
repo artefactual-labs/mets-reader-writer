@@ -979,3 +979,46 @@ class TestWholeMETS(TestCase):
         assert tree.find(xpath, namespaces=metsrw.NAMESPACES) is not None
         tree = mw.serialize(normative_structmap=False)
         assert tree.find(xpath, namespaces=metsrw.NAMESPACES) is None
+
+
+@pytest.mark.parametrize(
+    "mets_path, expected_counts",
+    [
+        (
+            "fixtures/complete_mets.xml",
+            {
+                "dmdSec": 2,
+                "amdSec": 7,
+                "techMD": 7,
+                "rightsMD": 0,
+                "digiprovMD": 54,
+                "sourceMD": 0,
+            },
+        ),
+        (
+            "fixtures/mets_all_rights.xml",
+            {
+                "dmdSec": 0,
+                "amdSec": 2,
+                "techMD": 2,
+                "rightsMD": 5,
+                "digiprovMD": 0,
+                "sourceMD": 0,
+            },
+        ),
+        (
+            "fixtures/mets_directory_amd.xml",
+            {
+                "dmdSec": 1,
+                "amdSec": 2,
+                "techMD": 0,
+                "rightsMD": 0,
+                "digiprovMD": 0,
+                "sourceMD": 1,
+            },
+        ),
+    ],
+)
+def test_get_subsections_counts(mets_path, expected_counts):
+    mw = metsrw.METSDocument().fromfile(mets_path)
+    assert mw.get_subsections_counts() == expected_counts

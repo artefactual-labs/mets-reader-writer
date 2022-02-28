@@ -87,6 +87,31 @@ class METSDocument(object):
         # element already in the document.
         return self._collect_all_files(self._root_elements)
 
+    def get_subsections_counts(self):
+        """
+        Return a dictionary with the count of the following subsections:
+        dmdSec, amdSec, techMD, rightsMD, digiprovMD and sourceMDs.
+
+        :returns: Dict with subsections counts.
+        """
+        subsections = ("techMD", "rightsMD", "digiprovMD", "sourceMD")
+        counts = {
+            "dmdSec": 0,
+            "amdSec": 0,
+            "techMD": 0,
+            "rightsMD": 0,
+            "digiprovMD": 0,
+            "sourceMD": 0,
+        }
+        for entry in self.all_files():
+            counts["dmdSec"] += len(entry.dmdsecs)
+            counts["amdSec"] += len(entry.amdsecs)
+            for amdsec in entry.amdsecs:
+                for subsection in amdsec.subsections:
+                    if subsection.subsection in subsections:
+                        counts[subsection.subsection] += 1
+        return counts
+
     def get_file(self, **kwargs):
         """
         Return the FSEntry that matches parameters.
@@ -186,14 +211,14 @@ class METSDocument(object):
         """
         Return the metsHdr Element.
         """
-        header_tag = etree.QName(utils.NAMESPACES[u"mets"], u"metsHdr")
+        header_tag = etree.QName(utils.NAMESPACES["mets"], "metsHdr")
         header_attrs = {}
 
         if self.createdate is None:
-            header_attrs[u"CREATEDATE"] = now
+            header_attrs["CREATEDATE"] = now
         else:
-            header_attrs[u"CREATEDATE"] = self.createdate
-            header_attrs[u"LASTMODDATE"] = now
+            header_attrs["CREATEDATE"] = self.createdate
+            header_attrs["LASTMODDATE"] = now
 
         header_element = etree.Element(header_tag, **header_attrs)
         for agent in self.agents:
@@ -374,7 +399,7 @@ class METSDocument(object):
                 for fptr_elem in fptr_elems:
                     fptr = self._analyze_fptr(fptr_elem, tree, entry_type)
                     fs_entry = fsentry.FSEntry.from_fptr(
-                        label=None, type_=u"Item", fptr=fptr
+                        label=None, type_="Item", fptr=fptr
                     )
                     self._add_amdsecs_to_fs_entry(fptr.amdids, fs_entry, tree)
                     siblings.append(fs_entry)
@@ -554,16 +579,16 @@ class METSDocument(object):
             )
 
     def _parse_header(self, tree):
-        header = self.tree.find(u"mets:metsHdr", namespaces=utils.NAMESPACES)
+        header = self.tree.find("mets:metsHdr", namespaces=utils.NAMESPACES)
         # Check CREATEDATE < now
         if header is not None:
-            createdate = header.get(u"CREATEDATE")
+            createdate = header.get("CREATEDATE")
         else:
             createdate = None
         now = datetime.utcnow().isoformat("T")
         if createdate and createdate > now:
             raise exceptions.ParseError(
-                u"CREATEDATE more recent than now ({})".format(now)
+                "CREATEDATE more recent than now ({})".format(now)
             )
         self.createdate = createdate
 
