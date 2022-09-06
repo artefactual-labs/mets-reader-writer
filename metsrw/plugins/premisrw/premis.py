@@ -626,8 +626,14 @@ def _data_to_lxml_el(data, ns, nsmap, element_maker=None, snake=True):
         if snake:
             attr = utils.snake_to_camel(attr)
         if ns:
-            attr = "{" + nsmap[ns] + "}" + attr
-            ret.attrib[attr] = val
+            try:
+                attr = "{" + nsmap[ns] + "}" + attr
+                ret.attrib[attr] = val
+            except (KeyError, ValueError):
+                # If namespace is not in map (e.g. from characterization tool
+                # output), fall back to using ns as it exists prior to colon.
+                attr = "{" + ns + "}" + attr
+                ret.attrib[attr] = val
         else:
             ret.attrib[attr] = val
     return ret
