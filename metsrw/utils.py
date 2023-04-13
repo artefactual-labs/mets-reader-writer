@@ -23,7 +23,7 @@ SCHEMA_LOCATIONS = (
 
 
 def lxmlns(arg):
-    """ Return XPath-usable namespace. """
+    """Return XPath-usable namespace."""
     return "{" + NAMESPACES[arg] + "}"
 
 

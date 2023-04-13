@@ -100,7 +100,7 @@ class TestAltRecordId(TestCase):
 
 
 class TestAMDSec(TestCase):
-    """ Test AMDSec class. """
+    """Test AMDSec class."""
 
     def setUp(self):
         # Reset the id generation counter per test
@@ -140,7 +140,7 @@ class TestAMDSec(TestCase):
 
 
 class TestSubSection(TestCase):
-    """ Test SubSection class. """
+    """Test SubSection class."""
 
     STUB_MDWRAP = metsrw.MDWrap("<foo/>", "PREMIS:DUMMY")
 
@@ -160,7 +160,7 @@ class TestSubSection(TestCase):
             assert dmdsec_id == "dmdSec_{}".format(index)
 
     def test_allowed_tags(self):
-        """ It should only allow certain subsection tags. """
+        """It should only allow certain subsection tags."""
         with pytest.raises(ValueError):
             metsrw.SubSection("fakeMD", None)
         metsrw.SubSection("dmdSec", None)
@@ -170,14 +170,14 @@ class TestSubSection(TestCase):
         metsrw.SubSection("digiprovMD", None)
 
     def test_replace_with_diff_type(self):
-        """ It should assert if replacing with a different subsection type. """
+        """It should assert if replacing with a different subsection type."""
         dmdsec = metsrw.SubSection("dmdSec", self.STUB_MDWRAP)
         rightsmd = metsrw.SubSection("rightsMD", self.STUB_MDWRAP)
         with pytest.raises(metsrw.MetsError):
             dmdsec.replace_with(rightsmd)
 
     def test_replacement_techmd(self):
-        """ It should have no special behaviour replacing techMDs. """
+        """It should have no special behaviour replacing techMDs."""
         techmd_old = metsrw.SubSection("techMD", self.STUB_MDWRAP)
         techmd_new = metsrw.SubSection("techMD", self.STUB_MDWRAP)
         techmd_old.replace_with(techmd_new)
@@ -185,7 +185,7 @@ class TestSubSection(TestCase):
         assert techmd_new.get_status() == "current"
 
     def test_replacement_sourcemd(self):
-        """ It should have no special behaviour replacing sourceMDs. """
+        """It should have no special behaviour replacing sourceMDs."""
         sourcemd_old = metsrw.SubSection("sourceMD", self.STUB_MDWRAP)
         sourcemd_new = metsrw.SubSection("sourceMD", self.STUB_MDWRAP)
         sourcemd_old.replace_with(sourcemd_new)
@@ -193,7 +193,7 @@ class TestSubSection(TestCase):
         assert sourcemd_new.get_status() is None
 
     def test_replacement_digiprovmd(self):
-        """ It should have no special behaviour replacing digiprovMDs. """
+        """It should have no special behaviour replacing digiprovMDs."""
         digiprovmd_old = metsrw.SubSection("digiprovMD", self.STUB_MDWRAP)
         digiprovmd_new = metsrw.SubSection("digiprovMD", self.STUB_MDWRAP)
         digiprovmd_old.replace_with(digiprovmd_new)
@@ -300,7 +300,7 @@ class TestSubSection(TestCase):
         assert isinstance(obj.contents, metsrw.MDRef)
 
     def test_parse_bad_subsection_type(self):
-        """ It should only accept valid subsection tags. """
+        """It should only accept valid subsection tags."""
         # Wrong tag name
         bad = etree.Element("foo")
         with pytest.raises(metsrw.ParseError) as e:
@@ -308,7 +308,7 @@ class TestSubSection(TestCase):
             assert "METS namespace" in e.value
 
     def test_parse_bad_child_type(self):
-        """ It should only accept valid child tags. """
+        """It should only accept valid child tags."""
         elem = etree.Element(
             "{http://www.loc.gov/METS/}techMD",
             ID="techMD_42",
@@ -321,7 +321,7 @@ class TestSubSection(TestCase):
             assert "must be mdWrap or mdRef" in e.value
 
     def test_roundtrip(self):
-        """ It should be able to parse and write out a subsection unchanged. """
+        """It should be able to parse and write out a subsection unchanged."""
         elem = etree.Element(
             "{http://www.loc.gov/METS/}techMD",
             ID="techMD_42",
@@ -341,7 +341,7 @@ class TestSubSection(TestCase):
         assert len(new.attrib) == 3
 
     def test_roundtrip_bare(self):
-        """ It should be able to parse and write out a subsection unchanged. """
+        """It should be able to parse and write out a subsection unchanged."""
         elem = etree.Element("{http://www.loc.gov/METS/}techMD", ID="techMD_42")
         mdr = etree.SubElement(
             elem, "{http://www.loc.gov/METS/}mdRef", MDTYPE="dummy", LOCTYPE="URL"
@@ -354,7 +354,7 @@ class TestSubSection(TestCase):
         assert len(new.attrib) == 1
 
     def test_roundtrip_group_id(self):
-        """ It should be able to maintain the GROUPID attribute. """
+        """It should be able to maintain the GROUPID attribute."""
         elem = etree.Element(
             "{http://www.loc.gov/METS/}dmdSec",
             ID="dmd_1",
@@ -381,7 +381,7 @@ class TestSubSection(TestCase):
 
 
 class TestMDRef(TestCase):
-    """ Test MDRef class. """
+    """Test MDRef class."""
 
     def test_create_defaults(self):
         mdref = metsrw.MDRef("path/to/file.txt", "PREMIS:DUMMY", "URL")
@@ -476,22 +476,22 @@ class TestMDRef(TestCase):
 
 
 class TestMDWrap(TestCase):
-    """ Test MDWrap class. """
+    """Test MDWrap class."""
 
     def test_parse_bad_tag(self):
-        """ It should assert if the tag name is invalid. """
+        """It should assert if the tag name is invalid."""
         bad = etree.Element("foo")
         with pytest.raises(metsrw.ParseError):
             metsrw.MDWrap.parse(bad)
 
     def test_parse_no_mdtype(self):
-        """ It should assert if there is no MDTYPE. """
+        """It should assert if there is no MDTYPE."""
         bad = etree.Element("{http://www.loc.gov/METS/}mdWrap")
         with pytest.raises(metsrw.ParseError):
             metsrw.MDWrap.parse(bad)
 
     def test_parse_no_children(self):
-        """ It should assert if there are no children. """
+        """It should assert if there are no children."""
         # mdWrap has no children
         bad = etree.Element("{http://www.loc.gov/METS/}mdWrap", MDTYPE="dummy")
         with pytest.raises(metsrw.ParseError):
@@ -503,7 +503,7 @@ class TestMDWrap(TestCase):
             metsrw.MDWrap.parse(bad)
 
     def test_parse_success(self):
-        """ It should correctly parse a valid mdWrap. """
+        """It should correctly parse a valid mdWrap."""
         # Parses correctly
         good = etree.Element(
             "{http://www.loc.gov/METS/}mdWrap", MDTYPE="OTHER", OTHERMDTYPE="SYSTEM"
