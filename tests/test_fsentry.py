@@ -9,7 +9,7 @@ import metsrw
 
 
 class TestFSEntry(TestCase):
-    """ Test FSEntry class. """
+    """Test FSEntry class."""
 
     @pytest.mark.skipif(six.PY3, reason="metsrw still uses Unicode in python3")
     def test_path_is_binary(self):
@@ -24,7 +24,7 @@ class TestFSEntry(TestCase):
         )
 
     def test_create_invalid_checksum_type(self):
-        """ It should only accept METS valid checksum types. """
+        """It should only accept METS valid checksum types."""
         metsrw.FSEntry("file[1].txt", checksumtype="Adler-32", checksum="dummy")
         metsrw.FSEntry("file[1].txt", checksumtype="CRC32", checksum="dummy")
         metsrw.FSEntry("file[1].txt", checksumtype="HAVAL", checksum="dummy")
@@ -49,18 +49,18 @@ class TestFSEntry(TestCase):
             metsrw.FSEntry("file[1].txt", checksumtype="MD5")
 
     def test_file_id_directory(self):
-        """ It should have no file ID. """
+        """It should have no file ID."""
         d = metsrw.FSEntry("dir", type="Directory")
         assert d.file_id() is None
 
     def test_file_id_no_uuid(self):
-        """ It should raise an exception with no file UUID. """
+        """It should raise an exception with no file UUID."""
         f = metsrw.FSEntry("level1.txt")
         with pytest.raises(metsrw.MetsError):
             f.file_id()
 
     def test_file_id_success(self):
-        """ It should return a file ID. """
+        """It should return a file ID."""
         file_uuid = str(uuid.uuid4())
         f = metsrw.FSEntry("level1.txt", file_uuid=file_uuid)
         assert f.file_id() == "file-" + file_uuid
@@ -76,18 +76,18 @@ class TestFSEntry(TestCase):
         )
 
     def test_group_id_no_uuid(self):
-        """ It should return no group ID. """
+        """It should return no group ID."""
         f = metsrw.FSEntry("level1.txt")
         assert f.group_id() is None
 
     def test_group_id_uuid(self):
-        """ It should return a group ID. """
+        """It should return a group ID."""
         file_uuid = str(uuid.uuid4())
         f = metsrw.FSEntry("level1.txt", file_uuid=file_uuid)
         assert f.group_id() == "Group-" + file_uuid
 
     def test_group_id_derived(self):
-        """ It should return the group ID for the derived from file. """
+        """It should return the group ID for the derived from file."""
         file_uuid = str(uuid.uuid4())
         f = metsrw.FSEntry("level1.txt", file_uuid=file_uuid)
         derived = metsrw.FSEntry(
@@ -97,7 +97,7 @@ class TestFSEntry(TestCase):
         assert derived.group_id() == f.group_id()
 
     def test_admids(self):
-        """ It should return 0 or 1 amdSecs. """
+        """It should return 0 or 1 amdSecs."""
         f = metsrw.FSEntry("file[1].txt", file_uuid=str(uuid.uuid4()))
         assert len(f.admids) == 0
         f.add_premis_object("<premis>object</premis>")
@@ -107,7 +107,7 @@ class TestFSEntry(TestCase):
         assert len(f.admids) == 1
 
     def test_dmdids(self):
-        """ It should return a DMDID for each dmdSec. """
+        """It should return a DMDID for each dmdSec."""
         f = metsrw.FSEntry("file[1].txt", file_uuid=str(uuid.uuid4()))
         assert len(f.dmdids) == 0
         f.add_dublin_core("<dc />")
@@ -390,13 +390,13 @@ class TestFSEntry(TestCase):
         assert el[0][0].attrib["FILEID"].startswith("file-")
 
     def test_serialize_structmap_no_label(self):
-        """ It should return None. """
+        """It should return None."""
         f = metsrw.FSEntry()
         el = f.serialize_structmap(recurse=False)
         assert el is None
 
     def test_serialize_structmap_child_empty(self):
-        """ It should handle children with no structMap entry. """
+        """It should handle children with no structMap entry."""
         d = metsrw.FSEntry("dir", type="Directory")
         f = metsrw.FSEntry(use="deletion", file_uuid=str(uuid.uuid4()))
         d.add_child(f)

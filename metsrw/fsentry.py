@@ -208,7 +208,7 @@ class FSEntry(DependencyPossessor):
     # PROPERTIES
 
     def file_id(self):
-        """ Returns the fptr @FILEID if this is not a Directory. """
+        """Returns the fptr @FILEID if this is not a Directory."""
         if self.type.lower() == "directory":
             return None
         if self.file_uuid is None:
@@ -237,12 +237,12 @@ class FSEntry(DependencyPossessor):
 
     @property
     def admids(self):
-        """ Returns a list of ADMIDs for this entry. """
+        """Returns a list of ADMIDs for this entry."""
         return [a.id_string for a in self.amdsecs]
 
     @property
     def dmdids(self):
-        """ Returns a list of DMDIDs for this entry. """
+        """Returns a list of DMDIDs for this entry."""
         return [d.id_string for d in self.dmdsecs]
 
     @property
