@@ -680,6 +680,9 @@ def _get_el_attributes(lxml_el, ns=None, nsmap=None):
 
 def _lxml_el_to_data(lxml_el, ns, nsmap, snake=True):
     """Convert an ``lxml._Element`` instance to a Python tuple."""
+    # Ignore comments. They add no value to the data structure.
+    if isinstance(lxml_el, etree._Comment):
+        return ()
     tag_name = _to_colon_ns(lxml_el.tag, default_ns=ns, nsmap=nsmap)
     ret = [tag_name]
     attributes = _get_el_attributes(lxml_el, ns=ns, nsmap=nsmap)

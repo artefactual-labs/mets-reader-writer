@@ -51,7 +51,10 @@
                   <formatRegistryKey>fmt/43</formatRegistryKey>
                 </formatRegistry>
               </format>
-              <objectCharacteristicsExtension>Stuff</objectCharacteristicsExtension>
+              <objectCharacteristicsExtension>
+                <!-- Stuff comment -->
+                <stuff>Stuff</stuff>
+              </objectCharacteristicsExtension>
             </objectCharacteristics>
             <originalName>%transferDirectory%objects/Landing zone.jpg</originalName>
             <relationship>
