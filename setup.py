@@ -55,7 +55,7 @@ setup(
     ],
     keywords="mets",
     packages=find_packages(exclude=["docs", "fixtures", "requirements", "tests*"]),
-    install_requires=["future", "lxml", "six"],
+    install_requires=["lxml"],
     include_package_data=True,
     python_requires=">=3.6",
 )
