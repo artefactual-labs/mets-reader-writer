@@ -47,8 +47,6 @@ setup(
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: GNU Affero General Public License v3",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
@@ -59,5 +57,5 @@ setup(
     packages=find_packages(exclude=["docs", "fixtures", "requirements", "tests*"]),
     install_requires=["future", "lxml", "six"],
     include_package_data=True,
-    python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*",
+    python_requires=">=3.6",
 )

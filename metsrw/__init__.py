@@ -44,7 +44,7 @@ from . import plugins
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.addHandler(logging.NullHandler())
-__version__ = "0.3.23"
+__version__ = "0.4.0"
 
 __all__ = [
     "Agent",
