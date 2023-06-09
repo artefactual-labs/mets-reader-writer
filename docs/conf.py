@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # . documentation build configuration file, created by
 # sphinx-quickstart on Wed Jul 23 16:07:11 2014.
@@ -11,9 +10,8 @@
 #
 # All configuration values have a default; values that are commented out
 # serve to show the default.
-
-import sys
 import os
+import sys
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -43,8 +41,8 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"METS Reader & Writer"
-copyright = u"Artefactual"
+project = "METS Reader & Writer"
+copyright = "Artefactual"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -193,7 +191,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [("index", "sphinx.tex", u". Documentation", u"Author", "manual")]
+latex_documents = [("index", "sphinx.tex", ". Documentation", "Author", "manual")]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
@@ -220,7 +218,7 @@ latex_documents = [("index", "sphinx.tex", u". Documentation", u"Author", "manua
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [("index", "sphinx", u". Documentation", [u"Author"], 1)]
+man_pages = [("index", "sphinx", ". Documentation", ["Author"], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -235,8 +233,8 @@ texinfo_documents = [
     (
         "index",
         "sphinx",
-        u". Documentation",
-        u"Author",
+        ". Documentation",
+        "Author",
         "sphinx",
         "One line description of project.",
         "Miscellaneous",
@@ -259,10 +257,10 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u"."
-epub_author = u"Author"
-epub_publisher = u"Author"
-epub_copyright = u"2014, Author"
+epub_title = "."
+epub_author = "Author"
+epub_publisher = "Author"
+epub_copyright = "2014, Author"
 
 # The basename for the epub file. It defaults to the project name.
 # epub_basename = u'.'

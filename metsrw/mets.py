@@ -1,21 +1,18 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-
-from builtins import object
-from collections import OrderedDict, namedtuple
-from datetime import datetime
 import logging
 import os
-import six
 import sys
+from collections import namedtuple
+from collections import OrderedDict
+from datetime import datetime
 
 from lxml import etree
 
-# This package
 from . import exceptions
 from . import fsentry
 from . import metadata
 from . import utils
+
+# This package
 
 
 LOGGER = logging.getLogger(__name__)
@@ -29,7 +26,7 @@ TRANSFORM_PREFIX = "TRANSFORM"
 TRANSFORM_PREFIX_LEN = len(TRANSFORM_PREFIX)
 
 
-class METSDocument(object):
+class METSDocument:
     def __init__(self):
         # Stores the ElementTree if this was parsed from an existing file
         self.tree = None
@@ -55,7 +52,7 @@ class METSDocument(object):
             return cls.fromfile(source)
         if os.path.exists(source):
             return cls.fromfile(source)
-        if isinstance(source, six.string_types):
+        if isinstance(source, str):
             source = source.encode("utf8")
         return cls.fromstring(source)
 
@@ -586,9 +583,7 @@ class METSDocument(object):
             createdate = None
         now = datetime.utcnow().isoformat("T")
         if createdate and createdate > now:
-            raise exceptions.ParseError(
-                "CREATEDATE more recent than now ({})".format(now)
-            )
+            raise exceptions.ParseError(f"CREATEDATE more recent than now ({now})")
         self.createdate = createdate
 
         if header is not None:

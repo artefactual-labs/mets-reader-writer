@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Namespaces, etc.
 
 XSI_NAMESPACE = "http://www.w3.org/2001/XMLSchema-instance"
@@ -13,7 +12,7 @@ TOOL_NAMESPACES = {
 PREMIS_2_1_VERSION = "2.1"
 PREMIS_2_1_NAMESPACE = "info:lc/xmlns/premis-v1"
 PREMIS_2_1_XSD = "http://www.loc.gov/standards/premis/v2/premis-v2-1.xsd"
-PREMIS_2_1_SCHEMA_LOCATION = "{} {}".format(PREMIS_2_1_NAMESPACE, PREMIS_2_1_XSD)
+PREMIS_2_1_SCHEMA_LOCATION = f"{PREMIS_2_1_NAMESPACE} {PREMIS_2_1_XSD}"
 PREMIS_2_1_NAMESPACES = {
     "premis": PREMIS_2_1_NAMESPACE,
     "xsi": XSI_NAMESPACE,
@@ -28,7 +27,7 @@ PREMIS_2_1_META = {
 PREMIS_2_2_VERSION = "2.2"
 PREMIS_2_2_NAMESPACE = "info:lc/xmlns/premis-v2"
 PREMIS_2_2_XSD = "http://www.loc.gov/standards/premis/v2/premis-v2-2.xsd"
-PREMIS_2_2_SCHEMA_LOCATION = "{} {}".format(PREMIS_2_2_NAMESPACE, PREMIS_2_2_XSD)
+PREMIS_2_2_SCHEMA_LOCATION = f"{PREMIS_2_2_NAMESPACE} {PREMIS_2_2_XSD}"
 PREMIS_2_2_NAMESPACES = {
     "premis": PREMIS_2_2_NAMESPACE,
     "xsi": XSI_NAMESPACE,
@@ -43,7 +42,7 @@ PREMIS_2_2_META = {
 PREMIS_3_0_VERSION = "3.0"
 PREMIS_3_0_NAMESPACE = "http://www.loc.gov/premis/v3"
 PREMIS_3_0_XSD = "http://www.loc.gov/standards/premis/v3/premis.xsd"
-PREMIS_3_0_SCHEMA_LOCATION = "{} {}".format(PREMIS_3_0_NAMESPACE, PREMIS_3_0_XSD)
+PREMIS_3_0_SCHEMA_LOCATION = f"{PREMIS_3_0_NAMESPACE} {PREMIS_3_0_XSD}"
 PREMIS_3_0_NAMESPACES = {
     "premis": PREMIS_3_0_NAMESPACE,
     "xsi": XSI_NAMESPACE,

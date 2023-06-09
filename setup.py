@@ -1,16 +1,15 @@
-# -*- coding: utf-8 -*-
 """A setuptools based setup module.
 
 See:
 https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
-
 import codecs
-from os import path
 import re
+from os import path
 
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 
 here = path.abspath(path.dirname(__file__))
 

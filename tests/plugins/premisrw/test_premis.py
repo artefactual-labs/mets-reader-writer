@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 from datetime import datetime
 from unittest import TestCase
 
 import pytest
 from lxml import etree
-import six
 
 import metsrw
 import metsrw.plugins.premisrw as premisrw
@@ -31,16 +29,15 @@ class TestPREMIS(TestCase):
                 premisrw.PREMIS_META,
                 (
                     "agent_identifier",
-                    ("agent_identifier_type", u"𝕡𝕣𝕖𝕤𝕖𝕣𝕧𝕒𝕥𝕚𝕠𝕟 𝕤𝕪𝕤𝕥𝕖𝕞"),
-                    ("agent_identifier_value", u"𝓊𝓃𝒾𝒸𝑜𝒹𝑒"),
+                    ("agent_identifier_type", "𝕡𝕣𝕖𝕤𝕖𝕣𝕧𝕒𝕥𝕚𝕠𝕟 𝕤𝕪𝕤𝕥𝕖𝕞"),
+                    ("agent_identifier_value", "𝓊𝓃𝒾𝒸𝑜𝒹𝑒"),
                 ),
             )
         )
         data = premisrw.premis_to_data(lxml_el)
-        assert data[2][1][1] == u"𝕡𝕣𝕖𝕤𝕖𝕣𝕧𝕒𝕥𝕚𝕠𝕟 𝕤𝕪𝕤𝕥𝕖𝕞"
-        assert data[2][2][1] == u"𝓊𝓃𝒾𝒸𝑜𝒹𝑒"
+        assert data[2][1][1] == "𝕡𝕣𝕖𝕤𝕖𝕣𝕧𝕒𝕥𝕚𝕠𝕟 𝕤𝕪𝕤𝕥𝕖𝕞"
+        assert data[2][2][1] == "𝓊𝓃𝒾𝒸𝑜𝒹𝑒"
 
-    @pytest.mark.skipif(six.PY3, reason="lxml in py3 does not accept binary")
     def test_roundtrip_unicode_from_binary(self):
         """Test that premisrw returns unicode values in all cases."""
         lxml_el = premisrw.data_to_premis(
@@ -55,10 +52,9 @@ class TestPREMIS(TestCase):
             )
         )
         data = premisrw.premis_to_data(lxml_el)
-        assert data[2][1][1] == u"foo"
-        assert data[2][2][1] == u"bar"
+        assert data[2][1][1] == "foo"
+        assert data[2][2][1] == "bar"
 
-    @pytest.mark.skipif(six.PY3, reason="lxml in py3 does not accept binary")
     def test_with_invalid_binary(self):
         """Test lxml's ``ValueError`` with invalid byte sequences."""
         invalid_sequence = b"\x78\x9a\xbc\xde\xf0"
@@ -579,7 +575,7 @@ class TestPREMIS(TestCase):
         digest_event = fsentry.get_premis_event("c4d1827a-c689-4314-952b-bb2d053acd36")
 
         assert (
-            digest_event.event_detail == u'program="python"; module="hashlib.sha256()"'
+            digest_event.event_detail == 'program="python"; module="hashlib.sha256()"'
         )
         assert digest_event.parsed_event_detail["program"] == "python"
         assert digest_event.parsed_event_detail["module"] == "hashlib.sha256()"
@@ -590,11 +586,11 @@ class TestPREMIS(TestCase):
         digest_event = fsentry.get_premis_event("a1a75b48-15bf-481c-9885-fb7d914f03bd")
 
         assert (
-            digest_event.event_detail == u'program="python"; module="hashlib.sha256()"'
+            digest_event.event_detail == 'program="python"; module="hashlib.sha256()"'
         )
         assert (
             digest_event.event_detail_information__event_detail
-            == u'program="python"; module="hashlib.sha256()"'
+            == 'program="python"; module="hashlib.sha256()"'
         )
         assert digest_event.parsed_event_detail["program"] == "python"
         assert digest_event.parsed_event_detail["module"] == "hashlib.sha256()"

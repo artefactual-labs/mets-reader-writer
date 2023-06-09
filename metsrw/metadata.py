@@ -1,14 +1,10 @@
-# -*- coding: utf-8 -*-
 """
 Classes for metadata sections of the METS. Include amdSec, dmdSec, techMD, rightsMD, sourceMD, digiprovMD, mdRef and mdWrap.
 """
-from __future__ import absolute_import
-
 import copy
 import logging
-from lxml import etree
 
-import six
+from lxml import etree
 
 from . import exceptions
 from . import utils
@@ -17,7 +13,7 @@ from . import utils
 LOGGER = logging.getLogger(__name__)
 
 
-class IdGenerator(six.Iterator):
+class IdGenerator:
     """Helper class to generate unique, sequential ids."""
 
     def __init__(self, prefix):
@@ -26,7 +22,7 @@ class IdGenerator(six.Iterator):
 
     def __next__(self):
         self.counter += 1
-        return u"{}_{}".format(self.prefix, self.counter)
+        return f"{self.prefix}_{self.counter}"
 
     def clear(self):
         self.counter = 0
@@ -44,7 +40,7 @@ class IdGenerator(six.Iterator):
                 self.counter = max(count, self.counter)
 
 
-class AMDSec(object):
+class AMDSec:
     """
     An object representing a section of administrative metadata in a
     document.
@@ -116,7 +112,7 @@ class AMDSec(object):
         return el
 
 
-class AltRecordID(object):
+class AltRecordID:
     """
     An object representing an alternative record identifier in the METS document
     (alternatives to the OBJID).
@@ -128,7 +124,7 @@ class AltRecordID(object):
     :param str type: Optional identifer type, e.g. 'Accession number'.
     """
 
-    ALT_RECORD_ID_TAG = etree.QName(utils.NAMESPACES[u"mets"], u"altRecordID")
+    ALT_RECORD_ID_TAG = etree.QName(utils.NAMESPACES["mets"], "altRecordID")
 
     def __init__(self, alt_record_id, **kwargs):
         self.text = alt_record_id
@@ -146,21 +142,21 @@ class AltRecordID(object):
         """
         if element.tag != cls.ALT_RECORD_ID_TAG:
             raise exceptions.ParseError(
-                u"AltRecordID got unexpected tag {}; expected {}".format(
+                "AltRecordID got unexpected tag {}; expected {}".format(
                     element.tag, cls.ALT_RECORD_ID_TAG
                 )
             )
 
-        return cls(element.text, id=element.get(u"ID"), type=element.get(u"TYPE"))
+        return cls(element.text, id=element.get("ID"), type=element.get("TYPE"))
 
     def serialize(self):
         attrs = {}
 
         if self.id:
-            attrs[u"ID"] = self.id
+            attrs["ID"] = self.id
 
         if self.type:
-            attrs[u"TYPE"] = self.type
+            attrs["TYPE"] = self.type
 
         element = etree.Element(self.ALT_RECORD_ID_TAG, **attrs)
         element.text = self.text
@@ -168,7 +164,7 @@ class AltRecordID(object):
         return element
 
 
-class Agent(object):
+class Agent:
     """
     An object representing an agent with a relationship to the METS record.
 
@@ -192,18 +188,18 @@ class Agent(object):
         "IPOWNER",
     )
     TYPES = ("INDIVIDUAL", "ORGANIZATION")
-    AGENT_TAG = etree.QName(utils.NAMESPACES[u"mets"], u"agent")
-    NAME_TAG = etree.QName(utils.NAMESPACES[u"mets"], u"name")
-    NOTE_TAG = etree.QName(utils.NAMESPACES[u"mets"], u"note")
+    AGENT_TAG = etree.QName(utils.NAMESPACES["mets"], "agent")
+    NAME_TAG = etree.QName(utils.NAMESPACES["mets"], "name")
+    NOTE_TAG = etree.QName(utils.NAMESPACES["mets"], "note")
 
     def __init__(self, role, **kwargs):
         self.role = role
 
         # We use kwargs here to avoid shadowing builtins (id and type).
-        self.id = kwargs.get(u"id", None)
-        self.type = kwargs.get(u"type", None)
-        self.name = kwargs.get(u"name", None)
-        self.notes = kwargs.get(u"notes", [])
+        self.id = kwargs.get("id", None)
+        self.type = kwargs.get("type", None)
+        self.name = kwargs.get("name", None)
+        self.notes = kwargs.get("notes", [])
 
     @classmethod
     def parse(cls, element):
@@ -215,20 +211,20 @@ class Agent(object):
         """
         if element.tag != cls.AGENT_TAG:
             raise exceptions.ParseError(
-                u"Agent got unexpected tag {}; expected {}".format(
+                "Agent got unexpected tag {}; expected {}".format(
                     element.tag, cls.AGENT_TAG
                 )
             )
 
-        role = element.get(u"ROLE")
+        role = element.get("ROLE")
         if not role:
-            raise exceptions.ParseError(u"Agent must have a ROLE attribute.")
-        if role == u"OTHER":
-            role = element.get(u"OTHERROLE") or role
-        agent_type = element.get(u"TYPE")
-        if agent_type == u"OTHER":
-            agent_type = element.get(u"OTHERTYPE") or agent_type
-        agent_id = element.get(u"ID")
+            raise exceptions.ParseError("Agent must have a ROLE attribute.")
+        if role == "OTHER":
+            role = element.get("OTHERROLE") or role
+        agent_type = element.get("TYPE")
+        if agent_type == "OTHER":
+            agent_type = element.get("OTHERTYPE") or agent_type
+        agent_id = element.get("ID")
         try:
             name = element.find(cls.NAME_TAG).text
         except AttributeError:
@@ -241,19 +237,19 @@ class Agent(object):
         attrs = {}
 
         if self.id:
-            attrs[u"ID"] = self.id
+            attrs["ID"] = self.id
 
         if self.role in self.ROLES:
-            attrs[u"ROLE"] = self.role
+            attrs["ROLE"] = self.role
         else:
-            attrs[u"ROLE"] = u"OTHER"
-            attrs[u"OTHERROLE"] = self.role
+            attrs["ROLE"] = "OTHER"
+            attrs["OTHERROLE"] = self.role
 
         if self.type and self.type in self.TYPES:
-            attrs[u"TYPE"] = self.type
+            attrs["TYPE"] = self.type
         elif self.type:
-            attrs[u"TYPE"] = u"OTHER"
-            attrs[u"OTHERTYPE"] = self.type
+            attrs["TYPE"] = "OTHER"
+            attrs["OTHERTYPE"] = self.type
 
         element = etree.Element(self.AGENT_TAG, **attrs)
         if self.name:
@@ -269,7 +265,7 @@ class Agent(object):
         return element
 
 
-class SubSection(object):
+class SubSection:
     """
     An object representing a metadata subsection in a document.
 
@@ -291,9 +287,7 @@ class SubSection(object):
 
     def __init__(self, subsection, contents, section_id=None):
         if subsection not in self.ALLOWED_SUBSECTIONS:
-            raise ValueError(
-                "%s must be one of %s" % (subsection, self.ALLOWED_SUBSECTIONS)
-            )
+            raise ValueError(f"{subsection} must be one of {self.ALLOWED_SUBSECTIONS}")
         self.subsection = subsection
         self.contents = contents
         self.status = None
@@ -423,7 +417,7 @@ class SubSection(object):
         return el
 
 
-class MDRef(object):
+class MDRef:
     """
     An object representing an external XML document, typically associated
     with an :class:`metsrw.fsentry.FSEntry` object.
@@ -519,7 +513,7 @@ class MDRef(object):
         return el
 
 
-class MDWrap(object):
+class MDWrap:
     """
     An object representing an XML document enclosed in a METS document.
     The entirety of the XML document will be included; to reference an
@@ -534,7 +528,7 @@ class MDWrap(object):
 
     def __init__(self, document, mdtype, othermdtype=None):
         parser = etree.XMLParser(remove_blank_text=True)
-        if isinstance(document, six.string_types):
+        if isinstance(document, str):
             self.document = etree.fromstring(document, parser=parser)
         elif isinstance(document, (etree._Element, list)):
             self.document = document

@@ -1,5 +1,7 @@
-# -*- coding: utf-8 -*-
-from six.moves.urllib.parse import quote_plus, unquote_plus, urlparse, urlunparse
+from urllib.parse import quote_plus
+from urllib.parse import unquote_plus
+from urllib.parse import urlparse
+from urllib.parse import urlunparse
 
 
 ####################################

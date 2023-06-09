@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """PREMIS-Reader-Writer: a small PREMIS library designed to work as a plugin
 for METS-reader-writer. Public functions and classes:
 
@@ -10,17 +9,14 @@ for METS-reader-writer. Public functions and classes:
 - PREMISRights
 
 """
-__metaclass__ = type
-
 import abc
-from datetime import datetime
 import json
 import pprint
+from datetime import datetime
 from uuid import uuid4
 
 from lxml import etree
 from lxml.builder import ElementMaker
-import six
 
 from . import utils
 
@@ -33,8 +29,7 @@ def uuid():
     return str(uuid4())
 
 
-@six.add_metaclass(abc.ABCMeta)
-class PREMISElement:
+class PREMISElement(metaclass=abc.ABCMeta):
     """Abstract base class for PREMIS object, event and agent classes. These
     classes must implement ``schema`` and ``defaults`` properties. After that,
     initalization can proceed either by passing a ``data`` kwarg to the class
@@ -380,7 +375,7 @@ class PREMISEvent(PREMISElement):
         )
         return dict(
             [
-                tuple([x.strip(' "') for x in kv.strip().split("=", 1)])
+                tuple(x.strip(' "') for x in kv.strip().split("=", 1))
                 for kv in getattr(self, attr).split(";")
             ]
         )
@@ -602,6 +597,8 @@ def _data_to_lxml_el(data, ns, nsmap, element_maker=None, snake=True):
     for element in data[1:]:
         if isinstance(element, dict):
             for key, val in element.items():
+                if isinstance(val, bytes):
+                    val = val.decode()
                 attributes[key] = val
         elif isinstance(element, (tuple, list)):
             args.append(
@@ -609,14 +606,17 @@ def _data_to_lxml_el(data, ns, nsmap, element_maker=None, snake=True):
                     element, ns, nsmap, element_maker=element_maker, snake=snake
                 )
             )
-        elif isinstance(element, six.text_type):
+        elif isinstance(element, str):
             args.append(element)
         elif isinstance(element, etree._Element):
             args.append(element)
         elif isinstance(element, datetime):
             args.append(element.isoformat(sep=" "))
+        elif isinstance(element, bytes):
+            args.append(element.decode())
         else:
-            args.append(six.binary_type(element))
+            # TODO: is this correct?
+            args.append(bytes(element))
     ret = func(*args)
     for attr, val in attributes.items():
         try:
@@ -760,7 +760,7 @@ def tuple_to_schema(tuple_):
     for element in tuple_:
         if isinstance(element, (tuple, list)):
             try:
-                if isinstance(element[1], six.string_types):
+                if isinstance(element[1], str):
                     schema.append((element[0],))
                 else:
                     schema.append(tuple_to_schema(element))
@@ -783,7 +783,7 @@ def generate_element_class(tuple_instance):
     def schema_getter(self):
         return schema
 
-    new_class_name = "PREMIS{}Element".format(schema[0].capitalize())
+    new_class_name = f"PREMIS{schema[0].capitalize()}Element"
     return type(
         new_class_name,
         (PREMISElement,),
@@ -828,15 +828,7 @@ def data_find_text(data, path):
     texts = [child for child in el[1:] if not isinstance(child, (tuple, list, dict))]
     if not texts:
         return None
-    return " ".join(
-        [
-            # How should we deal with decoding errors when `x` is binary?
-            # For now, we're using the ``strict`` mode. Other options here:
-            # https://docs.python.org/3/library/functions.html#open.
-            six.ensure_text(x, encoding="utf-8", errors="strict")
-            for x in texts
-        ]
-    )
+    return " ".join(texts)
 
 
 def data_find_text_or_all(data, path, dyn_cls=False):
