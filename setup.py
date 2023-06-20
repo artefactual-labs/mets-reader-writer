@@ -1,16 +1,15 @@
-# -*- coding: utf-8 -*-
 """A setuptools based setup module.
 
 See:
 https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
-
 import codecs
-from os import path
 import re
+from os import path
 
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 
 here = path.abspath(path.dirname(__file__))
 
@@ -47,8 +46,6 @@ setup(
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: GNU Affero General Public License v3",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
@@ -57,7 +54,7 @@ setup(
     ],
     keywords="mets",
     packages=find_packages(exclude=["docs", "fixtures", "requirements", "tests*"]),
-    install_requires=["future", "lxml", "six"],
+    install_requires=["lxml"],
     include_package_data=True,
-    python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*",
+    python_requires=">=3.6",
 )

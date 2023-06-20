@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Tests that metsrw can create normative logical structMaps correctly.
 
 A normative logical structMap is a <mets:structMap> with TYPE="logical" and
@@ -6,14 +5,15 @@ LABEL="Normative Directory Structure", which documents empty directories that
 are absent in the standard physical structural map.
 
 """
-
-from unittest import TestCase
 import uuid
-
-import metsrw
-from metsrw.plugins.premisrw import PREMISObject, PREMIS_3_0_NAMESPACES, lxmlns
+from unittest import TestCase
 
 from lxml import etree
+
+import metsrw
+from metsrw.plugins.premisrw import lxmlns
+from metsrw.plugins.premisrw import PREMIS_3_0_NAMESPACES
+from metsrw.plugins.premisrw import PREMISObject
 
 
 class TestNormativeStructMap(TestCase):
@@ -141,9 +141,7 @@ class TestNormativeStructMap(TestCase):
         dmdid = empty_div_el.get("DMDID")
         assert dmdid.startswith("dmdSec_")
         doc = mw.serialize()
-        empty_dir_dmd_sec = doc.find(
-            'mets:dmdSec[@ID="{}"]'.format(dmdid), metsrw.NAMESPACES
-        )
+        empty_dir_dmd_sec = doc.find(f'mets:dmdSec[@ID="{dmdid}"]', metsrw.NAMESPACES)
         assert empty_dir_dmd_sec is not None
         xml_data_el = empty_dir_dmd_sec.find(
             "mets:mdWrap/mets:xmlData", metsrw.NAMESPACES
@@ -167,7 +165,5 @@ class TestNormativeStructMap(TestCase):
             "DMDID"
         )
         assert dmdid.startswith("dmdSec_")
-        file_3_dmd_sec = doc.find(
-            'mets:dmdSec[@ID="{}"]'.format(dmdid), metsrw.NAMESPACES
-        )
+        file_3_dmd_sec = doc.find(f'mets:dmdSec[@ID="{dmdid}"]', metsrw.NAMESPACES)
         assert file_3_dmd_sec is not None

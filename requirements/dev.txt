@@ -1,5 +1,4 @@
 -r base.txt
-mock
 pytest
 pytest-cov
 sphinx>=1.3

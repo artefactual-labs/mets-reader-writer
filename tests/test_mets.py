@@ -1,18 +1,17 @@
-# -*- coding: utf-8 -*-
 import datetime
 import filecmp
+import io
+import os
+import tempfile
+import uuid
+from unittest import mock
+from unittest import TestCase
+
+import pytest
 from lxml import etree
 from lxml.builder import ElementMaker
-import os
-import mock
-import pytest
-import tempfile
-from unittest import TestCase
-import uuid
 
 import metsrw
-
-import six
 
 
 class TestMETSDocument(TestCase):
@@ -186,17 +185,17 @@ class TestMETSDocument(TestCase):
         mw.append_file(metsrw.FSEntry("path", file_uuid=str(uuid.uuid4())))
 
         xml = mw.tostring()
-        assert isinstance(xml, six.binary_type)
-        tree = etree.parse(six.BytesIO(xml))
+        assert isinstance(xml, bytes)
+        tree = etree.parse(io.BytesIO(xml))
         assert tree.docinfo.encoding == "UTF-8"
 
         xml = mw.tostring(encoding="ASCII")
-        assert isinstance(xml, six.binary_type)
-        tree = etree.parse(six.BytesIO(xml))
+        assert isinstance(xml, bytes)
+        tree = etree.parse(io.BytesIO(xml))
         assert tree.docinfo.encoding == "ASCII"
 
         xml = mw.tostring(encoding="unicode")
-        assert isinstance(xml, six.text_type)
+        assert isinstance(xml, str)
 
     def test_mets_root(self):
         mw = metsrw.METSDocument()
@@ -276,10 +275,10 @@ class TestMETSDocument(TestCase):
         )
 
         assert len(mets.agents) == 1
-        assert mets.agents[0].role == u"CREATOR"
-        assert mets.agents[0].type == u"SOFTWARE"
-        assert mets.agents[0].name == u"39461beb-22eb-4942-88af-848cfc3462b2"
-        assert mets.agents[0].notes[0] == u"Archivematica dashboard UUID"
+        assert mets.agents[0].role == "CREATOR"
+        assert mets.agents[0].type == "SOFTWARE"
+        assert mets.agents[0].name == "39461beb-22eb-4942-88af-848cfc3462b2"
+        assert mets.agents[0].notes[0] == "Archivematica dashboard UUID"
 
     def test_mets_header_with_alt_record_id(self):
         mets = metsrw.METSDocument()
@@ -308,8 +307,8 @@ class TestMETSDocument(TestCase):
         )
 
         assert len(mets.alternate_ids) == 1
-        assert mets.alternate_ids[0].type == u"Accession Id"
-        assert mets.alternate_ids[0].text == u"39461beb-22eb-4942-88af-848cfc3462b2"
+        assert mets.alternate_ids[0].type == "Accession Id"
+        assert mets.alternate_ids[0].text == "39461beb-22eb-4942-88af-848cfc3462b2"
 
     def test_fromfile_invalid_xlink_href(self):
         """Test that ``fromfile`` raises ``ParseError`` if an xlink:href value
@@ -727,7 +726,7 @@ class TestWholeMETS(TestCase):
         # Mocks of the AIP, its compression event, and other details.
         aip_uuid = str(uuid.uuid4())
         aip = {
-            "current_path": "/path/to/myaip-{}.7z".format(aip_uuid),
+            "current_path": f"/path/to/myaip-{aip_uuid}.7z",
             "uuid": aip_uuid,
             "package_type": "Archival Information Package",
             "checksum_algorithm": "sha256",
@@ -859,7 +858,7 @@ class TestWholeMETS(TestCase):
                 )
                 for ag in compression_event["agents"]
             ],
-            version="2.2"
+            version="2.2",
         )
         aip_premis_compression_event.attrib[
             "{" + nsmap["xsi"] + "}schemaLocation"

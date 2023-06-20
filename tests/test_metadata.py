@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
-from lxml import etree
-import pytest
 from unittest import TestCase
+
+import pytest
+from lxml import etree
 
 import metsrw
 
@@ -114,7 +114,7 @@ class TestAMDSec(TestCase):
         amdsec_ids.append(metsrw.AMDSec().id_string)
 
         for index, amdsec_id in enumerate(amdsec_ids, 1):
-            assert amdsec_id == "amdSec_{}".format(index)
+            assert amdsec_id == f"amdSec_{index}"
 
     def test_tree_no_id(self):
         with pytest.raises(ValueError) as excinfo:
@@ -154,10 +154,10 @@ class TestSubSection(TestCase):
         dmdsec_ids = [metsrw.SubSection("dmdSec", []).id_string for _ in range(10)]
 
         for index, tech_md_id in enumerate(tech_md_ids, 1):
-            assert tech_md_id == "techMD_{}".format(index)
+            assert tech_md_id == f"techMD_{index}"
 
         for index, dmdsec_id in enumerate(dmdsec_ids, 1):
-            assert dmdsec_id == "dmdSec_{}".format(index)
+            assert dmdsec_id == f"dmdSec_{index}"
 
     def test_allowed_tags(self):
         """It should only allow certain subsection tags."""

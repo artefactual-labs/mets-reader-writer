@@ -1,24 +1,21 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-
-from itertools import chain
 import logging
 import os
+from itertools import chain
 from uuid import uuid4
 
 from lxml import etree
-import six
 
-from .di import (
-    is_class,
-    has_methods,
-    has_class_methods,
-    Dependency,
-    DependencyPossessor,
-)
 from . import exceptions
-from .metadata import MDWrap, MDRef, SubSection, AMDSec
 from . import utils
+from .di import Dependency
+from .di import DependencyPossessor
+from .di import has_class_methods
+from .di import has_methods
+from .di import is_class
+from .metadata import AMDSec
+from .metadata import MDRef
+from .metadata import MDWrap
+from .metadata import SubSection
 
 LOGGER = logging.getLogger(__name__)
 
@@ -122,7 +119,7 @@ class FSEntry(DependencyPossessor):
         fileid=None,
         label=None,
         use="original",
-        type=u"Item",
+        type="Item",
         children=None,
         file_uuid=None,
         derived_from=None,
@@ -131,25 +128,16 @@ class FSEntry(DependencyPossessor):
         transform_files=None,
         mets_div_type=None,
     ):
-        # path can validly be any encoding; if this value needs
-        # to be spliced later on, it's better to treat it as a
-        # bytestring than as actually being encoded text.
-        if six.PY2:
-            if isinstance(path, six.text_type):
-                self.path = path.encode("utf-8")
-            else:
-                self.path = path
-        else:  # TODO: Py3 is still using Unicode.
-            if isinstance(path, six.binary_type):
-                self.path = path.decode("utf-8", errors="strict")
-            else:
-                self.path = path
+        if isinstance(path, bytes):
+            self.path = path.decode("utf-8", errors="strict")
+        else:
+            self.path = path
         if label is None and path is not None:
             label = os.path.basename(path)
         self._fileid = fileid
         self.label = label
         self.use = use
-        self.type = six.text_type(type)
+        self.type = str(type)
         self.parent = None
         self._children = []
         if not transform_files:
@@ -167,9 +155,7 @@ class FSEntry(DependencyPossessor):
                 % (checksum, checksumtype)
             )
         if checksumtype and checksumtype not in self.ALLOWED_CHECKSUMS:
-            raise ValueError(
-                "%s must be one of %s" % (checksumtype, self.ALLOWED_CHECKSUMS)
-            )
+            raise ValueError(f"{checksumtype} must be one of {self.ALLOWED_CHECKSUMS}")
         self.checksum = checksum
         self.checksumtype = checksumtype
         self.amdsecs = []
@@ -179,7 +165,7 @@ class FSEntry(DependencyPossessor):
     @classmethod
     def dir(cls, label, children):
         """Return ``FSEntry`` directory object."""
-        return FSEntry(label=label, children=children, type=u"Directory", use=None)
+        return FSEntry(label=label, children=children, type="Directory", use=None)
 
     @classmethod
     def from_fptr(cls, label, type_, fptr):
@@ -344,15 +330,11 @@ class FSEntry(DependencyPossessor):
         make sure it is the correct type and return the output of calling
         ``seriaize()`` on it.
         """
-        valid_insts = tuple(
-            chain((etree._ElementTree, etree._Element), six.string_types)
-        )
+        valid_insts = tuple(chain((etree._ElementTree, etree._Element), (str,)))
         if isinstance(md_inst, valid_insts):
             return md_inst
         if not isinstance(md_inst, md_class):
-            raise TypeError(
-                "Instance {!r} must be instance of {!r}".format(md_inst, md_class)
-            )
+            raise TypeError(f"Instance {md_inst!r} must be instance of {md_class!r}")
         return md_inst.serialize()
 
     def add_premis_object(self, md, mode="mdwrap"):
@@ -463,7 +445,7 @@ class FSEntry(DependencyPossessor):
                 el, utils.lxmlns("mets") + "transformFile"
             )
             for key, val in transform_file.items():
-                attribute = "transform{}".format(key).upper()
+                attribute = f"transform{key}".upper()
                 transform_file_el.attrib[attribute] = str(val)
         return el
 

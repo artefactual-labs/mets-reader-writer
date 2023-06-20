@@ -1,28 +1,24 @@
-# -*- coding: utf-8 -*-
 from unittest import TestCase
 
 import metsrw
 import metsrw.plugins.premisrw as premisrw
-
-from .constants import (
-    EX_AGT_1,
-    EX_AGT_2,
-    EX_COMPR_EVT,
-    EX_PTR_AIP_SUBTYPE,
-    EX_PTR_DATE_CREATED_BY_APPLICATION,
-    EX_PTR_FORMAT_NAME,
-    EX_PTR_FORMAT_REGISTRY_KEY,
-    EX_PTR_IDENTIFIER_VALUE,
-    EX_PTR_MESSAGE_DIGEST,
-    EX_PTR_MESSAGE_DIGEST_ALGORITHM,
-    EX_PTR_PACKAGE_TYPE,
-    EX_PTR_PATH,
-    EX_PTR_SIZE,
-    EX_PTR_XSI_TYPE,
-)
+from .constants import EX_AGT_1
+from .constants import EX_AGT_2
+from .constants import EX_COMPR_EVT
+from .constants import EX_PTR_AIP_SUBTYPE
+from .constants import EX_PTR_DATE_CREATED_BY_APPLICATION
+from .constants import EX_PTR_FORMAT_NAME
+from .constants import EX_PTR_FORMAT_REGISTRY_KEY
+from .constants import EX_PTR_IDENTIFIER_VALUE
+from .constants import EX_PTR_MESSAGE_DIGEST
+from .constants import EX_PTR_MESSAGE_DIGEST_ALGORITHM
+from .constants import EX_PTR_PACKAGE_TYPE
+from .constants import EX_PTR_PATH
+from .constants import EX_PTR_SIZE
+from .constants import EX_PTR_XSI_TYPE
 
 
-class BetterPREMISObject(object):
+class BetterPREMISObject:
     """A dummy PREMIS object class that can be used to meet the dependency of
     ``FSEntry``.
     """
@@ -57,7 +53,7 @@ class TestDependencyInjection(TestCase):
         classes.
         """
 
-        class C(object):
+        class C:
             @classmethod
             def cm(cls):
                 pass
@@ -71,7 +67,7 @@ class TestDependencyInjection(TestCase):
 
         c = C()
 
-        class X(object):
+        class X:
             pass
 
         x = X()

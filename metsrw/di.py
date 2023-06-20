@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Dependency Injection logic for metsrw.
 
 Here a global singleton feature broker is instantiated. By providing features
@@ -19,13 +18,10 @@ with the same names, e.g.,::
 
 See http://code.activestate.com/recipes/413268/
 """
-
-from six import with_metaclass
-
 from .plugins import premisrw
 
 
-class FeatureBroker(object):
+class FeatureBroker:
     """Feature broker allows for the provisioning of features. These features
     are dependencies that can be injected. Usage::
 
@@ -61,7 +57,7 @@ class FeatureBroker(object):
         try:
             provider = self.providers[feature_name]
         except KeyError:
-            raise KeyError("Unknown feature named {!r}".format(feature_name))
+            raise KeyError(f"Unknown feature named {feature_name!r}")
         return provider()
 
 
@@ -77,7 +73,7 @@ feature_broker = FeatureBroker()  # global singleton feature broker
 set_feature_broker_to_default_state(feature_broker)
 
 
-class Dependency(object):
+class Dependency:
     """Non-overriding descriptor for declaring required dependencies in metsrw
     classes. In the following example usage the ``FSEntry`` class is declaring
     a dependency on a feature named 'premis_object_class' which is a class and
@@ -118,13 +114,13 @@ class DependencyPossessorMeta(type):
     """
 
     def __init__(cls, name, bases, attr_dict):
-        super(DependencyPossessorMeta, cls).__init__(name, bases, attr_dict)
+        super().__init__(name, bases, attr_dict)
         for key, attr in attr_dict.items():
             if isinstance(attr, Dependency):
                 attr.dependency_name = key
 
 
-class DependencyPossessor(with_metaclass(DependencyPossessorMeta, object)):
+class DependencyPossessor(metaclass=DependencyPossessorMeta):
     pass
 
 

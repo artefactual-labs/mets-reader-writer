@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 import os
 
-from lxml import etree, isoschematron
-import six
+from lxml import etree
+from lxml import isoschematron
 
 from .utils import NAMESPACES
 
@@ -19,9 +18,7 @@ def _get_file_path(path):
     if not os.path.isfile(path):
         path_2 = os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
         if not os.path.isfile(path_2):
-            raise ValueError(
-                "There is no (schema) file at either {} or {}".format(path, path_2)
-            )
+            raise ValueError(f"There is no (schema) file at either {path} or {path_2}")
         return path_2
     return path
 
@@ -99,7 +96,7 @@ def schematron_validate(mets_doc, schematron=AM_SCT_PATH):
     """Validate a METS file using a schematron schema. Return a boolean
     indicating validity and a report as an ``lxml.ElementTree`` instance.
     """
-    if isinstance(schematron, six.string_types):
+    if isinstance(schematron, str):
         schematron = get_schematron(schematron)
     is_valid = schematron.validate(mets_doc)
     report = schematron.validation_report
