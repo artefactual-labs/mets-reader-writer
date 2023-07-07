@@ -41,6 +41,7 @@ class METSDocument:
         self.dmdsecs = []
         self.amdsecs = []
         self.agents = []
+        self._custom_structmaps = []
 
     @classmethod
     def read(cls, source):
@@ -327,6 +328,8 @@ class METSDocument:
         root.append(self._structmap())
         if normative_structmap:
             root.append(self._normative_structmap())
+        for struct_map in self._custom_structmaps:
+            root.append(struct_map)
         return root
 
     def tostring(self, fully_qualified=True, pretty_print=True, encoding="UTF-8"):
@@ -559,14 +562,22 @@ class METSDocument:
         )
         if structMap is None:
             raise exceptions.ParseError("No physical structMap found.")
+        normative_struct_map_label = "Normative Directory Structure"
         normative_struct_map = tree.find(
-            'mets:structMap[@TYPE="logical"]'
-            '[@LABEL="Normative Directory Structure"]',
+            f'mets:structMap[@TYPE="logical"][@LABEL="{normative_struct_map_label}"]',
             namespaces=utils.NAMESPACES,
         )
         self._root_elements = self._parse_tree_structmap(
             tree, structMap, normative_parent_elem=normative_struct_map
         )
+        self._custom_structmaps = [
+            e
+            for e in tree.findall(
+                'mets:structMap[@TYPE="logical"]',
+                namespaces=utils.NAMESPACES,
+            )
+            if e.attrib.get("LABEL") != normative_struct_map_label
+        ]
 
         # Associated derived files
         for entry in self.all_files():
