@@ -350,6 +350,31 @@ class TestMETSDocument(TestCase):
             use="original",
             path="objects/AM68.csv",
             amdids="amdSec_3",
+            dmdids=None,
+            checksum=None,
+            checksumtype=None,
+            transform_files=[],
+        )
+
+    def test_analyze_fptr_with_dmdsecs_in_filesec(self):
+        parser = etree.XMLParser(remove_blank_text=True)
+        tree = etree.parse("fixtures/mets_with_dmdsecs_in_filesec.xml", parser=parser)
+        fptr_elem = tree.find(
+            '/mets:structMap[@TYPE="physical"]//mets:div[@LABEL="bitstream_8266.pdf"]/mets:fptr',
+            namespaces=metsrw.utils.NAMESPACES,
+        )
+
+        # Test the integrity of the ``FPtr`` object returned.
+        mw = metsrw.METSDocument()
+        fptr = mw._analyze_fptr(fptr_elem, tree, "Item")
+        assert fptr == metsrw.mets.FPtr(
+            fileid="file-33f5f35a-8bde-4b94-b7cd-3d2c8b8f7a23",
+            file_uuid="33f5f35a-8bde-4b94-b7cd-3d2c8b8f7a23",
+            derived_from=None,
+            use="original",
+            path="objects/ITEM_2429-2700.zip-2023-07-07T23_05_58.201656_00_00/bitstream_8266.pdf",
+            amdids="amdSec_3",
+            dmdids="dmdSec_3 dmdSec_4",
             checksum=None,
             checksumtype=None,
             transform_files=[],

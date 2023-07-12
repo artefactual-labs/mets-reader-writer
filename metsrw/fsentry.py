@@ -425,6 +425,8 @@ class FSEntry(DependencyPossessor):
             el.attrib["GROUPID"] = self.group_id()
         if self.admids:
             el.set("ADMID", " ".join(self.admids))
+        if self.dmdids and self.use == "original":
+            el.set("DMDID", " ".join(self.dmdids))
         if self.checksum and self.checksumtype:
             el.attrib["CHECKSUM"] = self.checksum
             el.attrib["CHECKSUMTYPE"] = self.checksumtype

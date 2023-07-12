@@ -20,7 +20,7 @@ LOGGER = logging.getLogger(__name__)
 AIP_ENTRY_TYPE = "archival information package"
 FPtr = namedtuple(
     "FPtr",
-    "file_uuid derived_from use path amdids checksum checksumtype fileid transform_files",
+    "file_uuid derived_from use path amdids dmdids checksum checksumtype fileid transform_files",
 )
 TRANSFORM_PREFIX = "TRANSFORM"
 TRANSFORM_PREFIX_LEN = len(TRANSFORM_PREFIX)
@@ -398,6 +398,7 @@ class METSDocument:
                     fs_entry = fsentry.FSEntry.from_fptr(
                         label=None, type_="Item", fptr=fptr
                     )
+                    self._add_dmdsecs_to_fs_entry(elem, fs_entry, fptr.dmdids)
                     self._add_amdsecs_to_fs_entry(fptr.amdids, fs_entry, tree)
                     siblings.append(fs_entry)
                 continue
@@ -406,7 +407,7 @@ class METSDocument:
                 continue
             fptr = self._analyze_fptr(fptr_elems[0], tree, entry_type)
             fs_entry = fsentry.FSEntry.from_fptr(label, entry_type, fptr)
-            self._add_dmdsecs_to_fs_entry(elem, fs_entry, tree)
+            self._add_dmdsecs_to_fs_entry(elem, fs_entry, tree, fptr.dmdids)
             self._add_amdsecs_to_fs_entry(fptr.amdids, fs_entry, tree)
             siblings.append(fs_entry)
         return siblings
@@ -463,6 +464,7 @@ class METSDocument:
                 " URL.".format(path)
             )
         amdids = file_elem.get("ADMID")
+        dmdids = file_elem.get("DMDID")
         checksum = file_elem.get("CHECKSUM")
         checksumtype = file_elem.get("CHECKSUMTYPE")
         file_id_prefix = utils.FILE_ID_PREFIX
@@ -507,6 +509,7 @@ class METSDocument:
             use,
             path,
             amdids,
+            dmdids,
             checksum,
             checksumtype,
             file_id,
@@ -514,8 +517,13 @@ class METSDocument:
         )
 
     @staticmethod
-    def _add_dmdsecs_to_fs_entry(elem, fs_entry, tree):
-        for dmdid in elem.get("DMDID", "").split():
+    def _add_dmdsecs_to_fs_entry(elem, fs_entry, tree, dmdids=None):
+        dmdids_to_add = elem.get("DMDID", "").split()
+        if dmdids is not None:
+            dmdids_to_add.extend(
+                [dmdid for dmdid in dmdids.split() if dmdid not in dmdids_to_add]
+            )
+        for dmdid in dmdids_to_add:
             dmdsec_elem = tree.find(
                 'mets:dmdSec[@ID="' + dmdid + '"]', namespaces=utils.NAMESPACES
             )
