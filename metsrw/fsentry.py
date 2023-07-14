@@ -263,7 +263,8 @@ class FSEntry(DependencyPossessor):
             loctype = kwargs.get("loctype")
             label = kwargs.get("label")
             otherloctype = kwargs.get("otherloctype")
-            mdsec = MDRef(md, mdtype, loctype, label, otherloctype)
+            xptr = kwargs.get("xptr")
+            mdsec = MDRef(md, mdtype, loctype, label, otherloctype, xptr)
         subsection = SubSection(subsection, mdsec)
         if subsection.subsection == "dmdSec":
             self.dmdsecs.append(subsection)
