@@ -399,6 +399,7 @@ class TestMDRef(TestCase):
             loctype="OTHER",
             otherloctype="OUTSIDE",
             xptr="xpointer(id('dmdSec_366 dmdSec_367'))",
+            othermdtype="METSRIGHTS",
         )
         mdreffed = mdref.serialize()
 
@@ -407,6 +408,7 @@ class TestMDRef(TestCase):
         assert mdreffed.get(metsrw.lxmlns("xlink") + "href") == "path/to/file.txt"
         assert mdreffed.get("MDTYPE") == "OTHER"
         assert mdreffed.get("XPTR") == "xpointer(id('dmdSec_366 dmdSec_367'))"
+        assert mdreffed.get("OTHERMDTYPE") == "METSRIGHTS"
 
     def test_create_bad_loctype(self):
         metsrw.MDRef(None, None, loctype="ARK")

@@ -434,7 +434,14 @@ class MDRef:
     VALID_LOCTYPE = ("ARK", "URN", "URL", "PURL", "HANDLE", "DOI", "OTHER")
 
     def __init__(
-        self, target, mdtype, loctype, label=None, otherloctype=None, xptr=None
+        self,
+        target,
+        mdtype,
+        loctype,
+        label=None,
+        otherloctype=None,
+        xptr=None,
+        othermdtype=None,
     ):
         self.target = target
         self.mdtype = mdtype
@@ -446,6 +453,7 @@ class MDRef:
         self.label = label
         self.otherloctype = otherloctype
         self.xptr = xptr
+        self.othermdtype = othermdtype
 
     @classmethod
     def parse(cls, root):
@@ -479,8 +487,9 @@ class MDRef:
         label = root.get("LABEL")
         otherloctype = root.get("OTHERLOCTYPE")
         xptr = root.get("XPTR")
+        othermdtype = root.get("OTHERMDTYPE")
 
-        return cls(target, mdtype, loctype, label, otherloctype, xptr)
+        return cls(target, mdtype, loctype, label, otherloctype, xptr, othermdtype)
 
     def serialize(self):
         # If the source document is a METS document, the XPTR attribute of
@@ -516,6 +525,8 @@ class MDRef:
             el.attrib["OTHERLOCTYPE"] = self.otherloctype
         if XPTR:
             el.attrib["XPTR"] = XPTR
+        if self.othermdtype:
+            el.attrib["OTHERMDTYPE"] = self.othermdtype
         return el
 
 
