@@ -20,7 +20,7 @@ LOGGER = logging.getLogger(__name__)
 AIP_ENTRY_TYPE = "archival information package"
 FPtr = namedtuple(
     "FPtr",
-    "file_uuid derived_from use path amdids checksum checksumtype fileid transform_files",
+    "file_uuid derived_from use path amdids dmdids checksum checksumtype fileid transform_files",
 )
 TRANSFORM_PREFIX = "TRANSFORM"
 TRANSFORM_PREFIX_LEN = len(TRANSFORM_PREFIX)
@@ -300,16 +300,40 @@ class METSDocument:
             # Get fileGrp, or create if not exist
             filegrp = filegrps.get(file_.use)
             if filegrp is None:
-                filegrp = etree.SubElement(
-                    filesec, utils.lxmlns("mets") + "fileGrp", USE=file_.use
-                )
+                filegrp = etree.Element(utils.lxmlns("mets") + "fileGrp", USE=file_.use)
                 filegrps[file_.use] = filegrp
 
             file_el = file_.serialize_filesec()
             if file_el is not None:
                 filegrp.append(file_el)
+        for filegrp in self._sort_filegrps(filegrps):
+            filesec.append(filegrp)
 
         return filesec
+
+    def _sort_filegrps(self, filegrps):
+        uses_order = [
+            "original",
+            "submissionDocumentation",
+            "preservation",
+            "service",
+            "access",
+            "license",
+            "text/ocr",
+            "metadata",
+            "derivative",
+        ]
+        result = []
+        count = len(filegrps)
+        for i, use in enumerate(filegrps.keys()):
+            filegrp = filegrps[use]
+            try:
+                filegrp_position = uses_order.index(use)
+            except ValueError:
+                filegrp_position = count + i
+            result.append((filegrp_position, filegrp))
+
+        return [v for i, v in sorted(result)]
 
     def serialize(self, fully_qualified=True, normative_structmap=True):
         """
@@ -401,6 +425,7 @@ class METSDocument:
                     fs_entry = fsentry.FSEntry.from_fptr(
                         label=None, type_="Item", fptr=fptr
                     )
+                    self._add_dmdsecs_to_fs_entry(elem, fs_entry, fptr.dmdids)
                     self._add_amdsecs_to_fs_entry(fptr.amdids, fs_entry, tree)
                     siblings.append(fs_entry)
                 continue
@@ -409,7 +434,7 @@ class METSDocument:
                 continue
             fptr = self._analyze_fptr(fptr_elems[0], tree, entry_type)
             fs_entry = fsentry.FSEntry.from_fptr(label, entry_type, fptr)
-            self._add_dmdsecs_to_fs_entry(elem, fs_entry, tree)
+            self._add_dmdsecs_to_fs_entry(elem, fs_entry, tree, fptr.dmdids)
             self._add_amdsecs_to_fs_entry(fptr.amdids, fs_entry, tree)
             siblings.append(fs_entry)
         return siblings
@@ -466,6 +491,7 @@ class METSDocument:
                 " URL.".format(path)
             )
         amdids = file_elem.get("ADMID")
+        dmdids = file_elem.get("DMDID")
         checksum = file_elem.get("CHECKSUM")
         checksumtype = file_elem.get("CHECKSUMTYPE")
         file_id_prefix = utils.FILE_ID_PREFIX
@@ -510,6 +536,7 @@ class METSDocument:
             use,
             path,
             amdids,
+            dmdids,
             checksum,
             checksumtype,
             file_id,
@@ -517,8 +544,13 @@ class METSDocument:
         )
 
     @staticmethod
-    def _add_dmdsecs_to_fs_entry(elem, fs_entry, tree):
-        for dmdid in elem.get("DMDID", "").split():
+    def _add_dmdsecs_to_fs_entry(elem, fs_entry, tree, dmdids=None):
+        dmdids_to_add = elem.get("DMDID", "").split()
+        if dmdids is not None:
+            dmdids_to_add.extend(
+                [dmdid for dmdid in dmdids.split() if dmdid not in dmdids_to_add]
+            )
+        for dmdid in dmdids_to_add:
             dmdsec_elem = tree.find(
                 'mets:dmdSec[@ID="' + dmdid + '"]', namespaces=utils.NAMESPACES
             )

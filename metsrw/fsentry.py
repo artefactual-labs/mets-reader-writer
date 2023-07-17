@@ -263,7 +263,9 @@ class FSEntry(DependencyPossessor):
             loctype = kwargs.get("loctype")
             label = kwargs.get("label")
             otherloctype = kwargs.get("otherloctype")
-            mdsec = MDRef(md, mdtype, loctype, label, otherloctype)
+            xptr = kwargs.get("xptr")
+            othermdtype = kwargs.get("othermdtype")
+            mdsec = MDRef(md, mdtype, loctype, label, otherloctype, xptr, othermdtype)
         subsection = SubSection(subsection, mdsec)
         if subsection.subsection == "dmdSec":
             self.dmdsecs.append(subsection)
@@ -425,6 +427,8 @@ class FSEntry(DependencyPossessor):
             el.attrib["GROUPID"] = self.group_id()
         if self.admids:
             el.set("ADMID", " ".join(self.admids))
+        if self.dmdids and self.use == "original":
+            el.set("DMDID", " ".join(self.dmdids))
         if self.checksum and self.checksumtype:
             el.attrib["CHECKSUM"] = self.checksum
             el.attrib["CHECKSUMTYPE"] = self.checksumtype

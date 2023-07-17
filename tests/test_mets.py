@@ -350,6 +350,31 @@ class TestMETSDocument(TestCase):
             use="original",
             path="objects/AM68.csv",
             amdids="amdSec_3",
+            dmdids=None,
+            checksum=None,
+            checksumtype=None,
+            transform_files=[],
+        )
+
+    def test_analyze_fptr_with_dmdsecs_in_filesec(self):
+        parser = etree.XMLParser(remove_blank_text=True)
+        tree = etree.parse("fixtures/mets_with_dmdsecs_in_filesec.xml", parser=parser)
+        fptr_elem = tree.find(
+            '/mets:structMap[@TYPE="physical"]//mets:div[@LABEL="bitstream_8266.pdf"]/mets:fptr',
+            namespaces=metsrw.utils.NAMESPACES,
+        )
+
+        # Test the integrity of the ``FPtr`` object returned.
+        mw = metsrw.METSDocument()
+        fptr = mw._analyze_fptr(fptr_elem, tree, "Item")
+        assert fptr == metsrw.mets.FPtr(
+            fileid="file-33f5f35a-8bde-4b94-b7cd-3d2c8b8f7a23",
+            file_uuid="33f5f35a-8bde-4b94-b7cd-3d2c8b8f7a23",
+            derived_from=None,
+            use="original",
+            path="objects/ITEM_2429-2700.zip-2023-07-07T23_05_58.201656_00_00/bitstream_8266.pdf",
+            amdids="amdSec_3",
+            dmdids="dmdSec_3 dmdSec_4",
             checksum=None,
             checksumtype=None,
             transform_files=[],
@@ -1000,6 +1025,107 @@ class TestWholeMETS(TestCase):
         assert tree.find(xpath, namespaces=metsrw.NAMESPACES) is not None
         tree = mw.serialize(normative_structmap=False)
         assert tree.find(xpath, namespaces=metsrw.NAMESPACES) is None
+
+    def test_dspace_mets_dmdsecs(self):
+        mets_path = "fixtures/mets_with_dmdsecs_in_filesec.xml"
+        mw = metsrw.METSDocument.fromfile(mets_path)
+        fsentry = mw.get_file(
+            type="Item",
+            path="objects/ITEM_2429-2700.zip-2023-07-07T23_05_58.201656_00_00/bitstream_8266.pdf",
+        )
+
+        # The original object of a DSpace transfer should contain two dmdSecs:
+        assert len(fsentry.dmdsecs) == 2
+
+        # - The first contains Xpointers to descriptive metadata in
+        #   the original mets.xml files exported from DSpace.
+        xpointer_dmdsec = [
+            dmdsec
+            for dmdsec in fsentry.dmdsecs
+            if isinstance(dmdsec.contents, metsrw.MDRef)
+        ][0].serialize()
+        assert xpointer_dmdsec.attrib.get("STATUS") == "original"
+        assert xpointer_dmdsec.attrib.get("CREATED") == "2023-07-07T23:06:15"
+
+        xpointer = xpointer_dmdsec.find(
+            "mets:mdRef",
+            namespaces=metsrw.utils.NAMESPACES,
+        )
+        assert xpointer is not None
+        assert (
+            xpointer.attrib.get("LABEL")
+            == "mets.xml-Group-33f5f35a-8bde-4b94-b7cd-3d2c8b8f7a23"
+        )
+        assert xpointer.attrib.get("MDTYPE") == "OTHER"
+        assert xpointer.attrib.get("LOCTYPE") == "OTHER"
+        assert xpointer.attrib.get("OTHERLOCTYPE") == "SYSTEM"
+        assert xpointer.attrib.get("XPTR") == "xpointer(id('dmdSec_366 dmdSec_367'))"
+
+        # - The second dmdSec reflects the parent-child relationship between a
+        #   DSpace object and its collection, using the handles as identifiers.
+        dc_dmdsec = [
+            dmdsec
+            for dmdsec in fsentry.dmdsecs
+            if isinstance(dmdsec.contents, metsrw.MDWrap)
+        ][0].serialize()
+        assert dc_dmdsec.attrib.get("STATUS") == "original"
+        assert dc_dmdsec.attrib.get("CREATED") == "2023-07-07T23:06:15"
+
+        identifier = dc_dmdsec.find(
+            'mets:mdWrap[@MDTYPE="DC"]/mets:xmlData/dcterms:dublincore/dc:identifier',
+            namespaces=metsrw.utils.NAMESPACES,
+        )
+        assert identifier is not None
+        assert identifier.text == "hdl:2429/2700"
+
+        terms = dc_dmdsec.find(
+            'mets:mdWrap[@MDTYPE="DC"]/mets:xmlData/dcterms:dublincore/dcterms:isPartOf',
+            namespaces=metsrw.utils.NAMESPACES,
+        )
+        assert terms is not None
+        assert terms.text == "hdl:2429/1314"
+
+    def test_dspace_mets_amdsec(self):
+        mets_path = "fixtures/mets_with_dmdsecs_in_filesec.xml"
+        mw = metsrw.METSDocument.fromfile(mets_path)
+        fsentry = mw.get_file(
+            type="Item",
+            path="objects/ITEM_2429-2700.zip-2023-07-07T23_05_58.201656_00_00/bitstream_8266.pdf",
+        )
+
+        # The original object of a DSpace transfer should contain Xpointers
+        # to rights metadata in the original mets.xml files exported from
+        # DSpace.
+        rights_md = [
+            subsection.contents
+            for subsection in fsentry.amdsecs[0].subsections
+            if isinstance(subsection.contents, metsrw.MDRef)
+        ][0].serialize()
+        assert (
+            rights_md.attrib.get("LABEL")
+            == "mets.xml-988d7030-3cde-43f2-ac1f-2b8cf9d5a70b"
+        )
+        assert rights_md.attrib.get("MDTYPE") == "OTHER"
+        assert rights_md.attrib.get("OTHERMDTYPE") == "METSRIGHTS"
+        assert rights_md.attrib.get("LOCTYPE") == "OTHER"
+        assert rights_md.attrib.get("OTHERLOCTYPE") == "SYSTEM"
+        assert (
+            rights_md.attrib.get("XPTR")
+            == "xpointer(id('rightsMD_371 rightsMD_374 rightsMD_384 rightsMD_393 rightsMD_401 rightsMD_409 rightsMD_417 rightsMD_425'))"
+        )
+
+    def test_dspace_filegrp_sorting_in_filesec(self):
+        mets_path = "fixtures/mets_with_dmdsecs_in_filesec.xml"
+        mw = metsrw.METSDocument.fromfile(mets_path)
+        filesec = mw._filesec()
+
+        assert [filegrp.attrib["USE"] for filegrp in filesec] == [
+            "original",
+            "submissionDocumentation",
+            "preservation",
+            "license",
+            "text/ocr",
+        ]
 
 
 @pytest.mark.parametrize(

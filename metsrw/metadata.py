@@ -433,7 +433,16 @@ class MDRef:
 
     VALID_LOCTYPE = ("ARK", "URN", "URL", "PURL", "HANDLE", "DOI", "OTHER")
 
-    def __init__(self, target, mdtype, loctype, label=None, otherloctype=None):
+    def __init__(
+        self,
+        target,
+        mdtype,
+        loctype,
+        label=None,
+        otherloctype=None,
+        xptr=None,
+        othermdtype=None,
+    ):
         self.target = target
         self.mdtype = mdtype
         self.loctype = loctype
@@ -443,6 +452,8 @@ class MDRef:
             )
         self.label = label
         self.otherloctype = otherloctype
+        self.xptr = xptr
+        self.othermdtype = othermdtype
 
     @classmethod
     def parse(cls, root):
@@ -475,8 +486,10 @@ class MDRef:
         # Optional attributes
         label = root.get("LABEL")
         otherloctype = root.get("OTHERLOCTYPE")
+        xptr = root.get("XPTR")
+        othermdtype = root.get("OTHERMDTYPE")
 
-        return cls(target, mdtype, loctype, label, otherloctype)
+        return cls(target, mdtype, loctype, label, otherloctype, xptr, othermdtype)
 
     def serialize(self):
         # If the source document is a METS document, the XPTR attribute of
@@ -491,7 +504,9 @@ class MDRef:
             ]
             XPTR = "xpointer(id('{}'))".format(" ".join(dmdsecs))
         except Exception:
-            pass
+            # Otherwise use the Xpointer passed to the constructor.
+            if self.xptr is not None:
+                XPTR = self.xptr
 
         el = etree.Element(utils.lxmlns("mets") + "mdRef")
         if self.label:
@@ -510,6 +525,8 @@ class MDRef:
             el.attrib["OTHERLOCTYPE"] = self.otherloctype
         if XPTR:
             el.attrib["XPTR"] = XPTR
+        if self.othermdtype:
+            el.attrib["OTHERMDTYPE"] = self.othermdtype
         return el
 
 
