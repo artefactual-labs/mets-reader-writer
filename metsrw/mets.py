@@ -299,16 +299,40 @@ class METSDocument:
             # Get fileGrp, or create if not exist
             filegrp = filegrps.get(file_.use)
             if filegrp is None:
-                filegrp = etree.SubElement(
-                    filesec, utils.lxmlns("mets") + "fileGrp", USE=file_.use
-                )
+                filegrp = etree.Element(utils.lxmlns("mets") + "fileGrp", USE=file_.use)
                 filegrps[file_.use] = filegrp
 
             file_el = file_.serialize_filesec()
             if file_el is not None:
                 filegrp.append(file_el)
+        for filegrp in self._sort_filegrps(filegrps):
+            filesec.append(filegrp)
 
         return filesec
+
+    def _sort_filegrps(self, filegrps):
+        uses_order = [
+            "original",
+            "submissionDocumentation",
+            "preservation",
+            "service",
+            "access",
+            "license",
+            "text/ocr",
+            "metadata",
+            "derivative",
+        ]
+        result = []
+        count = len(filegrps)
+        for i, use in enumerate(filegrps.keys()):
+            filegrp = filegrps[use]
+            try:
+                filegrp_position = uses_order.index(use)
+            except ValueError:
+                filegrp_position = count + i
+            result.append((filegrp_position, filegrp))
+
+        return [v for i, v in sorted(result)]
 
     def serialize(self, fully_qualified=True, normative_structmap=True):
         """

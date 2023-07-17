@@ -1114,6 +1114,19 @@ class TestWholeMETS(TestCase):
             == "xpointer(id('rightsMD_371 rightsMD_374 rightsMD_384 rightsMD_393 rightsMD_401 rightsMD_409 rightsMD_417 rightsMD_425'))"
         )
 
+    def test_dspace_filegrp_sorting_in_filesec(self):
+        mets_path = "fixtures/mets_with_dmdsecs_in_filesec.xml"
+        mw = metsrw.METSDocument.fromfile(mets_path)
+        filesec = mw._filesec()
+
+        assert [filegrp.attrib["USE"] for filegrp in filesec] == [
+            "original",
+            "submissionDocumentation",
+            "preservation",
+            "license",
+            "text/ocr",
+        ]
+
 
 @pytest.mark.parametrize(
     "mets_path, expected_counts",
