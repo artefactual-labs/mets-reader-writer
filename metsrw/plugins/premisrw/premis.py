@@ -178,7 +178,7 @@ class PREMISElement(metaclass=abc.ABCMeta):
                 set(
                     list(self.attrs_to_paths.keys())
                     + [x.replace("/", "__") for x in self.attrs_to_paths.values()]
-                    + list(x.replace(":", "_") for x in self.attributes.keys())
+                    + [x.replace(":", "_") for x in self.attributes.keys()]
                 )
             )
         )
@@ -897,7 +897,7 @@ def _generate_data(schema, elements, attributes=None, path=None):
         subel = _generate_data(subschema, elements, path=new_path)
         if (not subel) or (subel == subschema):
             continue
-        if all(map(lambda x: isinstance(x, tuple), subel)):
+        if all(isinstance(x, tuple) for x in subel):
             for subsubel in subel:
                 data.append(subsubel)
         elif not el_is_empty(subel):
