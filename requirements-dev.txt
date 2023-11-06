@@ -1,0 +1,6 @@
+-r requirements.txt
+coverage
+pip-tools
+pytest
+pytest-cov
+sphinx
