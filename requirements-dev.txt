@@ -63,26 +63,30 @@ requests==2.31.0
     # via sphinx
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==7.2.6
+sphinx==7.1.2
+    # via metsrw (pyproject.toml)
+sphinxcontrib-applehelp==1.0.4
     # via
     #   metsrw (pyproject.toml)
-    #   sphinxcontrib-applehelp
-    #   sphinxcontrib-devhelp
-    #   sphinxcontrib-htmlhelp
-    #   sphinxcontrib-qthelp
-    #   sphinxcontrib-serializinghtml
-sphinxcontrib-applehelp==1.0.7
-    # via sphinx
-sphinxcontrib-devhelp==1.0.5
-    # via sphinx
-sphinxcontrib-htmlhelp==2.0.4
-    # via sphinx
+    #   sphinx
+sphinxcontrib-devhelp==1.0.2
+    # via
+    #   metsrw (pyproject.toml)
+    #   sphinx
+sphinxcontrib-htmlhelp==2.0.1
+    # via
+    #   metsrw (pyproject.toml)
+    #   sphinx
 sphinxcontrib-jsmath==1.0.1
     # via sphinx
-sphinxcontrib-qthelp==1.0.6
-    # via sphinx
-sphinxcontrib-serializinghtml==1.1.9
-    # via sphinx
+sphinxcontrib-qthelp==1.0.3
+    # via
+    #   metsrw (pyproject.toml)
+    #   sphinx
+sphinxcontrib-serializinghtml==1.1.5
+    # via
+    #   metsrw (pyproject.toml)
+    #   sphinx
 tomli==2.0.1
     # via
     #   build
