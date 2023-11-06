@@ -21,3 +21,11 @@ clean:
 	rm -rf metsrw.egg-info/
 	rm -rf build/
 	rm -rf dist/
+
+pip-compile:
+	pip-compile --allow-unsafe --output-file=requirements.txt pyproject.toml
+	pip-compile --allow-unsafe --extra=dev --output-file=requirements-dev.txt pyproject.toml
+
+pip-upgrade:
+	pip-compile --allow-unsafe --upgrade --output-file=requirements.txt pyproject.toml
+	pip-compile --allow-unsafe --upgrade --extra=dev --output-file=requirements-dev.txt pyproject.toml
