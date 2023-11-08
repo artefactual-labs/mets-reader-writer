@@ -1,0 +1,118 @@
+[build-system]
+requires = [
+  "setuptools>=68",
+  "wheel>=0.41",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = [""]
+include = ["metsrw*"]
+namespaces = false
+
+[project]
+name = "metsrw"
+dynamic = [
+  "version",
+  "readme",
+]
+description = "Library for dealing with METS files."
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+dependencies = [
+  "lxml",
+]
+keywords = [
+  "archivematica",
+  "preservation",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: GNU Affero General Public License v3",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+authors = [
+  {name = "Artefactual Systems Inc.", email = "info@artefactual.com"}
+]
+maintainers = [
+  {name = "Artefactual Systems Inc.", email = "info@artefactual.com"}
+]
+
+[project.urls]
+homepage = "https://github.com/artefactual-labs/mets-reader-writer/"
+documentation = "https://mets-reader-writer.readthedocs.io/"
+repository = "https://github.com/artefactual-labs/mets-reader-writer/"
+issues = "https://github.com/archivematica/Issues/issues"
+
+[project.optional-dependencies]
+dev = [
+  "coverage",
+  "pip-tools",
+  "pytest-cov",
+  "pytest",
+  "sphinx==7.1.2",
+  "sphinxcontrib-applehelp==1.0.4",
+  "sphinxcontrib-devhelp==1.0.2",
+  "sphinxcontrib-htmlhelp==2.0.1",
+  "sphinxcontrib-qthelp==1.0.3",
+  "sphinxcontrib-serializinghtml==1.1.5",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "metsrw.__version__"}
+readme = {file = ["README.md"], content-type = "text/markdown"}
+
+[tool.pytest.ini_options]
+python_files = [
+  "test_*.py",
+]
+testpaths = [
+  "tests",
+]
+
+[tool.coverage.run]
+source = [
+  "metsrw",
+]
+branch = true
+omit = [
+  "tests/*",
+]
+
+[tool.tox]
+legacy_tox_ini = """
+    [tox]
+    envlist = py{38,39,310,311,312}, linting, docs
+
+    [gh-actions]
+    python =
+        3.8: py38
+        3.9: py39
+        3.10: py310
+        3.11: py311
+        3.12: py312
+
+    [testenv]
+    skip_install = true
+    deps = -r {toxinidir}/requirements-dev.txt
+    commands = pytest {posargs}
+
+    [testenv:linting]
+    basepython = python3
+    deps = pre-commit
+    commands = pre-commit run --all-files --show-diff-on-failure
+
+    [testenv:docs]
+    changedir = docs
+    commands =
+        sphinx-build -WT -b doctest -d {envtmpdir}/doctrees . {envtmpdir}/html
+        sphinx-build -WT -b dummy -d {envtmpdir}/doctrees .  {envtmpdir}/html
+"""

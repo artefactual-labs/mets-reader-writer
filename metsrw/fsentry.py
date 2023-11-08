@@ -298,9 +298,9 @@ class FSEntry(DependencyPossessor):
         dmdsec.status = kwargs.get("status") or "original"
         mdtype_key = utils.generate_mdtype_key(mdtype, kwargs.get("othermdtype", ""))
         if mdtype_key in self.dmdsecs_by_mdtype:
-            group_id = getattr(self.dmdsecs_by_mdtype[mdtype_key][0], "group_id")
-            if not group_id:
-                group_id = str(uuid4())
+            group_id = getattr(
+                self.dmdsecs_by_mdtype[mdtype_key][0], "group_id", str(uuid4())
+            )
             dmdsec.group_id = group_id
             for previous_dmdsec in self.dmdsecs_by_mdtype[mdtype_key]:
                 previous_dmdsec.group_id = group_id
