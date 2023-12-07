@@ -1,16 +1,18 @@
-[![PyPI version](https://badge.fury.io/py/metsrw.svg)](https://badge.fury.io/py/metsrw) [![codecov](https://codecov.io/gh/artefactual-labs/mets-reader-writer/branch/master/graph/badge.svg?token=1cXYbNlgJr)](https://codecov.io/gh/artefactual-labs/mets-reader-writer)
-
 # METS Reader & Writer
 
 By [Artefactual](https://www.artefactual.com/)
 
+[![PyPI version](https://badge.fury.io/py/metsrw.svg)](https://badge.fury.io/py/metsrw)
+[![GitHub CI](https://github.com/artefactual-labs/mets-reader-writer/actions/workflows/test.yml/badge.svg)](https://github.com/artefactual-labs/mets-reader-writer/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/artefactual-labs/mets-reader-writer/branch/master/graph/badge.svg?token=1cXYbNlgJr)](https://codecov.io/gh/artefactual-labs/mets-reader-writer)
+
 METSRW is a library to help with parsing and creating METS files.
 It provides an API, and abstracts away the actual creation of the XML.
-METSRW was initially created for use in [Archivematica](https://github.com/artefactual/archivematica/) and is managed as part of that project.
+METSRW was initially created for use in [Archivematica](https://github.com/artefactual/archivematica/)
+and is managed as part of that project.
 
-You are free to copy, modify, and distribute metsrw with attribution under the terms of the AGPL license.
-See the [LICENSE](LICENSE) file for details.
-
+You are free to copy, modify, and distribute metsrw with attribution under the
+terms of the AGPL license. See the [LICENSE](LICENSE) file for details.
 
 ## Installation & Dependencies
 
@@ -36,7 +38,6 @@ Read a METS file
 Create a new METS file
 
     mets = metsrw.METSDocument()
-
 
 ## Contributing
 
