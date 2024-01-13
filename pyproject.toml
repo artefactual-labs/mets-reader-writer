@@ -54,6 +54,7 @@ issues = "https://github.com/archivematica/Issues/issues"
 
 [project.optional-dependencies]
 dev = [
+  "alabaster==0.7.13",
   "coverage",
   "pip-tools",
   "pytest-cov",
