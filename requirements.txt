@@ -4,5 +4,5 @@
 #
 #    pip-compile --allow-unsafe --output-file=requirements.txt pyproject.toml
 #
-lxml==4.9.3
+lxml==5.1.0
     # via metsrw (pyproject.toml)
