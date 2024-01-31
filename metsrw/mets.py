@@ -12,8 +12,6 @@ from . import fsentry
 from . import metadata
 from . import utils
 
-# This package
-
 
 LOGGER = logging.getLogger(__name__)
 
@@ -24,6 +22,17 @@ FPtr = namedtuple(
 )
 TRANSFORM_PREFIX = "TRANSFORM"
 TRANSFORM_PREFIX_LEN = len(TRANSFORM_PREFIX)
+DEFAULT_FILESEC_GROUPS_ORDER = [
+    "original",
+    "submissionDocumentation",
+    "preservation",
+    "service",
+    "access",
+    "license",
+    "text/ocr",
+    "metadata",
+    "derivative",
+]
 
 
 class METSDocument:
@@ -312,28 +321,17 @@ class METSDocument:
         return filesec
 
     def _sort_filegrps(self, filegrps):
-        uses_order = [
-            "original",
-            "submissionDocumentation",
-            "preservation",
-            "service",
-            "access",
-            "license",
-            "text/ocr",
-            "metadata",
-            "derivative",
-        ]
         result = []
-        count = len(filegrps)
+        default_groups_count = len(DEFAULT_FILESEC_GROUPS_ORDER)
         for i, use in enumerate(filegrps.keys()):
             filegrp = filegrps[use]
             try:
-                filegrp_position = uses_order.index(use)
+                filegrp_position = DEFAULT_FILESEC_GROUPS_ORDER.index(use)
             except ValueError:
-                filegrp_position = count + i
+                filegrp_position = default_groups_count + i
             result.append((filegrp_position, filegrp))
 
-        return [v for i, v in sorted(result)]
+        return [v for _, v in sorted(result, key=lambda i: i[0])]
 
     def serialize(self, fully_qualified=True, normative_structmap=True):
         """

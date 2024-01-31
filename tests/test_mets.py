@@ -1169,3 +1169,50 @@ class TestWholeMETS(TestCase):
 def test_get_subsections_counts(mets_path, expected_counts):
     mw = metsrw.METSDocument().fromfile(mets_path)
     assert mw.get_subsections_counts() == expected_counts
+
+
+@pytest.mark.parametrize(
+    "file_group_uses,expected_uses_order",
+    [
+        (
+            [
+                "unknown2",
+                "original",
+                "unknown1",
+                "text/ocr",
+            ],
+            [
+                "original",
+                "text/ocr",
+                "unknown2",
+                "unknown1",
+            ],
+        ),
+        (
+            [
+                "unknown2",
+                "unknown1",
+                "original",
+                "unknown3",
+            ],
+            [
+                "original",
+                "unknown2",
+                "unknown1",
+                "unknown3",
+            ],
+        ),
+    ],
+)
+def test_filegrp_sorting_returns_non_default_groups(
+    file_group_uses, expected_uses_order
+):
+    file_groups = {
+        use: etree.Element(metsrw.utils.lxmlns("mets") + "fileGrp", USE=use)
+        for use in file_group_uses
+    }
+
+    mw = metsrw.METSDocument()
+    result = mw._sort_filegrps(file_groups)
+
+    assert [g.attrib["USE"] for g in result] == expected_uses_order
