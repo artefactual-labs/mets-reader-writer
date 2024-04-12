@@ -39,11 +39,13 @@ jobs:
           tox -- --cov metsrw --cov-report xml:coverage.xml
       - name: "Upload coverage report"
         if: github.repository == 'artefactual-labs/mets-reader-writer'
-        uses: "codecov/codecov-action@v3"
+        uses: "codecov/codecov-action@v4"
         with:
           files: ./coverage.xml
           fail_ci_if_error: false
           verbose: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   lint:
     name: "Lint"
     runs-on: "ubuntu-22.04"
