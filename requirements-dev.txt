@@ -40,7 +40,7 @@ iniconfig==2.0.0
     # via pytest
 jinja2==3.1.4
     # via sphinx
-lxml==5.2.1
+lxml==5.2.2
     # via metsrw (pyproject.toml)
 markupsafe==2.1.5
     # via jinja2
@@ -59,13 +59,13 @@ pyproject-hooks==1.1.0
     # via
     #   build
     #   pip-tools
-pytest==8.2.0
+pytest==8.2.1
     # via
     #   metsrw (pyproject.toml)
     #   pytest-cov
 pytest-cov==5.0.0
     # via metsrw (pyproject.toml)
-requests==2.31.0
+requests==2.32.1
     # via sphinx
 snowballstemmer==2.2.0
     # via sphinx
@@ -110,11 +110,11 @@ urllib3==2.2.1
     # via requests
 wheel==0.43.0
     # via pip-tools
-zipp==3.18.1
+zipp==3.18.2
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 pip==24.0
     # via pip-tools
-setuptools==69.5.1
+setuptools==70.0.0
     # via pip-tools
