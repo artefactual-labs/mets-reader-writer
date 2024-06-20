@@ -59,6 +59,7 @@ dev = [
   "pip-tools",
   "pytest-cov",
   "pytest",
+  "ruff",
   "sphinx-rtd-theme",
   "sphinx==7.1.2",
   "sphinxcontrib-applehelp==1.0.4",
