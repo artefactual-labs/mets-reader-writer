@@ -5,15 +5,16 @@ LABEL="Normative Directory Structure", which documents empty directories that
 are absent in the standard physical structural map.
 
 """
+
 import uuid
 from unittest import TestCase
 
 from lxml import etree
 
 import metsrw
-from metsrw.plugins.premisrw import lxmlns
 from metsrw.plugins.premisrw import PREMIS_3_0_NAMESPACES
 from metsrw.plugins.premisrw import PREMISObject
+from metsrw.plugins.premisrw import lxmlns
 
 
 class TestNormativeStructMap(TestCase):

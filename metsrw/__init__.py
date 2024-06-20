@@ -1,10 +1,11 @@
 """METS reader and writer."""
+
 import logging
 
 from . import plugins
 from .di import Dependency
-from .di import feature_broker
 from .di import FeatureBroker
+from .di import feature_broker
 from .di import has_class_methods
 from .di import has_methods
 from .di import is_class
@@ -20,18 +21,18 @@ from .metadata import MDWrap
 from .metadata import SubSection
 from .mets import METSDocument
 from .utils import FILE_ID_PREFIX
-from .utils import generate_mdtype_key
 from .utils import GROUP_ID_PREFIX
-from .utils import lxmlns
 from .utils import NAMESPACES
 from .utils import SCHEMA_LOCATIONS
+from .utils import generate_mdtype_key
+from .utils import lxmlns
 from .utils import urldecode
 from .utils import urlencode
 from .validate import AM_PNTR_SCT_PATH
 from .validate import AM_SCT_PATH
+from .validate import METS_XSD_PATH
 from .validate import get_schematron
 from .validate import get_xmlschema
-from .validate import METS_XSD_PATH
 from .validate import report_string
 from .validate import schematron_validate
 from .validate import sct_report_string

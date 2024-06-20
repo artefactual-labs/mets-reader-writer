@@ -9,6 +9,7 @@ for METS-reader-writer. Public functions and classes:
 - PREMISRights
 
 """
+
 import abc
 import json
 import pprint
@@ -183,8 +184,8 @@ class PREMISElement(metaclass=abc.ABCMeta):
             )
         )
         raise AttributeError(
-            "Instance of {} has no attribute {}. Valid attributes"
-            " are\n{}".format(self.__class__, attr_name, valid_attributes)
+            f"Instance of {self.__class__} has no attribute {attr_name}. Valid attributes"
+            f" are\n{valid_attributes}"
         )
 
     def find(self, path):
@@ -391,8 +392,7 @@ class PREMISEvent(PREMISElement):
         event_type = self.findtext("event_type")
         if event_type != "compression":
             raise AttributeError(
-                'PREMIS events of type "{}" have no compression'
-                " details".format(event_type)
+                f'PREMIS events of type "{event_type}" have no compression' " details"
             )
         parsed_compression_event_detail = self.parsed_event_detail
         compression_program = _get_event_detail_attr(
@@ -435,8 +435,7 @@ class PREMISEvent(PREMISElement):
         event_type = self.findtext("event_type")
         if event_type != "encryption":
             raise AttributeError(
-                'PREMIS events of type "{}" have no encryption'
-                " details".format(event_type)
+                f'PREMIS events of type "{event_type}" have no encryption' " details"
             )
         parsed_encryption_event_detail = self.parsed_event_detail
         encryption_program = _get_event_detail_attr(
@@ -846,11 +845,7 @@ def _get_event_detail_attr(attr, parsed_event_detail):
     try:
         return parsed_event_detail[attr]
     except KeyError:
-        print(
-            "Unable to find attribute {} in event detail {}".format(
-                attr, parsed_event_detail
-            )
-        )
+        print(f"Unable to find attribute {attr} in event detail {parsed_event_detail}")
         return "No value found"
 
 

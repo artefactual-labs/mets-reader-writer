@@ -1,6 +1,7 @@
 """
 Classes for metadata sections of the METS. Include amdSec, dmdSec, techMD, rightsMD, sourceMD, digiprovMD, mdRef and mdWrap.
 """
+
 import copy
 import logging
 
@@ -8,7 +9,6 @@ from lxml import etree
 
 from . import exceptions
 from . import utils
-
 
 LOGGER = logging.getLogger(__name__)
 
@@ -142,9 +142,7 @@ class AltRecordID:
         """
         if element.tag != cls.ALT_RECORD_ID_TAG:
             raise exceptions.ParseError(
-                "AltRecordID got unexpected tag {}; expected {}".format(
-                    element.tag, cls.ALT_RECORD_ID_TAG
-                )
+                f"AltRecordID got unexpected tag {element.tag}; expected {cls.ALT_RECORD_ID_TAG}"
             )
 
         return cls(element.text, id=element.get("ID"), type=element.get("TYPE"))
@@ -211,9 +209,7 @@ class Agent:
         """
         if element.tag != cls.AGENT_TAG:
             raise exceptions.ParseError(
-                "Agent got unexpected tag {}; expected {}".format(
-                    element.tag, cls.AGENT_TAG
-                )
+                f"Agent got unexpected tag {element.tag}; expected {cls.AGENT_TAG}"
             )
 
         role = element.get("ROLE")
@@ -477,8 +473,7 @@ class MDRef:
             target = utils.urldecode(target)
         except ValueError:
             raise exceptions.ParseError(
-                'Value "{}" (of attribute xlink:href) is not a valid'
-                " URL.".format(target)
+                f'Value "{target}" (of attribute xlink:href) is not a valid' " URL."
             )
         loctype = root.get("LOCTYPE")
         if not loctype:
@@ -516,8 +511,8 @@ class MDRef:
                 el.attrib[utils.lxmlns("xlink") + "href"] = utils.urlencode(self.target)
             except ValueError:
                 raise exceptions.SerializeError(
-                    'Value "{}" (for attribute xlink:href) is not a valid'
-                    " URL.".format(self.target)
+                    f'Value "{self.target}" (for attribute xlink:href) is not a valid'
+                    " URL."
                 )
         el.attrib["MDTYPE"] = self.mdtype
         el.attrib["LOCTYPE"] = self.loctype

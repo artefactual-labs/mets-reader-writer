@@ -173,9 +173,7 @@ class TestPREMIS(TestCase):
             mw.serialize(), schematron=metsrw.AM_PNTR_SCT_PATH
         )
         if not is_valid:
-            print(
-                "Pointer file is NOT" " valid.\n{}".format(metsrw.report_string(report))
-            )
+            print("Pointer file is NOT" f" valid.\n{metsrw.report_string(report)}")
         assert is_valid
 
     def test_pointer_file_read(self):
@@ -289,14 +287,15 @@ class TestPREMIS(TestCase):
 
         # A partial path to a leaf element is not a valid accessor:
         with pytest.raises(AttributeError):
-            premis_object.fixity__message_digest
+            assert premis_object.fixity__message_digest
 
         # XML attribute accessors
         assert premis_object.xsi_type == c.EX_PTR_XSI_TYPE  # namespaced
         assert premis_object.xsi__type == c.EX_PTR_XSI_TYPE  # namespaced
         assert premis_object.type == c.EX_PTR_XSI_TYPE  # not namespaced
-        assert premis_object.xsi_schema_location == (
-            premisrw.PREMIS_META["xsi:schema_location"]
+        assert (
+            premis_object.xsi_schema_location
+            == (premisrw.PREMIS_META["xsi:schema_location"])
         )
 
         assert compression_event.event_type == c.EX_COMPR_EVT_TYPE
@@ -318,7 +317,7 @@ class TestPREMIS(TestCase):
             == c.EX_AGT_1_IDENTIFIER_TYPE
         )
         with pytest.raises(AttributeError):
-            premis_agent_1.agent_identifier__agent_name
+            assert premis_agent_1.agent_identifier__agent_name
 
     def test_encryption_event(self):
         encryption_event = premisrw.PREMISEvent(data=c.EX_ENCR_EVT)

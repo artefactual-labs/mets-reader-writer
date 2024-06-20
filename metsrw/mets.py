@@ -1,8 +1,8 @@
 import logging
 import os
 import sys
-from collections import namedtuple
 from collections import OrderedDict
+from collections import namedtuple
 from datetime import datetime
 
 from lxml import etree
@@ -11,7 +11,6 @@ from . import exceptions
 from . import fsentry
 from . import metadata
 from . import utils
-
 
 LOGGER = logging.getLogger(__name__)
 
@@ -485,8 +484,7 @@ class METSDocument:
             path = utils.urldecode(path)
         except ValueError:
             raise exceptions.ParseError(
-                'Value "{}" (of attribute xlink:href) is not a valid'
-                " URL.".format(path)
+                f'Value "{path}" (of attribute xlink:href) is not a valid' " URL."
             )
         amdids = file_elem.get("ADMID")
         dmdids = file_elem.get("DMDID")

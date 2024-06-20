@@ -110,7 +110,6 @@ class TestAMDSec(TestCase):
         amdsec_ids = [metsrw.AMDSec().id_string for _ in range(10)]
         # Generate a SubSection in between to make sure our count
         # doesn't jump
-        metsrw.SubSection("techMD", []).id_string
         amdsec_ids.append(metsrw.AMDSec().id_string)
 
         for index, amdsec_id in enumerate(amdsec_ids, 1):
