@@ -18,6 +18,7 @@ with the same names, e.g.,::
 
 See http://code.activestate.com/recipes/413268/
 """
+
 from .plugins import premisrw
 
 
@@ -39,9 +40,9 @@ class FeatureBroker:
         provider if it is callable.
         """
         if not self.allow_replace:
-            assert feature_name not in self.providers, "Duplicate feature: {!r}".format(
-                feature_name
-            )
+            assert (
+                feature_name not in self.providers
+            ), f"Duplicate feature: {feature_name!r}"
         if callable(provider) and not isinstance(provider, type):
             self.providers[feature_name] = lambda: provider(*args, **kwargs)
         else:
@@ -96,8 +97,8 @@ class Dependency:
         obj = feature_broker[self.dependency_name]
         for assertion in self.assertions:
             assert assertion(obj), (
-                "The value {!r} of {!r} does not match the specified"
-                " criteria".format(obj, self.dependency_name)
+                f"The value {obj!r} of {self.dependency_name!r} does not match the specified"
+                " criteria"
             )
         return obj
 

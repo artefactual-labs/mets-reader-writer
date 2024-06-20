@@ -2,7 +2,6 @@ import uuid
 
 import metsrw.plugins.premisrw as premisrw
 
-
 EX_AGT_1_IDENTIFIER_TYPE = "preservation system"
 EX_AGT_1_IDENTIFIER_VALUE = "Archivematica-1.6.1"
 EX_AGT_1_NAME = "Archivematica"

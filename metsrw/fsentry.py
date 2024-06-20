@@ -184,12 +184,10 @@ class FSEntry(DependencyPossessor):
         )
 
     def __str__(self):
-        return "{s.type}: {s.path}".format(s=self)
+        return f"{self.type}: {self.path}"
 
     def __repr__(self):
-        return "FSEntry(type={s.type!r}, path={s.path!r}, use={s.use!r}, label={s.label!r}, file_uuid={s.file_uuid!r}, checksum={s.checksum!r}, checksumtype={s.checksumtype!r}, fileid={s._fileid!r})".format(
-            s=self
-        )
+        return f"FSEntry(type={self.type!r}, path={self.path!r}, use={self.use!r}, label={self.label!r}, file_uuid={self.file_uuid!r}, checksum={self.checksum!r}, checksumtype={self.checksumtype!r}, fileid={self._fileid!r})"
 
     # PROPERTIES
 
@@ -439,8 +437,8 @@ class FSEntry(DependencyPossessor):
                 flocat.set(utils.lxmlns("xlink") + "href", utils.urlencode(self.path))
             except ValueError:
                 raise exceptions.SerializeError(
-                    'Value "{}" (for attribute xlink:href) is not a valid'
-                    " URL.".format(self.path)
+                    f'Value "{self.path}" (for attribute xlink:href) is not a valid'
+                    " URL."
                 )
             flocat.set("LOCTYPE", "OTHER")
             flocat.set("OTHERLOCTYPE", "SYSTEM")

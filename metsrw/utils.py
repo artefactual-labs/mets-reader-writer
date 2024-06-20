@@ -3,7 +3,6 @@ from urllib.parse import unquote_plus
 from urllib.parse import urlparse
 from urllib.parse import urlunparse
 
-
 ####################################
 # LXML HELPER VALUES AND FUNCTIONS #
 ####################################

@@ -2,6 +2,7 @@ from unittest import TestCase
 
 import metsrw
 import metsrw.plugins.premisrw as premisrw
+
 from .constants import EX_AGT_1
 from .constants import EX_AGT_2
 from .constants import EX_COMPR_EVT

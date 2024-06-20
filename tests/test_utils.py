@@ -2,7 +2,6 @@ import pytest
 
 import metsrw
 
-
 GOOD_PATHS_SLASH_URLS = (
     "30_CFLQ_271_13-3-13_1524[1].pdf",
     "30/CFLQ_271_13-3-13_1524[1].pdf",

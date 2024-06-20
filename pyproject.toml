@@ -59,6 +59,7 @@ dev = [
   "pip-tools",
   "pytest-cov",
   "pytest",
+  "ruff",
   "sphinx-rtd-theme",
   "sphinx==7.1.2",
   "sphinxcontrib-applehelp==1.0.4",
@@ -71,6 +72,26 @@ dev = [
 [tool.setuptools.dynamic]
 version = {attr = "metsrw.__version__"}
 readme = {file = ["README.md"], content-type = "text/markdown"}
+
+[tool.ruff.lint]
+# Rule reference: https://docs.astral.sh/ruff/rules/
+select = [
+  "B",
+  "C4",
+  "E",
+  "F",
+  "I",
+  "UP",
+  "W",
+]
+ignore = [
+  "B904",
+  "E501",
+  "UP031",
+]
+
+[tool.ruff.lint.isort]
+force-single-line = true
 
 [tool.pytest.ini_options]
 python_files = [

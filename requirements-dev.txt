@@ -67,6 +67,8 @@ pytest-cov==5.0.0
     # via metsrw (pyproject.toml)
 requests==2.32.3
     # via sphinx
+ruff==0.4.9
+    # via metsrw (pyproject.toml)
 snowballstemmer==2.2.0
     # via sphinx
 sphinx==7.1.2

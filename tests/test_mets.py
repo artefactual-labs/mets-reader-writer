@@ -4,8 +4,8 @@ import io
 import os
 import tempfile
 import uuid
-from unittest import mock
 from unittest import TestCase
+from unittest import mock
 
 import pytest
 from lxml import etree
@@ -856,9 +856,9 @@ class TestWholeMETS(TestCase):
             version="2.2",
         )
         aip_premis_object.attrib["{" + nsmap["xsi"] + "}type"] = "premis:file"
-        aip_premis_object.attrib[
-            "{" + nsmap["xsi"] + "}schemaLocation"
-        ] = premis_schema_location
+        aip_premis_object.attrib["{" + nsmap["xsi"] + "}schemaLocation"] = (
+            premis_schema_location
+        )
         aip_fs_entry.add_premis_object(aip_premis_object)
 
         # Create the AIP's PREMIS:EVENT for the compression using raw lxml
@@ -885,9 +885,9 @@ class TestWholeMETS(TestCase):
             ],
             version="2.2",
         )
-        aip_premis_compression_event.attrib[
-            "{" + nsmap["xsi"] + "}schemaLocation"
-        ] = premis_schema_location
+        aip_premis_compression_event.attrib["{" + nsmap["xsi"] + "}schemaLocation"] = (
+            premis_schema_location
+        )
         aip_fs_entry.add_premis_event(aip_premis_compression_event)
 
         # Create the AIP's PREMIS:AGENTs using raw lxml
@@ -900,9 +900,9 @@ class TestWholeMETS(TestCase):
                 E_P.agentName(agent["name"]),
                 E_P.agentType(agent["type"]),
             )
-            agent_el.attrib[
-                "{" + nsmap["xsi"] + "}schemaLocation"
-            ] = premis_schema_location
+            agent_el.attrib["{" + nsmap["xsi"] + "}schemaLocation"] = (
+                premis_schema_location
+            )
             aip_fs_entry.add_premis_agent(agent_el)
 
         mw.append_file(aip_fs_entry)
