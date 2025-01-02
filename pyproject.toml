@@ -17,7 +17,7 @@ dynamic = [
   "readme",
 ]
 description = "Library for dealing with METS files."
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = {file = "LICENSE"}
 dependencies = [
   "lxml",
@@ -33,7 +33,6 @@ classifiers = [
   "License :: OSI Approved :: GNU Affero General Public License v3",
   "Operating System :: POSIX :: Linux",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -54,19 +53,13 @@ issues = "https://github.com/archivematica/Issues/issues"
 
 [project.optional-dependencies]
 dev = [
-  "alabaster==0.7.13",
   "coverage",
   "pip-tools",
   "pytest-cov",
   "pytest",
   "ruff",
   "sphinx-rtd-theme",
-  "sphinx==7.1.2",
-  "sphinxcontrib-applehelp==1.0.4",
-  "sphinxcontrib-devhelp==1.0.2",
-  "sphinxcontrib-htmlhelp==2.0.1",
-  "sphinxcontrib-qthelp==1.0.3",
-  "sphinxcontrib-serializinghtml==1.1.5",
+  "sphinx",
 ]
 
 [tool.setuptools.dynamic]
@@ -113,11 +106,10 @@ omit = [
 [tool.tox]
 legacy_tox_ini = """
     [tox]
-    envlist = py{38,39,310,311,312}, linting, docs
+    envlist = py{39,310,311,312}, linting, docs
 
     [gh-actions]
     python =
-        3.8: py38
         3.9: py39
         3.10: py310
         3.11: py311
