@@ -1216,3 +1216,14 @@ def test_filegrp_sorting_returns_non_default_groups(
     result = mw._sort_filegrps(file_groups)
 
     assert [g.attrib["USE"] for g in result] == expected_uses_order
+
+
+def test_document_ignores_missing_bag_metadata_amdsec_on_the_objects_directory():
+    mets_path = "fixtures/mets_with_missing_bag_metadata_amdsec.xml"
+
+    mw = metsrw.METSDocument.fromfile(mets_path)
+
+    objects_directory = mw.get_file(
+        type="Directory", label="objects", path=None, use=None
+    )
+    assert not objects_directory.amdsecs
