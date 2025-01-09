@@ -34,6 +34,15 @@ DEFAULT_FILESEC_GROUPS_ORDER = [
 ]
 
 
+def _is_objects_directory(entry: fsentry.FSEntry) -> bool:
+    return (
+        entry.type == "Directory"
+        and entry.label == "objects"
+        and entry.path is None
+        and entry.use is None
+    )
+
+
 class METSDocument:
     def __init__(self):
         # Stores the ElementTree if this was parsed from an existing file
@@ -568,6 +577,11 @@ class METSDocument:
                 amdsec_elem = tree.find(
                     'mets:amdSec[@ID="' + amdid + '"]', namespaces=utils.NAMESPACES
                 )
+                if amdsec_elem is None and _is_objects_directory(fs_entry):
+                    # Workaround for https://github.com/archivematica/Issues/issues/1129.
+                    # The objects directory might reference a non-existent amdSec.
+                    # Ignore it to avoid parsing errors.
+                    continue
                 amdsec = metadata.AMDSec.parse(amdsec_elem)
                 fs_entry.amdsecs.append(amdsec)
 
