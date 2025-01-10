@@ -20,12 +20,8 @@ METSRW can be installed with pip.
 
 `pip install metsrw`
 
-METSRW has been tested with:
-
-* Python 3.9
-* Python 3.10
-* Python 3.11
-* Python 3.12
+METSRW is tested with the all the [supported versions](https://devguide.python.org/versions/#supported-versions)
+of Python.
 
 ## Basic Usage
 
