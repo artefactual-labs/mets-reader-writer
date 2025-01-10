@@ -51,7 +51,7 @@ pip-tools==7.4.1
     # via metsrw (pyproject.toml)
 pluggy==1.5.0
     # via pytest
-pygments==2.18.0
+pygments==2.19.1
     # via sphinx
 pyproject-hooks==1.2.0
     # via
@@ -65,7 +65,7 @@ pytest-cov==6.0.0
     # via metsrw (pyproject.toml)
 requests==2.32.3
     # via sphinx
-ruff==0.8.5
+ruff==0.9.1
     # via metsrw (pyproject.toml)
 snowballstemmer==2.2.0
     # via sphinx
@@ -107,5 +107,5 @@ zipp==3.21.0
 # The following packages are considered to be unsafe in a requirements file:
 pip==24.3.1
     # via pip-tools
-setuptools==75.6.0
+setuptools==75.8.0
     # via pip-tools
