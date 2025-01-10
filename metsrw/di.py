@@ -40,9 +40,9 @@ class FeatureBroker:
         provider if it is callable.
         """
         if not self.allow_replace:
-            assert (
-                feature_name not in self.providers
-            ), f"Duplicate feature: {feature_name!r}"
+            assert feature_name not in self.providers, (
+                f"Duplicate feature: {feature_name!r}"
+            )
         if callable(provider) and not isinstance(provider, type):
             self.providers[feature_name] = lambda: provider(*args, **kwargs)
         else:

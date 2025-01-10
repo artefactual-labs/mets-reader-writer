@@ -493,7 +493,7 @@ class METSDocument:
             path = utils.urldecode(path)
         except ValueError:
             raise exceptions.ParseError(
-                f'Value "{path}" (of attribute xlink:href) is not a valid' " URL."
+                f'Value "{path}" (of attribute xlink:href) is not a valid URL.'
             )
         amdids = file_elem.get("ADMID")
         dmdids = file_elem.get("DMDID")
