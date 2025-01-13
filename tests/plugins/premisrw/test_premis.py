@@ -173,7 +173,7 @@ class TestPREMIS(TestCase):
             mw.serialize(), schematron=metsrw.AM_PNTR_SCT_PATH
         )
         if not is_valid:
-            print("Pointer file is NOT" f" valid.\n{metsrw.report_string(report)}")
+            print(f"Pointer file is NOT valid.\n{metsrw.report_string(report)}")
         assert is_valid
 
     def test_pointer_file_read(self):
@@ -198,9 +198,7 @@ class TestPREMIS(TestCase):
             if pe.event_type == "compression"
         ][0]
         outcome_detail_note = compression_event.findtext(
-            "event_outcome_information/"
-            "event_outcome_detail/"
-            "event_outcome_detail_note"
+            "event_outcome_information/event_outcome_detail/event_outcome_detail_note"
         )
         assert outcome_detail_note == c.EX_COMPR_EVT_OUTCOME_DETAIL_NOTE
 

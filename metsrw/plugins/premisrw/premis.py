@@ -392,7 +392,7 @@ class PREMISEvent(PREMISElement):
         event_type = self.findtext("event_type")
         if event_type != "compression":
             raise AttributeError(
-                f'PREMIS events of type "{event_type}" have no compression' " details"
+                f'PREMIS events of type "{event_type}" have no compression details'
             )
         parsed_compression_event_detail = self.parsed_event_detail
         compression_program = _get_event_detail_attr(
@@ -435,7 +435,7 @@ class PREMISEvent(PREMISElement):
         event_type = self.findtext("event_type")
         if event_type != "encryption":
             raise AttributeError(
-                f'PREMIS events of type "{event_type}" have no encryption' " details"
+                f'PREMIS events of type "{event_type}" have no encryption details'
             )
         parsed_encryption_event_detail = self.parsed_event_detail
         encryption_program = _get_event_detail_attr(

@@ -473,7 +473,7 @@ class MDRef:
             target = utils.urldecode(target)
         except ValueError:
             raise exceptions.ParseError(
-                f'Value "{target}" (of attribute xlink:href) is not a valid' " URL."
+                f'Value "{target}" (of attribute xlink:href) is not a valid URL.'
             )
         loctype = root.get("LOCTYPE")
         if not loctype:
