@@ -42,7 +42,7 @@ from .validate import xsd_validate
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.addHandler(logging.NullHandler())
-__version__ = "0.6.0"
+__version__ = "0.6.1"
 
 __all__ = [
     "Agent",
