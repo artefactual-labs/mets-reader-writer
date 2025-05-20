@@ -4,7 +4,7 @@ on: "workflow_dispatch"
 jobs:
   build:
     name: "Build"
-    runs-on: "ubuntu-22.04"
+    runs-on: "ubuntu-24.04"
     steps:
       - name: "Check out repository"
         uses: "actions/checkout@v4"
@@ -23,7 +23,7 @@ jobs:
   upload:
     name: "Upload"
     needs: "build"
-    runs-on: "ubuntu-22.04"
+    runs-on: "ubuntu-24.04"
     environment: "release"
     permissions:
       id-token: "write"
