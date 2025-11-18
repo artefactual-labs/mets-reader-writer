@@ -17,7 +17,7 @@ dynamic = [
   "readme",
 ]
 description = "Library for dealing with METS files."
-requires-python = ">=3.9"
+requires-python = ">=10"
 license = {file = "LICENSE"}
 dependencies = [
   "lxml",
@@ -33,7 +33,6 @@ classifiers = [
   "License :: OSI Approved :: GNU Affero General Public License v3",
   "Operating System :: POSIX :: Linux",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
