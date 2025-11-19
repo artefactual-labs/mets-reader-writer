@@ -983,7 +983,7 @@ class TestWholeMETS(TestCase):
         mets4 = metsrw.METSDocument.read(mets_bytes)
 
         # iteration
-        for fse1, fse2, fse3, fse4 in zip(mets1, mets2, mets3, mets4):
+        for fse1, fse2, fse3, fse4 in zip(mets1, mets2, mets3, mets4, strict=False):
             assert fse1.path == fse2.path == fse3.path == fse4.path
 
         # len
