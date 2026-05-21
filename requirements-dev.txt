@@ -10,11 +10,11 @@ babel==2.18.0
     # via sphinx
 build==1.5.0
     # via pip-tools
-certifi==2026.4.22
+certifi==2026.5.20
     # via requests
 charset-normalizer==3.4.7
     # via requests
-click==8.3.3
+click==8.4.0
     # via pip-tools
 coverage[toml]==7.14.0
     # via
@@ -26,7 +26,7 @@ docutils==0.21.2
     #   sphinx-rtd-theme
 exceptiongroup==1.3.1
     # via pytest
-idna==3.14
+idna==3.15
     # via requests
 imagesize==2.0.0
     # via sphinx
@@ -34,7 +34,7 @@ iniconfig==2.3.0
     # via pytest
 jinja2==3.1.6
     # via sphinx
-lxml==6.1.0
+lxml==6.1.1
     # via metsrw (pyproject.toml)
 markupsafe==3.0.3
     # via jinja2
@@ -64,9 +64,9 @@ pytest==9.0.3
     #   pytest-cov
 pytest-cov==7.1.0
     # via metsrw (pyproject.toml)
-requests==2.34.0
+requests==2.34.2
     # via sphinx
-ruff==0.15.12
+ruff==0.15.13
     # via metsrw (pyproject.toml)
 snowballstemmer==3.0.1
     # via sphinx
