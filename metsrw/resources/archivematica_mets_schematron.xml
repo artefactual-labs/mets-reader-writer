@@ -21,11 +21,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:p="info:lc/xmlns/premis-v2"
+    xmlns:p3="http://www.loc.gov/premis/v3"
     xmlns:m="http://www.loc.gov/METS/">
     <!-- queryBinding="xslt2"> -->
     <sch:title>Simple Content Model Validation</sch:title>
     <sch:ns uri="http://www.loc.gov/METS/" prefix="m"/>
     <sch:ns uri="info:lc/xmlns/premis-v2" prefix="p"/>
+    <sch:ns uri="http://www.loc.gov/premis/v3" prefix="p3"/>
     <sch:ns uri="http://www.w3.org/1999/xlink" prefix="xlink"/>
     <sch:ns uri="http://www.w3.org/2001/XMLSchema-instance" prefix="xsi"/>
 
@@ -136,9 +138,30 @@
         </sch:rule>
         <sch:rule context="m:techMD/m:mdWrap">
           <sch:assert test="@MDTYPE = 'PREMIS:OBJECT'">A techMD mdWrap element MUST have an MDTYPE attribute of PREMIS:OBJECT.</sch:assert>
-          <sch:assert test="m:xmlData/p:object">A techMD mdWrap element must contain a PREMIS object element.</sch:assert>
-          <sch:assert test="m:xmlData/p:object/@xsi:schemaLocation">A techMD mdWrap element MUST contain an XML schema location.</sch:assert>
-            <sch:assert test="m:xmlData/p:object/@xsi:type = 'premis:file'">A techMD mdWrap element MUST have an xsi:type attribute of file.</sch:assert>
+          <sch:assert test="m:xmlData/p:object or m:xmlData/p3:object">A techMD mdWrap element must contain a PREMIS object element.</sch:assert>
+          <sch:assert test="m:xmlData/p:object/@xsi:schemaLocation or m:xmlData/p3:object/@xsi:schemaLocation">A techMD mdWrap element MUST contain an XML schema location.</sch:assert>
+          <sch:assert test="
+            m:xmlData/p:object[
+              @xsi:type = 'premis:file'
+              or (
+                substring-after(@xsi:type, ':') = 'file'
+                and namespace::*[
+                  name() = substring-before(../@xsi:type, ':')
+                  and . = 'info:lc/xmlns/premis-v2'
+                ]
+              )
+            ]
+            or
+            m:xmlData/p3:object[
+              @xsi:type = 'premis:file'
+              or (
+                substring-after(@xsi:type, ':') = 'file'
+                and namespace::*[
+                  name() = substring-before(../@xsi:type, ':')
+                  and . = 'http://www.loc.gov/premis/v3'
+                ]
+              )
+            ]">A techMD mdWrap element MUST have an xsi:type attribute of file.</sch:assert>
         </sch:rule>
     </sch:pattern>
 
@@ -151,15 +174,22 @@
         <sch:rule context="m:digiprovMD/m:mdWrap">
           <sch:assert test="@MDTYPE = 'PREMIS:EVENT' or @MDTYPE = 'PREMIS:AGENT'">A digiprovMD mdWrap element MUST have an MDTYPE attribute of PREMIS:EVENT.</sch:assert>
           <!-- TODO compliance exception 3401 -->
-          <sch:assert test="@MDTYPE = 'PREMIS:AGENT' or m:xmlData/p:*/@xsi:schemaLocation">A digiprovMD mdWrap element MUST contain an XML schema location.</sch:assert>
+          <sch:assert test="@MDTYPE = 'PREMIS:AGENT' or m:xmlData/p:*/@xsi:schemaLocation or m:xmlData/p3:*/@xsi:schemaLocation">A digiprovMD mdWrap element MUST contain an XML schema location.</sch:assert>
         </sch:rule>
     </sch:pattern>
 
     <sch:pattern>
       <sch:title>PREMIS Event validation</sch:title>
       <sch:rule context="m:mdWrap[@MDTYPE = 'PREMIS:EVENT']">
-        <sch:assert test="m:xmlData/p:event">A PREMIS:EVENT must be represented by a PREMIS event element.</sch:assert>
-        <sch:assert test="contains($premisEventTypes, m:xmlData/p:event/p:eventType)">A PREMIS event MUST be of a recognized eventType. (<sch:value-of select="m:xmlData/p:event/p:eventType"/> is not in <sch:value-of select="$premisEventTypes"/>)</sch:assert>
+        <sch:assert test="m:xmlData/p:event or m:xmlData/p3:event">A PREMIS:EVENT must be represented by a PREMIS event element.</sch:assert>
+        <sch:assert test="
+          m:xmlData/p:event[
+            contains(concat(', ', $premisEventTypes, ', '), concat(', ', normalize-space(p:eventType), ', '))
+          ]
+          or
+          m:xmlData/p3:event[
+            contains(concat(', ', $premisEventTypes, ', '), concat(', ', normalize-space(p3:eventType), ', '))
+          ]">A PREMIS event MUST be of a recognized eventType. (<sch:value-of select="m:xmlData/p:event/p:eventType | m:xmlData/p3:event/p3:eventType"/> is not in <sch:value-of select="$premisEventTypes"/>)</sch:assert>
       </sch:rule>
     </sch:pattern>
 
