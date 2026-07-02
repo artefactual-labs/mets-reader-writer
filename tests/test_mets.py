@@ -12,6 +12,7 @@ from lxml import etree
 from lxml.builder import ElementMaker
 
 import metsrw
+from metsrw.plugins import premisrw
 
 
 class TestMETSDocument(TestCase):
@@ -908,10 +909,377 @@ class TestWholeMETS(TestCase):
         mw.append_file(aip_fs_entry)
         self.assert_pointer_valid(mw.serialize())
 
+    def test_pointer_file_with_premis_3_metadata_validates(self):
+        """PREMIS 3 pointer files should validate with the pointer schematron."""
+        mets_doc = self._pointer_file_with_premis_metadata(
+            premis_version="3.0", event_type="compression"
+        )
+        assert (
+            mets_doc.find(".//premis:object", premisrw.PREMIS_3_0_NAMESPACES)
+            is not None
+        )
+        self.assert_pointer_valid(mets_doc)
+
+    def test_pointer_file_with_unrecognized_premis_2_event_type_is_invalid(self):
+        mets_doc = self._pointer_file_with_premis_metadata(
+            premis_version="2.2", event_type="not a real event"
+        )
+        is_valid, _ = metsrw.validate(mets_doc, schematron=metsrw.AM_PNTR_SCT_PATH)
+
+        assert not is_valid
+
+    def test_pointer_file_with_unrecognized_premis_3_event_type_is_invalid(self):
+        mets_doc = self._pointer_file_with_premis_metadata(
+            premis_version="3.0", event_type="not a real event"
+        )
+        is_valid, _ = metsrw.validate(mets_doc, schematron=metsrw.AM_PNTR_SCT_PATH)
+
+        assert not is_valid
+
+    def test_pointer_file_with_partial_premis_event_type_is_invalid(self):
+        for premis_version in ("2.2", "3.0"):
+            with self.subTest(premis_version=premis_version):
+                mets_doc = self._pointer_file_with_premis_metadata(
+                    premis_version=premis_version, event_type="virus"
+                )
+                is_valid, report = metsrw.validate(
+                    mets_doc, schematron=metsrw.AM_PNTR_SCT_PATH
+                )
+
+                assert report["is_xsd_valid"]
+                assert not is_valid, premis_version
+
+    def test_pointer_file_with_alternate_premis_xsi_type_prefix_validates(self):
+        for premis_version, prefix, namespace in (
+            ("2.2", "p2", premisrw.PREMIS_2_2_NAMESPACE),
+            ("3.0", "p3", premisrw.PREMIS_3_0_NAMESPACE),
+        ):
+            with self.subTest(premis_version=premis_version):
+                mets_doc = self._pointer_file_with_premis_metadata(
+                    premis_version=premis_version, event_type="compression"
+                )
+                self._set_premis_object_xsi_type(
+                    mets_doc,
+                    premis_version=premis_version,
+                    xsi_type=f"{prefix}:file",
+                    prefix=prefix,
+                    namespace=namespace,
+                )
+                is_valid, report = metsrw.validate(
+                    mets_doc, schematron=metsrw.AM_PNTR_SCT_PATH
+                )
+
+                assert report["is_xsd_valid"]
+                assert is_valid, premis_version
+
+    def test_pointer_file_with_wrong_premis_xsi_type_namespace_is_invalid(self):
+        for premis_version in ("2.2", "3.0"):
+            with self.subTest(premis_version=premis_version):
+                mets_doc = self._pointer_file_with_premis_metadata(
+                    premis_version=premis_version, event_type="compression"
+                )
+                self._set_premis_object_xsi_type(
+                    mets_doc,
+                    premis_version=premis_version,
+                    xsi_type="wrong:file",
+                    prefix="wrong",
+                    namespace="http://example.com/wrong-premis",
+                )
+                is_valid, _ = metsrw.schematron_validate(
+                    mets_doc, schematron=metsrw.AM_PNTR_SCT_PATH
+                )
+
+                assert not is_valid, premis_version
+
+    def _pointer_file_with_premis_metadata(self, premis_version, event_type):
+        aip_uuid = str(uuid.uuid4())
+        compression_event_uuid = str(uuid.uuid4())
+        package_type = "Archival Information Package"
+        premis_meta = premisrw.PREMIS_VERSIONS_MAP[premis_version]["meta"]
+
+        mw = metsrw.METSDocument()
+        aip_fs_entry = metsrw.FSEntry(
+            path=f"/path/to/myaip-{aip_uuid}.7z",
+            file_uuid=aip_uuid,
+            use=package_type,
+            type=package_type,
+            transform_files=[
+                {"algorithm": "bzip2", "order": "1", "type": "decompression"},
+            ],
+        )
+
+        aip_premis_object = premisrw.PREMISObject(
+            premis_version=premis_version,
+            xsi_type="premis:file",
+            identifier_value=aip_uuid,
+            message_digest_algorithm="sha256",
+            message_digest=(
+                "78e4509313928d2964fe877a6a82f1ba728c171eedf696e3f5b0aed61ec547f6"
+            ),
+            size="11854",
+            format_name="7Zip format",
+            format_registry_key="fmt/484",
+            creating_application_name="7-Zip",
+            creating_application_version="9.20",
+            date_created_by_application="2017-08-15T00:30:55",
+        )
+        aip_fs_entry.add_premis_object(aip_premis_object.serialize())
+
+        event_detail = (
+            (
+                "event_detail_information",
+                (
+                    "event_detail",
+                    "program=7z; version=p7zip Version 9.20; algorithm=bzip2",
+                ),
+            )
+            if premis_version == "3.0"
+            else ("event_detail", "program=7z; version=p7zip Version 9.20")
+        )
+        compression_event = premisrw.PREMISEvent(
+            data=(
+                "event",
+                premis_meta,
+                (
+                    "event_identifier",
+                    ("event_identifier_type", "UUID"),
+                    ("event_identifier_value", compression_event_uuid),
+                ),
+                ("event_type", event_type),
+                ("event_date_time", "2017-08-15T00:30:55"),
+                event_detail,
+                (
+                    "event_outcome_information",
+                    ("event_outcome",),
+                    (
+                        "event_outcome_detail",
+                        ("event_outcome_detail_note", ""),
+                    ),
+                ),
+                (
+                    "linking_agent_identifier",
+                    ("linking_agent_identifier_type", "preservation system"),
+                    ("linking_agent_identifier_value", "Archivematica-1.6.1"),
+                ),
+            )
+        )
+        aip_fs_entry.add_premis_event(compression_event.serialize())
+
+        agent = premisrw.PREMISAgent(
+            data=(
+                "agent",
+                premis_meta,
+                (
+                    "agent_identifier",
+                    ("agent_identifier_type", "preservation system"),
+                    ("agent_identifier_value", "Archivematica-1.6.1"),
+                ),
+                ("agent_name", "Archivematica"),
+                ("agent_type", "software"),
+            )
+        )
+        aip_fs_entry.add_premis_agent(agent.serialize())
+
+        mw.append_file(aip_fs_entry)
+        return mw.serialize()
+
     def test_production_mets_file(self):
         mets_path = "fixtures/production-aip-mets-file.xml"
         mets_doc = etree.parse(mets_path)
         self.assert_mets_valid(mets_doc)
+
+    def test_mets_file_with_premis_3_metadata_validates(self):
+        mets_doc = self._production_mets_doc_with_premis_metadata(premis_version="3.0")
+
+        assert (
+            mets_doc.find(".//premis:object", premisrw.PREMIS_3_0_NAMESPACES)
+            is not None
+        )
+        self.assert_mets_valid(mets_doc)
+
+    def test_mets_file_with_unrecognized_premis_2_event_type_is_invalid(self):
+        mets_doc = self._production_mets_doc_with_premis_metadata(
+            premis_version="2.2", event_type="not a real event"
+        )
+        is_valid, report = metsrw.validate(mets_doc, schematron=metsrw.AM_SCT_PATH)
+
+        assert report["is_xsd_valid"]
+        assert not is_valid
+
+    def test_mets_file_with_unrecognized_premis_3_event_type_is_invalid(self):
+        mets_doc = self._production_mets_doc_with_premis_metadata(
+            premis_version="3.0", event_type="not a real event"
+        )
+        is_valid, report = metsrw.validate(mets_doc, schematron=metsrw.AM_SCT_PATH)
+
+        assert report["is_xsd_valid"]
+        assert not is_valid
+
+    def test_mets_file_with_partial_premis_event_type_is_invalid(self):
+        for premis_version in ("2.2", "3.0"):
+            mets_doc = self._production_mets_doc_with_premis_metadata(
+                premis_version=premis_version, event_type="virus"
+            )
+            is_valid, report = metsrw.validate(mets_doc, schematron=metsrw.AM_SCT_PATH)
+
+            assert report["is_xsd_valid"]
+            assert not is_valid, premis_version
+
+    def test_mets_file_with_alternate_premis_xsi_type_prefix_validates(self):
+        for premis_version, prefix, namespace in (
+            ("2.2", "p2", premisrw.PREMIS_2_2_NAMESPACE),
+            ("3.0", "p3", premisrw.PREMIS_3_0_NAMESPACE),
+        ):
+            with self.subTest(premis_version=premis_version):
+                mets_doc = self._production_mets_doc_with_premis_metadata(
+                    premis_version=premis_version
+                )
+                self._set_premis_object_xsi_type(
+                    mets_doc,
+                    premis_version=premis_version,
+                    xsi_type=f"{prefix}:file",
+                    prefix=prefix,
+                    namespace=namespace,
+                )
+                is_valid, report = metsrw.validate(
+                    mets_doc, schematron=metsrw.AM_SCT_PATH
+                )
+
+                assert report["is_xsd_valid"]
+                assert is_valid, premis_version
+
+    def test_mets_file_with_wrong_premis_xsi_type_namespace_is_invalid(self):
+        for premis_version in ("2.2", "3.0"):
+            with self.subTest(premis_version=premis_version):
+                mets_doc = self._production_mets_doc_with_premis_metadata(
+                    premis_version=premis_version
+                )
+                self._set_premis_object_xsi_type(
+                    mets_doc,
+                    premis_version=premis_version,
+                    xsi_type="wrong:file",
+                    prefix="wrong",
+                    namespace="http://example.com/wrong-premis",
+                )
+                is_valid, _ = metsrw.schematron_validate(
+                    mets_doc, schematron=metsrw.AM_SCT_PATH
+                )
+
+                assert not is_valid, premis_version
+
+    def _production_mets_doc_with_premis_metadata(
+        self, premis_version, event_type=None
+    ):
+        """Return a production-like METS fixture with selected PREMIS metadata.
+
+        The fixture is stored as PREMIS 2.2. PREMIS 3.0 cases convert that
+        metadata in memory to keep the regular METS schematron coverage focused
+        without adding a large duplicate XML fixture.
+        """
+        mets_doc = etree.parse("fixtures/production-aip-mets-file.xml")
+        if premis_version == "3.0":
+            self._convert_premis_2_to_premis_3(mets_doc)
+        elif premis_version != "2.2":
+            raise ValueError(f"Unsupported PREMIS version: {premis_version}")
+
+        if event_type is not None:
+            namespaces = premisrw.PREMIS_VERSIONS_MAP[premis_version]["namespaces"]
+            event_type_el = mets_doc.find(".//premis:eventType", namespaces)
+            event_type_el.text = event_type
+        return mets_doc
+
+    def _set_premis_object_xsi_type(
+        self, mets_doc, premis_version, xsi_type, prefix, namespace
+    ):
+        namespaces = premisrw.PREMIS_VERSIONS_MAP[premis_version]["namespaces"]
+        premis_object_el = mets_doc.find(".//premis:object", namespaces)
+        premis_object_el = self._add_namespace_to_element(
+            premis_object_el, prefix=prefix, namespace=namespace
+        )
+        premis_object_el.set(f"{{{metsrw.NAMESPACES['xsi']}}}type", xsi_type)
+
+    def _add_namespace_to_element(self, element, prefix, namespace):
+        nsmap = element.nsmap.copy()
+        nsmap[prefix] = namespace
+        replacement = etree.Element(
+            element.tag, attrib=dict(element.attrib), nsmap=nsmap
+        )
+        replacement.text = element.text
+        replacement.tail = element.tail
+        for child in element:
+            replacement.append(child)
+        element.getparent().replace(element, replacement)
+        return replacement
+
+    def _convert_premis_2_to_premis_3(self, mets_doc):
+        premis2_ns = premisrw.PREMIS_2_2_NAMESPACE
+
+        for premis_entity_el in list(
+            mets_doc.xpath(
+                """
+                //*[namespace-uri()=$ns and local-name()='object']
+                | //*[namespace-uri()=$ns and local-name()='event']
+                | //*[namespace-uri()=$ns and local-name()='agent']
+                """,
+                ns=premis2_ns,
+            )
+        ):
+            premis3_entity_el = self._premis_3_element_from_premis_2(premis_entity_el)
+            if etree.QName(premis3_entity_el).localname == "event":
+                self._convert_premis_3_event_detail(premis3_entity_el)
+            premis_entity_el.getparent().replace(premis_entity_el, premis3_entity_el)
+
+    def _premis_3_element_from_premis_2(self, element):
+        premis3_ns = premisrw.PREMIS_3_0_NAMESPACE
+        xsi_ns = metsrw.NAMESPACES["xsi"]
+        attrs = dict(element.attrib)
+        attrs["version"] = "3.0"
+        attrs[f"{{{xsi_ns}}}schemaLocation"] = (
+            f"{premis3_ns} http://www.loc.gov/standards/premis/v3/premis.xsd"
+        )
+        premis3_el = etree.Element(
+            f"{{{premis3_ns}}}{etree.QName(element).localname}",
+            attrib=attrs,
+            nsmap={"premis": premis3_ns, "xsi": xsi_ns},
+        )
+        premis3_el.text = element.text
+        premis3_el.tail = element.tail
+        for child in element:
+            premis3_el.append(self._premis_3_descendant_from_premis_2(child))
+        return premis3_el
+
+    def _premis_3_descendant_from_premis_2(self, element):
+        premis2_ns = premisrw.PREMIS_2_2_NAMESPACE
+        premis3_ns = premisrw.PREMIS_3_0_NAMESPACE
+        qname = etree.QName(element)
+        if qname.namespace == premis2_ns:
+            tag = f"{{{premis3_ns}}}{qname.localname}"
+            premis3_el = etree.Element(tag, attrib=dict(element.attrib))
+        else:
+            premis3_el = etree.Element(
+                element.tag, attrib=dict(element.attrib), nsmap=element.nsmap
+            )
+        premis3_el.text = element.text
+        premis3_el.tail = element.tail
+        for child in element:
+            premis3_el.append(self._premis_3_descendant_from_premis_2(child))
+        return premis3_el
+
+    def _convert_premis_3_event_detail(self, event_el):
+        premis3_ns = premisrw.PREMIS_3_0_NAMESPACE
+        for event_detail_el in list(event_el.findall(f"{{{premis3_ns}}}eventDetail")):
+            event_detail_information_el = etree.Element(
+                f"{{{premis3_ns}}}eventDetailInformation"
+            )
+            new_event_detail_el = etree.SubElement(
+                event_detail_information_el, f"{{{premis3_ns}}}eventDetail"
+            )
+            new_event_detail_el.text = event_detail_el.text
+            event_detail_information_el.tail = event_detail_el.tail
+            parent_el = event_detail_el.getparent()
+            index = parent_el.index(event_detail_el)
+            parent_el.remove(event_detail_el)
+            parent_el.insert(index, event_detail_information_el)
 
     def test_production_pointer_file(self):
         mets_path = "fixtures/production-pointer-file.xml"
