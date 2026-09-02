@@ -22,25 +22,24 @@ jobs:
         ]
     steps:
       - name: "Check out repository"
-        uses: "actions/checkout@v4"
-      - name: "Set up Python ${{ matrix.python-version }}"
-        uses: "actions/setup-python@v5"
+        uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7.0.1
+      - name: "Set up uv and Python ${{ matrix.python-version }}"
+        uses: "astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d" # v10.0.1
         with:
           python-version: "${{ matrix.python-version }}"
-          cache: "pip"
-          cache-dependency-path: |
-            requirements.txt
-            requirements-dev.txt
-      - name: "Install tox"
+          enable-cache: true
+          cache-python: true
+          cache-dependency-glob: |
+            uv.lock
+          cache-suffix: "test-${{ matrix.python-version }}"
+      - name: "Run tests"
+        env:
+          UV_PYTHON: "${{ matrix.python-version }}"
         run: |
-          python -m pip install --upgrade pip
-          pip install tox
-      - name: "Run tox"
-        run: |
-          tox -e py -- --cov metsrw --cov-report xml:coverage.xml
+          make test PYTEST_ARGS="--cov metsrw --cov-report xml:coverage.xml"
       - name: "Upload coverage report"
         if: github.repository == 'artefactual-labs/mets-reader-writer'
-        uses: "codecov/codecov-action@v4"
+        uses: "codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f" # v7.0.0
         with:
           files: ./coverage.xml
           fail_ci_if_error: false
@@ -52,40 +51,32 @@ jobs:
     runs-on: "ubuntu-24.04"
     steps:
       - name: "Check out repository"
-        uses: "actions/checkout@v4"
-      - name: "Set up Python"
-        uses: "actions/setup-python@v5"
+        uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7.0.1
+      - name: "Set up uv and Python"
+        uses: "astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d" # v10.0.1
         with:
-          python-version: "3.x"
-          cache: "pip"
-          cache-dependency-path: |
-            requirements.txt
-            requirements-dev.txt
-      - name: "Install tox"
+          enable-cache: true
+          cache-python: true
+          cache-dependency-glob: |
+            uv.lock
+          cache-suffix: "lint"
+      - name: "Run checks"
         run: |
-          python -m pip install --upgrade pip
-          pip install tox
-      - name: "Run tox"
-        run: |
-          tox -e linting
+          make check
   docs:
     name: "Docs"
     runs-on: "ubuntu-24.04"
     steps:
       - name: "Check out repository"
-        uses: "actions/checkout@v3"
-      - name: "Set up Python"
-        uses: "actions/setup-python@v5"
+        uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7.0.1
+      - name: "Set up uv and Python"
+        uses: "astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d" # v10.0.1
         with:
-          python-version: "3.x"
-          cache: "pip"
-          cache-dependency-path: |
-            requirements.txt
-            requirements-dev.txt
-      - name: "Install tox"
+          enable-cache: true
+          cache-python: true
+          cache-dependency-glob: |
+            uv.lock
+          cache-suffix: "docs"
+      - name: "Run the doctests and build the documentation"
         run: |
-          python -m pip install --upgrade pip
-          pip install tox
-      - name: "Run tox"
-        run: |
-          tox -e docs
+          make docs
