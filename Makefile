@@ -1,18 +1,48 @@
 .DEFAULT_GOAL := help
 
-.PHONY: clean package package-deps package-distribution package-upload pip-compile pip-upgrade
+UV ?= uv
+PYTEST_ARGS ?=
 
-package-deps:  ## Upgrade dependencies for packaging
-	python3 -m pip install --upgrade build twine
+.PHONY: check clean docs docs-html help lint lock lock-check package package-check package-distribution package-upload sync sync-runtime test upgrade
 
-package-distribution: package-deps  ## Create distribution packages
-	python3 -m build
+lock:  ## Update the lockfile without upgrading locked dependencies
+	$(UV) lock
+
+lock-check:  ## Verify that the lockfile is up to date
+	$(UV) lock --check
+
+upgrade:  ## Upgrade all locked dependencies
+	$(UV) lock --upgrade
+
+sync:  ## Sync the project and development dependencies
+	$(UV) sync --locked
+
+sync-runtime:  ## Sync only the project and runtime dependencies
+	$(UV) sync --locked --no-dev
+
+lint:  ## Run all pre-commit checks
+	$(UV) run --locked pre-commit run --all-files --show-diff-on-failure
+
+check: lock-check lint  ## Verify the lockfile and run all checks
+
+test:  ## Run the test suite; pass options with PYTEST_ARGS
+	$(UV) run --locked pytest $(PYTEST_ARGS)
+
+docs:  ## Run the documentation doctests and check the documentation builds
+	$(UV) run --locked --directory docs sphinx-build -WT -b doctest -d _build/doctrees . _build/html
+	$(UV) run --locked --directory docs sphinx-build -WT -b dummy -d _build/doctrees . _build/html
+
+docs-html:  ## Build the HTML documentation into docs/_build/html
+	$(UV) run --locked --directory docs sphinx-build -WT -b html -d _build/doctrees . _build/html
+
+package-distribution: clean  ## Create distribution packages
+	$(UV) build
 
 package-check: package-distribution  ## Check the distribution is valid
-	python3 -m twine check --strict dist/*
+	$(UV) tool run twine check --strict dist/*
 
-package-upload: package-deps package-check  ## Upload distribution packages
-	python3 -m twine upload dist/* --repository-url https://upload.pypi.org/legacy/
+package-upload: package-check  ## Upload distribution packages
+	$(UV) tool run twine upload dist/* --repository-url https://upload.pypi.org/legacy/
 
 package: package-upload
 
@@ -20,14 +50,6 @@ clean:  ## Clean the package directory
 	rm -rf metsrw.egg-info/
 	rm -rf build/
 	rm -rf dist/
-
-pip-compile:  ## Compile pip requirements
-	pip-compile --allow-unsafe --output-file=requirements.txt pyproject.toml
-	pip-compile --allow-unsafe --extra=dev --output-file=requirements-dev.txt pyproject.toml
-
-pip-upgrade:  ## Upgrade pip requirements
-	pip-compile --allow-unsafe --upgrade --output-file=requirements.txt pyproject.toml
-	pip-compile --allow-unsafe --upgrade --extra=dev --output-file=requirements-dev.txt pyproject.toml
 
 help:  ## Print this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

@@ -30,7 +30,6 @@ pip-log.txt
 pip-delete-this-directory.txt
 
 # Unit test / coverage reports
-.tox/
 .coverage
 .cache
 nosetests.xml
@@ -38,6 +37,8 @@ coverage.xml
 
 # Translations
 *.mo
+
+.venv/
 
 # Sphinx documentation
 docs/_build/
