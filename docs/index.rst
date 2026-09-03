@@ -33,4 +33,4 @@ Indices and tables
 .. _Artefactual: https://www.artefactual.com/
 .. _Archivematica: https://github.com/artefactual/archivematica/
 .. _LICENSE:
-      https://github.com/artefactual-labs/mets-reader-writer/blob/master/LICENSE
+      https://github.com/artefactual-labs/mets-reader-writer/blob/main/LICENSE

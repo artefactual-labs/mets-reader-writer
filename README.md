@@ -4,7 +4,7 @@ By [Artefactual](https://www.artefactual.com/)
 
 [![PyPI version](https://badge.fury.io/py/metsrw.svg)](https://badge.fury.io/py/metsrw)
 [![GitHub CI](https://github.com/artefactual-labs/mets-reader-writer/actions/workflows/test.yml/badge.svg)](https://github.com/artefactual-labs/mets-reader-writer/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/artefactual-labs/mets-reader-writer/branch/master/graph/badge.svg?token=1cXYbNlgJr)](https://codecov.io/gh/artefactual-labs/mets-reader-writer)
+[![codecov](https://codecov.io/gh/artefactual-labs/mets-reader-writer/branch/main/graph/badge.svg?token=1cXYbNlgJr)](https://codecov.io/gh/artefactual-labs/mets-reader-writer)
 
 METSRW is a library to help with parsing and creating METS files.
 It provides an API, and abstracts away the actual creation of the XML.
