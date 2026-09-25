@@ -24,7 +24,7 @@ jobs:
       - name: "Check out repository"
         uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7.0.1
       - name: "Set up uv and Python ${{ matrix.python-version }}"
-        uses: "astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4" # v10.1.0
+        uses: "astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7" # v10.2.0
         with:
           python-version: "${{ matrix.python-version }}"
           enable-cache: true
@@ -39,7 +39,7 @@ jobs:
           make test PYTEST_ARGS="--cov metsrw --cov-report xml:coverage.xml"
       - name: "Upload coverage report"
         if: github.repository == 'artefactual-labs/mets-reader-writer'
-        uses: "codecov/codecov-action@0b35c9ecc4f0529d0eb674914510c22f85b196b4" # v7.1.0
+        uses: "codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5" # v7.1.1
         with:
           files: ./coverage.xml
           fail_ci_if_error: false
@@ -53,7 +53,7 @@ jobs:
       - name: "Check out repository"
         uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7.0.1
       - name: "Set up uv and Python"
-        uses: "astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4" # v10.1.0
+        uses: "astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7" # v10.2.0
         with:
           enable-cache: true
           cache-python: true
@@ -70,7 +70,7 @@ jobs:
       - name: "Check out repository"
         uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7.0.1
       - name: "Set up uv and Python"
-        uses: "astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4" # v10.1.0
+        uses: "astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7" # v10.2.0
         with:
           enable-cache: true
           cache-python: true
