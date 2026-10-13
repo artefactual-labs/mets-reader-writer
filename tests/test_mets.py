@@ -361,7 +361,7 @@ class TestMETSDocument(TestCase):
         parser = etree.XMLParser(remove_blank_text=True)
         tree = etree.parse("fixtures/mets_with_dmdsecs_in_filesec.xml", parser=parser)
         fptr_elem = tree.find(
-            '/mets:structMap[@TYPE="physical"]//mets:div[@LABEL="bitstream_8266.pdf"]/mets:fptr',
+            './mets:structMap[@TYPE="physical"]//mets:div[@LABEL="bitstream_8266.pdf"]/mets:fptr',
             namespaces=metsrw.utils.NAMESPACES,
         )
 
@@ -386,7 +386,7 @@ class TestMETSDocument(TestCase):
         tree = etree.parse("fixtures/production-pointer-file.xml", parser=parser)
         mw = metsrw.METSDocument()
 
-        fptr_elem = tree.find("//mets:fptr[1]", namespaces=metsrw.utils.NAMESPACES)
+        fptr_elem = tree.find(".//mets:fptr[1]", namespaces=metsrw.utils.NAMESPACES)
         fptr = mw._analyze_fptr(fptr_elem, tree, "Archival Information Package")
         assert fptr.file_uuid == "7327b00f-d83a-4ae8-bb89-84fce994e827"
         assert fptr.use == "Archival Information Package"
@@ -1341,12 +1341,12 @@ class TestWholeMETS(TestCase):
         mets_path = "fixtures/complete_mets.xml"
 
         # .read works with string, bytes, path and file descriptor.
-        mets_file = open(mets_path)
         with open(mets_path) as fi:
             mets_unicode = fi.read()
             mets_bytes = mets_unicode.encode("utf8")
         mets1 = metsrw.METSDocument.read(mets_path)
-        mets2 = metsrw.METSDocument.read(mets_file)
+        with open(mets_path) as mets_file:
+            mets2 = metsrw.METSDocument.read(mets_file)
         mets3 = metsrw.METSDocument.read(mets_unicode)
         mets4 = metsrw.METSDocument.read(mets_bytes)
 
