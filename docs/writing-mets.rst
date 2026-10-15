@@ -10,6 +10,7 @@ To add data to a :class:`metsrw.METSDocument`, create and append
 
 .. doctest::
 
+    >>> import metsrw
     >>> mets = metsrw.METSDocument()
     >>> directory_1 = metsrw.FSEntry(label="test", path="test", type="Directory")
     >>> file_1 = metsrw.FSEntry(
