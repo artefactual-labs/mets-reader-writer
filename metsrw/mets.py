@@ -3,6 +3,7 @@ import os
 import sys
 from collections import OrderedDict
 from collections import namedtuple
+from datetime import UTC
 from datetime import datetime
 
 from lxml import etree
@@ -347,7 +348,9 @@ class METSDocument:
 
         :return: Element for this document
         """
-        now = datetime.utcnow().replace(microsecond=0).isoformat("T")
+        # Drop the tzinfo so the METS dates keep the YYYY-MM-DDTHH:MM:SS
+        # format without a UTC offset.
+        now = datetime.now(UTC).replace(microsecond=0, tzinfo=None).isoformat("T")
         files = self.all_files()
         mdsecs = self._collect_mdsec_elements(files)
         root = self._document_root(fully_qualified=fully_qualified)
@@ -634,7 +637,7 @@ class METSDocument:
             createdate = header.get("CREATEDATE")
         else:
             createdate = None
-        now = datetime.utcnow().isoformat("T")
+        now = datetime.now(UTC).replace(tzinfo=None).isoformat("T")
         if createdate and createdate > now:
             raise exceptions.ParseError(f"CREATEDATE more recent than now ({now})")
         self.createdate = createdate

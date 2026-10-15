@@ -13,6 +13,7 @@ for METS-reader-writer. Public functions and classes:
 import abc
 import json
 import pprint
+from datetime import UTC
 from datetime import datetime
 from uuid import uuid4
 
@@ -23,7 +24,10 @@ from . import utils
 
 
 def now():
-    return datetime.utcnow().replace(microsecond=0).isoformat("T")
+    """Return the current UTC time as ``YYYY-MM-DDTHH:MM:SS``, without
+    microseconds or a UTC offset.
+    """
+    return datetime.now(UTC).replace(microsecond=0, tzinfo=None).isoformat("T")
 
 
 def uuid():
