@@ -137,7 +137,7 @@ class TestFSEntry(TestCase):
 
         assert len(f1.amdsecs[0].subsections) == 4
 
-    def test_dmdsec_management(self):
+    def test_dmdsec_management(self) -> None:
         """Test addition, check and deletion of dmdSecs."""
         file = metsrw.FSEntry("file[1].txt", file_uuid=str(uuid.uuid4()))
         assert file.dmdsecs == []
@@ -154,6 +154,8 @@ class TestFSEntry(TestCase):
         assert len(file.dmdsecs_by_mdtype["DC"]) == 2
         assert file.dmdsecs[0].status == "original-superseded"
         assert file.dmdsecs[1].status == "update"
+        assert file.dmdsecs[0].group_id
+        dc_group_id = file.dmdsecs[0].group_id
         assert file.dmdsecs[0].group_id == file.dmdsecs[1].group_id
         file.add_dmdsec("<dc/>", "DC", status="update")
         assert len(file.dmdsecs) == 3
@@ -162,6 +164,7 @@ class TestFSEntry(TestCase):
         assert file.dmdsecs[2].status == "update"
         assert file.dmdsecs[0].group_id == file.dmdsecs[1].group_id
         assert file.dmdsecs[0].group_id == file.dmdsecs[2].group_id
+        assert file.dmdsecs[2].group_id == dc_group_id
         file.delete_dmdsec("DC")
         assert len(file.dmdsecs) == 3
         assert len(file.dmdsecs_by_mdtype["DC"]) == 3
@@ -178,6 +181,9 @@ class TestFSEntry(TestCase):
         assert len(file.dmdsecs_by_mdtype["OTHER_CUSTOM"]) == 2
         assert file.dmdsecs[3].status == "original-superseded"
         assert file.dmdsecs[4].status == "update"
+        assert file.dmdsecs[3].group_id
+        custom_group_id = file.dmdsecs[3].group_id
+        assert custom_group_id != dc_group_id
         assert file.dmdsecs[3].group_id == file.dmdsecs[4].group_id
         file.add_dmdsec("<custom/>", "OTHER", othermdtype="CUSTOM", status="update")
         assert len(file.dmdsecs) == 6
@@ -187,11 +193,56 @@ class TestFSEntry(TestCase):
         assert file.dmdsecs[5].status == "update"
         assert file.dmdsecs[3].group_id == file.dmdsecs[4].group_id
         assert file.dmdsecs[3].group_id == file.dmdsecs[5].group_id
+        assert file.dmdsecs[5].group_id == custom_group_id
         file.delete_dmdsec("OTHER", othermdtype="CUSTOM")
         assert len(file.dmdsecs) == 6
         assert len(file.dmdsecs_by_mdtype["DC"]) == 3
         assert len(file.dmdsecs_by_mdtype["OTHER_CUSTOM"]) == 3
         assert file.dmdsecs[5].status == "deleted"
+
+    def test_dmdsec_group_id_generated(self) -> None:
+        """It should generate a shared GROUPID when a dmdSec is superseded."""
+        file = metsrw.FSEntry("file[1].txt", file_uuid=str(uuid.uuid4()))
+        original = file.add_dmdsec("<dc/>", "DC")
+        assert original.serialize().get("GROUPID") is None
+        update = file.add_dmdsec("<dc/>", "DC", status="update")
+        assert original.group_id
+        assert update.group_id == original.group_id
+        serialized = [d.serialize().get("GROUPID") for d in file.dmdsecs]
+        assert serialized == [original.group_id, original.group_id]
+
+    def test_dmdsec_group_id_generated_for_parsed_dmdsecs(self) -> None:
+        """It should generate a GROUPID shared by every dmdSec of a type when
+        superseding parsed dmdSecs that have none, as happens on a reingest."""
+        mets = metsrw.METSDocument.fromfile("fixtures/dmdsecs_mets.xml")
+        file = mets.get_file(type="Item", label="Landing_zone.jpg")
+        previous = list(file.dmdsecs_by_mdtype["DC"])
+        assert [d.id_string for d in previous] == ["dmdSec_5", "dmdSec_7"]
+        assert [d.group_id for d in previous] == ["", ""]
+        update = file.add_dmdsec("<dc/>", "DC", status="update")
+        assert [d.status for d in previous] == [
+            "original-superseded",
+            "update-superseded",
+        ]
+        assert update.group_id
+        assert [d.group_id for d in previous] == [update.group_id, update.group_id]
+        serialized = [d.serialize().get("GROUPID") for d in previous + [update]]
+        assert serialized == [update.group_id] * 3
+
+    def test_dmdsec_group_id_reused_for_parsed_dmdsecs(self) -> None:
+        """It should reuse the GROUPID of parsed dmdSecs that already share one
+        and leave theirs unchanged."""
+        mets = metsrw.METSDocument.fromfile("fixtures/mets_with_groupid_in_dmdsecs.xml")
+        file = mets.get_file(type="Item", label="Landing_zone.jpg")
+        previous = list(file.dmdsecs_by_mdtype["DC"])
+        group_id = "3d2bb3f0-0a9e-4e9c-9c1a-7b7f5e6b4f21"
+        assert [d.id_string for d in previous] == ["dmdSec_1", "dmdSec_2"]
+        assert [d.group_id for d in previous] == [group_id, group_id]
+        update = file.add_dmdsec("<dc/>", "DC", status="update")
+        assert update.group_id == group_id
+        assert [d.group_id for d in previous] == [group_id, group_id]
+        serialized = [d.serialize().get("GROUPID") for d in previous + [update]]
+        assert serialized == [group_id] * 3
 
     def test_add_child(self):
         """

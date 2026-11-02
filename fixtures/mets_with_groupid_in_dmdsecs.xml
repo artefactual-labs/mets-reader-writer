@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mets:mets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:mets="http://www.loc.gov/METS/" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version1121/mets.xsd">
+  <mets:metsHdr CREATEDATE="2022-02-08T12:48:16"/>
+  <mets:dmdSec ID="dmdSec_1" CREATED="2022-02-08T12:48:16" STATUS="original-superseded" GROUPID="3d2bb3f0-0a9e-4e9c-9c1a-7b7f5e6b4f21">
+    <mets:mdWrap MDTYPE="DC">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:dmdSec ID="dmdSec_2" CREATED="2022-02-08T13:50:23" STATUS="update" GROUPID="3d2bb3f0-0a9e-4e9c-9c1a-7b7f5e6b4f21">
+    <mets:mdWrap MDTYPE="DC">
+      <mets:xmlData>
+        <fake/>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:fileSec>
+    <mets:fileGrp USE="original">
+      <mets:file ID="file-7ac3a28c-3bff-4db6-b370-14ed08d911c4" GROUPID="Group-7ac3a28c-3bff-4db6-b370-14ed08d911c4">
+        <mets:FLocat xlink:href="objects/Landing_zone.jpg" LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap TYPE="physical" ID="structMap_1" LABEL="Archivematica default">
+    <mets:div TYPE="Directory" LABEL="small_5-a8d845ec-7501-4847-8737-1ae60ed4c689">
+      <mets:div TYPE="Directory" LABEL="objects">
+        <mets:div TYPE="Item" LABEL="Landing_zone.jpg" DMDID="dmdSec_1 dmdSec_2">
+          <mets:fptr FILEID="file-7ac3a28c-3bff-4db6-b370-14ed08d911c4"/>
+        </mets:div>
+      </mets:div>
+    </mets:div>
+  </mets:structMap>
+</mets:mets>
